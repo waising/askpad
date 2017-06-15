@@ -1,0 +1,8 @@
+include ':app',
+        ':librarys:SwipeBackLayout',
+        ':librarys:treeview',
+        ':librarys:ExpandableLayout',
+        ':librarys:FlycoDialog',
+        ':librarys:ptr-lib',
+        ':librarys:pickerview',
+        ':librarys:pingpp', ':librarys:ijkplayer-java', ':librarys:GiraffePlayer-lib'
