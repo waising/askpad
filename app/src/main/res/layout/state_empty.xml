@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:src="@mipmap/state_internet_error"/>
+
+    <TextView
+        android:id="@+id/network_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_50"
+        android:text="@string/none"
+        android:textColor="@color/colorText_88"
+        android:textSize="@dimen/textSize_18"/>
+
+    <TextView
+        android:id="@+id/network_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_16"
+        android:text="@string/none_msg"
+        android:textColor="@color/colorText_c7"
+        android:textSize="@dimen/textSize_14"/>
+
+    <TextView
+        android:id="@+id/network_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/none_msg2"
+        android:textAlignment="center"
+        android:textColor="@color/colorText_c7"
+        android:textSize="@dimen/textSize_14"/>
+
+    <Button
+        android:id="@+id/empty_backhome_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_62"
+        android:background="@mipmap/state_btn"
+        android:text="@string/back_home"
+        android:textColor="@color/theme_blue_theme"
+        android:textSize="@dimen/textSize_14"
+        android:visibility="gone"/>
+
+</LinearLayout>

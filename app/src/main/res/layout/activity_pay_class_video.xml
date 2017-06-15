@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorTest_f8"
+              android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar"/>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/space_30"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/space_35"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/space_35"
+                android:layout_marginRight="@dimen/space_35"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        style="@style/tv_title_pay_class_video_style"/>
+
+                    <TextView
+                        android:id="@+id/tv_title1"
+                        style="@style/tv_content_pay_class_video_style"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    style="@style/tv_content_pay_class_video_style"
+                    android:layout_marginTop="@dimen/space_20"
+                    android:textColor="@color/colorText_c7"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_35"
+                android:layout_marginTop="@dimen/space_30"
+                android:text="请选择支付方式"
+                android:textColor="@color/colorText_c7"
+                android:textSize="@dimen/textSize_16"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_35"
+                android:layout_marginTop="@dimen/space_20"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_60">
+
+                <ImageView
+                    android:id="@+id/iv_alipay"
+                    style="@style/iv_pay_class_video_style"
+                    android:src="@mipmap/ic_zhifubao"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_wechatpay"
+                    style="@style/iv_pay_class_video_style"
+                    android:layout_marginLeft="@dimen/space_35"
+                    android:src="@mipmap/ic_wechat"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_unionpay"
+                    style="@style/iv_pay_class_video_style"
+                    android:src="@mipmap/ic_yinlian"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/space_20"
+                    android:layout_marginRight="@dimen/space_20"
+                    android:background="@color/line_color"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/space_25">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_34"
+                        android:text="总价："
+                        android:textColor="@color/colorText_88"
+                        android:textSize="@dimen/textSize_16"/>
+
+                    <TextView
+                        android:id="@+id/tv_total_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/online_item_ask"
+                        android:textSize="@dimen/textSize_18"/>
+
+                    <TextView
+                        android:id="@+id/tv_pay"
+                        style="@style/btn_pay_style"
+                        android:layout_marginRight="@dimen/space_40"
+                        android:text="支付"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

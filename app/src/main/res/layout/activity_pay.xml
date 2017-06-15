@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/space_12"
+        android:paddingRight="@dimen/space_12">
+
+        <LinearLayout
+            android:id="@+id/alipay_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_80"
+            android:background="@mipmap/pay_type_btn_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/space_12">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/alipay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_22"
+                android:text="@string/alipay"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_16"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wechatpay_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_30"
+            android:background="@mipmap/pay_type_btn_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/space_12">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wechatpay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_22"
+                android:text="@string/wechatpay"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_16"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/unionpay_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_30"
+            android:background="@mipmap/pay_type_btn_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/space_12"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/unionpay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_22"
+                android:text="@string/unionpay"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_16"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

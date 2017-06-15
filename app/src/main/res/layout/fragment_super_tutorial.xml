@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/space_18"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_10"
+        android:paddingTop="@dimen/space_10">
+
+
+        <RadioButton
+            android:id="@+id/rb_tab1"
+            style="@style/radio_styles"
+            android:drawableLeft="@drawable/supertutial_rbtn1_bg"
+            android:checked="true"
+            android:text="阿思可博士有话说"/>
+
+
+        <RadioButton
+            android:id="@+id/rb_tab2"
+            style="@style/radio_styles"
+            android:drawableLeft="@drawable/supertutial_rbtn2_bg"
+            android:text="阿思可博士问答时间"/>
+
+
+        <RadioButton
+            android:id="@+id/rb_tab3"
+            style="@style/radio_styles"
+            android:drawableLeft="@drawable/supertutial_rbtn3_bg"
+            android:text="阿思可博士来讲题"/>
+
+
+        <RadioButton
+            android:id="@+id/rb_tab4"
+            style="@style/radio_styles"
+            android:drawableLeft="@drawable/supertutial_rbtn4_bg"
+            android:text="课堂总结"/>
+    </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/rl_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/super_talking_tip"
+            android:gravity="center_vertical"
+            android:text="阿思可博士有话说"
+            android:textColor="@color/text_white"
+            android:textSize="14sp"/>
+
+        <com.asking.pad.app.widget.AskSimpleDraweeView
+            android:id="@+id/ad_voice"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

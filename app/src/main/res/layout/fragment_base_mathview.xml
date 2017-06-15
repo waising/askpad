@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <com.asking.pad.app.widget.MultiStateView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/no_color"
+        app:msv_emptyView="@layout/state_empty"
+        app:msv_errorView="@layout/state_error"
+        app:msv_loadingView="@layout/state_loading"
+        app:msv_viewState="content">
+
+        <com.asking.pad.app.widget.AskMathView
+            android:id="@+id/math_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+    </com.asking.pad.app.widget.MultiStateView>
+</LinearLayout>

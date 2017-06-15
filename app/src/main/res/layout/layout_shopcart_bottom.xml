@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:background="@color/line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_25"
+        android:paddingTop="@dimen/space_25">
+
+        <TextView
+            android:id="@+id/tv_choose_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_34"
+            android:text="产品信息"
+            android:textSize="@dimen/textSize_16"
+            android:textColor="@color/colorText_88"
+            />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="550"
+            android:textSize="@dimen/textSize_18"
+            android:textColor="@color/online_item_ask" />
+
+
+        <TextView
+            android:id="@+id/tv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_40"
+            android:background="@drawable/btn_red_normal"
+            android:paddingBottom="@dimen/space_12"
+            android:paddingLeft="@dimen/space_42"
+            android:paddingRight="@dimen/space_42"
+            android:paddingTop="@dimen/space_12"
+            android:text="结算"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16" />
+
+
+        <TextView
+            android:id="@+id/tv_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_40"
+            android:background="@drawable/btn_blue_normal"
+            android:paddingBottom="@dimen/space_12"
+            android:paddingLeft="@dimen/space_42"
+            android:paddingRight="@dimen/space_42"
+            android:paddingTop="@dimen/space_12"
+            android:text="支付"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

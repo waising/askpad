@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/app_bg">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/space_50"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:background="@drawable/bg_corners_stroke"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ask"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textview_register_styles"
+                    android:text="手机"/>
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    style="@style/edittext_register_styles"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textview_register_styles"
+                    android:text="验证码"/>
+
+                <EditText
+                    android:id="@+id/et_verificode"
+                    style="@style/edittext_register_styles"/>
+
+                <TextView
+                    android:id="@+id/tv_verificode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:background="@drawable/bg_corners_blue"
+                    android:paddingBottom="@dimen/space_5"
+                    android:paddingLeft="@dimen/space_10"
+                    android:paddingRight="@dimen/space_10"
+                    android:paddingTop="@dimen/space_5"
+                    android:text="获取验证码"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_20"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textview_register_styles"
+                    android:text="设置密码"/>
+
+                <EditText
+                    android:id="@+id/et_password"
+                    style="@style/edittext_register_styles"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textview_register_styles"
+                    android:text="确认密码"/>
+
+                <EditText
+                    android:id="@+id/et_affirm_password"
+                    style="@style/edittext_register_styles"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_checbox_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_50"
+                android:layout_marginTop="@dimen/space_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_10">
+
+                <TextView
+                    android:id="@+id/tv_checbox_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:drawableLeft="@drawable/checbox_register"
+                    android:drawablePadding="@dimen/space_5"
+                    android:text="我已阅读并同意"
+                    android:textColor="@color/colorText_99"
+                    android:textSize="@dimen/textSize_16"/>
+
+                <TextView
+                    android:id="@+id/register_chbx_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_protocol"
+                    android:textColor="@color/colorText_38"
+                    android:textSize="@dimen/textSize_16"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_reg"
+                style="@style/btn_comm_styles"
+                android:layout_marginBottom="@dimen/space_10"
+                android:text="@string/app_register"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

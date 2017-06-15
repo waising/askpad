@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#F7F7F7"
+              android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <tcking.github.com.giraffeplayer.GiraffePlayerView
+            android:id="@+id/giraffe_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_free_time"
+            style="@style/tv_free_class_video_style"
+            android:text="3分钟免费试看"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/ll_free"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_corners_black_alpha"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/tv_free_class_video_style1"
+                android:text="试看已结束"
+                android:textSize="@dimen/textSize_20"/>
+
+            <TextView
+                style="@style/tv_free_class_video_style1"
+                android:text="观看完整课程视频请购买"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <com.asking.pad.app.widget.MultiStateView
+            android:id="@+id/load_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:msv_emptyView="@layout/state_empty"
+            app:msv_errorView="@layout/state_error"
+            app:msv_loadingView="@layout/state_loading"
+            app:msv_viewState="content">
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/pdfView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.asking.pad.app.widget.MultiStateView>
+
+        <LinearLayout
+            android:id="@+id/ll_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_10">
+
+                <TextView
+                    style="@style/tv_pay_class_video_style"
+                    android:text="￥"
+                    android:textSize="@dimen/textSize_14"/>
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    style="@style/tv_pay_class_video_style"
+                    android:text="20"/>
+
+                <TextView
+                    android:id="@+id/tv_price_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_weight="1"
+                    android:text="已有123人购买"
+                    android:textColor="@color/lightgray"
+                    android:textSize="@dimen/textSize_16"/>
+
+                <Button
+                    android:id="@+id/btn_pay"
+                    style="@style/btn_pay_class_video_style"
+                    android:text="立即购买"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_10"/>
+
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/space_10">
+
+                <TextView
+                    style="@style/tv_pay_class_video_style1"
+                    android:text="适用人群"
+                    android:textSize="@dimen/textSize_16"/>
+
+                <TextView
+                    android:id="@+id/tv_student"
+                    style="@style/tv_pay_class_video_style1"
+                    android:layout_marginBottom="@dimen/space_10"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:textColor="@color/colorText_88"/>
+
+                <include layout="@layout/layout_line"/>
+
+
+                <TextView
+                    style="@style/tv_pay_class_video_style1"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:text="课程详情"
+                    android:textSize="@dimen/textSize_16"/>
+
+            </LinearLayout>
+
+            <WebView
+                android:id="@+id/tv_class_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"/>
+
+            <include layout="@layout/layout_line"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTest_f8"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/space_30"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_30"
+                android:paddingLeft="@dimen/space_70"
+                android:text="请选择支付方式"
+                android:textColor="@color/colorText_c7"
+                android:textSize="@dimen/textSize_16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_70"
+                android:layout_marginTop="@dimen/space_20"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_60">
+
+                <ImageView
+                    android:id="@+id/alipay_ly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/space_13"
+                    android:paddingLeft="@dimen/space_22"
+                    android:paddingRight="@dimen/space_22"
+                    android:paddingTop="@dimen/space_13"
+                    android:src="@mipmap/ic_zhifubao" />
+
+
+                <ImageView
+                    android:id="@+id/wechatpay_ly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_30"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/space_13"
+                    android:paddingLeft="@dimen/space_22"
+                    android:paddingRight="@dimen/space_22"
+                    android:paddingTop="@dimen/space_13"
+                    android:src="@mipmap/ic_wechat" />
+
+
+                <ImageView
+                    android:id="@+id/unionpay_ly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_30"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/space_13"
+                    android:paddingLeft="@dimen/space_22"
+                    android:paddingRight="@dimen/space_22"
+                    android:paddingTop="@dimen/space_13"
+                    android:src="@mipmap/ic_yinlian"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_shopcart_bottom" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

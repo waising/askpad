@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorTest_f8"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_blue_theme"
+        android:orientation="vertical">
+
+        <com.asking.pad.app.widget.indicator.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3"
+            android:layout_marginLeft="@dimen/space_30"/>
+
+        <TextView
+            android:id="@+id/tv_all_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="@dimen/space_30"
+            android:drawableLeft="@mipmap/ic_meun_allpay"
+            android:drawablePadding="@dimen/space_12"
+            android:padding="@dimen/space_10"
+            android:text="整套购买"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16"/>
+
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

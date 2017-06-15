@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/expand_rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/space_25"
+    android:paddingRight="@dimen/space_25">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_26"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_22">
+
+        <TextView
+            android:id="@+id/subject_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_normal"
+            android:gravity="center"
+            android:paddingBottom="@dimen/space_6"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="@dimen/space_8"
+            android:paddingTop="@dimen/space_6"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16" />
+        <!--webview 显示题目内容-->
+        <include
+            android:id="@+id/mathView_title"
+            layout="@layout/common_math"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_14" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/space_20"
+        android:background="@color/line_gray" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_10"
+        android:paddingLeft="@dimen/space_20"
+        android:paddingRight="@dimen/space_20"
+        android:paddingTop="@dimen/space_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="难易度："
+            android:textColor="@color/colorText_88"
+            android:textSize="@dimen/space_16" />
+
+        <!--难度值星星-->
+        <com.asking.pad.app.widget.StarView
+            android:id="@+id/ratingBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            app:mClickImageId="@mipmap/oto_grade_yes"
+            app:mClickable="false"
+            app:mDefaultImageId="@mipmap/oto_grade_no"
+            app:mImageHeight="@dimen/space_18"
+            app:mImageWidth="@dimen/space_18"
+            app:mMargin="@dimen/space_2"
+            app:mStarNum="5" />
+
+
+        <TextView
+            android:id="@+id/tv_check_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_24"
+            android:background="@drawable/bg_solid_orange"
+            android:paddingBottom="@dimen/space_8"
+            android:paddingLeft="@dimen/space_27"
+            android:paddingRight="@dimen/space_27"
+            android:paddingTop="@dimen/space_8"
+            android:text="查看解析"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16" />
+
+        <TextView
+
+            android:id="@+id/tv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_red_normal"
+            android:paddingBottom="@dimen/space_8"
+            android:paddingLeft="@dimen/space_43"
+            android:paddingRight="@dimen/space_43"
+            android:paddingTop="@dimen/space_8"
+            android:text="删除"
+            android:textColor="@color/white"
+
+            android:textSize="@dimen/textSize_16" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_e9" />
+    <!--展开控件-->
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="300"
+        app:el_expanded="false"
+        app:el_translate_children="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/space_20"
+            android:paddingRight="@dimen/space_20"
+            android:paddingTop="@dimen/space_24">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="答案解析"
+                android:textColor="@color/colorText_88"
+                android:textSize="@dimen/textSize_14" />
+
+
+            <com.asking.pad.app.widget.MultiStateView
+                android:id="@+id/multiStateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:msv_emptyView="@layout/state_empty"
+                app:msv_errorView="@layout/state_error"
+                app:msv_loadingView="@layout/state_loading"
+                app:msv_viewState="loading">
+
+                <!--webview-->
+                <include
+                    android:id="@+id/mathView"
+                    layout="@layout/common_math"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.asking.pad.app.widget.MultiStateView>
+
+
+        </LinearLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+</LinearLayout>

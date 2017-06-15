@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTest_f8"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_50"
+        android:background="?attr/asking91Theme"
+        android:elevation="@null"
+        android:minHeight="@dimen/space_50"
+        android:orientation="vertical"
+        android:theme="@style/Custom.Theme.ToolBar"
+        app:contentInsetStartWithNavigation="0dp"
+        app:maxButtonHeight="@dimen/space_50"
+        app:popupTheme="@style/Theme.ToolBar.Base"
+        app:title="@string/app_name"
+        app:titleTextAppearance="@style/toolbar_textAppearance"
+        app:titleTextColor="?attr/asking91ToolbarText"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/space_40"
+            android:drawableLeft="@mipmap/ic_answer_edit"
+            android:drawablePadding="@dimen/space_12"
+            android:text="编辑"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16" />
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <com.asking.pad.app.widget.AskSwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/space_20"
+            android:paddingRight="@dimen/space_20"
+            android:paddingTop="@dimen/space_27" />
+    </com.asking.pad.app.widget.AskSwipeRefreshLayout>
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/no_data"
+        layout="@layout/layout_no_data" />
+</LinearLayout>

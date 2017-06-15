@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
+
+        <include layout="@layout/layout_line"/>
+
+        <com.asking.pad.app.widget.MultiStateView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/load_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/no_color"
+            app:msv_emptyView="@layout/state_empty"
+            app:msv_errorView="@layout/state_error"
+            app:msv_loadingView="@layout/state_loading"
+            app:msv_viewState="content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_exam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
+        </com.asking.pad.app.widget.MultiStateView>
+    </LinearLayout>
+</LinearLayout>

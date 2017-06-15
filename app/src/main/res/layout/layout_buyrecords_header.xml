@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_25"
+        android:paddingTop="@dimen/space_25">
+
+
+        <TextView
+            android:layout_width="246dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="产品信息"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+
+        <!-- 支付金额 -->
+        <TextView
+            android:layout_width="@dimen/space_110"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="金额"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+
+        <!-- 支付状态 -->
+        <TextView
+            android:layout_width="@dimen/space_110"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="状态"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+        <!-- 支付方式 -->
+        <TextView
+            android:layout_width="@dimen/space_110"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="支付方式"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+        <!--下单时间-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="下单时间"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+        <!--到期时间-->
+        <TextView
+            android:id="@+id/tv_expired_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="到期时间"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_20"
+            android:gravity="center"
+            android:text="操作"
+            android:textColor="@color/login_line"
+            android:textSize="@dimen/textSize_16" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:background="@color/line_color" />
+</LinearLayout>

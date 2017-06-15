@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/ll_wt_styles">
+
+        <TextView
+            style="@style/tv_wt_styles"
+            android:text="所属科目"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_class"
+            style="@style/rv_wt_styles"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/ll_wt_styles">
+
+        <TextView
+            style="@style/tv_wt_styles"
+            android:text="所属版本"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_version"
+            style="@style/rv_wt_styles"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/ll_wt_styles">
+
+        <TextView
+            style="@style/tv_wt_styles"
+            android:text="所属年级"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_textbook"
+            style="@style/rv_wt_styles"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

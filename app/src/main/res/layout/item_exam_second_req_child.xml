@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_expand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/space_1"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:minHeight="30dp"
+        android:paddingBottom="@dimen/space_20"
+        android:paddingLeft="@dimen/space_10"
+        android:paddingTop="@dimen/space_20">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/expand_iv"
+            android:textColor="#878787"
+            android:textSize="@dimen/textSize_20"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_ex_review_expand"/>
+    </RelativeLayout>
+
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/el_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="300"
+        app:el_expanded="true"
+        app:el_translate_children="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/layout_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_0.3"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@+id/expand_iv"
+                    android:layout_weight="1"
+                    android:text="典例:"
+                    android:textColor="@color/colorText_56"
+                    android:textSize="@dimen/textSize_16"/>
+
+                <Button
+                    android:id="@+id/btn_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="@dimen/space_10"
+                    android:background="@drawable/supertutorial_speaker_detail_btn_bg"
+                    android:gravity="center"
+                    android:padding="@dimen/space_8"
+                    android:text="查看解析"
+                    android:textColor="@drawable/supertutorial_speaker_detail_text_bg"
+                    android:textSize="@dimen/textSize_14"/>
+            </LinearLayout>
+
+            <com.asking.pad.app.widget.AskMathView
+                android:id="@+id/web_zhanycm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
+        </LinearLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <include
+        layout="@layout/layout_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_0.3"/>
+
+</LinearLayout>

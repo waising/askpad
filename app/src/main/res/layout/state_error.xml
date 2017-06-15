@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:src="@mipmap/state_internet_error"/>
+
+    <TextView
+        android:id="@+id/network_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_50"
+        android:text="@string/internet_err"
+        android:textColor="@color/colorText_88"
+        android:textSize="@dimen/textSize_18"/>
+
+    <TextView
+        android:id="@+id/network_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_16"
+        android:text="@string/internet_reconnet"
+        android:textColor="@color/colorText_c7"
+        android:textSize="@dimen/textSize_14"/>
+
+    <TextView
+        android:id="@+id/network_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/internet_reconnet2"
+        android:textAlignment="center"
+        android:textColor="@color/colorText_c7"
+        android:textSize="@dimen/textSize_14"/>
+
+    <Button
+        android:id="@+id/error_refresh_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_30"
+        android:background="@drawable/bg_corners_stroke_blue"
+        android:drawableLeft="@mipmap/ic_down_book"
+        android:drawablePadding="@dimen/space_10"
+        android:gravity="center"
+        android:paddingBottom="@dimen/space_5"
+        android:paddingLeft="@dimen/space_20"
+        android:paddingRight="@dimen/space_20"
+        android:paddingTop="@dimen/space_5"
+        android:text="@string/refresh"
+        android:textColor="@color/theme_blue_theme"
+        android:textSize="@dimen/textSize_16"/>
+
+</LinearLayout>

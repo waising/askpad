@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_blue_theme"
+        android:gravity="center_vertical"
+        android:padding="@dimen/space_10">
+
+        <include layout="@layout/layout_user_info"/>
+
+        <TextView
+            android:id="@+id/tv_recharge"
+            style="@style/tv_main_styles"
+            android:layout_gravity="right|center_vertical"
+            android:drawableLeft="@mipmap/mine_recharge"
+            android:textColor="@color/white"
+            android:text="@string/pay"/>
+    </FrameLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/space_30"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5"
+        app:cardUseCompatPadding="true">
+
+        <com.asking.pad.app.widget.MultiStateView
+            android:id="@+id/load_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/no_color"
+            app:msv_emptyView="@layout/state_empty"
+            app:msv_errorView="@layout/state_error"
+            app:msv_loadingView="@layout/state_loading"
+            app:msv_viewState="content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/space_25"
+                        android:paddingTop="@dimen/space_25">
+
+                        <TextView
+                            style="@style/tv_askcoin_record_head_style"
+                            android:text="日期"/>
+
+                        <TextView
+                            style="@style/tv_askcoin_record_head_style"
+                            android:text="状态"/>
+
+                        <TextView
+                            style="@style/tv_askcoin_record_head_style"
+                            android:text="余额"/>
+
+                        <TextView
+                            style="@style/tv_askcoin_record_head_style"
+                            android:text="备注"/>
+
+                    </LinearLayout>
+
+                    <include layout="@layout/layout_line"/>
+                </LinearLayout>
+
+                <com.asking.pad.app.widget.AskSwipeRefreshLayout
+                    android:id="@+id/swipe_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"/>
+
+                </com.asking.pad.app.widget.AskSwipeRefreshLayout>
+            </LinearLayout>
+
+        </com.asking.pad.app.widget.MultiStateView>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
