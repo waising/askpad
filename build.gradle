@@ -1,0 +1,28 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        mavenCentral()//如果 jcenter 很慢，尝试添加 mavenCentral 并调整到首行
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        //**重要**
+        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()//如果 jcenter 很慢，尝试添加 mavenCentral 并调整到首行
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
