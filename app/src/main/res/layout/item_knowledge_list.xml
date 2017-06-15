@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/space_18">
+
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_30"
+                android:text="sffdf"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_18" />
+
+            <TextView
+                android:id="@+id/tv_sections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_60"
+                android:text="sffdf"
+                android:textColor="@color/colorText_c7"
+                android:textSize="@dimen/textSize_14"
+                android:visibility="invisible"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:elevation="@dimen/space_5"
+        android:src="@mipmap/ic_red_close" />
+
+
+</RelativeLayout>

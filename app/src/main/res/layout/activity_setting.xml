@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTest_f8"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_10"
+        android:layout_marginLeft="@dimen/space_24"
+        android:layout_marginRight="@dimen/space_24"
+        android:layout_marginTop="@dimen/space_18"
+        android:background="@drawable/bg_corners_white3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_22"
+            android:layout_marginTop="@dimen/space_34"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_40"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_password"
+                android:drawablePadding="@dimen/space_16"
+                android:gravity="center_vertical"
+                android:text="登录密码"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_18" />
+
+            <TextView
+                android:id="@+id/tv_edit_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_40"
+                android:background="@drawable/bg_solid_orange"
+                android:paddingBottom="@dimen/space_10"
+                android:paddingLeft="@dimen/space_24"
+                android:paddingRight="@dimen/space_24"
+                android:paddingTop="@dimen/space_10"
+                android:text="修改"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize_16" />
+
+        </LinearLayout>
+
+
+        <View style="@style/view_horizontal_line" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_22"
+            android:layout_marginTop="@dimen/space_34"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_40"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_photo"
+                android:drawablePadding="@dimen/space_16"
+                android:gravity="center_vertical"
+                android:text="快门声音"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_18" />
+
+            <ImageView
+                android:id="@+id/tv_close_shutter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_40"
+                android:background="@drawable/shutter_sound" />
+
+        </LinearLayout>
+
+
+        <View style="@style/view_horizontal_line" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_check_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/space_30"
+            android:paddingTop="@dimen/space_30">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_40"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_check_update"
+                android:drawablePadding="@dimen/space_16"
+                android:gravity="center_vertical"
+                android:text="检查更新"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_18" />
+
+            <TextView
+                android:id="@+id/tv_version_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_40"
+                android:text="当前为最新版本"
+                android:textColor="@color/colorText_c7"
+                android:textSize="@dimen/textSize_16" />
+
+        </LinearLayout>
+
+
+        <View style="@style/view_horizontal_line" />
+
+        <TextView
+            android:id="@+id/tv_about_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_40"
+            android:drawableLeft="@mipmap/ic_about_us"
+            android:drawablePadding="@dimen/space_8"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/space_30"
+            android:paddingTop="@dimen/space_30"
+            android:text="关于我们"
+            android:textColor="@color/colorText_56"
+            android:textSize="@dimen/textSize_18" />
+
+
+        <View style="@style/view_horizontal_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_log_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_40"
+            android:layout_marginLeft="@dimen/space_40"
+            android:layout_marginRight="@dimen/space_40"
+            android:background="@drawable/btn_red_normal"
+            android:gravity="center"
+            android:paddingBottom="@dimen/space_14"
+            android:paddingTop="@dimen/space_14"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16" />
+
+        <TextView
+            android:id="@+id/tv_log_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_40"
+            android:layout_marginLeft="@dimen/space_40"
+            android:layout_marginRight="@dimen/space_40"
+            android:background="@drawable/btn_blue_normal"
+            android:gravity="center"
+            android:paddingBottom="@dimen/space_14"
+            android:paddingTop="@dimen/space_14"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_16"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

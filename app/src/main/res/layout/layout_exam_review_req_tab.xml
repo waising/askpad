@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/space_10">
+
+        <LinearLayout
+            android:id="@+id/ll_tab1"
+            style="@style/tab_exam_review_req"
+            android:checked="true">
+
+            <TextView
+                android:layout_width="@dimen/space_45"
+                android:layout_height="@dimen/space_45"
+                android:layout_centerInParent="true"
+                android:background="@drawable/radio_req_bg"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/textSize_20"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_10"
+                android:text="抓考点\n理概念"
+                android:textColor="@drawable/radio_req_color"
+                android:textSize="@dimen/textSize_12"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tab2"
+            style="@style/tab_exam_review_req">
+
+            <TextView
+                android:layout_width="@dimen/space_45"
+                android:layout_height="@dimen/space_45"
+                android:layout_centerInParent="true"
+                android:background="@drawable/radio_req_bg"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/textSize_20"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_10"
+                android:text="明策略\n升梯度"
+                android:textColor="@drawable/radio_req_color"
+                android:textSize="@dimen/textSize_12"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tab3"
+            style="@style/tab_exam_review_req">
+
+            <TextView
+                android:layout_width="@dimen/space_45"
+                android:layout_height="@dimen/space_45"
+                android:layout_centerInParent="true"
+                android:background="@drawable/radio_req_bg"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/textSize_20"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_10"
+                android:text="谈思想\n启智慧"
+                android:textColor="@drawable/radio_req_color"
+                android:textSize="@dimen/textSize_12"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.3dp"
+        android:layout_height="match_parent"
+        android:background="@color/login_line"/>
+</LinearLayout>

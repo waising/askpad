@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_user_info"
+    android:padding="@dimen/space_20">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_weight="2"
+            android:background="@drawable/bg_corners_or"
+            android:orientation="vertical">
+
+            <com.asking.pad.app.widget.calendar.CalendarView
+                android:id="@+id/calen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_sigin_right"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:text="签到规则"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_20"/>
+
+                <LinearLayout
+                    style="@style/ll_sigin_styles"
+                    android:layout_marginTop="@dimen/space_20">
+
+                    <TextView
+                        style="@style/tv_sigin_styles"
+                        android:text="1"/>
+
+                    <TextView
+                        style="@style/tv_sigin_tip_styles"
+                        android:text="每日签到送0.5枚币"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/ll_sigin_styles">
+
+                    <TextView
+                        style="@style/tv_sigin_styles"
+                        android:text="2"/>
+
+                    <TextView
+                        style="@style/tv_sigin_tip_styles"
+                        android:text="连续签到满五天将额外获得3枚阿币"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/ll_sigin_styles">
+
+                    <TextView
+                        style="@style/tv_sigin_styles"
+                        android:text="3"/>
+
+                    <TextView
+                        style="@style/tv_sigin_tip_styles"
+                        android:text="连续五天后就重新开始计算"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_siginin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_50"
+                    android:background="@drawable/btn_siginin"/>
+
+                <TextView
+                    android:id="@+id/tv_siginin_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_14"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

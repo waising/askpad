@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_main"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E9FBFF"
+        android:gravity="center_vertical"
+        android:padding="@dimen/space_10">
+
+        <include layout="@layout/layout_user_info"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_sign"
+                style="@style/tv_main_styles"
+                android:drawableLeft="@mipmap/mine_sign"
+                android:text="@string/sign"/>
+
+            <ImageView
+                style="@style/iv_vertical_line"/>
+
+            <TextView
+                android:id="@+id/tv_error_note"
+                style="@style/tv_main_styles"
+                android:drawableLeft="@mipmap/mine_error_note"
+                android:text="@string/err_note"/>
+
+            <ImageView
+                style="@style/iv_vertical_line"/>
+
+            <TextView
+                android:id="@+id/tv_msg"
+                style="@style/tv_main_styles"
+                android:layout_marginRight="@dimen/space_10"
+                android:drawableLeft="@mipmap/mine_msg"
+                android:text="@string/home_menu_message"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.asking.pad.app.widget.indicator.TabPageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/space_10"/>
+
+
+</LinearLayout>

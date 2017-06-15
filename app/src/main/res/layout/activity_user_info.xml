@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_user_info">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/space_50"
+        android:layout_marginLeft="@dimen/space_100"
+        android:layout_marginRight="@dimen/space_100"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_50"
+            android:background="@drawable/bg_corners_white"
+            android:paddingBottom="@dimen/space_20">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/space_200"
+                    android:layout_marginTop="@dimen/space_50"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="昵&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;称："/>
+
+                        <EditText
+                            android:id="@+id/et_username"
+                            style="@style/et_userinfo_styles"/>
+
+                        <TextView
+                            style="@style/tv_userinfo_tip_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="性&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;别："/>
+
+                        <TextView
+                            android:id="@+id/tv_sex"
+                            style="@style/et_userinfo_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="出生日期："/>
+
+                        <TextView
+                            android:id="@+id/tv_birthdate"
+                            style="@style/et_userinfo_styles"/>
+
+                        <TextView
+                            style="@style/tv_userinfo_tip_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="联系地址："/>
+
+                        <EditText
+                            android:id="@+id/et_address"
+                            style="@style/et_userinfo_styles"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="学校地址："/>
+
+                        <TextView
+                            android:id="@+id/tv_school_address"
+                            style="@style/et_userinfo_styles"/>
+
+                        <TextView
+                            style="@style/tv_userinfo_tip_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="学校名称："/>
+
+                        <TextView
+                            android:id="@+id/tv_school_name"
+                            style="@style/et_userinfo_styles"/>
+
+                        <TextView
+                            style="@style/tv_userinfo_tip_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="年&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;级："/>
+
+                        <TextView
+                            android:id="@+id/tv_grade"
+                            style="@style/et_userinfo_styles"/>
+
+                        <TextView
+                            style="@style/tv_userinfo_tip_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="班&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;级："/>
+
+                        <TextView
+                            android:id="@+id/tv_class"
+                            style="@style/et_userinfo_styles"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/ll_userinfo_styles">
+
+                        <TextView
+                            style="@style/tv_userinfo_styles"
+                            android:text="个人简介："/>
+
+                        <EditText
+                            android:id="@+id/et_resume"
+                            style="@style/et_userinfo_styles"
+                            android:background="@drawable/card_btn_corners"
+                            android:gravity="top"
+                            android:minLines="5"
+                            android:minWidth="400dp"
+                            android:padding="@dimen/space_10"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="@dimen/space_80"
+                        android:layout_marginTop="@dimen/space_10"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_cancel"
+                            style="@style/btn_cuserinfo_styles"
+                            android:layout_marginRight="@dimen/space_20"
+                            android:background="@drawable/bg_solid_corner_gray"
+                            android:text="@string/dialog_cancel"/>
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            style="@style/btn_cuserinfo_styles"
+                            android:text="@string/save"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.asking.pad.app.widget.AskSimpleDraweeView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ad_avatar"
+            android:layout_width="@dimen/space_100"
+            android:layout_height="@dimen/space_100"
+            android:layout_marginLeft="@dimen/space_50"
+            android:clickable="true"
+            app:backgroundImage="@color/main_bg"
+            app:roundAsCircle="true"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_50"
+        android:background="@color/bg_toolbar_theme"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_pre"
+            style="@style/textview_sc_styles"
+            android:layout_marginLeft="@dimen/space_10"
+            android:drawableLeft="@mipmap/ic_class_pre"
+            android:text="上一题"/>
+
+        <Chronometer
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_16"
+            android:drawableLeft="@mipmap/ic_class_exam_time"
+            android:drawablePadding="@dimen/space_10"
+            android:format="%s"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_18"/>
+
+        <TextView
+            android:id="@+id/tv_next"
+            style="@style/textview_sc_styles"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/space_10"
+            android:drawableRight="@mipmap/ic_class_next"
+            android:text="下一题"/>
+
+    </FrameLayout>
+
+    <com.asking.pad.app.widget.MultiStateView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/load_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/no_color"
+        app:msv_emptyView="@layout/state_empty"
+        app:msv_errorView="@layout/state_error"
+        app:msv_loadingView="@layout/state_loading"
+        app:msv_viewState="content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F1FBFF"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_20">
+
+                <TextView
+                    android:id="@+id/tv_all_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text=""
+                    android:textColor="@color/colorText_88"
+                    android:textSize="@dimen/textSize_20"/>
+
+                <com.asking.pad.app.widget.indicator.TabPageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    style="@style/btn_comm_styles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:paddingLeft="@dimen/space_30"
+                    android:paddingRight="@dimen/space_30"
+                    android:text="@string/onlinttest_ask_card_commit"/>
+            </FrameLayout>
+
+        </LinearLayout>
+    </com.asking.pad.app.widget.MultiStateView>
+</LinearLayout>

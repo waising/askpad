@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_20"
+            android:layout_marginRight="@dimen/space_20"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/space_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_15"
+                android:orientation="horizontal">
+
+
+                <com.asking.pad.app.widget.AskMathView
+                    android:id="@+id/topic_mathview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_topic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:overScrollMode="never"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_20"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tip1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="难易度："
+                    android:textColor="@color/colorText_c7"
+                    android:textSize="@dimen/textSize_20"/>
+
+                <com.asking.pad.app.widget.StarView
+                    android:id="@+id/start_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tip1"
+                    app:mClickImageId="@mipmap/oto_grade_yes"
+                    app:mClickable="false"
+                    app:mDefaultImageId="@mipmap/oto_grade_no"
+                    app:mImageHeight="30dp"
+                    app:mImageWidth="30dp"
+                    app:mMargin="2dp"
+                    app:mStarNum="5"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_subject_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/space_10"
+                android:paddingTop="@dimen/space_10"
+                android:text="友情提示：请在纸上作答，交卷后查看正确答案。"
+                android:textColor="@color/red"
+                android:textSize="@dimen/textSize_20"/>
+
+            <LinearLayout
+                android:id="@+id/ll_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="答案解析"
+                    android:textColor="@color/colorText_88"
+                    android:textSize="@dimen/textSize_20"/>
+
+                <com.asking.pad.app.widget.AskMathView
+                    android:id="@+id/answer_mathView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_5"
+                    android:overScrollMode="never"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

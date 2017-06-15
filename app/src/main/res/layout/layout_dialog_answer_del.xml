@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/bg_answer_record"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="158dp" />
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="@dimen/space_30"
+            android:paddingRight="@dimen/space_30"
+            android:paddingTop="@dimen/space_20"
+            android:text="@string/answer_record_del_content"
+            android:textColor="@color/colorText_56"
+            android:textSize="@dimen/textSize_16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_30"
+            android:layout_marginTop="@dimen/space_30"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/space_27"
+            android:paddingRight="@dimen/space_27">
+
+            <TextView
+                android:id="@+id/tv_cancle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_solid_corner_blue"
+                android:gravity="center_horizontal"
+                android:paddingBottom="@dimen/space_12"
+                android:paddingTop="@dimen/space_12"
+                android:text="那我不删了"
+                android:textColor="@color/white"
+                android:textSize="@dimen/space_16" />
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_18"
+                android:layout_weight="1"
+                android:background="@drawable/btn_red_normal"
+                android:gravity="center_horizontal"
+                android:paddingBottom="@dimen/space_12"
+                android:paddingTop="@dimen/space_12"
+                android:text="就是要删除"
+                android:textColor="@color/white"
+                android:textSize="@dimen/space_16" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+
+

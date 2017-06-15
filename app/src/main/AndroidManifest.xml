@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.asking.pad.app">
+
+    <!-- *****************************网易白板********************************* -->
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+    <!-- *****************************网易白板End********************************* -->
+
+    // SDK 权限申明, 第三方 APP 接入时，请将 com.asking.pad.app 替换为自己的包名
+    // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。
+    <permission
+        android:name="com.asking.pad.app.permission.RECEIVE_MSG"
+        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.asking.pad.app.permission.INCOMING_CALL"
+        android:protectionLevel="signature"/>
+    // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.asking.pad.app 替换为自己的包名
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="com.asking.pad.app.permission.RECEIVE_MSG"/>
+    // 如果没有VOIP功能可以忽略
+    <uses-permission android:name="com.asking.pad.app.permission.INCOMING_CALL"/>
+    <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等(必选配置) -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <!-- 允许程序录制音频(必选配置) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- 允许应用程序修改全局声音设置的权限 (必选配置) -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <!-- 允许使用PowerManager的WakeLocks保持进程在休眠时从屏幕消失(必选配置) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- 更改 wifi 状态权限 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.REAL_GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- 在sdcard中创建/删除文件的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <!-- 汉王云 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <!-- 有些机型可能还需要下面的权限（我测试的时候没有加小米平板16G拍照返回data为null）： -->
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera.flash"/>
+
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"/>
+
+    <application
+        android:name=".AppContext"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".ui.start.SplashActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".ui.register.WebViewProtocolActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.superclass.classify.ClassifyActivty"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.superclass.SuperClassActiity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.superclass.examreview.classex.ClassExamActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.superclass.tutorial.topic.TopicItemActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.superclass.examreview.ExamReviewFirstActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name=".ui.superclass.examreview.ExamReviewSecondActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name=".ui.superclass.examreview.ExamTopicDetailsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.camera.ui.CameraActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".ui.camera.ui.ImageSelectActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Custom_Theme"/>
+
+
+        <activity
+            android:name=".ui.oto.OtoAskActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.oto.TeaWaitingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <!-- 网易白板 -->
+        <activity
+            android:name=".ui.oto.OtoLearningActivity"
+            android:hardwareAccelerated="false"
+            android:label="@string/app_oto_detail"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="com.asking91.app.intent.ACTION_VOICE_CALL"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.oto.OtoEndActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.oto.OtoDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.mine.SelectAddressActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.mine.UserInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".ui.pay.PayAskActivity"
+            android:label="@string/pay"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".ui.pay.PayActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".ui.mine.SignInActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.personalcenter.SettingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+        <activity
+            android:name=".ui.personalcenter.AboutUsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.personalcenter.oto.RecordAnswerActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.commom.PhotoShowActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.mine.WrongTopicActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.downbook.DownBookActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <!-- Ping++ SDK -->
+        <activity
+            android:name="com.pingplusplus.android.PaymentActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!-- 微信支付 -->
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.pingplusplus.android.PaymentActivity"/>
+
+        <!-- 支付宝 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"/>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"/>
+
+        <!-- 银联支付 sdk -->
+        <activity
+            android:name="com.unionpay.uppay.PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"/>
+
+        <!-- *****************************网易白板********************************* -->
+        <!--
+           APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
+           如果 SDKOptions 中提供了，取 SDKOptions 中的值。
+        -->
+        <!-- <meta-data -->
+        <!-- android:name="com.amap.api.v2.apikey" -->
+        <!-- android:value="${AMAP_KEY}"/> -->
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="a485afdeeccf7f41b0e31dd4799fd85d"/>
+
+        <!-- 申明白板会话的广播接收器，第三方APP集成时，action中的com.netease.nim.demo请替换为自己的包名 -->
+        <receiver
+            android:name="com.netease.nimlib.receiver.RTSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.asking.pad.app.ACTION.RECEIVE_RTS_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 声明云信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService"
+            android:process=":core"/>
+        <service
+            android:name="com.netease.nimlib.service.NimService$Aux"
+            android:process=":core"/>
+
+        <!--
+             云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
+            保持和 NimService 同一进程
+        -->
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 云信进程间通信 Receiver -->
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver"/>
+
+        <!-- 安卓保活配置 -->
+        <!--
+        <service
+            android:name="com.netease.cosine.core.CosineService"
+            android:process=":cosine">
+        </service>
+        -->
+
+        <receiver
+            android:name="com.netease.cosine.target.CosineReceiver"
+            android:exported="true"
+            android:process=":cosine"/>
+
+        <meta-data
+            android:name="com.netease.cosine.target"
+            android:value=""/>
+        <meta-data
+            android:name="com.netease.cosine.target.receiver"
+            android:value="com.netease.nimlib.service.NimReceiver"/>
+
+        <!-- 申明本地电话状态（通话状态）的广播接收器，第三方APP集成时音视频模块时，如果需要网络通话与本地电话互斥，请加上此接收器 -->
+        <receiver android:name="com.netease.nimlib.receiver.IncomingCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- *****************************网易白板End********************************* -->
+
+
+        <activity
+            android:name=".ui.personalcenter.NoteActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.personalcenter.CollectionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.personalcenter.BuyRecordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.personalcenter.AskCoinRecordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <service
+            android:name=".ui.update.DownloadService"
+            android:exported="false"/>
+
+
+        <activity
+            android:name=".ui.personalcenter.ShopCartListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+        <activity
+            android:name=".ui.personalcenter.ConfirmOrderActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+        <activity
+            android:name=".ui.personalcenter.PaySuccessActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+        <activity
+            android:name=".ui.personalcenter.ShopCartListActivityCopy"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.classmedia.ClassMediaActivity"
+            android:label="@string/app_class_media"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
+            android:name=".ui.classmedia.ClassMediaDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.classmedia.cache.ClassMediaCacheDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.classmedia.cache.ClassMediaCacheActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_class_media_cache"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.personalcenter.oto.OtoRecordDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.personalcenter.oto.OtoCommentDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.personalcenter.oto.OtoCommentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.personalcenter.oto.OtoFeedBackActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.classmedia.ClassPdfDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.classmedia.PayClassMediaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_class_media_pay"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name="tcking.github.com.giraffeplayer.GiraffePlayerActivity"
+            android:screenOrientation="landscape"/>
+
+
+    </application>
+
+</manifest>

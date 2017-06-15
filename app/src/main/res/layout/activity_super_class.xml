@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_50"
+        android:background="@color/bg_toolbar_theme"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_pre"
+            style="@style/textview_sc_styles"
+            android:layout_marginLeft="@dimen/space_10"
+            android:drawableLeft="@mipmap/ic_class_pre"
+            android:text="上一课时"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/textview_sc_styles"
+            android:layout_gravity="center"
+            android:text="课时"
+            android:drawableRight="@mipmap/ic_superclass_down"
+            android:textSize="@dimen/textSize_18"/>
+
+        <TextView
+            android:id="@+id/tv_next"
+            style="@style/textview_sc_styles"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/space_10"
+            android:drawableRight="@mipmap/ic_class_next"
+            android:text="下一课时"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_tab"
+            android:layout_width="@dimen/space_50"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_supertutorial"
+                style="@style/tab_styles"
+                android:text="超级课堂"/>
+
+            <TextView
+                android:id="@+id/tv_exercises"
+                style="@style/tab_styles"
+                android:text="@string/super_free_title2"/>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_30"
+            android:layout_marginRight="@dimen/space_15"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="@dimen/space_5"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+</LinearLayout>
