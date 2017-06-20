@@ -164,7 +164,7 @@ bugtags {
 }
 
 greendao {
-    schemaVersion 9
+    schemaVersion 10
     daoPackage 'com.asking.pad.app.greendao'
     targetGenDir 'src/main/java'
 }
