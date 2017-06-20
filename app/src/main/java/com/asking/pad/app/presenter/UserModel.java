@@ -42,10 +42,6 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().resetPass(mobile, password, verifyCode).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getSuperSelect() {
-        return Networks.getInstance().getUserApi().getSuperSelect().compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
     public Observable<ResponseBody> geteStudyClassicTree() {
         return Networks.getInstance().getUserApi().geteStudyClassicTree().compose(RxSchedulers.<ResponseBody>io_main());
     }
@@ -54,13 +50,10 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().checkUserInfo().compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> buyStudySubjectCatalog(String subjectCatalog) {
-        return Networks.getInstance().getUserApi().buyStudySubjectCatalog(subjectCatalog).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> superlessontree(String versionLevelId) {
+        return Networks.getInstance().getUserApi().superlessontree(versionLevelId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> buyStudyVersion(String versionId) {
-        return Networks.getInstance().getUserApi().buyStudyVersion(versionId).compose(RxSchedulers.<ResponseBody>io_main());
-    }
 
     public Observable<ResponseBody> buyStudyLevel(String versionLevelId) {
         return Networks.getInstance().getUserApi().buyStudyLevel(versionLevelId).compose(RxSchedulers.<ResponseBody>io_main());
@@ -76,18 +69,6 @@ public class UserModel extends BaseModel {
 
     public Observable<ResponseBody> secondreviewtree(String orgId) {
         return Networks.getInstance().getUserApi().secondreviewtree(orgId).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> freeStudySubjectCatalog(String subjectCatalog) {
-        return Networks.getInstance().getUserApi().freeStudySubjectCatalog(subjectCatalog).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> freeStudyVersion(String versionId) {
-        return Networks.getInstance().getUserApi().freeStudyVersion(versionId).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> freeStudyLevel(String versionLevelId) {
-        return Networks.getInstance().getUserApi().freeStudyLevel(versionLevelId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getSuperFreeFragment1(String levelId, String knowledgeId, int type) {
@@ -169,9 +150,9 @@ public class UserModel extends BaseModel {
                 .orderstate(id).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> nimtoken(String accid, String password) {
+    public Observable<ResponseBody> nimtoken(String accid) {
         return Networks.getInstance().getUserApi()
-                .nimtoken(accid, password).compose(RxSchedulers.<ResponseBody>io_main());
+                .nimtoken(accid).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> ordercancel(String id) {

@@ -42,7 +42,7 @@ import static com.asking.pad.app.R.id.tv_error_note;
  * Created by jswang on 2017/4/10.
  */
 
-public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserModel> {
+public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserModel> {
 
     @BindView(R.id.ad_avatar)
     AskSimpleDraweeView ad_avatar;
@@ -85,6 +85,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
         CommAdapter mAdapter = new CommAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
         viewPager.setOffscreenPageLimit(2);
+        indicator.setLayoutResource(R.layout.layout_indicator_tab_view6);
         indicator.setViewPager(viewPager);
 
         initUser();
@@ -110,9 +111,9 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
         }
     }
 
-    private void initUser(){
+    private void initUser() {
         UserEntity mUser = AppContext.getInstance().getUserEntity();
-        if(mUser != null){
+        if (mUser != null) {
             ad_avatar.setImageUrl(mUser.getAvatar());
             tv_name.setText(mUser.getNickName());
             tv_shcool.setText(mUser.getSchoolName());
@@ -124,8 +125,8 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
         }
     }
 
-    private void refreshUser(){
-        mPresenter.studentinfo(new ApiRequestListener<String>(){
+    private void refreshUser() {
+        mPresenter.studentinfo(new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 JSONObject resObject = JSON.parseObject(res);
@@ -141,7 +142,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
     }
 
 
-    private void clearUser(){
+    private void clearUser() {
         tv_name.setText("");
         tv_shcool.setText("");
         tv_monny.setText("");
@@ -150,9 +151,9 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
 
 
     public void onEventMainThread(AppLoginEvent event) {
-        switch (event.type){
+        switch (event.type) {
             case AppLoginEvent.LOGIN_SUCCESS:
-                if(!AppContext.getInstance().isUserDataPerfect()){
+                if (!AppContext.getInstance().isUserDataPerfect()) {
                     mPresenter.checkUserInfo();
                 }
                 initUser();
@@ -164,7 +165,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter,UserMo
     }
 
     public void onEventMainThread(AppEventType event) {
-        switch (event.type){
+        switch (event.type) {
             case AppEventType.RE_USER_INFO_REQUEST:
                 initUser();
                 break;

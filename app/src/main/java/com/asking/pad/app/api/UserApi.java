@@ -66,12 +66,6 @@ public interface UserApi {
     Observable<ResponseBody> getResetPassYZM(@Query("mobile") String mobile);
 
     /**
-     * 获取超级辅导课已购买科目——进入超级辅导课的时候使用
-     */
-    @POST("coach/getSubjectCacaLogByUserId")
-    Observable<ResponseBody> getSuperSelect();
-
-    /**
      *
      * @return
      */
@@ -86,17 +80,9 @@ public interface UserApi {
     @POST("user/checkUserInfo")
     Observable<ResponseBody> checkUserInfo();
 
-    /**
-     * 获取版本信息
-     */
-    @POST("coach/{subjectCatalog}/version")
-    Observable<ResponseBody> buyStudySubjectCatalog(@Path("subjectCatalog") String subjectCatalog);
-
-    /**
-     * 获取课本年级
-     */
-    @POST("coach/version/{versionId}/level")
-    Observable<ResponseBody> buyStudyVersion(@Path("versionId") String versionId);
+    /**获取章节目录*/
+    @GET("coachapi/superlesson/tree/{versionLevelId}")
+    Observable<ResponseBody> superlessontree(@Path("versionLevelId") String versionLevelId);
 
     /**
      * 获取章节目录
@@ -121,24 +107,6 @@ public interface UserApi {
      */
     @GET("secondreview/tree")
     Observable<ResponseBody> secondreviewtree(@Query("orgId") String orgId);
-
-    /**
-     * 获取版本信息
-     */
-    @POST("freeStudyClassic/{subjectCatalog}/version")
-    Observable<ResponseBody> freeStudySubjectCatalog(@Path("subjectCatalog") String subjectCatalog);
-
-    /**
-     * 获取课本年级
-     */
-    @POST("freeStudyClassic/version/{versionId}/level")
-    Observable<ResponseBody> freeStudyVersion(@Path("versionId") String versionId);
-
-    /**
-     * 获取章节目录
-     */
-    @POST("freeStudyClassic/version/level/{versionLevelId}/knowledge")
-    Observable<ResponseBody> freeStudyLevel(@Path("versionLevelId") String versionLevelId);
 
     /**
      * 获取超级辅导课阿思可博士有话说列表
@@ -236,7 +204,7 @@ public interface UserApi {
     @GET("secondreview/zhuant")
     Observable<ResponseBody> secondreviewzhuant(@Query("pid") String pid, @Query("field") String field);
 
-    @GET(BuildConfig.API_OTO_RE_URL + "qiniu/token")
+    @GET("cloudapi/qiniu/token")
     Observable<ResponseBody> qiniutoken();
 
     /**
@@ -265,11 +233,10 @@ public interface UserApi {
      * .获取网易云Token
      *
      * @param accid
-     * @param password
      * @return
      */
-    @GET(BuildConfig.API_OTO_RE_URL + "nim/token")
-    Observable<ResponseBody> nimtoken(@Query("accid") String accid, @Query("password") String password);
+    @GET("cloudapi/nim/token")
+    Observable<ResponseBody> nimtoken(@Query("accid") String accid);
 
     /**
      * 3.学生取消题目

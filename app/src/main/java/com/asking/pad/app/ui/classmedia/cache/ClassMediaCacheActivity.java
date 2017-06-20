@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenAppCompatActivity;
+import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.presenter.UserModel;
@@ -68,7 +69,10 @@ public class ClassMediaCacheActivity extends BaseEvenAppCompatActivity<UserPrese
         rec_view.setLayoutManager(mgr);
         mAdapter = new CommAdapter();
         rec_view.setAdapter(mAdapter);
+    }
 
+    @Override
+    public void initLoad() {
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
         Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
@@ -185,6 +189,11 @@ public class ClassMediaCacheActivity extends BaseEvenAppCompatActivity<UserPrese
         public void onBindViewHolder(final CommViewHolder holder, final int position) {
             final ClassMediaTable e = dataList.get(position);
             holder.tv_name.setText(e.getCourseName());
+            if(TextUtils.equals(Constants.CLASS_MEDIA_TYPE_ID[0],e.getCourseTypeId())){
+                holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_math,0,0,0);
+            }else{
+                holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_physics,0,0,0);
+            }
             BitmapUtil.displayImage(e.getVideoImgUrl(), holder.iv_temp, true);
             holder.fl_progress.setVisibility(e.getDownState() == DownState.FINISH ? View.GONE : View.VISIBLE);
             refreshViewHolder(e, holder);
@@ -241,6 +250,7 @@ public class ClassMediaCacheActivity extends BaseEvenAppCompatActivity<UserPrese
             public void del(int position, String id, AnswerRecordDelDialog delDialog) {
                 dataList.remove(e);
                 ClassDownloadManager.getInstance().deleteDown(e);
+                initLoad();
             }
         });
         answerRecordDelDialog.show(this.getSupportFragmentManager(), "AnswerRecordDelDialog");

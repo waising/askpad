@@ -28,10 +28,11 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
         public final static Property CourseName = new Property(1, String.class, "courseName", false, "COURSE_NAME");
         public final static Property VideoUrl = new Property(2, String.class, "videoUrl", false, "VIDEO_URL");
         public final static Property PdfUrl = new Property(3, String.class, "pdfUrl", false, "PDF_URL");
-        public final static Property UserId = new Property(4, String.class, "userId", false, "USER_ID");
-        public final static Property DownState = new Property(5, byte.class, "downState", false, "DOWN_STATE");
-        public final static Property CountLength = new Property(6, long.class, "countLength", false, "COUNT_LENGTH");
-        public final static Property ReadLength = new Property(7, long.class, "readLength", false, "READ_LENGTH");
+        public final static Property CourseTypeId = new Property(4, String.class, "courseTypeId", false, "COURSE_TYPE_ID");
+        public final static Property UserId = new Property(5, String.class, "userId", false, "USER_ID");
+        public final static Property DownState = new Property(6, byte.class, "downState", false, "DOWN_STATE");
+        public final static Property CountLength = new Property(7, long.class, "countLength", false, "COUNT_LENGTH");
+        public final static Property ReadLength = new Property(8, long.class, "readLength", false, "READ_LENGTH");
     }
 
 
@@ -51,10 +52,11 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
                 "\"COURSE_NAME\" TEXT," + // 1: courseName
                 "\"VIDEO_URL\" TEXT," + // 2: videoUrl
                 "\"PDF_URL\" TEXT," + // 3: pdfUrl
-                "\"USER_ID\" TEXT," + // 4: userId
-                "\"DOWN_STATE\" INTEGER NOT NULL ," + // 5: downState
-                "\"COUNT_LENGTH\" INTEGER NOT NULL ," + // 6: countLength
-                "\"READ_LENGTH\" INTEGER NOT NULL );"); // 7: readLength
+                "\"COURSE_TYPE_ID\" TEXT," + // 4: courseTypeId
+                "\"USER_ID\" TEXT," + // 5: userId
+                "\"DOWN_STATE\" INTEGER NOT NULL ," + // 6: downState
+                "\"COUNT_LENGTH\" INTEGER NOT NULL ," + // 7: countLength
+                "\"READ_LENGTH\" INTEGER NOT NULL );"); // 8: readLength
     }
 
     /** Drops the underlying database table. */
@@ -87,13 +89,18 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
             stmt.bindString(4, pdfUrl);
         }
  
+        String courseTypeId = entity.getCourseTypeId();
+        if (courseTypeId != null) {
+            stmt.bindString(5, courseTypeId);
+        }
+ 
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(5, userId);
+            stmt.bindString(6, userId);
         }
-        stmt.bindLong(6, entity.getDownState());
-        stmt.bindLong(7, entity.getCountLength());
-        stmt.bindLong(8, entity.getReadLength());
+        stmt.bindLong(7, entity.getDownState());
+        stmt.bindLong(8, entity.getCountLength());
+        stmt.bindLong(9, entity.getReadLength());
     }
 
     @Override
@@ -120,13 +127,18 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
             stmt.bindString(4, pdfUrl);
         }
  
+        String courseTypeId = entity.getCourseTypeId();
+        if (courseTypeId != null) {
+            stmt.bindString(5, courseTypeId);
+        }
+ 
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(5, userId);
+            stmt.bindString(6, userId);
         }
-        stmt.bindLong(6, entity.getDownState());
-        stmt.bindLong(7, entity.getCountLength());
-        stmt.bindLong(8, entity.getReadLength());
+        stmt.bindLong(7, entity.getDownState());
+        stmt.bindLong(8, entity.getCountLength());
+        stmt.bindLong(9, entity.getReadLength());
     }
 
     @Override
@@ -141,10 +153,11 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // courseName
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // videoUrl
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // pdfUrl
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // userId
-            (byte) cursor.getShort(offset + 5), // downState
-            cursor.getLong(offset + 6), // countLength
-            cursor.getLong(offset + 7) // readLength
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // courseTypeId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // userId
+            (byte) cursor.getShort(offset + 6), // downState
+            cursor.getLong(offset + 7), // countLength
+            cursor.getLong(offset + 8) // readLength
         );
         return entity;
     }
@@ -155,10 +168,11 @@ public class ClassMediaTableDao extends AbstractDao<ClassMediaTable, String> {
         entity.setCourseName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setVideoUrl(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPdfUrl(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setUserId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDownState((byte) cursor.getShort(offset + 5));
-        entity.setCountLength(cursor.getLong(offset + 6));
-        entity.setReadLength(cursor.getLong(offset + 7));
+        entity.setCourseTypeId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setUserId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setDownState((byte) cursor.getShort(offset + 6));
+        entity.setCountLength(cursor.getLong(offset + 7));
+        entity.setReadLength(cursor.getLong(offset + 8));
      }
     
     @Override

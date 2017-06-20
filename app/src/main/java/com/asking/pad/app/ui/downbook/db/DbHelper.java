@@ -136,4 +136,12 @@ public class DbHelper {
         return mRecordList;
     }
 
+    public int getPlayProgress(String courseDataId) {
+        StudyRecord e = getStudyRecordDao().queryBuilder().where(StudyRecordDao.Properties.CourseDataId.eq(courseDataId)).unique();
+        if(e !=null ){
+           return e.getPlayProgress();
+        }
+        return -1;
+    }
+
 }

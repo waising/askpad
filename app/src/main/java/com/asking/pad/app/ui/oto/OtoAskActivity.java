@@ -166,8 +166,7 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
         mPresenter.qiniutoken(new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
-                JSONObject jsonRes = JSON.parseObject(res);
-                qiNiuToken = jsonRes.getString("token");
+                qiNiuToken = res;
                 getHwyQuestion();
             }
 

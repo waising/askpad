@@ -68,7 +68,7 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
     @Override
     public void initView() {
         super.initView();
-        setToolbar(toolBar, "变式题");
+        setToolbar(toolBar, "典例");
 
 
         tit_mathView.formatMath().showWebImage();

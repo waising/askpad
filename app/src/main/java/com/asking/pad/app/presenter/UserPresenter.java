@@ -84,24 +84,13 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getResetPassYZM(userName), "", mListener);
     }
 
-    public void getSuperSelect(ApiRequestListener mListener) {
-        String cacheKey = AppContext.getInstance().getUserId() + "_getSuperSelect";
-        baseReqFlag0Cache(mModel.getSuperSelect(), "list", cacheKey, mListener);
+    public void superlessontree(String versionLevelId,ApiRequestListener mListener) {
+        baseReqStr(mModel.superlessontree(versionLevelId), mListener);
     }
 
     public void geteStudyClassicTree(ApiRequestListener mListener) {
         String cacheKey = AppContext.getInstance().getUserId() + "_getSuperSelect";
         baseReqStrCache(mModel.geteStudyClassicTree(),cacheKey, mListener);
-    }
-
-    public void classVersion(String classType, ApiRequestListener mListener) {
-        String cacheKey = "classVersion_" + classType;
-        baseReqStrCache(mModel.buyStudySubjectCatalog(classType), cacheKey, mListener);
-    }
-
-    public void classGrade(String versionId, ApiRequestListener mListener) {
-        String cacheKey = AppContext.getInstance().getUserId() + "_classGrade_" + versionId;
-        baseReqStrCache(mModel.buyStudyVersion(versionId), cacheKey, mListener);
     }
 
     public void classSection(String gradeId, ApiRequestListener mListener) {
@@ -122,18 +111,6 @@ public class UserPresenter extends BasePresenter<UserModel> {
     public void secondreviewtree(String orgId, ApiRequestListener mListener) {
         String filePath = Constants.getBookPath(String.format("secondreview/tree？orgId=%s", orgId));
         baseReqFlag0File(mModel.secondreviewtree(orgId), "content", filePath, mListener);
-    }
-
-    public void classFreeVersion(String classType, ApiRequestListener mListener) {
-        baseReqStr(mModel.freeStudySubjectCatalog(classType), mListener);
-    }
-
-    public void classFreeGrade(String classType, ApiRequestListener mListener) {
-        baseReqStr(mModel.freeStudyVersion(classType), mListener);
-    }
-
-    public void classFreeSection(String gradeId, ApiRequestListener mListener) {
-        baseReqStr(mModel.freeStudyLevel(gradeId), mListener);
     }
 
     public void getSuperFreeFragment1(String levelId, String knowledgeId, int type, ApiRequestListener mListener) {
@@ -286,7 +263,7 @@ public class UserPresenter extends BasePresenter<UserModel> {
     }
 
     public void qiniutoken(ApiRequestListener mListener) {
-        baseReq(mModel.qiniutoken(), "content", mListener);
+        baseReqStr(mModel.qiniutoken(), mListener);
     }
 
     public void orderfirstorder(String id, ApiRequestListener mListener) {
@@ -377,8 +354,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.orderstate(id), "content", mListener);
     }
 
-    public void nimtoken(String accid, String password, ApiRequestListener mListener) {
-        baseReqStr(mModel.nimtoken(accid, password), mListener);
+    public void nimtoken(String accid, ApiRequestListener mListener) {
+        baseReqStr(mModel.nimtoken(accid), mListener);
     }
 
     public void modelMyWrongVersions(String subjectCatalog, String type, ApiRequestListener mListener) {

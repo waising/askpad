@@ -153,17 +153,18 @@
 
 
     <style name="NoScrollGrid_style">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:gravity">center</item>
         <item name="android:listSelector">#00000000</item>
-        <item name="android:numColumns">2</item>
         <item name="android:paddingLeft">4.0dip</item>
         <item name="android:paddingRight">4.0dip</item>
         <item name="android:layout_marginBottom">4.0dip</item>
         <item name="android:stretchMode">columnWidth</item>
         <item name="android:scrollbars">none</item>
+        <item name="android:horizontalSpacing">@dimen/space_10</item>
+        <item name="android:verticalSpacing">@dimen/space_10</item>
     </style>
 
     <style name="TreeNodeStyleCustom2">
@@ -603,5 +604,17 @@
         <item name="android:textSize">@dimen/textSize_16</item>
     </style>
 
+    <style name="iv_first_main_foot_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="view_size_left_right_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
 </resources>

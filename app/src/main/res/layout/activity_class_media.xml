@@ -30,7 +30,8 @@
             android:padding="@dimen/space_10"
             android:text="整套购买"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize_16"/>
+            android:textSize="@dimen/textSize_16"
+            android:visibility="invisible"/>
 
     </FrameLayout>
 

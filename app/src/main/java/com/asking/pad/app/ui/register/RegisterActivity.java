@@ -158,10 +158,33 @@ public class RegisterActivity extends BaseEvenActivity<UserPresenter, UserModel>
         }
         setVerificodeView();
         if (isRegister == 1) {
-            mPresenter.getResetPassYZM(phone,new ApiRequestListener<JSONObject>());
+            mPresenter.getResetPassYZM(phone,new ApiRequestListener<JSONObject>(){
+                @Override
+                public void onResultFail() {
+                    reVerifiView();
+                }
+            });
         } else {
-            mPresenter.getYZM(phone,new ApiRequestListener<JSONObject>());
+            mPresenter.getYZM(phone,new ApiRequestListener<JSONObject>(){
+                @Override
+                public void onResultFail() {
+                    reVerifiView();
+                }
+            });
         }
+    }
+
+    private void reVerifiView(){
+        try {
+            if(mTime != null){
+                mTime.cancel();
+                mTime = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        tv_verificode.setText("获取验证码");
+        tv_verificode.setEnabled(true);
     }
 
 
@@ -211,8 +234,7 @@ public class RegisterActivity extends BaseEvenActivity<UserPresenter, UserModel>
 
         @Override
         public void onFinish() {
-            tv_verificode.setText("获取验证码");
-            tv_verificode.setEnabled(true);
+            reVerifiView();
         }
     }
 

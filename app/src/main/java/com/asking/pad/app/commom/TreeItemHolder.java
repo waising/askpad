@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.KnowledgeDetailEntity;
 import com.unnamed.b.atv.model.TreeNode;
 
 
@@ -93,16 +92,6 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
         private String text;
         private int position;
 
-        public KnowledgeDetailEntity getKnowledgeDetail() {
-            return KnowledgeDetail;
-        }
-
-        public void setKnowledgeDetail(KnowledgeDetailEntity knowledgeDetail) {
-            KnowledgeDetail = knowledgeDetail;
-        }
-
-        private KnowledgeDetailEntity KnowledgeDetail;
-
         public boolean isLeaf() {
             return isLeaf;
         }
@@ -117,13 +106,12 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
 
         }
 
-        public IconTreeItem(int icon, String id,String text,boolean isLeaf, int position,KnowledgeDetailEntity KnowledgeDetail) {
+        public IconTreeItem(int icon, String id,String text,boolean isLeaf, int position) {
             this.icon = icon;
             this.id = id;
             this.text = text;
             this.position = position;
             this.isLeaf = isLeaf;
-            this.KnowledgeDetail = KnowledgeDetail;
         }
     }
 }

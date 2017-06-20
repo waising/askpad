@@ -83,6 +83,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
         mBundle.putString("courseTypeName", mClassVideo.getCourseTypeName());
         mBundle.putString("description", mClassVideo.getDescription());
         mBundle.putString("coursePrice", mClassVideo.getPrice());
+        mBundle.putString("courseTypeFullName", mClassVideo.getCourseTypeFullName());
         intent.putExtras(mBundle);
         activity.startActivity(intent);
     }
@@ -111,8 +112,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
             commodityList.add(getIntent().getStringExtra("courseDataId"));
 
             tv_title.setText(getIntent().getStringExtra("courseName"));
-            tv_title1.setText(getIntent().getStringExtra("" +
-                    ""));
+            tv_title1.setText(getIntent().getStringExtra("courseTypeFullName"));
             tv_content.setText(getIntent().getStringExtra("description"));
             tv_total_price.setText(String.format("%s元", getIntent().getStringExtra("coursePrice")));
         } else if (TextUtils.equals(orderType, "TC")) {

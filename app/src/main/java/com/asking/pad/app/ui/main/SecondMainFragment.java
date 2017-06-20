@@ -20,6 +20,7 @@ import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
 import com.asking.pad.app.ui.pay.PayAskActivity;
 import com.asking.pad.app.ui.personalcenter.BuyRecordActivity;
 import com.asking.pad.app.ui.personalcenter.CollectionActivity;
+import com.asking.pad.app.ui.personalcenter.NoteActivity;
 import com.asking.pad.app.ui.personalcenter.SettingActivity;
 import com.asking.pad.app.ui.personalcenter.oto.RecordAnswerActivity;
 
@@ -54,7 +55,7 @@ public class SecondMainFragment extends BaseFrameFragment<UserPresenter, UserMod
         mDatas = new ArrayList<>();
         mDatas.add(new LabelEntity(R.mipmap.mine_oto_record, getString(R.string.myOtoRecord)));
         mDatas.add(new LabelEntity(R.mipmap.mine_pay, getString(R.string.pay)));
-        mDatas.add(new LabelEntity(R.mipmap.mine_collect, getString(R.string.my_collect)));
+        mDatas.add(new LabelEntity(R.mipmap.mine_note, getString(R.string.my_note)));
         mDatas.add(new LabelEntity(R.mipmap.mine_class_media_cache, getString(R.string.app_class_media_cache)));
         mDatas.add(new LabelEntity(R.mipmap.mine_shopping_record, getString(R.string.shopping_record)));
         mDatas.add(new LabelEntity(R.mipmap.mine_set, getString(R.string.set)));
@@ -117,6 +118,9 @@ public class SecondMainFragment extends BaseFrameFragment<UserPresenter, UserMod
                             break;
                         case R.mipmap.mine_class_media_cache://我的缓存
                             CommonUtil.openActivity(ClassMediaCacheActivity.class);
+                            break;
+                        case R.mipmap.mine_note://笔记本
+                            CommonUtil.openActivity(NoteActivity.class);
                             break;
                         case R.mipmap.mine_shopping_record://购买记录
                             CommonUtil.openAuthActivity(BuyRecordActivity.class);

@@ -1,8 +1,5 @@
 package com.asking.pad.app.entity.superclass;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import java.util.List;
  * Created by jswang on 2017/5/24.
  */
 
-public class StudyClassVersion implements Parcelable {
+public class StudyClassVersion{
     @JSONField(name="version_id")
     private String versionId;
 
@@ -134,54 +131,4 @@ public class StudyClassVersion implements Parcelable {
     public void setChildren(List<StudyClassGrade> children) {
         this.children = children;
     }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.versionId);
-        dest.writeString(this.sort);
-        dest.writeString(this.versionName);
-        dest.writeString(this.versionState);
-        dest.writeString(this.subjectCatalogId);
-        dest.writeString(this.subjectCatalogName);
-        dest.writeString(this.agency);
-        dest.writeString(this.subjectCatalogCode);
-        dest.writeString(this.stage);
-        dest.writeValue(this.isSelect);
-        dest.writeInt(this.dataType);
-        dest.writeList(this.children);
-    }
-
-    protected StudyClassVersion(Parcel in) {
-        this.versionId = in.readString();
-        this.sort = in.readString();
-        this.versionName = in.readString();
-        this.versionState = in.readString();
-        this.subjectCatalogId = in.readString();
-        this.subjectCatalogName = in.readString();
-        this.agency = in.readString();
-        this.subjectCatalogCode = in.readString();
-        this.stage = in.readString();
-        this.isSelect = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.dataType = in.readInt();
-        this.children = new ArrayList<StudyClassGrade>();
-        in.readList(this.children, StudyClassGrade.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<StudyClassVersion> CREATOR = new Parcelable.Creator<StudyClassVersion>() {
-        @Override
-        public StudyClassVersion createFromParcel(Parcel source) {
-            return new StudyClassVersion(source);
-        }
-
-        @Override
-        public StudyClassVersion[] newArray(int size) {
-            return new StudyClassVersion[size];
-        }
-    };
 }

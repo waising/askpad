@@ -1,7 +1,6 @@
 package com.asking.pad.app.entity.superclass;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -9,7 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * Created by jswang on 2017/5/24.
  */
 
-public class StudyClassGrade implements Parcelable {
+public class StudyClassGrade{
 
     @JSONField(name = "version_level_id")
     private String versionLevelId;
@@ -34,6 +33,17 @@ public class StudyClassGrade implements Parcelable {
 
     @JSONField(name = "type")
     private String type;
+
+    @JSONField(name="purchased")
+    private String purchased;
+
+    public String getPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(String purchased) {
+        this.purchased = purchased;
+    }
 
     public Boolean isSelect = false;
 
@@ -101,49 +111,10 @@ public class StudyClassGrade implements Parcelable {
         this.type = type;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.versionLevelId);
-        dest.writeString(this.versionId);
-        dest.writeString(this.levelId);
-        dest.writeString(this.levelName);
-        dest.writeString(this.textbook);
-        dest.writeString(this.levelCode);
-        dest.writeString(this.state);
-        dest.writeString(this.type);
-        dest.writeValue(this.isSelect);
-    }
-
-    public StudyClassGrade() {
-    }
-
-    protected StudyClassGrade(Parcel in) {
-        this.versionLevelId = in.readString();
-        this.versionId = in.readString();
-        this.levelId = in.readString();
-        this.levelName = in.readString();
-        this.textbook = in.readString();
-        this.levelCode = in.readString();
-        this.state = in.readString();
-        this.type = in.readString();
-        this.isSelect = (Boolean) in.readValue(Boolean.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<StudyClassGrade> CREATOR = new Parcelable.Creator<StudyClassGrade>() {
-        @Override
-        public StudyClassGrade createFromParcel(Parcel source) {
-            return new StudyClassGrade(source);
+    public boolean getIsBuy(){
+        if(TextUtils.equals("0",getPurchased())){
+            return  false;
         }
-
-        @Override
-        public StudyClassGrade[] newArray(int size) {
-            return new StudyClassGrade[size];
-        }
-    };
+        return  true;
+    }
 }
