@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
@@ -59,7 +58,6 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
      * M2-初中数学（8）  P2-初中物理（6）  M3-高中数学（9）  P3-高中物理（7）
      */
     String actionType = "";
-    boolean isBuy;
     boolean isSelectNode;
     ArrayList<StudyClassVersion> versionList = new ArrayList<>();
 
@@ -75,7 +73,6 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         ButterKnife.bind(this);
         classType = this.getIntent().getStringExtra("classType");
         className = this.getIntent().getStringExtra("className");
-        isBuy = this.getIntent().getBooleanExtra("isBuy", false);
         isSelectNode = this.getIntent().getBooleanExtra("isSelectNode", false);
 
         actionType = Constants.getActionType(classType);
@@ -102,8 +99,6 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         versionAdapter = new VersionAdapter(this,versionList, this);
         rv_version.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rv_version.setAdapter(versionAdapter);
-
-
 
         if(getIntent().getBooleanExtra("isFromExamReview", false)){
             ll_version.setVisibility(View.GONE);
@@ -139,6 +134,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
                             this.mVersion = e;
                             e.isSelect = true;
                             ((ClassifySuperFragment)fragments.get(0)).classGrade((String)event.values[0],(String)event.values[1],e.getChildren());
+                            break;
                         }
                     }
                     versionAdapter.notifyDataSetChanged();
@@ -154,11 +150,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         switch (e.dataType) {  //0-版本  1-精学
             case 0:
                 setFragmentPage(0);
-                if (isBuy) {
-                    ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
-                }else{
-                    ((ClassifySuperFragment)fragments.get(0)).classGrade(e.getVersionId());
-                }
+                ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
                 break;
             case 1:
                 setFragmentPage(1);
@@ -179,65 +171,40 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
 
     private void initClassVersion() {
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        if (isBuy) {
-            Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
-                @Override
-                public void call(final Subscriber<? super Object> subscriber) {
-                    StudyClassSubject e = AppContext.getInstance().getStudyClassic(classType);
-                    if(e != null){
-                        versionList.clear();
-                        versionList.addAll(e.getChildren());
-                    }
-                    subscriber.onCompleted();
-                }
-            });
-            mPresenter.newThread(mObservable,new ApiRequestListener<String>(){
-                @Override
-                public void onResultSuccess(String res) {
-                    initVersionData();
-                }
-            });
-        } else {
-            mPresenter.classFreeVersion(classType, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    List<StudyClassVersion> list = JSON.parseArray(res, StudyClassVersion.class);
+        Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(final Subscriber<? super Object> subscriber) {
+                StudyClassSubject e = AppContext.getInstance().getStudyClassic(classType);
+                if(e != null){
                     versionList.clear();
-                    versionList.addAll(list);
-                    initVersionData();
+                    versionList.addAll(e.getChildren());
                 }
-
-                @Override
-                public void onResultFail() {
-                    load_view.setViewState(load_view.VIEW_STATE_ERROR);
-                }
-            });
-        }
+                subscriber.onCompleted();
+            }
+        });
+        mPresenter.newThread(mObservable,new ApiRequestListener<String>(){
+            @Override
+            public void onResultSuccess(String res) {
+                initVersionData();
+            }
+        });
     }
 
     private void initVersionData() {
-        if (isBuy) {
-            if(versionList.size()>0){
-                StudyClassVersion e = versionList.get(0);
-                e.isSelect = true;
-                this.mVersion = e;
-                ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
-            }
-
-            String name = "";
-            if (TextUtils.equals("M2", classType) || TextUtils.equals("P2", classType)) {
-                name = "中考精学-";
-            } else if (TextUtils.equals("M3", classType) || TextUtils.equals("P3", classType)) {
-                name = "高考精学-";
-            }
-            versionList.add(new StudyClassVersion(name + className));
-        }else{
-            if(versionList.size()>0){
-                StudyClassVersion e = versionList.get(0);
-                e.isSelect = true;
-                ((ClassifySuperFragment)fragments.get(0)).classGrade(e.getVersionId());
-            }
+        if(versionList.size()>0){
+            StudyClassVersion e = versionList.get(0);
+            e.isSelect = true;
+            this.mVersion = e;
+            ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
         }
+
+        String name = "";
+        if (TextUtils.equals("M2", classType) || TextUtils.equals("P2", classType)) {
+            name = "中考精学-";
+        } else if (TextUtils.equals("M3", classType) || TextUtils.equals("P3", classType)) {
+            name = "高考精学-";
+        }
+        versionList.add(new StudyClassVersion(name + className));
         if(versionList.size()>0){
             load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         }else{

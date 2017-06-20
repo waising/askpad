@@ -26,6 +26,7 @@ public class ClassMedia implements Parcelable {
     private String detail;
     private String entryStaff;
     private String targetUser;
+    private String courseTypeFullName;
 
     private int playProgress;
 
@@ -35,14 +36,26 @@ public class ClassMedia implements Parcelable {
 
     /**
      * 0- 未购买
-       1-已购买
+     * 1-已购买
      */
     private String purchaseState;
     private String purchasedNum;
 
     private double freeTime;
 
+    /**
+     * 0-非赠品
+     * 1-赠品
+     */
     private int isPresent;
+
+    public String getCourseTypeFullName() {
+        return courseTypeFullName;
+    }
+
+    public void setCourseTypeFullName(String courseTypeFullName) {
+        this.courseTypeFullName = courseTypeFullName;
+    }
 
     public int getPlayProgress() {
         return playProgress;
@@ -69,7 +82,7 @@ public class ClassMedia implements Parcelable {
     }
 
     public String getPrice() {
-        return String.valueOf(coursePrice/100);
+        return String.valueOf(coursePrice / 100);
     }
 
     private ArrayList<CourseDataArray> courseDataArray = new ArrayList<>();
@@ -218,26 +231,26 @@ public class ClassMedia implements Parcelable {
         this.purchasedNum = purchasedNum;
     }
 
-    public  String getPdfUrl(){
-        for(CourseDataArray e:getCourseDataArray()){
-            if(TextUtils.equals(e.getCourseDataType(),"ZL02")){
+    public String getPdfUrl() {
+        for (CourseDataArray e : getCourseDataArray()) {
+            if (TextUtils.equals(e.getCourseDataType(), "ZL02")) {
                 return e.getCourseDataUrl();
             }
         }
         return "";
     }
 
-    public  String getVideoUrl(){
-        for(CourseDataArray e:getCourseDataArray()){
-            if(TextUtils.equals(e.getCourseDataType(),"ZL01")){
+    public String getVideoUrl() {
+        for (CourseDataArray e : getCourseDataArray()) {
+            if (TextUtils.equals(e.getCourseDataType(), "ZL01")) {
                 return e.getCourseDataUrl();
             }
         }
         return "";
     }
 
-    public  String getVideoImgUrl(){
-        return String.format("%s?vframe/jpg/offset/10/",getVideoUrl());
+    public String getVideoImgUrl() {
+        return String.format("%s?vframe/jpg/offset/10/", getVideoUrl());
     }
 
     public ClassMedia() {

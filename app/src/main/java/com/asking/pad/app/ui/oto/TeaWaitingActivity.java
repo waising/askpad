@@ -216,8 +216,7 @@ public class TeaWaitingActivity  extends BaseFrameActivity<UserPresenter,UserMod
         } else {
             //获取网易im登陆token
             String userName = AppContext.getInstance().getUserName();
-            String passWord = AppContext.getInstance().getPassWord();
-            mPresenter.nimtoken(userName, passWord, new ApiRequestListener<String>() {
+            mPresenter.nimtoken(userName, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String resStr) {
                     reNimTokenEntity(resStr);

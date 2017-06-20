@@ -88,7 +88,6 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
     TextView tv_free_time;
 
     ClassMedia mClassVideo;
-    String courseTypeId;
     int playProgress;
 
     @Override
@@ -102,7 +101,6 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         }
 
         mClassVideo = this.getIntent().getParcelableExtra("ClassMedia");
-        courseTypeId = this.getIntent().getStringExtra("courseTypeId");
         playProgress = this.getIntent().getIntExtra("PlayProgress",0);
     }
 
@@ -115,6 +113,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
                     case R.id.action_info:
                         ClassMediaTable e = new ClassMediaTable();
                         e.setUserId(AppContext.getInstance().getUserId());
+                        e.setCourseTypeId(mClassVideo.getCourseTypeId());
                         e.setCourseDataId(mClassVideo.getCourseDataId());
                         e.setPdfUrl(mClassVideo.getPdfUrl());
                         e.setVideoUrl(mClassVideo.getVideoUrl());
@@ -155,6 +154,20 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         });
 
         BitmapUtil.displayImage(mClassVideo.getVideoImgUrl(), video_view.iv_tmpimg_video, true);
+
+        try{
+            /**
+             * 设置加载进来的页面自适应手机屏幕
+             */
+            tv_class_detail.getSettings().setUseWideViewPort(true);
+            tv_class_detail.getSettings().setLoadWithOverviewMode(true);
+            tv_class_detail.setVerticalScrollBarEnabled(false);
+            tv_class_detail.setVerticalScrollbarOverlay(false);
+            tv_class_detail.setHorizontalScrollBarEnabled(false);
+            tv_class_detail.setHorizontalScrollbarOverlay(false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         load_view.setVisibility(View.GONE);
         ll_detail.setVisibility(View.GONE);
@@ -299,13 +312,13 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (video_view != null) {
-            video_view.onResume();
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (video_view != null) {
+//            video_view.onResume();
+//        }
+//    }
 
     @Override
     protected void onDestroy() {
@@ -322,7 +335,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         if (!TextUtils.equals(mClassVideo.getPurchaseState(), "0") && progress > 0) {
             int max = video_view.getDuration();
             EventBus.getDefault().post(new AppEventType(AppEventType.RE_STU_PROGRESSS_SUCCESSS_REQUEST
-                    ,mClassVideo.getCourseDataId(),max,progress));
+                    ,mClassVideo.getCourseTypeId(),mClassVideo.getCourseDataId(),max,progress));
         }
     }
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:paddingLeft="@dimen/space_20">
+              android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/corners_item_course"
         android:gravity="center"
         android:paddingBottom="@dimen/space_10"
         android:paddingLeft="@dimen/space_20"
         android:paddingRight="@dimen/space_20"
         android:paddingTop="@dimen/space_10"
+        android:text="ddd"
         android:textColor="@drawable/text_color_conrse_view"
         android:textSize="@dimen/textSize_20"/>
 

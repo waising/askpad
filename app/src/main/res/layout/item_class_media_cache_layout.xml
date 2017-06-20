@@ -61,6 +61,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:drawableLeft="@mipmap/ic_class_media_math"
+                        android:drawablePadding="@dimen/space_10"
                         android:textColor="@color/colorText_56"
                         android:textSize="@dimen/textSize_20"/>
 

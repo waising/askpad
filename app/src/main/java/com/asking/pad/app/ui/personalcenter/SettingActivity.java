@@ -1,6 +1,5 @@
 package com.asking.pad.app.ui.personalcenter;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -30,8 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 设置界面
@@ -134,15 +131,8 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
         }
     }
 
-    private final int SYSTEM_ALERT_WINDOW = 0x06;//存储权限
-
-    @AfterPermissionGranted(SYSTEM_ALERT_WINDOW)
     public void requestAlertWindow() {//自动更新弹窗
-        if (EasyPermissions.hasPermissions(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {//是否有弹窗权限
-            checkUpdateManager.checkUpdate();
-        } else {
-            EasyPermissions.requestPermissions(this, "", SYSTEM_ALERT_WINDOW, Manifest.permission.SYSTEM_ALERT_WINDOW);
-        }
+        checkUpdateManager.checkUpdate();
     }
 
     private void loginState(boolean isLogin) {

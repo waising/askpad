@@ -20,6 +20,7 @@ import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
+import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.presenter.UserModel;
@@ -53,15 +54,26 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
 
     int start = 0;
     int limit = 10;
+    /**
+     * KM01 - 数学
+     * KM02 - 物理
+     */
     String courseTypeId;
+    /**
+     * true - 已录完
+     * <p>
+     * false - 未录完
+     */
+    boolean completeFlag;
 
     List<ClassMedia> dataList = new ArrayList<>();
     CommAdapter mAdapter;
 
-    public static ClassMediaFragment newInstance(String courseTypeId) {
+    public static ClassMediaFragment newInstance(String courseTypeId, OnClassMediaCallBack mCallBack) {
         ClassMediaFragment fragment = new ClassMediaFragment();
         Bundle bundle = new Bundle();
         bundle.putString("courseTypeId", courseTypeId);
+        fragment.mCallBack = mCallBack;
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -86,18 +98,20 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
     public void onEventMainThread(AppEventType event) {
         switch (event.type) {
             case AppEventType.RE_STU_PROGRESSS_SUCCESSS_REQUEST:
-                DbHelper.getInstance().insertOrReplaceStudyRecord((String)event.values[0]
-                        ,(int)event.values[1],(int)event.values[2]);
-                for(StudyRecord e :DbHelper.getInstance().getStudyRecordList()){
-                    for(ClassMedia e1 :dataList){
-                        if(TextUtils.equals(e.getCourseDataId(),e1.getCourseDataId())){
-                            e1.setPlayPercentage(e.getPlayPercentage());
-                            e1.setPlayMax(e.getPlayMax());
-                            e1.setPlayProgress(e.getPlayProgress());
+                if (TextUtils.equals((String) event.values[0], courseTypeId)) {
+                    DbHelper.getInstance().insertOrReplaceStudyRecord((String) event.values[1]
+                            , (int) event.values[2], (int) event.values[3]);
+                    for (StudyRecord e : DbHelper.getInstance().getStudyRecordList()) {
+                        for (ClassMedia e1 : dataList) {
+                            if (TextUtils.equals(e.getCourseDataId(), e1.getCourseDataId())) {
+                                e1.setPlayPercentage(e.getPlayPercentage());
+                                e1.setPlayMax(e.getPlayMax());
+                                e1.setPlayProgress(e.getPlayProgress());
+                            }
                         }
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -110,7 +124,6 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         recycler.setLayoutManager(mgr);
         mAdapter = new CommAdapter();
         recycler.setAdapter(mAdapter);
-
 
         swipeLayout.setPtrHandler(new PtrDefaultHandler2() {
             public void onLoadMoreBegin(PtrFrameLayout ptrFrameLayout) {//上拉，加载更多
@@ -143,16 +156,17 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
     }
 
     private void loadData() {
-        mPresenter.findListByPage(courseTypeId,start, limit, new ApiRequestListener<String>() {
+        mPresenter.findListByPage(courseTypeId, start, limit, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 JSONObject jsonRes = JSON.parseObject(resStr);
+                completeFlag = jsonRes.getBooleanValue("completeFlag");
                 String orders = jsonRes.getString("list");
                 List<ClassMedia> list = JSON.parseArray(orders, ClassMedia.class);
 
-                for(StudyRecord e :DbHelper.getInstance().getStudyRecordList()){
-                    for(ClassMedia e1 :list){
-                        if(TextUtils.equals(e.getCourseDataId(),e1.getCourseDataId())){
+                for (StudyRecord e : DbHelper.getInstance().getStudyRecordList()) {
+                    for (ClassMedia e1 : list) {
+                        if (TextUtils.equals(e.getCourseDataId(), e1.getCourseDataId())) {
                             e1.setPlayPercentage(e.getPlayPercentage());
                             e1.setPlayMax(e.getPlayMax());
                             e1.setPlayProgress(e.getPlayProgress());
@@ -169,6 +183,8 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 } else {
                     load_view.setViewState(load_view.VIEW_STATE_CONTENT);
                 }
+
+                mCallBack.OnCallBack(completeFlag);
             }
 
             @Override
@@ -228,6 +244,13 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         }
     }
 
+    class CommentUnfinishHolder extends RecyclerView.ViewHolder {
+
+        public CommentUnfinishHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     class CommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
@@ -239,28 +262,37 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
             } else if (viewType == 1) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_pdf_layout, parent, false);
                 return new CommentSecondHolder(view);
+            } else if (viewType == 2) {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_unfinished_layout, parent, false);
+                return new CommentUnfinishHolder(view);
             }
             return null;
         }
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder mHolder, final int position) {
+            if (!completeFlag && position == dataList.size()) {
+                return;
+            }
             final ClassMedia e = dataList.get(position);
             if (mHolder instanceof CommViewHolder) {
-                CommViewHolder holder = (CommViewHolder)mHolder;
+                CommViewHolder holder = (CommViewHolder) mHolder;
                 holder.tv_name.setText(e.getCourseName());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("courseTypeId", courseTypeId);
                         bundle.putParcelable("ClassMedia", e);
                         bundle.putInt("PlayProgress", e.getPlayProgress());
                         CommonUtil.openActivity(ClassMediaDetailsActivity.class, bundle);
                     }
                 });
                 BitmapUtil.displayImage(e.getVideoImgUrl(), holder.iv_temp, true);
-
+                if (TextUtils.equals(Constants.CLASS_MEDIA_TYPE_ID[0], e.getCourseTypeId())) {
+                    holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_math, 0, 0, 0);
+                } else {
+                    holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_physics, 0, 0, 0);
+                }
                 holder.tv_pay.setVisibility(View.GONE);
                 holder.tv_study.setVisibility(View.GONE);
                 holder.fl_progress.setVisibility(View.GONE);
@@ -268,11 +300,11 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                     holder.tv_pay.setVisibility(View.VISIBLE);
                 } else {
                     int percentage = e.getPlayPercentage();
-                    if(percentage>0){
+                    if (percentage > 0) {
                         holder.fl_progress.setVisibility(View.VISIBLE);
                         holder.stu_progress.setProgress(percentage);
-                        holder.tv_progress.setText(percentage+"%");
-                    }else{
+                        holder.tv_progress.setText(percentage + "%");
+                    } else {
                         holder.tv_study.setVisibility(View.VISIBLE);
                     }
                 }
@@ -286,7 +318,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 });
                 holder.tv_price_count.setText(String.format("已有%s人购买", e.getPurchasedNum()));
             } else if (mHolder instanceof CommentSecondHolder) {
-                CommentSecondHolder holder = (CommentSecondHolder)mHolder;
+                CommentSecondHolder holder = (CommentSecondHolder) mHolder;
                 holder.tv_name.setText(e.getCourseName());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -301,14 +333,25 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
 
         @Override
         public int getItemCount() {
+            if (!completeFlag) {
+                return dataList.size() + 1;
+            }
             return dataList.size();
         }
 
         @Override
         public int getItemViewType(int position) {
+            if (!completeFlag && position == dataList.size()) {
+                return 2;
+            }
             return dataList.get(position).getIsPresent();
         }
 
     }
 
+    public OnClassMediaCallBack mCallBack;
+
+    public interface OnClassMediaCallBack {
+        void OnCallBack(boolean completeFlag);
+    }
 }

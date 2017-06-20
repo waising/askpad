@@ -39,6 +39,11 @@ public class Constants {
     public final static String APP_CAMERA_PATH_KEY = "APP_CAMERA_PATH_KEY";
 
     /**
+     * KM01-数学 , KM02-物理
+     */
+    public final static String[] CLASS_MEDIA_TYPE_ID = {"KM01","KM02"};
+
+    /**
      * 缓存文件，这下面包括：安装包、拍照缓存、灰度照片保存，缓存清理位置
      */
     public final static String APP_CACHE_CACHE_PATH = APP_CACHE_PATH + "cache/";

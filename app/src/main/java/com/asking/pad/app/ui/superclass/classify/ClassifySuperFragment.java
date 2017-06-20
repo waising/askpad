@@ -18,16 +18,14 @@ import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.ParamHelper;
 import com.asking.pad.app.commom.TreeItemHolder;
-import com.asking.pad.app.entity.KnowledgeDetailEntity;
-import com.asking.pad.app.entity.KnowledgeEntity;
 import com.asking.pad.app.entity.superclass.StudyClassGrade;
+import com.asking.pad.app.entity.superclass.SuperLessonTree;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.downbook.DownBookActivity;
 import com.asking.pad.app.ui.superclass.SuperClassActiity;
 import com.asking.pad.app.ui.superclass.classify.adapter.GradeAdapter;
 import com.asking.pad.app.widget.MultiStateView;
-import com.google.gson.reflect.TypeToken;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -89,7 +87,6 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            isBuy = bundle.getBoolean("isBuy");
             classType = bundle.getString("classType");
             versionId = bundle.getString("versionId");
             isSelectNode = bundle.getBoolean("isSelectNode");
@@ -154,12 +151,13 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
             gradeList.clear();
             gradeList.addAll(list);
-            for(StudyClassGrade ii:gradeList){
-                ii.isSelect = false;
-                if(TextUtils.equals(gradeId,ii.getLevelId())){
-                    ii.isSelect = true;
-                    levelId = ii.getLevelId();
-                    this.gradeId = ii.getVersionLevelId() + "";
+            for(StudyClassGrade e:gradeList){
+                e.isSelect = false;
+                if(TextUtils.equals(gradeId,e.getLevelId())){
+                    e.isSelect = true;
+                    this.levelId = e.getLevelId();
+                    this.gradeId = e.getVersionLevelId() + "";
+                    this.isBuy = e.getIsBuy();
                     gradeAdapter.notifyDataSetChanged();
                     classSection();
                     break;
@@ -168,35 +166,15 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         }
     }
 
-    public void classGrade(String versionId) {
-        load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        if(getActivity() != null ){
-            this.versionId = versionId;
-            if (!isBuy) {
-                mPresenter.classFreeGrade(versionId, new ApiRequestListener<String>() {
-                    @Override
-                    public void onResultSuccess(String res) {
-                        List<StudyClassGrade> list = JSON.parseArray(res, StudyClassGrade.class);
-                        initGradeData(list);
-                    }
-
-                    @Override
-                    public void onResultFail() {
-                        load_view.setViewState(load_view.VIEW_STATE_EMPTY);
-                    }
-                });
-            }
-        }
-    }
-
     private void initGradeData(List<StudyClassGrade> list) {
         gradeList.clear();
         gradeList.addAll(list);
         if(gradeList.size()>0){
-            StudyClassGrade ii = list.get(0);
-            ii.isSelect = true;
-            levelId = ii.getLevelId();
-            gradeId = ii.getVersionLevelId() + "";
+            StudyClassGrade e = list.get(0);
+            e.isSelect = true;
+            this.levelId = e.getLevelId();
+            this.gradeId = e.getVersionLevelId() + "";
+            this.isBuy = e.getIsBuy();
         }
         gradeAdapter.notifyDataSetChanged();
         classSection();
@@ -207,13 +185,13 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         know_load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        if (isBuy) {
+
+        if(isBuy){
             mPresenter.classSection(gradeId , new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
                     if(!TextUtils.isEmpty(res)){
-                        List<KnowledgeEntity> list = CommonUtil.parseDataToList(res, new TypeToken<List<KnowledgeEntity>>() {
-                        });
+                        List<SuperLessonTree> list = JSON.parseArray(res,SuperLessonTree.class);
                         initSectionData(list);
                     }else{
                         know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
@@ -225,24 +203,23 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
                     know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
                 }
             });
-        } else {
-            mPresenter.classFreeSection(gradeId, new ApiRequestListener<String>() {
+        }else{
+            mPresenter.superlessontree(gradeId,new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
-                    List<KnowledgeEntity> list = CommonUtil.parseDataToList(res, new TypeToken<List<KnowledgeEntity>>() {
-                    });
+                    List<SuperLessonTree> list = JSON.parseArray(res,SuperLessonTree.class);
                     initSectionData(list);
                 }
 
                 @Override
                 public void onResultFail() {
-                    know_load_view.setViewState(load_view.VIEW_STATE_EMPTY);
+                    know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
                 }
             });
         }
     }
 
-    private void initSectionData(List<KnowledgeEntity> list) {
+    private void initSectionData(List<SuperLessonTree> list) {
         know_load_view.setViewState(load_view.VIEW_STATE_CONTENT);
 
         treeNodeList.clear();
@@ -301,29 +278,29 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         getActivity().finish();
     }
 
-    private void setTreeData(TreeNode node, List<KnowledgeEntity> list) {
+    private void setTreeData(TreeNode node, List<SuperLessonTree> list) {
         int index = 0;
-        for (KnowledgeEntity knowledgeEntity : list) {
-            boolean isLeaf = isLeaf(knowledgeEntity);
-            TreeNode tempNode = getNode(knowledgeEntity.getId(), knowledgeEntity.getText(), isLeaf, index, knowledgeEntity.getKnowledgeDetailEntity());
+        for (SuperLessonTree e : list) {
+            boolean isLeaf = isLeaf(e);
+            TreeNode tempNode = getNode(e.getTipId(), e.getTipName(), isLeaf, index);
             node.addChild(tempNode);
 
             if (isLeaf) {
                 treeNodeList.add(tempNode);
             }
 
-            if (knowledgeEntity.getKnowledgeList() != null)
-                setTreeData(tempNode, knowledgeEntity.getKnowledgeList());
+            if (e.getChildren() != null)
+                setTreeData(tempNode, e.getChildren());
             index++;
         }
     }
 
-    private boolean isLeaf(KnowledgeEntity knowledgeEntity) {
-        return knowledgeEntity.getKnowledgeList() == null;
+    private boolean isLeaf(SuperLessonTree e) {
+        return e.getChildren() == null;
     }
 
-    private TreeNode getNode(String id, String name, boolean isLeaf, int index, KnowledgeDetailEntity KnowledgeDetail) {
-        TreeItemHolder.IconTreeItem ico = new TreeItemHolder.IconTreeItem(R.mipmap.attr_down, id, name, isLeaf, index, KnowledgeDetail);
+    private TreeNode getNode(String id, String name, boolean isLeaf, int index) {
+        TreeItemHolder.IconTreeItem ico = new TreeItemHolder.IconTreeItem(R.mipmap.attr_down, id, name, isLeaf, index);
         return new TreeNode(ico).setViewHolder(new TreeItemHolder(getActivity()));
     }
 

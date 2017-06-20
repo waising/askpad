@@ -20,7 +20,7 @@ public class ClassMediaTable implements Parcelable {
     private String courseName;
     private String videoUrl;
     private String pdfUrl;
-
+    private String courseTypeId;
     private String userId;
 
     private byte downState = DownState.START;
@@ -30,23 +30,6 @@ public class ClassMediaTable implements Parcelable {
     /**下载长度*/
     private long readLength;
 
-    @Generated(hash = 580625126)
-    public ClassMediaTable(String courseDataId, String courseName, String videoUrl,
-            String pdfUrl, String userId, byte downState, long countLength,
-            long readLength) {
-        this.courseDataId = courseDataId;
-        this.courseName = courseName;
-        this.videoUrl = videoUrl;
-        this.pdfUrl = pdfUrl;
-        this.userId = userId;
-        this.downState = downState;
-        this.countLength = countLength;
-        this.readLength = readLength;
-    }
-
-    @Generated(hash = 250948586)
-    public ClassMediaTable() {
-    }
 
     public long getCountLength() {
         return countLength;
@@ -116,6 +99,14 @@ public class ClassMediaTable implements Parcelable {
         this.userId = userId;
     }
 
+    public String getCourseTypeId() {
+        return courseTypeId;
+    }
+
+    public void setCourseTypeId(String courseTypeId) {
+        this.courseTypeId = courseTypeId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,10 +118,14 @@ public class ClassMediaTable implements Parcelable {
         dest.writeString(this.courseName);
         dest.writeString(this.videoUrl);
         dest.writeString(this.pdfUrl);
+        dest.writeString(this.courseTypeId);
         dest.writeString(this.userId);
         dest.writeByte(this.downState);
         dest.writeLong(this.countLength);
         dest.writeLong(this.readLength);
+    }
+
+    public ClassMediaTable() {
     }
 
     protected ClassMediaTable(Parcel in) {
@@ -138,10 +133,25 @@ public class ClassMediaTable implements Parcelable {
         this.courseName = in.readString();
         this.videoUrl = in.readString();
         this.pdfUrl = in.readString();
+        this.courseTypeId = in.readString();
         this.userId = in.readString();
         this.downState = in.readByte();
         this.countLength = in.readLong();
         this.readLength = in.readLong();
+    }
+
+    @Generated(hash = 2129734196)
+    public ClassMediaTable(String courseDataId, String courseName, String videoUrl, String pdfUrl,
+            String courseTypeId, String userId, byte downState, long countLength, long readLength) {
+        this.courseDataId = courseDataId;
+        this.courseName = courseName;
+        this.videoUrl = videoUrl;
+        this.pdfUrl = pdfUrl;
+        this.courseTypeId = courseTypeId;
+        this.userId = userId;
+        this.downState = downState;
+        this.countLength = countLength;
+        this.readLength = readLength;
     }
 
     public static final Parcelable.Creator<ClassMediaTable> CREATOR = new Parcelable.Creator<ClassMediaTable>() {

@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRxManager.countDownPresenter(5, new OnCountDownListener() {
+        mRxManager.countDownPresenter(3, new OnCountDownListener() {
             @Override
             public void onComplete() {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);

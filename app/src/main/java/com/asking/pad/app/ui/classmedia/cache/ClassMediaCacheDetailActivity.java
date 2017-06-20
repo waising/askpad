@@ -14,6 +14,7 @@ import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.commom.DownloadFile;
+import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.widget.MultiStateView;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
@@ -96,6 +97,21 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
         netPdfData();
     }
 
+    @Override
+    public void initLoad() {
+        super.initLoad();
+        video_view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int playProgress = DbHelper.getInstance().getPlayProgress(mClass.getCourseDataId());
+                if (playProgress > 5000 && video_view.isPlayerSupport()) {
+                    video_view.start();
+                    video_view.seekTo(playProgress, false);
+                }
+            }
+        }, 300);
+    }
+
     private void netPdfData() {
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
         String pdfUrl = mClass.getPdfUrl();
@@ -152,9 +168,18 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        setStudyRecord();
         super.onDestroy();
         if (video_view != null) {
             video_view.onDestroy();
+        }
+    }
+
+    private void setStudyRecord() {
+        int progress = video_view.getCurrentPosition();
+        if (progress > 0) {
+            int max = video_view.getDuration();
+            DbHelper.getInstance().insertOrReplaceStudyRecord(mClass.getCourseDataId(),max,progress);
         }
     }
 

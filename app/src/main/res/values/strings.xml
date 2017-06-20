@@ -86,7 +86,7 @@
     <string name="main_t1">基础知识包</string>
     <string name="main_t2">拍照搜题</string>
     <string name="main_t3">更多精彩</string>
-    <string name="main_t4">超级辅导课</string>
+    <string name="main_t4">同步课堂</string>
     <string name="main_t5">一对一答疑</string>
 
     <string-array name="super_free_menu">
@@ -193,7 +193,7 @@
     <!--end-->
 
     <!-- 我的 -->
-    <string name="shopping_record">购买记录</string>
+    <string name="shopping_record">我的课程</string>
     <string name="test_record">检测记录</string>
     <string name="stu_record">学习足迹</string>
     <string name="ask_money_record">阿思币记录</string>
@@ -284,12 +284,12 @@
     <string name="app_register">注册</string>
     <string name="app_resetpass">重置密码</string>
     <string name="app_webview_protocol">服务条款</string>
-    <string name="app_super_select">超级辅导课-选择页面</string>
-    <string name="app_super_free">超级辅导课-免费试用</string>
-    <string name="app_super_select_course">超级辅导课-选择课时</string>
-    <string name="app_super_select_buy">超级辅导课-已购买</string>
-    <string name="app_super_speaker_detail">超级辅导课-来讲题-详情</string>
-    <string name="app_super_speaker_detail_version">超级辅导课-来讲题-详情-变式题</string>
+    <string name="app_super_select">同步课堂-选择页面</string>
+    <string name="app_super_free">同步课堂-免费试用</string>
+    <string name="app_super_select_course">同步课堂-选择课时</string>
+    <string name="app_super_select_buy">同步课堂-已购买</string>
+    <string name="app_super_speaker_detail">同步课堂-来讲题-详情</string>
+    <string name="app_super_speaker_detail_version">同步课堂-来讲题-详情-变式题</string>
     <string name="app_onlineqa">在线问答</string>
     <string name="app_onlineqa_detail">在线问答详情</string>
     <string name="app_onlineqa_ask">我要提问</string>

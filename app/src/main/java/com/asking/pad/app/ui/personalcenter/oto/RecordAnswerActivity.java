@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -27,6 +26,7 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
+import com.asking.pad.app.widget.MultiStateView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,9 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
+    @BindView(R.id.load_view)
+    MultiStateView load_view;
+
     @BindView(R.id.recycler)
     RecyclerView recycler;
 
@@ -60,8 +63,6 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
     @BindView(R.id.tv_right)
     TextView tvRight;//右边按钮
 
-    @BindView(R.id.no_data)
-    LinearLayout llNodata;//无数据
     /**
      * 数据
      */
@@ -108,6 +109,13 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
                 loadData();
             }
         });
+        load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+        load_view.setViewState(load_view.VIEW_STATE_LOADING);
         loadData();
     }
 
@@ -115,8 +123,7 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
      * 请求数据
      */
     private void loadData() {
-        String userName = AppContext.getInstance().getUserName();//用户名
-        mPresenter.orderhistory(start + "", limit + "", userName, "s", new ApiRequestListener<String>() {
+        mPresenter.orderhistory(start + "", limit + "", AppContext.getInstance().getUserName(), "s", new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 if (!TextUtils.isEmpty(resStr)) {
@@ -126,14 +133,20 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
                     if (list != null && list.size() > 0) {
                         dataList.addAll(list);//解析Orders数组
                         mAdapter.notifyDataSetChanged();
-                        swipeLayout.refreshComplete();
-                        llNodata.setVisibility(View.GONE);
-                        swipeLayout.setVisibility(View.VISIBLE);
-                    } else {
-                        llNodata.setVisibility(View.VISIBLE);
-                        swipeLayout.setVisibility(View.GONE);
                     }
                 }
+                if(dataList.size()>0){
+                    load_view.setViewState(load_view.VIEW_STATE_CONTENT);
+                }else{
+                    load_view.setViewState(load_view.VIEW_STATE_EMPTY);
+                }
+                swipeLayout.refreshComplete();
+            }
+
+            @Override
+            public void onResultFail() {
+                load_view.setViewState(load_view.VIEW_STATE_EMPTY);
+                swipeLayout.refreshComplete();
             }
         });
     }
@@ -149,11 +162,7 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
                 dataList.remove(position);
                 mAdapter.notifyDataSetChanged();
                 if (dataList.size() == 0) {
-                    llNodata.setVisibility(View.VISIBLE);
-                    swipeLayout.setVisibility(View.GONE);
-                } else {
-                    llNodata.setVisibility(View.GONE);
-                    swipeLayout.setVisibility(View.VISIBLE);
+                    load_view.setViewState(load_view.VIEW_STATE_EMPTY);
                 }
             }
 
