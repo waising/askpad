@@ -424,12 +424,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
     }
 
     public void qiNiuUploadFile(final String path, final String key,final ApiRequestListener mListener) {
-        baseReq(mModel.qiniutoken(), "content", new ApiRequestListener<String>() {
+        baseReqStr(mModel.qiniutoken(),  new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
-                JSONObject jsonRes = JSON.parseObject(res);
-                String token = jsonRes.getString("token");
-                qiNiuUpload(path,key,token,mListener);
+                qiNiuUpload(path,key,res,mListener);
             }
 
             @Override
