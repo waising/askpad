@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
-import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.ParamHelper;
@@ -396,7 +395,6 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             materialDialog.show();
-            mPresenter.qiniutoken(new ApiRequestListener());
         }
     }
 
@@ -426,27 +424,28 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
                 //高中科目 8阿思可币/60秒
                 askcoin = new BigDecimal(8);
             }
-            BigDecimal integral = new BigDecimal(AppContext.getInstance().getUserEntity().getIntegral());
+            double userIntegral = AppContext.getInstance().getUserEntity().getIntegral();
+            BigDecimal integral = new BigDecimal(userIntegral);
             BigDecimal totalTime = new BigDecimal(0);
-            if(integral.intValue()>0){
+            if(integral.doubleValue()>0){
                 totalTime = integral.multiply(new BigDecimal(60)).divide(askcoin,2,BigDecimal.ROUND_HALF_UP);
             }
             if(askTimes == 0){
                 //首单免费体验时长20分钟
                 totalTime = totalTime.add(new BigDecimal(120));
             }
-            int takeTime = totalTime.intValue();
+            int takeTime = totalTime.multiply(new BigDecimal(1000)).intValue();
             //倒计时60秒显示等待提示
             mPresenter.countDownPresenter(takeTime, new OnCountDownListener() {
                 @Override
                 public void onComplete() {
+                    Toast.makeText(OtoLearningActivity.this,"阿思可币不足，3分钟后将终止答疑",Toast.LENGTH_SHORT).show();
                     mPresenter.countDownPresenter(180, new OnCountDownListener() {
                         @Override
                         public void onComplete() {
                             endSession();
                         }
                     });
-                    showShortToast("阿思可币不足，3分钟后将终止答疑");
                 }
             });
         }catch (Exception e){}

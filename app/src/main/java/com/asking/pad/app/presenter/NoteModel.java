@@ -36,8 +36,4 @@ public class NoteModel extends BaseModel {
         return Networks.getInstance().getUserApi()
                 .delMyNote(ticket, id).compose(RxSchedulers.<ResponseBody>io_main());
     }
-
-    public Observable<ResponseBody> qiniutoken() {
-        return Networks.getInstance().getUserApi().qiniutoken().compose(RxSchedulers.<ResponseBody>io_main());
-    }
 }

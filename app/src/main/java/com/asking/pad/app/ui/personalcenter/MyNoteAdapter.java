@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,50 +53,53 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MessageVie
     @Override
     public void onBindViewHolder(final MessageViewHolder holder,final int position) {
         if (list != null && list.size() > 0) {
-            // 笔记内容
-            final String content = list.get(position).getContent();
-            final String createTimeFmt = list.get(position).getCreateTime_fmt(); // 笔记创建时间
+            final NoteEntity.ListBean e = list.get(position);
 
-            // 笔记ID
-            final String id = list.get(position).getId();
+            holder.mathView.setText(e.getContent());
 
-            if (content != null) {
-                holder.mathView.setText(content);
-            } else {
-                holder.mathView.setText("");
-            }
-            if (createTimeFmt != null) {
-                holder.mTvDate.setText(createTimeFmt.substring(5,createTimeFmt.length()));
+            final String createTimeFmt = e.getCreateTime_fmt(); // 笔记创建时间
+            if (!TextUtils.isEmpty(createTimeFmt)) {
+                try {
+                    holder.mTvDate.setText(createTimeFmt.substring(5,createTimeFmt.length()));
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             } else {
                 holder.mTvDate.setText("");
             }
-
+            holder.tv_title.setText(e.getTitle());
             holder.itemView.setOnClickListener(new View.OnClickListener() {//跳转修改笔记页面
                 @Override
                 public void onClick(View v) {
-                    NoteAddEditDialog noteAddEditDialog = new NoteAddEditDialog();
-                    noteAddEditDialog.setFromWhere(NoteAddEditDialog.EDIT_NOTE);
-                    noteAddEditDialog.setId(id);
-                    noteAddEditDialog.setContent(content);
-                    noteAddEditDialog.setNoteListner(noteListner);
-                    noteAddEditDialog.setTime(createTimeFmt);
-                    noteAddEditDialog.show(((FragmentActivity) mContext).getSupportFragmentManager(), "");
-
+                    openDialog(e,createTimeFmt);
                 }
             });
-
-
+            holder.mathView.setOnAskMathClickListener(new AskMathView.OnAskMathClickListener(){
+                @Override
+                public void OnClick() {
+                    openDialog(e,createTimeFmt);
+                }
+            });
             holder.imgDel.setOnClickListener(new View.OnClickListener() {//跳转修改笔记页面
                 @Override
                 public void onClick(View v) {
                     if (CallDelNote != null) {
-                        CallDelNote.delNote(position,id);
+                        CallDelNote.delNote(position,e.getId());
                     }
                 }
             });
-
         }
+    }
 
+    private void openDialog(NoteEntity.ListBean e ,String createTimeFmt){
+        NoteAddEditDialog noteAddEditDialog = new NoteAddEditDialog();
+        noteAddEditDialog.setFromWhere(NoteAddEditDialog.EDIT_NOTE);
+        noteAddEditDialog.setId(e.getId());
+        noteAddEditDialog.setTitle(e.getTitle());
+        noteAddEditDialog.setContent(e.getContent());
+        noteAddEditDialog.setNoteListner(noteListner);
+        noteAddEditDialog.setTime(createTimeFmt);
+        noteAddEditDialog.show(((FragmentActivity) mContext).getSupportFragmentManager(), "");
     }
 
     CallDelNote CallDelNote;
@@ -116,8 +120,12 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MessageVie
     class MessageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_date)
         TextView mTvDate;
+
         @BindView(R.id.mathView)
         AskMathView mathView;
+
+        @BindView(R.id.tv_title)
+        TextView tv_title;
 
         @BindView(R.id.img_del)
         ImageView imgDel;

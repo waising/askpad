@@ -405,14 +405,6 @@ public interface UserApi {
                                             @Query("payType") String payType,
                                             @Query("deviceType") String deviceType);
 
-    /**
-     * 支付成功后刷新用户数据
-     *
-     * @return
-     */
-    @POST("commodity/space/appChargeSuccess")
-    Observable<ResponseBody> appChargeSuccess(@Query("order_no") String orderNo);
-
     /* 获取我的笔记 */
     @POST("space/noteBook/list")
     Observable<ResponseBody> getMyNote(@Query("ticket") String ticket,

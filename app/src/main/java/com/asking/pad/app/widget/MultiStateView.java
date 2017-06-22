@@ -390,12 +390,12 @@ public class MultiStateView extends FrameLayout {
         network_tv2.setVisibility(View.GONE);
         mErrorRefBtn.setVisibility(View.VISIBLE);
         mErrorRefBtn.setText(str);
+        mErrorRefBtn.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_down_book,0,0,0);
         mErrorRefBtn.setOnClickListener(mListener);
     }
 
     public void setErrorRefBtnTxt2(View.OnClickListener mListener){
         mErrorRefBtn.setVisibility(View.VISIBLE);
-        mErrorRefBtn.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         mErrorRefBtn.setOnClickListener(mListener);
     }
 }

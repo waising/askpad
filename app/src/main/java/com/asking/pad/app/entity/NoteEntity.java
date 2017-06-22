@@ -45,7 +45,9 @@ public class NoteEntity {
 
         private String id;
         private String userId;
+        private String title;
         private String content;
+        private String imgurl;
         private long createTime;
         private String createTime_fmt;
         private int state;
@@ -96,6 +98,22 @@ public class NoteEntity {
 
         public void setState(int state) {
             this.state = state;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getImgurl() {
+            return imgurl;
+        }
+
+        public void setImgurl(String imgurl) {
+            this.imgurl = imgurl;
         }
     }
 }

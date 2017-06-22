@@ -77,6 +77,7 @@ public class NoteAddEditDialog extends DialogFragment {
     private int mFromWhere;
 
     private String mId;
+    private String mTitle;
     private String mContent;
     private String mTime;
 
@@ -117,6 +118,9 @@ public class NoteAddEditDialog extends DialogFragment {
             viewEditLine.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(mContent)){
                 edtNoteContent.setText(mContent);
+            }
+            if (!TextUtils.isEmpty(mTitle)){
+                edtNoteTitle.setText(mTitle);
             }
             tvNoteTime.setText(getString(R.string.note_time_format, mTime));
         }
@@ -191,8 +195,12 @@ public class NoteAddEditDialog extends DialogFragment {
         mId = id;
     }
 
-    public void setContent(String context) {
-        mContent = context;
+    public void setContent(String content) {
+        mContent = content;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public void setTime(String time) {

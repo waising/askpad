@@ -6,6 +6,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -330,34 +331,13 @@ public class ConfirmOrderActivity extends BaseFrameActivity<UserPresenter, UserM
             if (resultCode == RESULT_OK) {
                 try {
                     String result = data.getExtras().getString("pay_result");
-                /* 处理返回值
-                 * "success" - 支付成功
-                 * "fail"    - 支付失败
-                 * "cancel"  - 取消支付
-                 * "invalid" - 支付插件未安装（一般是微信客户端未安装的情况）
-                 */
-                    String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
-                    String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-//                showMsg(result, errorMsg, extraMsg);
                     //成功
-                    if ("success".equals(result)) {//支付成功
-
-                        String charge = AppContext.getInstance().getPreferencesStr("charge");
+                    if (TextUtils.equals("success",result)) {//支付成功
                         //获取订单
-                        String orderNo = JSON.parseObject(charge).getString("order_no");
                         //刷新用户信息
-                        mPresenter.appChargeSuccess(orderNo, new ApiRequestListener<JSONObject>() {
-                            @Override
-                            public void onResultSuccess(JSONObject res) {
-                                showShortToast(res.getString("msg"));
-//                                if(!TextUtils.isEmpty(orderId)){
-//                                    setResult(RESULT_OK);
-//                                }
-                                finish();
-                                CommonUtil.openActivity(PaySuccessActivity.class);//跳转到支付成功页面
-                            }
-                        });
-
+                        showShortToast("支付成功");
+                        finish();
+                        CommonUtil.openActivity(PaySuccessActivity.class);//跳转到支付成功页面
                     }else {
                         finish();
                     }

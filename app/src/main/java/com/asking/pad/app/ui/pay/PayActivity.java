@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
@@ -125,7 +123,6 @@ public class PayActivity extends BaseFrameActivity<UserPresenter, UserModel> {
         @Override
         public void onResultSuccess(final String res) {
             try {
-//                charge = res;
                 AppContext.getInstance().setPreferencesValue("charge", res);
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
@@ -155,53 +152,26 @@ public class PayActivity extends BaseFrameActivity<UserPresenter, UserModel> {
         String[] payinfo = payMap.get(payTypeId).split("_");
         payEntity.setType(payinfo[0]);
         payEntity.setPayType(payinfo[1]);
-//        new Handler().postDelayed(new Runnable(){
-//            public void run() {
         mPresenter.getAppReCharge(payEntity, mPayListener);
-//            }
-//        }, 500);   //5秒
     }
 
     /**
      * 支付页面返回处理
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
             if (resultCode == RESULT_OK) {
                 try {
                     String result = data.getExtras().getString("pay_result");
-                /* 处理返回值
-                 * "success" - 支付成功
-                 * "fail"    - 支付失败
-                 * "cancel"  - 取消支付
-                 * "invalid" - 支付插件未安装（一般是微信客户端未安装的情况）
-                 */
-                    String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
-                    String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-//                showMsg(result, errorMsg, extraMsg);
                     //成功
-                    if ("success".equals(result)) {//支付成功
-                        String charge = AppContext.getInstance().getPreferencesStr("charge");
-                        //获取订单
-                        String orderNo = JSON.parseObject(charge).getString("order_no");
-                        //刷新用户信息
-                        mPresenter.appChargeSuccess(orderNo, new ApiRequestListener<JSONObject>() {
-                            @Override
-                            public void onResultSuccess(JSONObject res) {
-                                EventBus.getDefault().post(new AppEventType(AppEventType.PAY_SUCCESSS_REQUEST));
-                                showShortToast(res.getString("msg"));
-                                if (!TextUtils.isEmpty(orderId)) {//继续支付过来
-                                    setResult(RESULT_OK);
-                                }
-                                finish();
-                            }
-                        });
-
-                    }else{
-
-                        finish();
+                    if (TextUtils.equals("success",result)) {//支付成功
+                        EventBus.getDefault().post(new AppEventType(AppEventType.PAY_SUCCESSS_REQUEST));
+                        showShortToast("支付成功");
+                        if (!TextUtils.isEmpty(orderId)) {//继续支付过来
+                            setResult(RESULT_OK);
+                        }
                     }
+                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
