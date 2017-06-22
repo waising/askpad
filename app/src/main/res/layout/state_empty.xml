@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:src="@mipmap/state_internet_error"/>
+        android:src="@mipmap/ic_no_data"/>
 
     <TextView
         android:id="@+id/network_tv"

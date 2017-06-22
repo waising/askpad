@@ -279,11 +279,6 @@ public class UserModel extends BaseModel {
                         payEntity.getType(), payEntity.getPayType(), "androidPad").compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> appChargeSuccess(String orderNo) {
-        return Networks.getInstance().getUserApi()
-                .appChargeSuccess(orderNo).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
     public Observable<ResponseBody> logout() {
         return Networks.getInstance().getUserApi().loginOut().compose(RxSchedulers.<ResponseBody>io_main());
     }

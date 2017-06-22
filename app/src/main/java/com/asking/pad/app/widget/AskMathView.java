@@ -104,6 +104,10 @@ public class AskMathView extends RelativeLayout {
     }
 
     public void setText(String text) {
+        web_name.setVisibility(View.GONE);
+        tv_name.setVisibility(View.GONE);
+        web_name.setText("");
+        tv_name.setText("");
         if(!TextUtils.isEmpty(text)){
             if(CommonUtil.isEnglish(text)){
                 web_name.setVisibility(View.VISIBLE);

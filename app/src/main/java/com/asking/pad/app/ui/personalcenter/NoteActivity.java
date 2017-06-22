@@ -121,7 +121,6 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
                 // 上拉刷新
                 start = 0;
                 dataList.clear();
-                swipeLayout.setMode(PtrFrameLayout.Mode.BOTH);
                 getDataNow();
             }
         });

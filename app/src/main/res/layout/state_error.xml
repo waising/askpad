@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:src="@mipmap/state_internet_error"/>
+        android:src="@mipmap/ic_no_data"/>
 
     <TextView
         android:id="@+id/network_tv"
@@ -51,7 +51,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/space_30"
         android:background="@drawable/bg_corners_stroke_blue"
-        android:drawableLeft="@mipmap/ic_down_book"
         android:drawablePadding="@dimen/space_10"
         android:gravity="center"
         android:paddingBottom="@dimen/space_5"

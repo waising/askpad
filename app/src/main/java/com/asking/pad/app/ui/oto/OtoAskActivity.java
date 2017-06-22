@@ -156,33 +156,12 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
         }
     }
 
-    String qiNiuToken;
-
-    /**
-     * 获取七牛云token
-     */
-    private void qiniutoken() {
-        loadDialog.show();
-        mPresenter.qiniutoken(new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String res) {
-                qiNiuToken = res;
-                getHwyQuestion();
-            }
-
-            @Override
-            public void onResultFail() {
-                loadDialog.dismiss();
-            }
-        });
-    }
-
-    String picHwyResult = "";
-
     /**
      *
      */
+    String picHwyResult = "";
     private void getHwyQuestion() {
+        loadDialog.show();
         mPresenter.getHwyQuestion(picTakePath,hwManager, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
@@ -202,14 +181,13 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
         });
     }
 
-    String qiNiuImgName;
-
     /**
      * 上传七牛云
      */
+    String qiNiuImgName;
     private void qiNiuUpload() {
         qiNiuImgName = DateUtil.currentDateMilltime().replace(":", "-").replace(" ", "_") + "oto_ask.jpg";
-        mPresenter.qiNiuUpload(picTakePath, qiNiuImgName, qiNiuToken, new ApiRequestListener<String>() {
+        mPresenter.qiNiuUploadFile(picTakePath, qiNiuImgName, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 openTeaWaitingActivity();
@@ -274,7 +252,7 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
                 if (TextUtils.isEmpty(picTakePath)) {
                     showShortToast("请拍下题目哦~");
                 } else {
-                    qiniutoken();
+                    getHwyQuestion();
                 }
                 break;
         }

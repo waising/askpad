@@ -13,11 +13,6 @@ import com.asking.pad.app.entity.ShopCartPayEntity;
 import com.asking.pad.app.mvp.BasePresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.hanvon.HWCloudManager;
-import com.qiniu.android.common.Zone;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.Configuration;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UploadManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +23,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static com.asking.pad.app.commom.CommonUtil.getRequestBody;
@@ -262,10 +256,6 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqFlag0File(mModel.secondreviewzhuant(pid, field), "content", filePath, mListener);
     }
 
-    public void qiniutoken(ApiRequestListener mListener) {
-        baseReqStr(mModel.qiniutoken(), mListener);
-    }
-
     public void orderfirstorder(String id, ApiRequestListener mListener) {
         baseReq(mModel.orderfirstorder(id), "content", mListener);
     }
@@ -300,10 +290,6 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
     public void getAppReCharge(PayEntity payEntity, ApiRequestListener mListener) {
         baseReq(mModel.getAppReCharge(payEntity), "charge", mListener);
-    }
-
-    public void appChargeSuccess(String orderNo, ApiRequestListener mListener) {
-        baseReq(mModel.appChargeSuccess(orderNo), "", mListener);
     }
 
     /**
@@ -421,93 +407,6 @@ public class UserPresenter extends BasePresenter<UserModel> {
             }
         });
         baseReqStr1(mObservable, mListener);
-    }
-
-    public void qiNiuUploadFile(final String path, final String key,final ApiRequestListener mListener) {
-        baseReqStr(mModel.qiniutoken(),  new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String res) {
-                qiNiuUpload(path,key,res,mListener);
-            }
-
-            @Override
-            public void onResultFail() {
-                mListener.onResultFail();
-            }
-        });
-    }
-
-    public void qiNiuUpload(final String path, final String key, final String token, final ApiRequestListener mListener) {
-        initQiNiuUpload();
-        mRxManager.add(Observable.create(new Observable.OnSubscribe<String>() {
-                    @Override
-                    public void call(final Subscriber<? super String> subscriber) {
-                        uploadManager.put(path, key, token, new UpCompletionHandler() {
-                            @Override
-                            public void complete(String keys, ResponseInfo info, org.json.JSONObject response) {
-                                if (info.isOK()) {
-                                    subscriber.onNext(key);
-                                    subscriber.onCompleted();
-                                } else {
-                                    subscriber.onError(new Throwable(info.statusCode + ""));
-                                }
-                            }
-                        }, null);
-                    }
-                }).retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Observable<? extends Throwable> observable) {
-                        return observable.flatMap(new Func1<Throwable, Observable<?>>() {
-                            @Override
-                            public Observable<?> call(Throwable throwable) {
-                                String code = throwable.toString();
-                                if (code.equals("-4") || code.equals("-5")) {//token失效、过期
-                                    return mModel.qiniutoken();
-                                } else {
-                                    mListener.onResultFail();
-                                    return null;
-                                }
-                            }
-                        });
-
-                    }
-                }).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String result) {
-                                mListener.onResultSuccess(result);
-                            }
-                        }, new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-                                mListener.onResultFail();
-                            }
-                        })
-        );
-    }
-
-    private static UploadManager uploadManager;
-
-    public void initQiNiuUpload() {
-        if (uploadManager == null) {
-            Configuration config = new Configuration.Builder()
-                    .chunkSize(256 * 1024)  //分片上传时，每片的大小。 默认256K
-                    .putThreshhold(512 * 1024)  // 启用分片上传阀值。默认512K
-                    .connectTimeout(10) // 链接超时。默认10秒
-                    .responseTimeout(60) // 服务器响应超时。默认60秒
-//                .recorder(recorder)  // recorder分片上传时，已上传片记录器。默认null
-//                .recorder(recorder, keyGen)  // keyGen 分片上传时，生成标识符，用于片记录器区分是那个文件的上传记录
-                    .zone(Zone.zone0) // 设置区域，指定不同区域的上传域名、备用域名、备用IP。默认 Zone.zone0
-                    .build();
-            //————http上传,指定zone的具体区域——
-            //Zone.zone0:华东
-            //Zone.zone1:华北
-            //Zone.zone2:华南
-            //Zone.zoneNa0:北美
-            // 重用uploadManager。一般地，只需要创建一个uploadManager对象
-            uploadManager = new UploadManager();
-        }
     }
 
     public void logout(final ApiRequestListener mListener) {
