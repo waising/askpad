@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.ui.camera.ui.CameraActivity;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +81,7 @@ public class NoteAddEditDialog extends DialogFragment {
     private String mTitle;
     private String mContent;
     private String mTime;
+    private String mImgUrl;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class NoteAddEditDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.layout_dialog_note_add_edit, null);
         unbinder = ButterKnife.bind(this, view);
         initData(view);
+        setCancelable(false);
         return view;
     }
 
@@ -123,6 +126,11 @@ public class NoteAddEditDialog extends DialogFragment {
                 edtNoteTitle.setText(mTitle);
             }
             tvNoteTime.setText(getString(R.string.note_time_format, mTime));
+
+            if(!TextUtils.isEmpty(mImgUrl)){
+                ivPhotoView.setVisibility(View.VISIBLE);
+                BitmapUtil.displayImage(mImgUrl, ivPhotoView, true);
+            }
         }
     }
 
@@ -156,7 +164,7 @@ public class NoteAddEditDialog extends DialogFragment {
                 break;
             case R.id.iv_photo_view://查看图片
                 if (mListner != null) {
-                    mListner.jumpToZoom();
+                    mListner.jumpToZoom(mImgUrl);
                 }
                 break;
         }
@@ -173,7 +181,7 @@ public class NoteAddEditDialog extends DialogFragment {
 
         void loadImage(String filePath,ImageView ivPhotoView, ImageView ivTakePhoto);
 
-        void jumpToZoom();//跳转到图片放大
+        void jumpToZoom(String imgUrl);//跳转到图片放大
 
     }
 
@@ -205,6 +213,10 @@ public class NoteAddEditDialog extends DialogFragment {
 
     public void setTime(String time) {
         mTime = time;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        mImgUrl = imgUrl;
     }
 
     @Override

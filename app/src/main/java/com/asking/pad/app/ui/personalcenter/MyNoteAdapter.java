@@ -96,6 +96,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MessageVie
         noteAddEditDialog.setFromWhere(NoteAddEditDialog.EDIT_NOTE);
         noteAddEditDialog.setId(e.getId());
         noteAddEditDialog.setTitle(e.getTitle());
+        noteAddEditDialog.setImgUrl(e.getImgurl());
         noteAddEditDialog.setContent(e.getContent());
         noteAddEditDialog.setNoteListner(noteListner);
         noteAddEditDialog.setTime(createTimeFmt);

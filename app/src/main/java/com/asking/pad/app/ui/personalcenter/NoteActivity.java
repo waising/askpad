@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +27,7 @@ import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.commom.PhotoShowActivity;
 import com.asking.pad.app.ui.login.LoginActivity;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
+import com.asking.pad.app.widget.MultiStateView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,20 +47,23 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
 
     @BindView(R.id.toolBar)
     Toolbar mToolbar;
+
     @BindView(R.id.swipe_layout)
     AskSwipeRefreshLayout swipeLayout;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
     @BindView(R.id.tv_right)
     TextView tvRight;//新增笔记按钮
 
+    @BindView(R.id.load_view)
+    MultiStateView load_view;
+
     String token;
     int start = 0;
-    int limit = 5;
+    int limit = 6;
     MyNoteAdapter myNoteAdapter;
-
-    @BindView(R.id.no_data)
-    LinearLayout llNodata;
 
     private MaterialDialog mLoadDialog;
 
@@ -73,12 +76,6 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
      */
     private List<NoteEntity.ListBean> dataList = new ArrayList<>();
     private NoteAddEditDialog mNoteAddEditDialog;
-
-
-    /**
-     * 拍照的图片本地路径
-     */
-    String picTakePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +116,23 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
                 // 上拉刷新
-                start = 0;
-                dataList.clear();
-                getDataNow();
+                requstData();
             }
         });
+        load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                load_view.setViewState(load_view.VIEW_STATE_LOADING);
+                requstData();
+            }
+        });
+        load_view.setViewState(load_view.VIEW_STATE_LOADING);
+        requstData();
+    }
 
+    public void requstData() {
+        start = 0;
+        dataList.clear();
         getDataNow();
     }
 
@@ -142,60 +150,35 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
 
                     List<NoteEntity.ListBean> list = JSON.parseArray(resList, NoteEntity.ListBean.class);
                     if (list != null && list.size() > 0) {
-                        llNodata.setVisibility(View.GONE);
-                        swipeLayout.setVisibility(View.VISIBLE);
                         dataList.addAll(list);
                         myNoteAdapter.notifyDataSetChanged();
-                    } else {
-                        if (start > 0) {
-                            swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
-                            showShortToast(R.string.no_more_data);
-                        } else {
-                            llNodata.setVisibility(View.VISIBLE);
-                            swipeLayout.setVisibility(View.GONE);
-                        }
                     }
+
+                    swipeLayout.refreshComplete();
+                    if (dataList.size() == 0) {
+                        load_view.setViewState(load_view.VIEW_STATE_EMPTY);
+                    } else {
+                        load_view.setViewState(load_view.VIEW_STATE_CONTENT);
+                    }
+
                 }
             }
 
             @Override
             public void onResultFail() {
-                super.onResultFail();
-                resultFailure();
+                swipeLayout.refreshComplete();
+                if (dataList.size() == 0) {
+                    load_view.setViewState(load_view.VIEW_STATE_ERROR);
+                }
             }
         });
     }
-
-
-    /**
-     * 加载失败时
-     */
-    private void resultFailure() {
-        if (swipeLayout != null) {
-            swipeLayout.refreshComplete();
-        }
-        start = 0;
-        swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
-        showShortToast(R.string.no_more_data);
-    }
-
-
-    /**
-     * 修改笔记界面成功保存回来时,重新刷新界面，请求一次
-     */
-    private void refreshView() {
-        if (dataList.size() > 0) {
-            myNoteAdapter.notifyDataSetChanged();
-            dataList.clear();
-        }
-        getDataNow();
-    }
-
 
     @OnClick({R.id.tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_right://右边新增笔记编辑按钮
+                qiNiuImgName = "";
                 mNoteAddEditDialog = new NoteAddEditDialog();
                 mNoteAddEditDialog.setFromWhere(NoteAddEditDialog.ADD_NEW_NOTE);
                 mNoteAddEditDialog.setNoteListner(this);
@@ -219,19 +202,16 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
             ToastUtil.showMessage("请输入笔记内容");
             return;
         }
-        String qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
+        String qiNiuUrl = "";
+        if(!TextUtils.isEmpty(qiNiuImgName)){
+            qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
+        }
         mPresenter.saveNode(title, content, qiNiuUrl, new ApiRequestListener<JSONObject>() {//题目的id和类型请求
             @Override
             public void onResultSuccess(JSONObject object) {//成功保存笔记内容
                 showShortToast(getString(R.string.success_save_note));
                 mNoteAddEditDialog.dismiss();
-                refreshView();
-            }
-
-            @Override
-            public void onResultFail() {
-                super.onResultFail();
-                resultFailure();
+                swipeLayout.autoRefresh();
             }
         });
     }
@@ -249,12 +229,7 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
             public void onResultSuccess(JSONObject object) {//成功修改笔记内容
                 showShortToast(getString(R.string.success_alter_note));
                 noteAddEditDialog.dismiss();
-                refreshView();
-            }
-
-            @Override
-            public void onResultFail() {
-                resultFailure();
+                swipeLayout.autoRefresh();
             }
         });
     }
@@ -266,13 +241,11 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
      * @param ivTakePhoto
      */
     String qiNiuImgName;
-
     @Override
     public void loadImage(String filePath, final ImageView ivPhotoView, ImageView ivTakePhoto) {
         mLoadDialog.show();
         qiNiuImgName = DateUtil.currentDateMilltime().replace(":", "-").replace(" ", "_") + "note.jpg";
         mPresenter.qiNiuUploadFile(filePath, qiNiuImgName, new ApiRequestListener<String>() {
-
             @Override
             public void onResultSuccess(String res) {
                 String qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
@@ -289,9 +262,9 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
     }
 
     @Override
-    public void jumpToZoom() {
+    public void jumpToZoom(String imgUrl) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.WEB_IMAGE_URL, picTakePath);
+        bundle.putString(Constants.WEB_IMAGE_URL, imgUrl);
         CommonUtil.openActivity(PhotoShowActivity.class, bundle);//跳转到图片放大界面
     }
 
@@ -323,15 +296,13 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
                 showShortToast(R.string.success_del);
                 dataList.remove(position);
                 myNoteAdapter.notifyDataSetChanged();
+
                 if (dataList.size() == 0) {
-                    llNodata.setVisibility(View.VISIBLE);
-                    swipeLayout.setVisibility(View.GONE);
+                    load_view.setViewState(load_view.VIEW_STATE_EMPTY);
                 } else {
-                    llNodata.setVisibility(View.GONE);
-                    swipeLayout.setVisibility(View.VISIBLE);
+                    load_view.setViewState(load_view.VIEW_STATE_CONTENT);
                 }
             }
-
-        });//删除请求
+        });
     }
 }
