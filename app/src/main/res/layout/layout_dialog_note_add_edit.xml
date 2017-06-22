@@ -89,7 +89,7 @@
                     android:gravity="top"
                     android:minLines="13"
                     android:padding="@dimen/space_20"
-                    android:textSize="@dimen/space_14"/>
+                    android:textSize="@dimen/textSize_20"/>
             </LinearLayout>
 
             <View

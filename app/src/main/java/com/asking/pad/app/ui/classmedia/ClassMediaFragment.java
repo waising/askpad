@@ -8,9 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -178,7 +176,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 mAdapter.notifyDataSetChanged();
 
                 swipeLayout.refreshComplete();
-                if (start == 0 && list.size() == 0) {
+                if (dataList.size() == 0) {
                     load_view.setViewState(load_view.VIEW_STATE_EMPTY);
                 } else {
                     load_view.setViewState(load_view.VIEW_STATE_CONTENT);
@@ -190,7 +188,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
             @Override
             public void onResultFail() {
                 swipeLayout.refreshComplete();
-                if (start == 0) {
+                if (dataList.size() == 0) {
                     load_view.setViewState(load_view.VIEW_STATE_ERROR);
                 }
             }
@@ -201,17 +199,11 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         @BindView(R.id.iv_temp)
         ImageView iv_temp;
 
+        @BindView(R.id.iv_flag)
+        ImageView iv_flag;
+
         @BindView(R.id.tv_name)
         TextView tv_name;
-
-        @BindView(R.id.tv_pay)
-        TextView tv_pay;
-
-        @BindView(R.id.tv_study)
-        TextView tv_study;
-
-        @BindView(R.id.tv_description)
-        TextView tv_description;
 
         @BindView(R.id.tv_price)
         TextView tv_price;
@@ -219,11 +211,8 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         @BindView(R.id.tv_price_count)
         TextView tv_price_count;
 
-        @BindView(R.id.fl_progress)
-        FrameLayout fl_progress;
-
-        @BindView(R.id.stu_progress)
-        ProgressBar stu_progress;
+        @BindView(R.id.tv_tea_name)
+        TextView tv_tea_name;
 
         @BindView(R.id.tv_progress)
         TextView tv_progress;
@@ -283,39 +272,24 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("ClassMedia", e);
-                        bundle.putInt("PlayProgress", e.getPlayProgress());
-                        CommonUtil.openActivity(ClassMediaDetailsActivity.class, bundle);
+                        openActivity(ClassMediaDetailsActivity.class,bundle);
                     }
                 });
                 BitmapUtil.displayImage(e.getVideoImgUrl(), holder.iv_temp, true);
                 if (TextUtils.equals(Constants.CLASS_MEDIA_TYPE_ID[0], e.getCourseTypeId())) {
-                    holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_math, 0, 0, 0);
+                    holder.iv_flag.setImageResource(R.mipmap.ic_class_media_math);
                 } else {
-                    holder.tv_name.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_class_media_physics, 0, 0, 0);
+                    holder.iv_flag.setImageResource(R.mipmap.ic_class_media_physics);
                 }
-                holder.tv_pay.setVisibility(View.GONE);
-                holder.tv_study.setVisibility(View.GONE);
-                holder.fl_progress.setVisibility(View.GONE);
-                if (TextUtils.equals(e.getPurchaseState(), "0")) {
-                    holder.tv_pay.setVisibility(View.VISIBLE);
-                } else {
+                holder.tv_progress.setText("");
+                if (!TextUtils.equals(e.getPurchaseState(), "0")) {
                     int percentage = e.getPlayPercentage();
                     if (percentage > 0) {
-                        holder.fl_progress.setVisibility(View.VISIBLE);
-                        holder.stu_progress.setProgress(percentage);
                         holder.tv_progress.setText(percentage + "%");
-                    } else {
-                        holder.tv_study.setVisibility(View.VISIBLE);
                     }
                 }
-                holder.tv_description.setText(e.getDescription());
+                holder.tv_tea_name.setText(e.getTeacher());
                 holder.tv_price.setText("￥" + e.getPrice());
-                holder.tv_pay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PayClassMediaActivity.openActivity(getActivity(), e);
-                    }
-                });
                 holder.tv_price_count.setText(String.format("已有%s人购买", e.getPurchasedNum()));
             } else if (mHolder instanceof CommentSecondHolder) {
                 CommentSecondHolder holder = (CommentSecondHolder) mHolder;

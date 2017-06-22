@@ -101,7 +101,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         }
 
         mClassVideo = this.getIntent().getParcelableExtra("ClassMedia");
-        playProgress = this.getIntent().getIntExtra("PlayProgress",0);
+        playProgress = mClassVideo.getPlayProgress();
     }
 
     private void downMediaMenu(){

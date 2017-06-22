@@ -397,7 +397,8 @@
             android:name=".ui.personalcenter.NoteActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:theme="@style/Custom_Theme"/>
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
             android:name=".ui.personalcenter.CollectionActivity"
