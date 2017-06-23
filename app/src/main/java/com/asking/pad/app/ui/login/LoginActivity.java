@@ -67,8 +67,10 @@ public class LoginActivity extends BaseSwipeBackFrameActivity<UserPresenter, Use
 
         if(BuildConfig.DEBUG){
             //et_phone.setText("GZ0001");
-            et_phone.setText("13960917657");
-            et_password.setText("Jing47");
+//            et_phone.setText("13960917657");
+//            et_password.setText("Jing47");
+            et_phone.setText("18120845259");
+            et_password.setText("123456");
         }
     }
 
