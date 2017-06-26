@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -307,9 +308,13 @@ public class RecordAnswerActivity extends BaseFrameActivity<UserPresenter, UserM
                 holder.itemView.setOnClickListener(new View.OnClickListener() {//点击每项的结果，跳转到短视频播放界面
                     @Override
                     public void onClick(View v) {
-                        Bundle parameter = new Bundle();
-                        parameter.putSerializable("OtoRecord",e);
-                        openActivity(OtoRecordDetailActivity.class,parameter);
+                        if(!TextUtils.isEmpty(e.getVideoUrl())){
+                            Bundle parameter = new Bundle();
+                            parameter.putSerializable("OtoRecord",e);
+                            openActivity(OtoRecordDetailActivity.class,parameter);
+                        }else{
+                            Toast.makeText(RecordAnswerActivity.this,"没有答疑记录视频地址！",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

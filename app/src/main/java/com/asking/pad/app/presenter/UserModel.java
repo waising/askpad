@@ -195,14 +195,14 @@ public class UserModel extends BaseModel {
                 .findListByPage(courseTypeId,start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> paymentcharge(String orderType, String payType, String[] commodityList) {
+    public Observable<ResponseBody> paymentcharge(String orderType, String payType, String commodityId,String finalPrice) {
         return Networks.getInstance().getUserApi()
-                .paymentcharge(orderType, payType,commodityList,"androidPad").compose(RxSchedulers.<ResponseBody>io_main());
+                .paymentcharge(orderType, payType,commodityId,finalPrice,"androidPad").compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> packagefind() {
+    public Observable<ResponseBody> packagefind(String packageId) {
         return Networks.getInstance().getUserApi()
-                .packagefind("TC01").compose(RxSchedulers.<ResponseBody>io_main());
+                .packagefind(packageId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> studentcomplain(String reason, String details, String id) {

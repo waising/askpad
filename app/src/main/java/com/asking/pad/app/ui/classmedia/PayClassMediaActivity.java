@@ -21,8 +21,6 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.pingplusplus.android.Pingpp;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -61,15 +59,22 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     String payType = "alipay";
     /**
-     * 3-单个初升高购买  TC-整套初升高购买
+     * KC-单个初升高购买  TC-整套初升高购买
      */
     String orderType = "";
-    ArrayList<String> commodityList = new ArrayList<>();
+    String courseDataId;
+    String finalPrice;
+
+    /**
+     * TC01 - 初升高衔接课-数学
+      TC02- 初升高衔接课-物理
+     */
+    String packageId;
 
     MaterialDialog mLoading;
 
     /**
-     * 单个初升高购买
+     * 单个初升高衔接课购买
      *
      * @param activity
      * @param mClassVideo
@@ -77,13 +82,28 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
     public static void openActivity(Activity activity, ClassMedia mClassVideo) {
         Intent intent = new Intent(activity, PayClassMediaActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("orderType", "3");
+        mBundle.putString("orderType", "KC");
         mBundle.putString("courseDataId", mClassVideo.getCourseDataId());
         mBundle.putString("courseName", mClassVideo.getCourseName());
         mBundle.putString("courseTypeName", mClassVideo.getCourseTypeName());
         mBundle.putString("description", mClassVideo.getDescription());
         mBundle.putString("coursePrice", mClassVideo.getPrice());
         mBundle.putString("courseTypeFullName", mClassVideo.getCourseTypeFullName());
+        intent.putExtras(mBundle);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 整套初升高衔接课购买
+     *
+     * @param activity
+     * @param packageId -- TC01 -初升高衔接课-数学   TC02-初升高衔接课-物理
+     */
+    public static void openActivity(Activity activity, String packageId) {
+        Intent intent = new Intent(activity, PayClassMediaActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("orderType", "TC");
+        mBundle.putString("packageId", packageId);
         intent.putExtras(mBundle);
         activity.startActivity(intent);
     }
@@ -108,31 +128,33 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
         iv_wechatpay.setSelected(false);
         iv_unionpay.setSelected(false);
 
-        if (TextUtils.equals(orderType, "3")) {
-            commodityList.add(getIntent().getStringExtra("courseDataId"));
+        if (TextUtils.equals(orderType, "KC")) {
+            courseDataId = getIntent().getStringExtra("courseDataId");
+            finalPrice =  getIntent().getStringExtra("coursePrice");
 
             tv_title.setText(getIntent().getStringExtra("courseName"));
             tv_title1.setText(getIntent().getStringExtra("courseTypeFullName"));
             tv_content.setText(getIntent().getStringExtra("description"));
-            tv_total_price.setText(String.format("%s元", getIntent().getStringExtra("coursePrice")));
+            tv_total_price.setText(String.format("%s元",finalPrice));
         } else if (TextUtils.equals(orderType, "TC")) {
+            packageId =  getIntent().getStringExtra("packageId");
             getAllClassVideoOrder();
         }
     }
 
     private void getAllClassVideoOrder() {
         mLoading.show();
-        mPresenter.packagefind(new ApiRequestListener<String>() {
+        mPresenter.packagefind(packageId,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 mLoading.dismiss();
                 JSONObject jsonRes = JSON.parseObject(resStr);
-                String commodityId = jsonRes.getString("commodityId");
+                courseDataId = jsonRes.getString("commodityId");
                 String packageName = jsonRes.getString("packageName");
                 String description = jsonRes.getString("description");
+                finalPrice = jsonRes.getDouble("packagePrice")+"";
                 double packagePrice = jsonRes.getDouble("packagePrice")/100;
 
-                commodityList.add(commodityId);
                 tv_title.setText(packageName);
                 tv_content.setText(description);
                 tv_total_price.setText(String.format("%s元", packagePrice));
@@ -147,8 +169,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     private void onPay() {
         mLoading.show();
-        String[] array = commodityList.toArray(new String[]{});
-        mPresenter.paymentcharge(orderType, payType, array, new ApiRequestListener<String>() {
+        mPresenter.paymentcharge(orderType, payType, courseDataId,finalPrice, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 mLoading.dismiss();

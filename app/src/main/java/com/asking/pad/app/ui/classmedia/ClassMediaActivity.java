@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseEvenNoPreActivity;
 import com.asking.pad.app.commom.AppEventType;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
@@ -147,9 +146,13 @@ public class ClassMediaActivity extends BaseEvenNoPreActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_all_pay:
-                Bundle mBundle = new Bundle();
-                mBundle.putString("orderType", "TC");
-                CommonUtil.openActivity(PayClassMediaActivity.class, mBundle);
+                String packageId;
+                if(viewPager.getCurrentItem() == 0){
+                    packageId = "TC01";
+                }else{
+                    packageId = "TC02";
+                }
+                PayClassMediaActivity.openActivity(ClassMediaActivity.this, packageId);
                 break;
         }
     }
