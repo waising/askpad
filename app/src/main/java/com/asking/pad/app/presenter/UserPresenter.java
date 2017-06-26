@@ -199,12 +199,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.findListByPage(courseTypeId,start, limit), "content", mListener);
     }
 
-    public void paymentcharge(String orderType, String payType, String[] commodityList, ApiRequestListener mListener) {
-        baseReq(mModel.paymentcharge(orderType, payType,commodityList), "content", mListener);
+    public void paymentcharge(String orderType, String payType, String commodityId, String finalPrice, ApiRequestListener mListener) {
+        baseReq(mModel.paymentcharge(orderType, payType,commodityId,finalPrice), "content", mListener);
     }
 
-    public void packagefind(ApiRequestListener mListener) {
-        baseReq(mModel.packagefind(), "content", mListener);
+    public void packagefind(String packageId,ApiRequestListener mListener) {
+        baseReq(mModel.packagefind(packageId), "content", mListener);
     }
 
     public void orderhistory(String start, String limit, String account

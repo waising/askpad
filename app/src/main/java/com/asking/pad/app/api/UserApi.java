@@ -62,7 +62,7 @@ public interface UserApi {
      * @param mobile
      * @return
      */
-    @POST("modify/requestMessage/mobile")
+    @POST(BuildConfig.API_SSO_URL +"modify/requestMessage/mobile")
     Observable<ResponseBody> getResetPassYZM(@Query("mobile") String mobile);
 
     /**
@@ -621,14 +621,14 @@ public interface UserApi {
     Observable<ResponseBody> orderhistoryDel(@Path("id") String id, @Query("role") String role);
 
 
-    @POST("productapi/product/courseManage/findListByPage")
+    @POST("productapi/product/courseManage/V1/findListByPage")
     Observable<ResponseBody> findListByPage(@Query("courseTypeId") String courseTypeId,@Query("start") int start, @Query("limit") int limit);
 
-    @POST("payment/charge/get")
+    @POST("paymentNew/payment/charge/get")
     Observable<ResponseBody> paymentcharge(@Query("orderType") String orderType, @Query("payType") String payType
-            , @Query("commodityList") String[] commodityList,@Query("deviceType") String deviceType);
+            , @Query("commodityId") String commodityId,@Query("finalPrice") String finalPrice,@Query("deviceType") String deviceType);
 
-    @POST("productapi/product/package/find")
+    @POST("productapi/product/package/V1/find")
     Observable<ResponseBody> packagefind(@Query("packageId") String packageId);
 
 }
