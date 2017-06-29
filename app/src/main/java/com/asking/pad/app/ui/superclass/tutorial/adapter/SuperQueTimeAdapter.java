@@ -13,7 +13,8 @@ import android.widget.RelativeLayout;
 import com.asking.pad.app.R;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.MusicPlayer;
-import com.asking.pad.app.entity.SuperSuperClassQuestionTimeEntity;
+import com.asking.pad.app.entity.superclass.SuperQueTime;
+import com.asking.pad.app.ui.superclass.tutorial.OnPayVoiceListener;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.asking.pad.app.widget.MultiStateView;
@@ -33,13 +34,15 @@ public class SuperQueTimeAdapter extends RecyclerView.Adapter<SuperQueTimeAdapte
 
     int curExpandIndex = -1;
 
-    private List<SuperSuperClassQuestionTimeEntity.AttrListBean> mDatas;
+    private List<SuperQueTime> mDatas;
     private Context mContext;
     private RecyclerView recyclerView;
     private MusicPlayer musicPlayer;
 
-    public SuperQueTimeAdapter(Context context, List<SuperSuperClassQuestionTimeEntity.AttrListBean> datas,
-                                         RecyclerView recyclerView, MusicPlayer musicPlayer,OnCommItemListener mListener){
+    OnPayVoiceListener mListener;
+
+    public SuperQueTimeAdapter(Context context, List<SuperQueTime> datas,
+                                         RecyclerView recyclerView, MusicPlayer musicPlayer,OnPayVoiceListener mListener){
         this.mContext = context;
         this.mDatas = datas;
         this.recyclerView = recyclerView;
@@ -54,17 +57,16 @@ public class SuperQueTimeAdapter extends RecyclerView.Adapter<SuperQueTimeAdapte
 
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
-        final SuperSuperClassQuestionTimeEntity.AttrListBean item = mDatas.get(position);
+        final SuperQueTime item = mDatas.get(position);
 
-        holder.titleMathView.setText("问题"+(position+1)+"："+item.getTitleName());
-        holder.mathView.setText(item.getContentHtml());
+        holder.titleMathView.setText("问题"+(position+1)+"："+item.tipQuestionDataName);
+        holder.mathView.setText(item.tipQuestionDataContentHtml);
 
-        holder.ad_voice.setTag(R.id.key_position, position);
         holder.ad_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 musicPlayer.bindVoice((AskSimpleDraweeView) v);
-                mListener.onPlayVoice(Integer.parseInt(v.getTag(R.id.key_position)+""));
+                mListener.onPlayVoice(position);
             }
         });
 
@@ -139,12 +141,5 @@ public class SuperQueTimeAdapter extends RecyclerView.Adapter<SuperQueTimeAdapte
             });
         }
     }
-
-    public interface OnCommItemListener{
-        void onPlayVoice(int e);
-    }
-
-    OnCommItemListener mListener;
-
 
 }

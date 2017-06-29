@@ -1,6 +1,6 @@
 package com.asking.pad.app.ui.pay;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.AskMoneyEntity;
+import com.asking.pad.app.entity.pay.AskCoinPay;
+import com.asking.pad.app.ui.classmedia.PayClassMediaActivity;
 
 import java.util.List;
 
@@ -24,42 +25,31 @@ import butterknife.ButterKnife;
 
 public class PayAskCoinAdapter extends RecyclerView.Adapter<PayAskCoinAdapter.CommViewHolder> {
 
-    private List<AskMoneyEntity> mDatas;
-    private Context mContext;
+    private List<AskCoinPay> mDatas;
+    private Activity mActivity;
 
-    OnCommItemListener mListener;
-
-    public PayAskCoinAdapter(Context context, List<AskMoneyEntity> datas,OnCommItemListener mListener) {
-        this.mContext = context;
+    public PayAskCoinAdapter(Activity mActivity, List<AskCoinPay> datas) {
+        this.mActivity = mActivity;
         this.mDatas = datas;
-        this.mListener = mListener;
     }
 
     @Override
     public CommViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CommViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_pay_ask_money_list, parent, false));
+        return new CommViewHolder(LayoutInflater.from(mActivity).inflate(R.layout.item_pay_ask_money_list, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
-        final AskMoneyEntity askMoneyEntity = mDatas.get(position);
+        final AskCoinPay e = mDatas.get(position);
 
-        //金币和rmb都除以10
-        holder.mAskMoneyTv.setText(String.valueOf(askMoneyEntity.getPrice() / 10));
-        holder.mMoneyTv.setText(String.valueOf(Integer.parseInt(askMoneyEntity.getMoney()) / 10)+"元");
-        holder.mMoneyIdTv.setText(askMoneyEntity.getId());
-
-        holder.mCheckedImg.setVisibility(askMoneyEntity.isSelect ? View.VISIBLE : View.GONE);
+        holder.mAskMoneyTv.setText(String.valueOf(e.value));
+        holder.mMoneyTv.setText(String.valueOf(e.getAskCoinPrice()+"元"));
+        holder.mCheckedImg.setVisibility(e.isSelect ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(AskMoneyEntity askMoneyEntity:mDatas){
-                    askMoneyEntity.isSelect = false;
-                }
-                askMoneyEntity.isSelect = true;
-                notifyDataSetChanged();
-                mListener.OnCommItem(askMoneyEntity);
+                PayClassMediaActivity.openActivity(mActivity,e);
             }
         });
     }
@@ -78,9 +68,6 @@ public class PayAskCoinAdapter extends RecyclerView.Adapter<PayAskCoinAdapter.Co
 
         @BindView(R.id.money_tv)
         TextView mMoneyTv;
-
-        @BindView(R.id.ask_money_id_tv)
-        TextView mMoneyIdTv;
 
         public CommViewHolder(View itemView) {
             super(itemView);

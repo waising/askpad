@@ -107,6 +107,14 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/tv_subject_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_14"
+            android:text="友情提示：请在纸上作答，交卷后查看正确答案。"
+            android:textColor="@color/red"
+            android:textSize="@dimen/textSize_20"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.AppLoginEvent;
 import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.NetworkUtils;
 import com.asking.pad.app.entity.LabelEntity;
-import com.asking.pad.app.entity.superclass.StudyClassSubject;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.ui.CameraActivity;
@@ -47,7 +44,6 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
 
     CommAdapter mineAdapter;
     List<LabelEntity> mDatas = new ArrayList<>();
-    List<StudyClassSubject> dataList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,10 +57,10 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
         super.initView();
 
         mDatas.clear();
-        mDatas.add(new LabelEntity(R.mipmap.backpacket_czsx,"M2", 0+""));
-        mDatas.add(new LabelEntity(R.mipmap.backpacket_czwl,"P2", 0+""));
-        mDatas.add(new LabelEntity(R.mipmap.backpacket_gzsx,"M3", 0+""));
-        mDatas.add(new LabelEntity(R.mipmap.backpacket_gzwl,"P3", 0+""));
+        mDatas.add(new LabelEntity(R.mipmap.backpacket_czsx,"XK01", getString(R.string.ask_czsx)));
+        mDatas.add(new LabelEntity(R.mipmap.backpacket_czwl,"XK02", getString(R.string.ask_czwl)));
+        mDatas.add(new LabelEntity(R.mipmap.backpacket_gzsx,"XK03", getString(R.string.ask_gzsx)));
+        mDatas.add(new LabelEntity(R.mipmap.backpacket_gzwl,"XK04", getString(R.string.ask_gzwl)));
 
         GridLayoutManager mgr = new GridLayoutManager(getActivity(), 4);
         rv_main.setLayoutManager(mgr);
@@ -75,15 +71,9 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
     }
 
     public void initNetData() {
-        mPresenter.geteStudyClassicTree(new ApiRequestListener<String>(){
+        mPresenter.findTreeListWithAllCourse("KC03",new ApiRequestListener<String>(){
             @Override
-            public void onResultSuccess(String res) {
-                List<StudyClassSubject> list = JSON.parseArray(res,StudyClassSubject.class);
-                dataList.clear();
-                dataList.addAll(list);
-
-                mineAdapter.notifyDataSetChanged();
-            }
+            public void onResultSuccess(String res) {}
         });
     }
 
@@ -161,7 +151,7 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putString("classType",labelEntity.getId());
-                    bundle.putString("className", Constants.getClassName(getContext(),labelEntity.getId()));
+                    bundle.putString("className", labelEntity.getName());
                     CommonUtil.openActivity(ClassifyActivty.class,bundle);
                 }
             });

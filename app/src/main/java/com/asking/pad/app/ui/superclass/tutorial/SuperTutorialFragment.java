@@ -7,6 +7,7 @@ package com.asking.pad.app.ui.superclass.tutorial;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,12 +15,10 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.MusicPlayer;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
-import com.asking.pad.app.ui.superclass.tutorial.adapter.SuperQueTimeAdapter;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by jswang on 2017/4/10.
@@ -50,7 +48,6 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
     boolean isBuy;
     String gradeId;
     String knowledgeId;
-    String classType;
 
     private MusicPlayer musicPlayer;
     private String musicUrl;
@@ -58,14 +55,9 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
     int mCurTabIndex = 0;
     List<Fragment> fragments = new ArrayList<>();
 
-    /**
-     * 判断是否重新选择过章节内容
-     */
-    private boolean isChange = true;
-
     String[] tits;
 
-    public static SuperTutorialFragment newInstance( Bundle bundle) {
+    public static SuperTutorialFragment newInstance(Bundle bundle) {
         SuperTutorialFragment fragment = new SuperTutorialFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -81,7 +73,6 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         if (bundle != null) {
             gradeId = bundle.getString("gradeId");
             knowledgeId = bundle.getString("knowledgeId");
-            classType = bundle.getString("classType");
             isBuy = bundle.getBoolean("isBuy");
         }
     }
@@ -114,21 +105,21 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
             }
         });
 
-        fragments.add(SuperSayFragment.newInstance(gradeId,knowledgeId,isBuy));
-        fragments.add(SuperQueTimeFragment.newInstance(gradeId,knowledgeId,isBuy,musicPlayer,new SuperQueTimeAdapter.OnCommItemListener() {
+        fragments.add(SuperSayFragment.newInstance(gradeId, knowledgeId, isBuy));
+        fragments.add(SuperQueTimeFragment.newInstance(gradeId, knowledgeId, isBuy, musicPlayer, new OnPayVoiceListener() {
             @Override
-            public void onPlayVoice(int e) {
-                playVoice(e);
+            public void onPlayVoice(int position) {
+                playVoice(2, position);
             }
         }));
-        fragments.add(SuperSpeakerFragment.newInstance(gradeId,knowledgeId,classType,isBuy));
-        fragments.add(SuperSumaryFragment.newInstance(gradeId,knowledgeId,isBuy));
+        fragments.add(SuperSpeakerFragment.newInstance(gradeId, knowledgeId, isBuy));
+        fragments.add(SuperSumaryFragment.newInstance(gradeId, knowledgeId, isBuy));
 
         getChildFragmentManager().beginTransaction()
-                .add(R.id.fragment,fragments.get(0))
-                .add(R.id.fragment,fragments.get(1))
-                .add(R.id.fragment,fragments.get(2))
-                .add(R.id.fragment,fragments.get(3))
+                .add(R.id.fragment, fragments.get(0))
+                .add(R.id.fragment, fragments.get(1))
+                .add(R.id.fragment, fragments.get(2))
+                .add(R.id.fragment, fragments.get(3))
                 .hide(fragments.get(1))
                 .hide(fragments.get(2))
                 .hide(fragments.get(3))
@@ -137,11 +128,17 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         setTabView(mCurTabIndex);
     }
 
-    private void setTabView(int index){
+    private void setTabView(int index) {
         mCurTabIndex = index;
         switch (index) {
             case 0:
                 ad_voice.setVisibility(View.VISIBLE);
+                ad_voice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playVoice(1, 0);
+                    }
+                });
                 tv_tip.setText(tits[index]);
                 break;
             case 1:
@@ -170,44 +167,39 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         setTabView(index);
     }
 
-    public void refreshData(String gradeId, String knowledgeId, String classType, boolean isBuy) {
+    public void refreshData(String gradeId, String knowledgeId,boolean isBuy) {
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
-        this.classType = classType;
         this.isBuy = isBuy;
 
-        isChange = true;
+        pauseMusicPlayer();
 
-        if (musicPlayer != null && musicPlayer.isPlaying()) {
-            musicPlayer.pause();
-        }
-
-        ((SuperSayFragment)fragments.get(0)).refreshData(gradeId,knowledgeId,isBuy);
-        ((SuperQueTimeFragment)fragments.get(1)).refreshData(gradeId,knowledgeId,isBuy);
-        ((SuperSpeakerFragment)fragments.get(2)).refreshData(gradeId,knowledgeId,classType,isBuy);
-        ((SuperSumaryFragment)fragments.get(3)).refreshData(gradeId,knowledgeId,isBuy);
+        ((SuperSayFragment) fragments.get(0)).refreshData(gradeId, knowledgeId, isBuy);
+        ((SuperQueTimeFragment) fragments.get(1)).refreshData(gradeId, knowledgeId, isBuy);
+        ((SuperSpeakerFragment) fragments.get(2)).refreshData(gradeId, knowledgeId, isBuy);
+        ((SuperSumaryFragment) fragments.get(3)).refreshData(gradeId, knowledgeId, isBuy);
     }
 
-    private void adVoice() {
-        if (isChange) {//有重新选择章节
-            if (!musicPlayer.isPlaying()) {
-                mPresenter.getVoicePath(isBuy,gradeId, knowledgeId, 1, 0, new ApiRequestListener<String>() {
-                    @Override
-                    public void onResultSuccess(String res) {
-                        playMusic(res, -1);
-                    }
-                });
-            } else {
-                musicPlayer.pause();
-                ad_voice.getController().getAnimatable().stop();
+    int voiceType;
+    int voicePosition;
+
+    private void playVoice(final int type, final int position) {
+        if (!TextUtils.isEmpty(musicUrl) && type == voiceType && position == voicePosition) {
+            if (musicPlayer.isPlaying()) {
+                pauseMusicPlayer();
+            }else {
+                musicPlayer.play(musicUrl);
             }
         } else {
-            if (!musicPlayer.isPlaying()) {
-                musicPlayer.play(musicUrl);
-                ad_voice.getController().getAnimatable().start();
-            } else {
-                pauseMusicPlayer();
-            }
+            mPresenter.getVoicePath(isBuy, gradeId, knowledgeId, type, position + 1, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String res) {
+                    musicUrl = res;
+                    musicPlayer.play(musicUrl);
+                    voiceType = type;
+                    voicePosition = position;
+                }
+            });
         }
     }
 
@@ -218,62 +210,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
                 ad_voice.getController().getAnimatable().stop();
             }
         } catch (Exception e) {
-        }
-    }
-
-    private void playMusic(String res, int position) {
-        try {
-            if(isBuy){
-                res = CommonUtil.changeNetFile(res);
-            }
-
-            isChange = false;
-            musicUrl = res;
-            musicPlayer.play(musicUrl);
-
-            prePosition = position;
-        } catch (Exception e) {
             e.printStackTrace();
-            showShortToast("暂无音频信息");
-        }
-    }
-
-    private int prePosition = -1;
-
-    private void playVoice(final int position) {
-        if (isChange) {//有重新选择章节
-            mPresenter.getVoicePath(isBuy,gradeId, knowledgeId, 2, position + 1, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    playMusic(res, position);
-                }
-            });
-        } else {
-            if (musicPlayer != null) {
-                if (prePosition != position) {
-                    mPresenter.getVoicePath(isBuy,gradeId, knowledgeId, 2, position + 1, new ApiRequestListener<String>() {
-                        @Override
-                        public void onResultSuccess(String res) {
-                            playMusic(res, position);
-                        }
-                    });
-                } else if (musicPlayer.isPlaying()) {
-                    musicPlayer.pause();
-                } else {
-                    if (musicUrl != null) {
-                        musicPlayer.play(musicUrl);
-                    }
-                }
-            }
-        }
-    }
-
-    @OnClick({R.id.ad_voice})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ad_voice:
-                adVoice();
-                break;
         }
     }
 

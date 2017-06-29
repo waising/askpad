@@ -39,21 +39,6 @@
 
                 <TextView
                     style="@style/tv_pay_styles"
-                    android:text="@string/pay_kcjc"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_textbook"
-                    style="@style/recview_pay_styles"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/space_20">
-
-                <TextView
-                    style="@style/tv_pay_styles"
                     android:text="@string/pay_study_time"/>
 
                 <android.support.v7.widget.RecyclerView

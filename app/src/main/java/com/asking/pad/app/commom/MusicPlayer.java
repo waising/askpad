@@ -1,6 +1,7 @@
 package com.asking.pad.app.commom;
 
 import android.media.MediaPlayer;
+import android.text.TextUtils;
 
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 
@@ -30,20 +31,25 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         mMediaPlayer.setOnCompletionListener(this);
     }
 
-    public MusicPlayer bindVoice(AskSimpleDraweeView voice){
+    public MusicPlayer bindVoice(AskSimpleDraweeView voice) {
         this.voice = voice;
         return player;
     }
+
     private long mExitTime;
     private String urlTmp;
+
     public void play(String url) {
         try {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {//防止点击过快
                 mExitTime = System.currentTimeMillis();
-                if(null!=urlTmp&&url.equals(urlTmp)){
+                if (TextUtils.equals(url,urlTmp)) {
                     mMediaPlayer.start();
                     isPlaying = true;
-                }else {
+                    if (voice != null) {
+                        voice.getController().getAnimatable().start();
+                    }
+                } else {
                     urlTmp = url;
                     mMediaPlayer.reset();
                     mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -82,17 +88,21 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
                     voice.getController().getAnimatable().stop();
                 }
             }
-        }catch (Exception e){};
+        } catch (Exception e) {
+        }
+        ;
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        try{
+        try {
             isPlaying = false;
-            if(voice!=null){
+            if (voice != null) {
                 voice.getController().getAnimatable().stop();
             }
-        }catch (Exception e){};
+        } catch (Exception e) {
+        }
+        ;
     }
 
 

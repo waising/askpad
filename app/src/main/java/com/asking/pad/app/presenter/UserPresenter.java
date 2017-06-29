@@ -78,13 +78,13 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getResetPassYZM(userName), "", mListener);
     }
 
-    public void superlessontree(String versionLevelId,ApiRequestListener mListener) {
-        baseReqStr(mModel.superlessontree(versionLevelId), mListener);
+    public void synclesson(String commodityId,ApiRequestListener mListener) {
+        baseReqStr(mModel.synclesson(commodityId), mListener);
     }
 
-    public void geteStudyClassicTree(ApiRequestListener mListener) {
-        String cacheKey = AppContext.getInstance().getUserId() + "_getSuperSelect";
-        baseReqStrCache(mModel.geteStudyClassicTree(),cacheKey, mListener);
+    public void findTreeListWithAllCourse(String productId,ApiRequestListener mListener) {
+        String cacheKey = AppContext.getInstance().getUserId() + "_findTreeListWithAllCourse";
+        baseReqFlag0Cache(mModel.findTreeListWithAllCourse(productId),"content",cacheKey, mListener);
     }
 
     public void classSection(String gradeId, ApiRequestListener mListener) {
@@ -107,8 +107,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqFlag0File(mModel.secondreviewtree(orgId), "content", filePath, mListener);
     }
 
-    public void getSuperFreeFragment1(String levelId, String knowledgeId, int type, ApiRequestListener mListener) {
-        baseReqStr(mModel.getSuperFreeFragment1(levelId, knowledgeId, type), mListener);
+    public void synclesson(String gradeId, String knowledgeId, int type, ApiRequestListener mListener) {
+        baseReqStr(mModel.synclesson(gradeId, knowledgeId, type), mListener);
     }
 
     public void getSuperBuyFragment1(String levelId, String knowledgeId, int type, ApiRequestListener mListener) {
@@ -117,19 +117,15 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStrFile(mModel.getSuperBuyFragment1(levelId, knowledgeId, type), filePath, mListener);
     }
 
-    public void getVoicePath(boolean isBuy,String levelId, String knowledgeId, int prefix, int suffix, ApiRequestListener mListener) {
-        Observable<ResponseBody> mObservable = mModel.getVoicePath(levelId, knowledgeId, prefix, suffix);
+    public void getVoicePath(boolean isBuy,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
+        Observable<ResponseBody> mObservable = mModel.getVoicePath(gradeId, knowledgeId, type, position);
         if (isBuy) {
             String filePath = Constants.getBookPath(String.format("freeStudyClassic/version/%s/knowledge/%s/voice？prefix=%s&suffix=%s"
-                    , levelId, knowledgeId, prefix, suffix));
+                    , gradeId, knowledgeId, type, position));
             baseReqStrFile(mObservable, filePath, mListener);
         }else{
             baseReqStr(mObservable, mListener);
         }
-    }
-
-    public void getSuperFreeCoach(String versionLevelId, String id, int start, int limit, ApiRequestListener mListener) {
-        baseReqStr(mModel.getSuperFreeCoach(versionLevelId, id, start, limit), mListener);
     }
 
     public void getSuperBuyCoach(String versionLevelId, String id, int start, int limit, ApiRequestListener mListener) {
@@ -154,16 +150,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
     }
 
-    public void getSubjectTopic(String subjectCatalog, String tipId, String versionLevelId, ApiRequestListener mListener) {
-        String filePath = Constants.getBookPath(String.format("coach/%s/getSubjectTopic？tipId=%s&version_level_id=%s"
-                , subjectCatalog, tipId, versionLevelId));
-        baseReqStrFile(mModel.getSubjectTopic(subjectCatalog, tipId, versionLevelId), filePath, mListener);
+    public void getSubjectTopic(String gradeId, String knowledgeId, ApiRequestListener mListener) {
+        baseReqStr(mModel.getSubjectTopic(gradeId,knowledgeId), mListener);
     }
 
-    public void getAllSubjectClassic(String subjectCatalog, String tipId, String versionLevelId, String subjectType, int start, int limit, ApiRequestListener mListener) {
-        String filePath = Constants.getBookPath(String.format("coach/%s/getAllSubjectClassic？tipId=%s&version_level_id=%s&subjectType=%s"
-                , subjectCatalog, tipId, versionLevelId, subjectType));
-        baseReqStrFile(mModel.getAllSubjectClassic(subjectCatalog, tipId, versionLevelId, subjectType, start, limit), filePath, mListener);
+    public void getAllSubjectClassic(String gradeId, String knowledgeId, String topic_id, int start, int limit, ApiRequestListener mListener) {
+        baseReqStr(mModel.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit), mListener);
     }
 
     public void checkTodaySign(ApiRequestListener mListener) {
@@ -276,12 +268,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStr(mModel.getRegionInfo(regionCode), mListener);
     }
 
-    public void versionClassic(String subjectCatalog, ApiRequestListener mListener) {
-        baseReqStr(mModel.versionClassic(subjectCatalog), mListener);
+    public void productType(String packageTypeId, ApiRequestListener mListener) {
+        baseReq(mModel.productType(packageTypeId),"content", mListener);
     }
 
-    public void getCommodityList(String subjectCatalog, int months, int type, ApiRequestListener mListener) {
-        baseReqStr(mModel.getCommodityList(subjectCatalog, months, type), mListener);
+    public void getCommodityList(String packageTypeId, int timeLimit, int start, int limit, ApiRequestListener mListener) {
+        baseReq(mModel.getCommodityList(packageTypeId, timeLimit, start,limit),"content", mListener);
     }
 
     public void getAppCharge(PayEntity payEntity, ApiRequestListener mListener) {
@@ -302,8 +294,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStr(mModel.modelGetSchoolInfo(regionCode), mListener);
     }
 
-    public void getRechargeList(ApiRequestListener mListener) {
-        baseReqStr(mModel.getRechargeList(), mListener);
+    public void getRechargeList(int start, int limit,ApiRequestListener mListener) {
+        baseReq(mModel.getRechargeList(start,limit), "content", mListener);
     }
 
     /**

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.classex.SubjectClass;
+import com.asking.pad.app.entity.classex.SubjectOption;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import butterknife.ButterKnife;
  */
 
 public class TopicItemOpAdapter extends RecyclerView.Adapter<TopicItemOpAdapter.CommViewHolder> {
-    private List<SubjectClass.SubjectOption> dataList;
+    private List<SubjectOption> dataList;
     private LayoutInflater layoutInflater;
 
     public String rightAnswer;
     public String userAnswer;
 
 
-    public TopicItemOpAdapter(Context context, List<SubjectClass.SubjectOption> dataList) {
+    public TopicItemOpAdapter(Context context, List<SubjectOption> dataList) {
         this.dataList = dataList;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -42,7 +42,7 @@ public class TopicItemOpAdapter extends RecyclerView.Adapter<TopicItemOpAdapter.
 
     @Override
     public void onBindViewHolder(CommViewHolder holder, int position) {
-        final SubjectClass.SubjectOption e = dataList.get(position);
+        final SubjectOption e = dataList.get(position);
 
         holder.rBtn.setText(e.getOptionName());
         holder.rBtn.setChecked(e.isSelect);
@@ -52,7 +52,7 @@ public class TopicItemOpAdapter extends RecyclerView.Adapter<TopicItemOpAdapter.
                 if(e.isSelect){
                     e.isSelect = false;
                 }else{
-                    for(SubjectClass.SubjectOption e:dataList){
+                    for(SubjectOption e:dataList){
                         e.isSelect = false;
                     }
                     e.isSelect = true;

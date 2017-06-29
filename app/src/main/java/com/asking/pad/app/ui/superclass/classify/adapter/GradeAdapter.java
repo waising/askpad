@@ -40,7 +40,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.CommViewHold
     public void onBindViewHolder(CommViewHolder holder, int position) {
         final StudyClassGrade e = mDatas.get(position);
         holder.item_name.setSelected(e.isSelect);
-        holder.item_name.setText(e.getTextbook());
+        holder.item_name.setText(e.courseName);
         holder.item_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

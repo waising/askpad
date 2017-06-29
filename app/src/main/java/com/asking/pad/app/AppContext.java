@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.api.CustomImageDownaloder;
 import com.asking.pad.app.api.OkHttpNetworkFetcher;
 import com.asking.pad.app.commom.Constants;
@@ -74,7 +75,7 @@ public class AppContext extends BaseApplication {
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCache(new WeakMemoryCache())
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .memoryCacheSize(2*1024*1024)
+                .memoryCacheSize(2 * 1024 * 1024)
                 .diskCacheSize(50 * 1024 * 1024) // 50 Mb
                 .tasksProcessingOrder(QueueProcessingType.FIFO)
                 .imageDownloader(new CustomImageDownaloder(this))
@@ -87,7 +88,7 @@ public class AppContext extends BaseApplication {
         NIMClient.init(this, loginInfo(), getOptions());
 
         int bugtagsEvent = Bugtags.BTGInvocationEventNone;
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             bugtagsEvent = Bugtags.BTGInvocationEventBubble;
         }
         //在这里初始化
@@ -156,18 +157,24 @@ public class AppContext extends BaseApplication {
         return options;
     }
 
-    private Map<String,StudyClassSubject> studyClassMap = new HashMap<>();
-    public StudyClassSubject getStudyClassic(String classType) {
-        try{
-            String cacheKey = AppContext.getInstance().getUserId() + "_getSuperSelect";
+    private Map<String, StudyClassSubject> studyClassMap = new HashMap<>();
+
+    public StudyClassSubject findTreeListWithAllCourse(String classType) {
+        try {
+            String cacheKey = AppContext.getInstance().getUserId() + "_findTreeListWithAllCourse";
             String res = AppContext.getInstance().getPreferencesStr(cacheKey);
-            List<StudyClassSubject> list = JSON.parseArray(res,StudyClassSubject.class);
+            JSONObject jsonRes = JSON.parseObject(res);
+            List<StudyClassSubject> kcList = JSON.parseArray(jsonRes.getString("content"), StudyClassSubject.class);
 
             studyClassMap.clear();
-            for(StudyClassSubject e:list){
-                studyClassMap.put(e.getSubjectCatalog(),e);
+            if (kcList.size() > 0) {
+                List<StudyClassSubject> xkList = kcList.get(0).nodelist;
+                for (StudyClassSubject e : xkList) {
+                    studyClassMap.put(e.getProductId(), e);
+                }
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return studyClassMap.get(classType);
     }
 }

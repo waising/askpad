@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +12,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.R;
-import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
-import com.asking.pad.app.entity.ResultEntity;
-import com.asking.pad.app.entity.SubjectEntity;
-import com.asking.pad.app.entity.SuperBuyClearanceEntity;
+import com.asking.pad.app.entity.superclass.exer.SubjectExerEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.StarView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,21 +50,18 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
     @BindView(R.id.answer_mathView)
     AskMathView answer_mathView;
 
-    String classType;
+    @BindView(R.id.tv_subject_type)
+    TextView tv_subject_type;
+
     private int index = 0;
 
-    private String answerTmp;
-
-    private SuperBuyClearanceEntity.ListBean mTopicEntity;
-    private List<SuperBuyClearanceEntity.ListBean.OptionsBean> optionsList = new ArrayList<>();
-
+    private SubjectExerEntity mSubjectClass;
     SuperTopicAskOpAdapter optionsAdapter;
 
-    public static SuperTopicAskFragment newInstance(SuperBuyClearanceEntity.ListBean mTopicEntity, String classType, int index) {
+    public static SuperTopicAskFragment newInstance(SubjectExerEntity mSubjectClass, int index) {
         SuperTopicAskFragment fragment = new SuperTopicAskFragment();
-        fragment.mTopicEntity = mTopicEntity;
+        fragment.mSubjectClass = mSubjectClass;
         Bundle bundle = new Bundle();
-        bundle.putString("classType", classType);
         bundle.putInt("index", index);
         fragment.setArguments(bundle);
         return fragment;
@@ -80,7 +71,6 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            classType = bundle.getString("classType");
             index = bundle.getInt("index");
         }
     }
@@ -97,83 +87,90 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
     public void initView() {
         super.initView();
 
-        optionsAdapter = new SuperTopicAskOpAdapter(getActivity(), optionsList, new SuperTopicAskOpAdapter.OnCommItemListener() {
-            @Override
-            public void sendNextFragmentMessage(String id, String answer) {
-                answerTmp = answer;
-            }
+        topic_mathview.formatMath();
+        answer_mathView.formatMath();
 
-            @Override
-            public void sendIndex(int index) {
-            }
-        });
+        optionsAdapter = new SuperTopicAskOpAdapter(getActivity(), mSubjectClass);
+        optionsAdapter.userAnswer = mSubjectClass.userAnswer;
         rv_topic.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rv_topic.setAdapter(optionsAdapter);
-        if (mTopicEntity != null) {
-            tv_index.setText((index + 1) + ".");
 
-            String answerTmp = "";
-            for (SuperBuyClearanceEntity.ListBean.OptionsBean a : mTopicEntity.getOptions()) {
-                answerTmp = answerTmp + a.getOptionName() + ". " + a.getOptionContentHtml().substring(3, a.getOptionContentHtml().length() - 4) + "<br/>";
+        tv_index.setText((index + 1) + ".");
+
+
+        StringBuffer optionDes = new StringBuffer(mSubjectClass.getSubjectDescriptionHtml());
+        try{
+            for (SubjectExerEntity.SubjectOption a : mSubjectClass.getOptions()) {
+                optionDes.append("<p>").append(a.getOptionName())
+                        .append(a.getOptionContentHtml().replace("<p>","").replace("</p>",""))
+                        .append("</p>");
             }
-            topic_mathview.setText(mTopicEntity.getSubjectDescriptionHtml() + answerTmp);
-            answer_mathView.setText(mTopicEntity.getDetailsAnswerHtml());
-            start_view.setmStarNum(mTopicEntity.getDifficulty());
-
-            optionsList.clear();
-            optionsList.addAll(mTopicEntity.getOptions());
-
-            if (optionsList.size() > 0 && optionsList.get(0).getResultEntity() != null) {
-                btn_submit.setVisibility(View.INVISIBLE);
-                cb_detail.setVisibility(View.VISIBLE);
-                answer_mathView.setVisibility(cb_detail.isChecked() ? View.GONE : View.VISIBLE);
-            }
-
-            if (optionsList.size() <= 0){
-                btn_submit.setVisibility(View.INVISIBLE);
-                cb_detail.setVisibility(View.VISIBLE);
-                answer_mathView.setVisibility(cb_detail.isChecked() ? View.GONE : View.VISIBLE);
-            }
-
-            optionsAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+            e.printStackTrace();
         }
+        topic_mathview.setText(optionDes.toString());
+
+        answer_mathView.setText(mSubjectClass.getDetailsAnswerHtml());
+        start_view.setmStarNum(mSubjectClass.getDifficulty());
+
+        if(!TextUtils.isEmpty(mSubjectClass.userAnswer)){
+            optionsAdapter.userAnswer = mSubjectClass.userAnswer;
+            optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
+
+            btn_submit.setVisibility(View.INVISIBLE);
+            cb_detail.setVisibility(View.VISIBLE);
+
+            cb_detail.setChecked(mSubjectClass.isShowDetailsAnswer);
+            answer_mathView.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.GONE);
+        }
+
+        tv_subject_type.setVisibility(View.GONE);
+        if(!TextUtils.equals(mSubjectClass.getSubjectType().getTypeId(),"1")){
+            tv_subject_type.setVisibility(View.VISIBLE);
+            btn_submit.setVisibility(View.INVISIBLE);
+            cb_detail.setVisibility(View.VISIBLE);
+        }
+
+        optionsAdapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.btn_submit, R.id.cb_detail})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit:
-                if (answerTmp == null) {
+                String userAnswer = null;
+                for(SubjectExerEntity.SubjectOption e:mSubjectClass.getOptions()){
+                    if(e.isSelect){
+                        userAnswer = e.getOptionName();
+                    }
+                }
+                if(TextUtils.isEmpty(userAnswer)){
                     showShortToast("请先答题");
                     return;
                 }
-                String answerstr = String.format("{\"subList\":[{\"id\":\"%s\",\"subject_type\":{\"type_id\":\"%s\"},\"user_answer\":\"%s\"}]}",
-                        mTopicEntity.getId(), mTopicEntity.getSubjectType().getTypeId(), answerTmp);
 
-                mPresenter.subjectClassic(answerstr, classType, new ApiRequestListener<String>() {
-                    @Override
-                    public void onResultSuccess(String res) {
-                        SubjectEntity sEntity = JSON.parseObject(res, SubjectEntity.class);
-                        ResultEntity rEntity = new ResultEntity(sEntity.getId(), sEntity.getUserAnswer(),
-                                sEntity.getRightAnswer(), 0);
-                    }
-                });
+                mSubjectClass.userAnswer = userAnswer;
+                optionsAdapter.userAnswer = userAnswer;
+                optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
+                optionsAdapter.notifyDataSetChanged();
 
-                ResultEntity e = new ResultEntity(mTopicEntity.getId(), answerTmp, mTopicEntity.getRightAnswer(), 0);
-                setAdapterResultEntity(e);
+//                String answerstr = String.format("{\"subList\":[{\"id\":\"%s\",\"subject_type\":{\"type_id\":\"%s\"},\"user_answer\":\"%s\"}]}",
+//                        mSubjectClass.getSubjectid(), mSubjectClass.getSubjectType().getTypeId(), userAnswer);
+//
+//                mPresenter.subjectClassic(answerstr, classType, new ApiRequestListener<String>() {
+//                    @Override
+//                    public void onResultSuccess(String res) {
+//                    }
+//                });
+
                 btn_submit.setVisibility(View.INVISIBLE);
                 cb_detail.setVisibility(View.VISIBLE);
                 break;
             case R.id.cb_detail:
-                answer_mathView.setVisibility(cb_detail.isChecked() ? View.VISIBLE : View.GONE);
+                mSubjectClass.isShowDetailsAnswer = !mSubjectClass.isShowDetailsAnswer;
+                cb_detail.setChecked(mSubjectClass.isShowDetailsAnswer);
+                answer_mathView.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.GONE);
                 break;
         }
-    }
-
-    public void setAdapterResultEntity(ResultEntity resultEntity) {
-        for (int i = 0; i < optionsList.size(); i++) {
-            optionsList.get(i).setResultEntity(resultEntity);
-        }
-        optionsAdapter.updateResult(resultEntity);
     }
 }

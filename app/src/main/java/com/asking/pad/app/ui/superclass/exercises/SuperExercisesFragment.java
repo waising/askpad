@@ -14,17 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
-import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.entity.SuperBuyClearanceEntity;
-import com.asking.pad.app.entity.SuperSubjectTopicEntity;
+import com.asking.pad.app.entity.superclass.exer.SubjectExerEntity;
+import com.asking.pad.app.entity.superclass.exer.SubjectTopicEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,17 +51,17 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
 
     CommPagerAdapter mPagerAdapter;
 
+    boolean isBuy;
     String gradeId;
     String knowledgeId;
-    String classType;
 
     private String topic_id;
     private int start = 0;
     private int limit = 5;
     boolean flag;
 
-    private List<SuperSubjectTopicEntity> subjectList = new ArrayList<>();
-    private List<SuperBuyClearanceEntity.ListBean> topicList = new ArrayList<>();
+    private List<SubjectTopicEntity> subjectList = new ArrayList<>();
+    private List<SubjectExerEntity> topicList = new ArrayList<>();
 
     public static SuperExercisesFragment newInstance(Bundle bundle) {
         SuperExercisesFragment fragment = new SuperExercisesFragment();
@@ -76,7 +75,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
         if (bundle != null) {
             gradeId = bundle.getString("gradeId");
             knowledgeId = bundle.getString("knowledgeId");
-            classType = bundle.getString("classType");
+            isBuy = bundle.getBoolean("isBuy");
         }
     }
 
@@ -104,14 +103,16 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
             @Override
             public void onPageSelected(int position) {
             }
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
                 switch (state) {
                     case ViewPager.SCROLL_STATE_DRAGGING:
-                        flag= false;
+                        flag = false;
                         break;
                     case ViewPager.SCROLL_STATE_SETTLING:
                         flag = true;
@@ -127,70 +128,81 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
             }
         });
 
-        refreshData(gradeId,knowledgeId,classType);
+        refreshData(gradeId, knowledgeId, isBuy);
     }
 
     private boolean isRunLoaMoreData = false;
-    private void loaMoreData(){
-        if(!isRunLoaMoreData){
+
+    private void loaMoreData() {
+        if (!isRunLoaMoreData) {
             isRunLoaMoreData = true;
-            start = start +1;
+            start = start + 1;
             loadSubject();
         }
     }
 
-    public void refreshData(String gradeId, String knowledgeId, String classType) {
-        start = 0;
+    public void refreshData(String gradeId, String knowledgeId, boolean isBuy) {
+        this.start = 0;
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
-        this.classType = classType;
+        this.isBuy = isBuy;
 
-        mPresenter.getSubjectTopic(classType,knowledgeId,gradeId, new ApiRequestListener<String>(){
-            @Override
-            public void onResultSuccess(String res) {
-                subjectList.clear();
-                subjectList.addAll(CommonUtil.parseDataToList(res, new TypeToken<List<SuperSubjectTopicEntity>>() {}));
-                if(subjectList.size()>0){
-                    SuperSubjectTopicEntity entity = subjectList.get(0);
-                    topic_id =entity.getTopic_id();
-                    entity.setSelect(true);
+        if (isBuy) {
+
+        } else {
+            mPresenter.getSubjectTopic(gradeId, knowledgeId, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String res) {
+                    subjectList.clear();
+                    subjectList.add(new SubjectTopicEntity("0", "综合篇"));
+                    subjectList.addAll(JSON.parseArray(res, SubjectTopicEntity.class));
+                    if (subjectList.size() > 0) {
+                        SubjectTopicEntity entity = subjectList.get(0);
+                        topic_id = entity.topicId;
+                        entity.isSelect = true;
+                    }
+                    subjectAdapter.notifyDataSetChanged();
+                    loadSubject();
                 }
-                subjectAdapter.notifyDataSetChanged();
-                loadSubject();
-            }
-        });
+            });
+        }
     }
 
-    private void loadSubject(){
-        mPresenter.getAllSubjectClassic(classType,knowledgeId,gradeId,topic_id,start, limit,new ApiRequestListener<String>(){
-            @Override
-            public void onResultSuccess(String res) {
-                SuperBuyClearanceEntity entity = new Gson().fromJson(res, SuperBuyClearanceEntity.class);
-                if(start == 0){
-                    topicList.clear();
+    private void loadSubject() {
+        if (isBuy) {
+
+        } else {
+            mPresenter.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String res) {
+                    JSONObject jsonRes = JSON.parseObject(res);
+                    List<SubjectExerEntity> list = JSON.parseArray(jsonRes.getString("subjects"),SubjectExerEntity.class);
+                    if (start == 0) {
+                        topicList.clear();
+                    }
+                    topicList.addAll(list);
+                    mPagerAdapter.notifyDataSetChanged();
+                    indicator.notifyDataSetChanged();
+
+                    if (start == 0) {
+                        mViewpager.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mViewpager.setCurrentItem(0);
+                            }
+                        });
+                    }
+
+                    isRunLoaMoreData = false;
                 }
-                topicList.addAll(entity.getList());
-                mPagerAdapter.notifyDataSetChanged();
-                indicator.notifyDataSetChanged();
 
-                if(start == 0){
-                    mViewpager.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mViewpager.setCurrentItem(0);
-                        }
-                    });
+                @Override
+                public void onResultFail() {
+                    start = start - 1;
+                    isRunLoaMoreData = false;
                 }
-
-                isRunLoaMoreData = false;
-            }
-
-            @Override
-            public void onResultFail() {
-                start = start -1;
-                isRunLoaMoreData = false;
-            }
-        });
+            });
+        }
     }
 
     class CommViewHolder extends RecyclerView.ViewHolder {
@@ -199,39 +211,39 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
 
         public CommViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     public class CommAdapter extends RecyclerView.Adapter<CommViewHolder> {
 
-        private List<SuperSubjectTopicEntity> mDatas;
+        private List<SubjectTopicEntity> mDatas;
         private Context mContext;
 
-        public CommAdapter(Context context, List<SuperSubjectTopicEntity> datas){
+        public CommAdapter(Context context, List<SubjectTopicEntity> datas) {
             this.mContext = context;
             this.mDatas = datas;
         }
 
         @Override
         public CommViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new CommViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_super_exercises,parent,false));
+            return new CommViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_super_exercises, parent, false));
         }
 
         @Override
         public void onBindViewHolder(CommViewHolder holder, int position) {
-            final SuperSubjectTopicEntity e = mDatas.get(position);
-            holder.item_name.setSelected(e.getSelect());
-            holder.item_name.setText(e.getTopic_name());
+            final SubjectTopicEntity e = mDatas.get(position);
+            holder.item_name.setSelected(e.isSelect);
+            holder.item_name.setText(e.topicName);
             holder.item_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (SuperSubjectTopicEntity ii : mDatas) {
-                        ii.setSelect(false);
+                    for (SubjectTopicEntity ii : mDatas) {
+                        ii.isSelect = false;
                     }
-                    e.setSelect(true);
+                    e.isSelect = true;
                     notifyDataSetChanged();
-                    topic_id =e.getTopic_id();
+                    topic_id = e.topicId;
                     start = 0;
                     loadSubject();
                 }
@@ -246,19 +258,19 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
 
     @OnClick({R.id.iv_pre, R.id.iv_next})
     public void onClick(View view) {
-        int index = 0;
-        switch(view.getId()){
+        int index;
+        switch (view.getId()) {
             case R.id.iv_pre:
                 index = mViewpager.getCurrentItem() - 1;
-                if(index >= 0){
+                if (index >= 0) {
                     mViewpager.setCurrentItem(index);
                 }
                 break;
             case R.id.iv_next:
                 index = mViewpager.getCurrentItem() + 1;
-                if(index < mPagerAdapter.getCount()){
+                if (index < mPagerAdapter.getCount()) {
                     mViewpager.setCurrentItem(index);
-                }else{
+                } else {
                     loaMoreData();
                 }
                 break;
@@ -279,13 +291,13 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
 
         @Override
         public Fragment getItem(int position) {
-            SuperBuyClearanceEntity.ListBean e = topicList.get(position);
-            return SuperTopicAskFragment.newInstance(e,classType,position);
+            SubjectExerEntity e = topicList.get(position);
+            return SuperTopicAskFragment.newInstance(e,position);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return (position+1)+"";
+            return (position + 1) + "";
         }
 
         @Override

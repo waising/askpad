@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.MusicPlayer;
-import com.asking.pad.app.entity.SuperSuperClassQuestionTimeEntity;
+import com.asking.pad.app.entity.superclass.SuperQueTime;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.superclass.tutorial.adapter.SuperQueTimeAdapter;
 import com.asking.pad.app.widget.MultiStateView;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +36,14 @@ public class SuperQueTimeFragment extends BaseFrameFragment<UserPresenter, UserM
     String gradeId;
     String knowledgeId;
 
-    List<SuperSuperClassQuestionTimeEntity.AttrListBean> mQueTimes = new ArrayList<>();
+    List<SuperQueTime> mQueTimes = new ArrayList<>();
     SuperQueTimeAdapter mQueTimeAdapter;
 
     private MusicPlayer musicPlayer;
-    private SuperQueTimeAdapter.OnCommItemListener mListener;
+    private OnPayVoiceListener mListener;
 
     public static SuperQueTimeFragment newInstance(String gradeId, String knowledgeId, boolean isBuy
-            ,MusicPlayer musicPlayer,SuperQueTimeAdapter.OnCommItemListener mListener) {
+            , MusicPlayer musicPlayer, OnPayVoiceListener mListener) {
         SuperQueTimeFragment fragment = new SuperQueTimeFragment();
         Bundle bundle = new Bundle();
         bundle.putString("gradeId", gradeId);
@@ -72,7 +72,7 @@ public class SuperQueTimeFragment extends BaseFrameFragment<UserPresenter, UserM
         super.initView();
 
         rv_quetime.setLayoutManager(new LinearLayoutManager(getContext()));
-        mQueTimeAdapter = new SuperQueTimeAdapter(this.getActivity(), mQueTimes, rv_quetime, musicPlayer,mListener);
+        mQueTimeAdapter = new SuperQueTimeAdapter(this.getActivity(), mQueTimes, rv_quetime, musicPlayer, mListener);
         rv_quetime.setAdapter(mQueTimeAdapter);
 
         refreshData(gradeId, knowledgeId, isBuy);
@@ -88,18 +88,17 @@ public class SuperQueTimeFragment extends BaseFrameFragment<UserPresenter, UserM
         if (isBuy) {
             mPresenter.getSuperBuyFragment1(gradeId, knowledgeId, 2, buy2Listener);
         } else {
-            mPresenter.getSuperFreeFragment1(gradeId, knowledgeId, 2, buy2Listener);
+            mPresenter.synclesson(gradeId, knowledgeId, 2, buy2Listener);
         }
     }
 
     ApiRequestListener buy2Listener = new ApiRequestListener<String>() {
         @Override
         public void onResultSuccess(String res) {
-            SuperSuperClassQuestionTimeEntity entity = new Gson().fromJson(res, SuperSuperClassQuestionTimeEntity.class);
-            if (entity.getAttrList() != null) {
-                mQueTimes.clear();
-                mQueTimes.addAll(entity.getAttrList());
-                mQueTimeAdapter.notifyDataSetChanged();
+            mQueTimes.clear();
+            mQueTimes.addAll(JSON.parseArray(res, SuperQueTime.class));
+            mQueTimeAdapter.notifyDataSetChanged();
+            if (mQueTimes.size() > 0) {
                 load_View.setViewState(MultiStateView.VIEW_STATE_CONTENT);
             } else {
                 load_View.setViewState(MultiStateView.VIEW_STATE_EMPTY);

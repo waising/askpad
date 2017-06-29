@@ -42,16 +42,16 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().resetPass(mobile, password, verifyCode).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> geteStudyClassicTree() {
-        return Networks.getInstance().getUserApi().geteStudyClassicTree().compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> findTreeListWithAllCourse(String productId) {
+        return Networks.getInstance().getUserApi().findTreeListWithAllCourse(productId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> checkUserInfo() {
         return Networks.getInstance().getUserApi().checkUserInfo().compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> superlessontree(String versionLevelId) {
-        return Networks.getInstance().getUserApi().superlessontree(versionLevelId).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> synclesson(String commodityId) {
+        return Networks.getInstance().getUserApi().synclesson(commodityId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
 
@@ -71,20 +71,16 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().secondreviewtree(orgId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getSuperFreeFragment1(String levelId, String knowledgeId, int type) {
-        return Networks.getInstance().getUserApi().getSuperFreeFragment1(levelId, knowledgeId, type).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> synclesson(String gradeId, String knowledgeId, int type) {
+        return Networks.getInstance().getUserApi().synclesson(gradeId, knowledgeId, type).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getSuperBuyFragment1(String levelId, String knowledgeId, int type) {
         return Networks.getInstance().getUserApi().getSuperBuyFragment1(levelId, knowledgeId, type).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getVoicePath(String levelId, String knowledgeId, int prefix, int suffix) {
-        return Networks.getInstance().getUserApi().getVoicePath(levelId, knowledgeId, prefix, suffix).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> getSuperFreeCoach(String versionLevelId, String id, int start, int limit) {
-        return Networks.getInstance().getUserApi().getSuperFreeCoach(versionLevelId, id, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> getVoicePath(String gradeId, String knowledgeId, int type, int position) {
+        return Networks.getInstance().getUserApi().getVoicePath(gradeId, knowledgeId, type, position).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getSuperBuyCoach(String versionLevelId, String id, int start, int limit) {
@@ -99,12 +95,12 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().getSubjectMul(kindId, catalogCode, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getSubjectTopic(String subjectCatalog, String tipId, String versionLevelId) {
-        return Networks.getInstance().getUserApi().getSubjectTopic(subjectCatalog, tipId, versionLevelId).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> getSubjectTopic(String gradeId, String knowledgeId) {
+        return Networks.getInstance().getUserApi().getSubjectTopic(gradeId, knowledgeId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getAllSubjectClassic(String subjectCatalog, String tipId, String versionLevelId, String subjectType, int start, int limit) {
-        return Networks.getInstance().getUserApi().getAllSubjectClassic(subjectCatalog, tipId, versionLevelId, subjectType, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> getAllSubjectClassic(String gradeId, String knowledgeId, String topic_id, int start, int limit) {
+        return Networks.getInstance().getUserApi().getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> subjectClassic(Map<String, RequestBody> params) {
@@ -252,19 +248,19 @@ public class UserModel extends BaseModel {
                 remark, area, levelId, classId,avatar).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> versionClassic(String subjectCatalog) {
+    public Observable<ResponseBody> productType(String packageTypeId) {
         return Networks.getInstance().getUserApi()
-                .versionClassic(subjectCatalog).compose(RxSchedulers.<ResponseBody>io_main());
+                .productType(packageTypeId).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getCommodityList(String subjectCatalog, int months, int type) {
+    public Observable<ResponseBody> getCommodityList(String packageTypeId, int timeLimit, int start, int limit) {
         return Networks.getInstance().getUserApi()
-                .getCommodityList(subjectCatalog, months, type).compose(RxSchedulers.<ResponseBody>io_main());
+                .getCommodityList(packageTypeId, timeLimit, start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getRechargeList() {
+    public Observable<ResponseBody> getRechargeList(int start, int limit) {
         return Networks.getInstance().getUserApi()
-                .getRechargeList().compose(RxSchedulers.<ResponseBody>io_main());
+                .getRechargeList(start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getAppCharge(PayEntity payEntity) {

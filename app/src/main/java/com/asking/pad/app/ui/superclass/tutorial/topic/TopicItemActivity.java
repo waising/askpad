@@ -8,18 +8,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.R;
-import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
-import com.asking.pad.app.entity.SuperSuperClassSpeakerEntity;
+import com.asking.pad.app.commom.ParamHelper;
 import com.asking.pad.app.entity.classex.SubjectClass;
+import com.asking.pad.app.entity.superclass.SuperClassSpeaker;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskMathView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,15 +43,9 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
 
     CommPagerAdapter mPagerAdapter;
 
-
-    private int start = 0;
-    private int limit = 10;
-
     boolean isBuy;
 
-    private SuperSuperClassSpeakerEntity.ListBean mClassSpeaker;
-
-    private List<SubjectClass> dataList = new ArrayList<>();
+    private SuperClassSpeaker mClassSpeaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +53,8 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
         setContentView(R.layout.activity_topic_item);
         ButterKnife.bind(this);
 
-        mClassSpeaker = (SuperSuperClassSpeakerEntity.ListBean) getIntent().getSerializableExtra("SuperSuperClassSpeakerEntity.ListBean");
+        HashMap<String, Object> mParams = ParamHelper.acceptParams(TopicItemActivity.class.getName());
+        mClassSpeaker = (SuperClassSpeaker) mParams.get("SuperClassSpeaker");
         isBuy = this.getIntent().getBooleanExtra("isBuy", false);
     }
 
@@ -70,21 +63,9 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
         super.initView();
         setToolbar(toolBar, "典例");
 
-
         tit_mathView.formatMath().showWebImage();
-        String strTmp = "";
 
-        try {
-            if (mClassSpeaker.getSubject().getSubjectTypeBean().getType_id().equals("1")) {//选择题
-                for (SuperSuperClassSpeakerEntity.ListBean.SubjectBean.OptionsBean o : mClassSpeaker.getSubject().getOptions()) {
-                    strTmp = strTmp + o.getOptionName() + ". " + o.getOptionContentHtml().substring(3, o.getOptionContentHtml().length() - 4) + "<br/>";
-                }
-                tit_mathView.setText(mClassSpeaker.getSubject().getSubjectDescriptionHtml() + strTmp);
-            } else {
-                tit_mathView.setText(mClassSpeaker.getSubject().getSubjectDescriptionHtml());
-            }
-        } catch (Exception e) {
-        }
+        tit_mathView.setText(mClassSpeaker.getSubjectDescriptionHtml());
 
         mPagerAdapter = new CommPagerAdapter(getSupportFragmentManager());
         mViewpager.setAdapter(mPagerAdapter);
@@ -95,30 +76,6 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
         initLoad();
     }
 
-    @Override
-    public void initLoad() {
-        mPresenter.getSubjectMul(isBuy, mClassSpeaker.getKindId(), getIntent().getStringExtra("classType").substring(0, 1), start, limit, new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String res) {
-                List<SubjectClass> list = JSON.parseArray(res, SubjectClass.class);
-                dataList.clear();
-                dataList.addAll(list);
-
-                indicator.removeAllTabs();
-                for (SuperSuperClassSpeakerEntity.ListBean.TabListBean e : mClassSpeaker.getTabList()) {
-                    indicator.addTab(indicator.newTab().setText(e.getTabTypeName()));
-                }
-                indicator.addTab(indicator.newTab().setText("详细解题"));
-                for (int i = 0; i < dataList.size(); i++) {
-                    indicator.addTab(indicator.newTab().setText("变式题" + (i + 1)));
-                }
-
-                mPagerAdapter.notifyDataSetChanged();
-            }
-
-        });
-    }
-
     public class CommPagerAdapter extends FragmentStatePagerAdapter {
 
         public CommPagerAdapter(FragmentManager fm) {
@@ -127,32 +84,32 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
 
         @Override
         public int getCount() {
-            return dataList.size() + mClassSpeaker.getTabList().size() + 1;
+            return mClassSpeaker.subjectmuls.size() + mClassSpeaker.getClassTabList().size() + 1;
         }
 
         @Override
         public Fragment getItem(int position) {
-            int index = mClassSpeaker.getTabList().size();
+            int index = mClassSpeaker.getClassTabList().size();
 
             if (position < index) {
-                return TopicWebTxtFragment.newInstance(mClassSpeaker.getTabList().get(position).getTabContentHtml());
+                return TopicWebTxtFragment.newInstance(mClassSpeaker.getClassTabList().get(position).tabContentHtml);
             }
 
             if (index == position) {
-                return TopicWebTxtFragment.newInstance(mClassSpeaker.getSubject().getDetailsAnswerHtml());
+                return TopicWebTxtFragment.newInstance(mClassSpeaker.subject.detailsAnswerHtml);
             }
             position = position - (index + 1);
-            SubjectClass e = dataList.get(position);
+            SubjectClass e = mClassSpeaker.subjectmuls.get(position);
             return TopicItemFragment.newInstance(position, e);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
 
-            int index = mClassSpeaker.getTabList().size();
+            int index = mClassSpeaker.getClassTabList().size();
 
             if (position < index) {
-                return mClassSpeaker.getTabList().get(position).getTabTypeName();
+                return mClassSpeaker.getClassTabList().get(position).tabTypeName;
             }
 
             if (index == position) {
