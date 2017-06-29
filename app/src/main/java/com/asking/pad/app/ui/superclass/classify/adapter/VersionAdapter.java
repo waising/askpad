@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.superclass.StudyClassVersion;
+import com.asking.pad.app.entity.superclass.StudyClassSubject;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import butterknife.ButterKnife;
 
 public class VersionAdapter extends RecyclerView.Adapter<VersionAdapter.CommViewHolder> {
 
-    private List<StudyClassVersion> mDatas;
+    private List<StudyClassSubject> mDatas;
     private Context mContext;
 
-    public VersionAdapter(Context context, List<StudyClassVersion> datas, OnCommItemListener mListener){
+    public VersionAdapter(Context context, List<StudyClassSubject> datas, OnCommItemListener mListener){
         this.mContext = context;
         this.mDatas = datas;
         this.mListener = mListener;
@@ -37,13 +37,13 @@ public class VersionAdapter extends RecyclerView.Adapter<VersionAdapter.CommView
 
     @Override
     public void onBindViewHolder(CommViewHolder holder, int position) {
-        final StudyClassVersion e = mDatas.get(position);
+        final StudyClassSubject e = mDatas.get(position);
         holder.item_name.setSelected(e.isSelect);
-        holder.item_name.setText(e.getVersionName());
+        holder.item_name.setText(e.getProductName());
         holder.item_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (StudyClassVersion ii : mDatas) {
+                for (StudyClassSubject ii : mDatas) {
                     ii.isSelect = false;
                 }
                 e.isSelect = true;
@@ -69,7 +69,7 @@ public class VersionAdapter extends RecyclerView.Adapter<VersionAdapter.CommView
     }
 
     public interface OnCommItemListener{
-        void OnCommItem(StudyClassVersion e);
+        void OnCommItem(StudyClassSubject e);
     }
 
     OnCommItemListener mListener;

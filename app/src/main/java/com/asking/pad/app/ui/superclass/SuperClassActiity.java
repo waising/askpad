@@ -13,13 +13,13 @@ import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.ParamHelper;
-import com.asking.pad.app.commom.TreeItemHolder;
+import com.asking.pad.app.entity.superclass.SuperLessonTree;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
+import com.asking.pad.app.ui.pay.PayAskActivity;
 import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
 import com.asking.pad.app.ui.superclass.exercises.SuperExercisesFragment;
 import com.asking.pad.app.ui.superclass.tutorial.SuperTutorialFragment;
-import com.unnamed.b.atv.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by jswang on 2017/4/10.
  */
 
-public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,UserModel> {
+public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, UserModel> {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -60,13 +60,13 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,U
     boolean isBuy;
     String classType;
     String gradeId;
-
     String knowledgeName;
     String knowledgeId;
+    int free;
 
     int knowledgeIndex;
 
-    List<TreeNode> treeNodeList = new ArrayList<>();
+    List<SuperLessonTree> treeLessonList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +74,17 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,U
         setContentView(R.layout.activity_super_class);
         ButterKnife.bind(this);
 
-        isBuy = this.getIntent().getBooleanExtra("isBuy",false);
+        isBuy = this.getIntent().getBooleanExtra("isBuy", false);
         classType = this.getIntent().getStringExtra("classType");
         gradeId = this.getIntent().getStringExtra("gradeId");
         knowledgeId = this.getIntent().getStringExtra("knowledgeId");
         knowledgeName = this.getIntent().getStringExtra("knowledgeName");
-        knowledgeIndex = this.getIntent().getIntExtra("knowledgeIndex",0);
+        knowledgeIndex = this.getIntent().getIntExtra("knowledgeIndex", 0);
+        free = this.getIntent().getIntExtra("free", 0);
 
         HashMap<String, Object> mParams = ParamHelper.acceptParams(ClassifyActivty.class.getName());
-        treeNodeList.clear();
-        treeNodeList.addAll((List<TreeNode>) mParams.get("treeNodeList"));
-
-        if(!isBuy){
-            ll_tab.setVisibility(View.GONE);
-        }
+        treeLessonList.clear();
+        treeLessonList.addAll((List<SuperLessonTree>) mParams.get("treeLessonList"));
     }
 
     @Override
@@ -103,32 +100,32 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,U
         fragments.add(SuperExercisesFragment.newInstance(getIntent().getExtras()));
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment,fragments.get(0))
-                .add(R.id.fragment,fragments.get(1))
+                .add(R.id.fragment, fragments.get(0))
+                .add(R.id.fragment, fragments.get(1))
                 .hide(fragments.get(1)).show(fragments.get(0)).commit();
 
 
         showPageIndex();
     }
 
-    private void initDataView(String gradeId, String knowledgeId, String classType, boolean isBuy){
-        ((SuperTutorialFragment)fragments.get(0)).refreshData(gradeId,knowledgeId,classType,isBuy);
-        ((SuperExercisesFragment)fragments.get(1)).refreshData(gradeId,knowledgeId,classType);
+    private void initDataView(String gradeId, String knowledgeId, boolean isBuy) {
+        ((SuperTutorialFragment) fragments.get(0)).refreshData(gradeId, knowledgeId, isBuy);
+        ((SuperExercisesFragment) fragments.get(1)).refreshData(gradeId, knowledgeId, isBuy);
         showPageIndex();
     }
 
     public void onEventMainThread(AppEventType event) {
-        switch (event.type){
+        switch (event.type) {
             case AppEventType.CLASSIFY_REQUEST:
 
-                gradeId = (String)event.values[2];
-                knowledgeId = (String)event.values[4];
-                classType = (String)event.values[1];
-                isBuy = (boolean)event.values[0];
-                knowledgeName = (String)event.values[3];
-                knowledgeIndex = (int)event.values[5];
+                gradeId = (String) event.values[2];
+                knowledgeId = (String) event.values[4];
+                classType = (String) event.values[1];
+                isBuy = (boolean) event.values[0];
+                knowledgeName = (String) event.values[3];
+                knowledgeIndex = (int) event.values[5];
 
-                initDataView(gradeId,knowledgeId,classType,isBuy);
+                initDataView(gradeId, knowledgeId, isBuy);
                 break;
         }
     }
@@ -149,7 +146,7 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,U
 
     @OnClick({R.id.tv_supertutorial, R.id.tv_exercises, R.id.tv_title, R.id.tv_pre, R.id.tv_next})
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.tv_supertutorial:
             case R.id.tv_exercises:
                 int index = 0;
@@ -165,43 +162,53 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter,U
                 break;
             case R.id.tv_title:
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isBuy",isBuy);
-                bundle.putString("classType",classType);
-                bundle.putString("className", Constants.getClassName(this,classType));
-                bundle.putBoolean("isSelectNode",true);
-                CommonUtil.openActivity(ClassifyActivty.class,bundle);
+                bundle.putBoolean("isBuy", isBuy);
+                bundle.putString("classType", classType);
+                bundle.putString("className", Constants.getClassName(this, classType));
+                bundle.putBoolean("isSelectNode", true);
+                CommonUtil.openActivity(ClassifyActivty.class, bundle);
                 break;
             case R.id.tv_pre:
                 knowledgeIndex = knowledgeIndex - 1;
-                if(knowledgeIndex >= 0){
-                    setPage();
+                if (knowledgeIndex >= 0) {
+                    if(!setPage()){
+                        knowledgeIndex = knowledgeIndex + 1;
+                    }
                 }
                 break;
             case R.id.tv_next:
                 knowledgeIndex = knowledgeIndex + 1;
-                if(knowledgeIndex < treeNodeList.size()){
-                    setPage();
+                if (knowledgeIndex < treeLessonList.size()) {
+                    if(!setPage()){
+                        knowledgeIndex = knowledgeIndex - 1;
+                    }
                 }
                 break;
         }
     }
 
-    private void showPageIndex(){
+    private void showPageIndex() {
         tv_pre.setVisibility(View.VISIBLE);
         tv_next.setVisibility(View.VISIBLE);
-        if(knowledgeIndex <= 0){
+        if (knowledgeIndex <= 0) {
             tv_pre.setVisibility(View.INVISIBLE);
-        }else if(knowledgeIndex >= treeNodeList.size()-1){
+        } else if (knowledgeIndex >= treeLessonList.size() - 1) {
             tv_next.setVisibility(View.INVISIBLE);
         }
         tv_title.setText(knowledgeName);
     }
 
-    private void setPage(){
-        TreeNode e = treeNodeList.get(knowledgeIndex);
-        knowledgeName = ((TreeItemHolder.IconTreeItem) e.getValue()).getText();
-        knowledgeId = ((TreeItemHolder.IconTreeItem) e.getValue()).getId();
-
-        initDataView(gradeId,knowledgeId,classType,isBuy);
+    private boolean setPage() {
+        SuperLessonTree e = treeLessonList.get(knowledgeIndex);
+        knowledgeName = e.name;
+        knowledgeId = e.id;
+        if (e.free != 0 || e.purchased != 0) {
+            initDataView(gradeId, knowledgeId, isBuy);
+        }else{
+            CommonUtil.openAuthActivity(PayAskActivity.class);
+            finish();
+            return  false;
+        }
+        return  true;
     }
 }

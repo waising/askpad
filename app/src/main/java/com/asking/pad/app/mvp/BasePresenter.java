@@ -163,6 +163,7 @@ public abstract class BasePresenter<M> {
                             String result = obj.string();
                             mListener.onResultSuccess(result);
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }, new Action1<Throwable>() {

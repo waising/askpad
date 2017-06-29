@@ -69,8 +69,8 @@ public interface UserApi {
      *
      * @return
      */
-    @GET("coach/tree")
-    Observable<ResponseBody> geteStudyClassicTree();
+    @POST("productapi/product/courseType/findTreeListWithAllCourse")
+    Observable<ResponseBody> findTreeListWithAllCourse(@Query("productId") String productId);
 
     /**
      * 检查用户学校信息是否完善
@@ -81,8 +81,8 @@ public interface UserApi {
     Observable<ResponseBody> checkUserInfo();
 
     /**获取章节目录*/
-    @GET("coachapi/superlesson/tree/{versionLevelId}")
-    Observable<ResponseBody> superlessontree(@Path("versionLevelId") String versionLevelId);
+    @GET("courseapi/synclesson/{commodityId}")
+    Observable<ResponseBody> synclesson(@Path("commodityId") String commodityId);
 
     /**
      * 获取章节目录
@@ -111,8 +111,8 @@ public interface UserApi {
     /**
      * 获取超级辅导课阿思可博士有话说列表
      */
-    @POST("freeStudyClassic/version/{levelId}/knowledge/{knowledgeId}/attr")
-    Observable<ResponseBody> getSuperFreeFragment1(@Path("levelId") String levelId, @Path("knowledgeId") String knowledgeId, @Query("type") int type);
+    @GET("courseapi/synclesson/{gradeId}/{knowledgeId}/{type}")
+    Observable<ResponseBody> synclesson(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId, @Path("type") int type);
 
     /**
      * 获取超级辅导课阿思可博士有话说列表
@@ -125,15 +125,9 @@ public interface UserApi {
      * prefix--1--有话说==2--问答时间==3来讲题（课堂总结没有音频）
      * suffix--获取的音频的内容在列表的顺序+1（第0个及最开头的一个播放音频的suffix=1）
      */
-    @POST("freeStudyClassic/version/{levelId}/knowledge/{knowledgeId}/voice")
-    Observable<ResponseBody> getVoicePath(@Path("levelId") String levelId, @Path("knowledgeId") String knowledgeId,
-                                          @Query("prefix") int prefix, @Query("suffix") int suffix);
-
-    /**
-     * 超级辅导课阿思可博士来讲题
-     */
-    @POST("freeStudyClassic/version/{versionLevelId}/knowledge/{id}/kind")
-    Observable<ResponseBody> getSuperFreeCoach(@Path("versionLevelId") String versionLevelId, @Path("id") String id, @Query("start") int start, @Query("limit") int limit);
+    @GET("courseapi/synclesson/voice/{gradeId}/{knowledgeId}/{type}/{position}")
+    Observable<ResponseBody> getVoicePath(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId,
+                                          @Path("type") int type, @Path("position") int position);
 
     /**
      * 超级辅导课阿思可博士来讲题
@@ -154,15 +148,15 @@ public interface UserApi {
      * 演练大冲关获取题类
      * subjectCatalog--M3
      */
-    @POST("coach/{subjectCatalog}/getSubjectTopic")
-    Observable<ResponseBody> getSubjectTopic(@Path("subjectCatalog") String subjectCatalog, @Query("tipId") String tipId, @Query("version_level_id") String versionLevelId);
+    @GET("courseapi/sprint/{gradeId}/{knowledgeId}")
+    Observable<ResponseBody> getSubjectTopic(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId);
 
     /**
      * 演练大冲关获取题目
      **/
-    @POST("coach/app/{subjectCatalog}/getAllSubjectClassic")
-    Observable<ResponseBody> getAllSubjectClassic(@Path("subjectCatalog") String subjectCatalog, @Query("tipId") String tipId, @Query("version_level_id") String versionLevelId,
-                                                  @Query("subjectType") String subjectType, @Query("start") int start, @Query("limit") int limit);
+    @GET("courseapi/sprint/{gradeId}/{knowledgeId}/{topic_id}")
+    Observable<ResponseBody> getAllSubjectClassic(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId
+            , @Path("topic_id") String topic_id, @Query("start") int start, @Query("limit") int limit);
 
 
     /**
@@ -347,26 +341,21 @@ public interface UserApi {
                                         @Query("levelId") String levelId, @Query("classId") String classId,@Query("avatar") String avatar);
 
     /**
-     * 超级辅导课
-     *
-     * @param subjectCatalog
+     * 套餐类型（根据id查询类型列表）
+     * @param packageTypeId
      * @return
      */
-    @POST("coach/{subjectCatalog}/version")
-    Observable<ResponseBody> versionClassic(@Path("subjectCatalog") String subjectCatalog);
+    @POST("productapi/product/productType/findList")
+    Observable<ResponseBody> productType(@Query("packageTypeId") String packageTypeId);
 
     /**
      * 获取辅导课和知识包信息
-     *
-     * @param subjectCatalog
-     * @param months         套餐月份 默认12
-     * @param type           1：基础知识包套餐 2：超级辅导课套餐
-     * @return
      */
-    @POST("commodity/getCommodityList")
-    Observable<ResponseBody> getCommodityList(@Query("subjectCatalog") String subjectCatalog,
-                                              @Query("months") int months,
-                                              @Query("type") int type);
+    @POST("productapi/product/package/findListByPage")
+    Observable<ResponseBody> getCommodityList(@Query("packageTypeId") String packageTypeId,
+                                              @Query("timeLimit") int timeLimit,
+                                              @Query("start") int start,
+                                              @Query("limit") int limit);
 
     /**
      * 获取阿思币充值套餐
@@ -374,8 +363,9 @@ public interface UserApi {
      * @param
      * @return
      */
-    @POST("commodity/getRechargeList")
-    Observable<ResponseBody> getRechargeList();
+    @POST("productapi/product/askCurrency/findByPage")
+    Observable<ResponseBody> getRechargeList( @Query("start") int start,
+                                              @Query("limit") int limit);
 
     /**
      * 获取充值提交数据

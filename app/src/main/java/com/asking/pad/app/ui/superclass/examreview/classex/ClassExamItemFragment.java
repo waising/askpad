@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.entity.classex.SubjectClass;
+import com.asking.pad.app.entity.classex.SubjectOption;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.superclass.examreview.classex.adapter.ClassExamItemOpAdapter;
@@ -93,7 +94,7 @@ public class ClassExamItemFragment extends BaseFrameFragment<UserPresenter, User
         rv_topic.setAdapter(optionsAdapter);
 
         String optionDes = "";
-        for (SubjectClass.SubjectOption a : mSubjectClass.getOptions()) {
+        for (SubjectOption a : mSubjectClass.getOptions()) {
             optionDes = optionDes + a.getOptionName() + ". " + a.getOptionContentHtml().substring(3, a.getOptionContentHtml().length() - 4) + "<br/>";
         }
         topic_mathview.setText((index + 1) + "." + mSubjectClass.getSubjectDescriptionHtml() + optionDes);

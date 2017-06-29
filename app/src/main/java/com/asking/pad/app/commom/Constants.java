@@ -205,13 +205,13 @@ public class Constants {
 
     public static int getClassIcon(String classType) {
         int resId = 0;
-        if (TextUtils.equals("M2", classType)) {
+        if (TextUtils.equals("XK01", classType)) {
             resId = R.mipmap.ic_superclass_m2;
-        } else if (TextUtils.equals("P2", classType)) {
+        } else if (TextUtils.equals("XK02", classType)) {
             resId = R.mipmap.ic_superclass_p2;
-        } else if (TextUtils.equals("M3", classType)) {
+        } else if (TextUtils.equals("XK03", classType)) {
             resId = R.mipmap.ic_superclass_m3;
-        } else if (TextUtils.equals("P3", classType)) {
+        } else if (TextUtils.equals("XK04", classType)) {
             resId = R.mipmap.ic_superclass_p3;
         }
         return resId;

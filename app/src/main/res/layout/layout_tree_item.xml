@@ -8,17 +8,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingTop="@dimen/space_15"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/space_15"
-        android:orientation="horizontal">
+        android:paddingTop="@dimen/space_15">
 
         <TextView
             android:id="@+id/node_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="@dimen/textSize_20"
-            android:textColor="@color/colorText_88"/>
+            android:textColor="@color/colorText_88"
+            android:textSize="@dimen/textSize_20"/>
+
+        <TextView
+            android:id="@+id/tv_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:text="免费"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/textSize_20"/>
 
         <ImageView
             android:id="@+id/icon"

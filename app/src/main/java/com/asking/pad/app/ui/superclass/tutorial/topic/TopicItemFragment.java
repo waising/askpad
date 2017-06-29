@@ -16,6 +16,7 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.entity.classex.SubjectClass;
+import com.asking.pad.app.entity.classex.SubjectOption;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.superclass.examreview.classex.adapter.TopicItemOpAdapter;
@@ -52,11 +53,13 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
     @BindView(R.id.answer_mathView)
     AskMathView answer_mathView;
 
+    @BindView(R.id.tv_subject_type)
+    TextView tv_subject_type;
+
     String classType;
     private int index = 0;
 
     private SubjectClass mSubjectClass;
-
     TopicItemOpAdapter optionsAdapter;
 
     public static TopicItemFragment newInstance(int index,SubjectClass mSubjectClass) {
@@ -101,7 +104,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
 
         String optionDes = "";
         try{
-            for (SubjectClass.SubjectOption a : mSubjectClass.getOptions()) {
+            for (SubjectOption a : mSubjectClass.getOptions()) {
                 optionDes = optionDes + a.getOptionName() + ". " + a.getOptionContent()+ "<br/>";
             }
         }catch (Exception e){}
@@ -110,11 +113,21 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         start_view.setmStarNum(mSubjectClass.getDifficulty());
 
         if(!TextUtils.isEmpty(mSubjectClass.userAnswer)){
+            optionsAdapter.userAnswer = mSubjectClass.userAnswer;
+            optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
+
             btn_submit.setVisibility(View.INVISIBLE);
             cb_detail.setVisibility(View.VISIBLE);
 
             cb_detail.setChecked(mSubjectClass.isShowDetailsAnswer);
             answer_mathView.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.GONE);
+        }
+
+        tv_subject_type.setVisibility(View.GONE);
+        if(!TextUtils.equals(mSubjectClass.getSubjectType().getTypeId(),"1")){
+            tv_subject_type.setVisibility(View.VISIBLE);
+            btn_submit.setVisibility(View.INVISIBLE);
+            cb_detail.setVisibility(View.VISIBLE);
         }
 
         optionsAdapter.notifyDataSetChanged();
@@ -125,7 +138,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         switch (v.getId()) {
             case R.id.btn_submit:
                 String userAnswer = null;
-                for(SubjectClass.SubjectOption e:mSubjectClass.getOptions()){
+                for(SubjectOption e:mSubjectClass.getOptions()){
                     if(e.isSelect){
                         userAnswer = e.getOptionName();
                     }
@@ -137,7 +150,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
 
                 mSubjectClass.userAnswer = userAnswer;
                 optionsAdapter.userAnswer = userAnswer;
-
+                optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
                 optionsAdapter.notifyDataSetChanged();
 
                 String answerstr = String.format("{\"subList\":[{\"id\":\"%s\",\"subject_type\":{\"type_id\":\"%s\"},\"user_answer\":\"%s\"}]}",

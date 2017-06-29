@@ -2,15 +2,15 @@ package com.asking.pad.app.ui.superclass.tutorial;
 
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
-import com.asking.pad.app.entity.SuperClassTalkingEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.MultiStateView;
-import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,20 +69,16 @@ public class SuperSayFragment extends BaseFrameFragment<UserPresenter, UserModel
         if (isBuy) {
             mPresenter.getSuperBuyFragment1(gradeId, knowledgeId, 1, buy1Listener);
         } else {
-            mPresenter.getSuperFreeFragment1(gradeId, knowledgeId, 1, buy1Listener);
+            mPresenter.synclesson(gradeId, knowledgeId, 1, buy1Listener);
         }
     }
 
     ApiRequestListener buy1Listener = new ApiRequestListener<String>() {
         @Override
         public void onResultSuccess(String res) {
-            SuperClassTalkingEntity entity = new Gson().fromJson(res, SuperClassTalkingEntity.class);
-            if (entity.getAttrList() != null && entity.getAttrList().size() != 0) {
-                say_mathview.setWebText(entity.getAttrList().get(0).getContentHtml());
-                load_View.setViewState(load_View.VIEW_STATE_CONTENT);
-            } else {
-                load_View.setViewState(load_View.VIEW_STATE_EMPTY);
-            }
+            JSONObject jsenRes = JSON.parseObject(res);
+            say_mathview.setWebText(jsenRes.getString("attrContentHtml"));
+            load_View.setViewState(load_View.VIEW_STATE_CONTENT);
         }
 
         @Override

@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.SuperSuperClassSpeakerEntity;
+import com.asking.pad.app.commom.ParamHelper;
+import com.asking.pad.app.entity.superclass.SuperClassSpeaker;
 import com.asking.pad.app.ui.superclass.tutorial.topic.TopicItemActivity;
 import com.asking.pad.app.widget.AskMathView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,15 +24,13 @@ import butterknife.ButterKnife;
  */
 
 public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapter.CommViewHolder>{
-    private List<SuperSuperClassSpeakerEntity.ListBean> mDatas;
+    private List<SuperClassSpeaker> mDatas;
     private Context mContext;
-    String classType;
     boolean isBuy;
 
-    public SuperSpeakerAdapter(Context context,boolean isBuy,String classType, List<SuperSuperClassSpeakerEntity.ListBean> datas){
+    public SuperSpeakerAdapter(Context context,boolean isBuy,List<SuperClassSpeaker> datas){
         this.mContext = context;
         this.mDatas = datas;
-        this.classType = classType;
         this.isBuy = isBuy;
     }
 
@@ -41,35 +41,25 @@ public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapte
 
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
-        SuperSuperClassSpeakerEntity.ListBean item = mDatas.get(position);
+        SuperClassSpeaker item = mDatas.get(position);
 
         holder.titleMathView.setTextColor("#ffaa2a");
-        holder.titleMathView.setText("题型"+(position+1)+"："+item.getKindName());
+        holder.titleMathView.setText("题型"+(position+1)+"："+item.subjectKindName);
 
-        try{
-            String strTmp = "";
-            if(item.getSubject().getSubjectTypeBean().getType_id().equals("1")){//选择题
-                for(SuperSuperClassSpeakerEntity.ListBean.SubjectBean.OptionsBean o: item.getSubject().getOptions()){
-                    strTmp = strTmp+ o.getOptionName() + ". " + o.getOptionContentHtml().substring(3, o.getOptionContentHtml().length()-4) + "<br/>";
-                }
-                holder.mathView.setText(item.getSubject().getSubjectDescriptionHtml()+ strTmp);
-            }else{
-                holder.mathView.setText(item.getSubject().getSubjectDescriptionHtml());
-            }
-        }catch (Exception e){}
+        holder.mathView.setText(item.getSubjectDescriptionHtml());
 
         holder.mathView.setOnAskMathClickListener(openTopicItemActivity(item));
         holder.titleMathView.setOnAskMathClickListener(openTopicItemActivity(item));
     }
 
-    private AskMathView.OnAskMathClickListener openTopicItemActivity(final SuperSuperClassSpeakerEntity.ListBean listBean){
+    private AskMathView.OnAskMathClickListener openTopicItemActivity(final SuperClassSpeaker listBean){
         return new AskMathView.OnAskMathClickListener() {
             @Override
             public void OnClick() {
                 Intent intent = new Intent(mContext, TopicItemActivity.class);
-                intent.putExtra("classType", classType);
                 intent.putExtra("isBuy", isBuy);
-                intent.putExtra("SuperSuperClassSpeakerEntity.ListBean", listBean);
+                HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(TopicItemActivity.class.getName());
+                mParams.put("SuperClassSpeaker", listBean);
                 mContext.startActivity(intent);
             }
         };

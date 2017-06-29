@@ -18,7 +18,6 @@ import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.superclass.StudyClassSubject;
-import com.asking.pad.app.entity.superclass.StudyClassVersion;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.downbook.DownBookActivity;
@@ -54,17 +53,13 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
 
     String classType;
     String className;
-    /**
-     * M2-初中数学（8）  P2-初中物理（6）  M3-高中数学（9）  P3-高中物理（7）
-     */
-    String actionType = "";
     boolean isSelectNode;
-    ArrayList<StudyClassVersion> versionList = new ArrayList<>();
+    ArrayList<StudyClassSubject> versionList = new ArrayList<>();
 
     private int mCurTabIndex = 0;
     List<Fragment> fragments = new ArrayList<>();
 
-    StudyClassVersion mVersion;
+    StudyClassSubject mVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +69,6 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         classType = this.getIntent().getStringExtra("classType");
         className = this.getIntent().getStringExtra("className");
         isSelectNode = this.getIntent().getBooleanExtra("isSelectNode", false);
-
-        actionType = Constants.getActionType(classType);
     }
 
     @Override
@@ -126,18 +119,18 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         try {
             if(event.type== AppEventType.BOOK_OPEN_REQUEST){
                 if(mVersion!=null){
-                    for(StudyClassVersion e:versionList){
-                        e.isSelect = false;
-                        String v1 = e.getVersionId();
-                        String v2 = (String)event.values[0];
-                        if(TextUtils.equals(v1,v2)){
-                            this.mVersion = e;
-                            e.isSelect = true;
-                            ((ClassifySuperFragment)fragments.get(0)).classGrade((String)event.values[0],(String)event.values[1],e.getChildren());
-                            break;
-                        }
-                    }
-                    versionAdapter.notifyDataSetChanged();
+//                    for(StudyClassSubject e:versionList){
+//                        e.isSelect = false;
+//                        String v1 = e.getVersionId();
+//                        String v2 = (String)event.values[0];
+//                        if(TextUtils.equals(v1,v2)){
+//                            this.mVersion = e;
+//                            e.isSelect = true;
+//                            ((ClassifySuperFragment)fragments.get(0)).classGrade((String)event.values[0],(String)event.values[1],e.nodelist);
+//                            break;
+//                        }
+//                    }
+//                    versionAdapter.notifyDataSetChanged();
                 }
             }
         } catch (Exception e) {
@@ -145,12 +138,12 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
     }
 
     @Override
-    public void OnCommItem(StudyClassVersion e) {
+    public void OnCommItem(StudyClassSubject e) {
         this.mVersion = e;
         switch (e.dataType) {  //0-版本  1-精学
             case 0:
                 setFragmentPage(0);
-                ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
+                ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
                 break;
             case 1:
                 setFragmentPage(1);
@@ -174,10 +167,10 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(final Subscriber<? super Object> subscriber) {
-                StudyClassSubject e = AppContext.getInstance().getStudyClassic(classType);
+                StudyClassSubject e = AppContext.getInstance().findTreeListWithAllCourse(classType);
                 if(e != null){
                     versionList.clear();
-                    versionList.addAll(e.getChildren());
+                    versionList.addAll(e.nodelist);
                 }
                 subscriber.onCompleted();
             }
@@ -192,10 +185,10 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
 
     private void initVersionData() {
         if(versionList.size()>0){
-            StudyClassVersion e = versionList.get(0);
+            StudyClassSubject e = versionList.get(0);
             e.isSelect = true;
             this.mVersion = e;
-            ((ClassifySuperFragment)fragments.get(0)).classGrade2(e.getVersionId(),e.getChildren());
+            ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
         }
 
         String name = "";
@@ -204,7 +197,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         } else if (TextUtils.equals("M3", classType) || TextUtils.equals("P3", classType)) {
             name = "高考精学-";
         }
-        versionList.add(new StudyClassVersion(name + className));
+        versionList.add(new StudyClassSubject(name + className));
         if(versionList.size()>0){
             load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         }else{

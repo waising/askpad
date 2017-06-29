@@ -11,57 +11,49 @@ import java.util.List;
 
 public class StudyClassSubject {
 
-    @JSONField(name="subjectCatalog")
-    private String subjectCatalog;
+    @JSONField(name="value")
+    public StudyClassVersion value;
 
-    @JSONField(name="subjectCatalogName")
-    private String subjectCatalogName;
+    @JSONField(name="nodelist")
+    public List<StudyClassSubject> nodelist = new ArrayList<>();
 
-    @JSONField(name="purchased")
-    private String purchased;
+    public boolean isSelect;
 
-    @JSONField(name="purchasedMsg")
-    private String purchasedMsg;
+    public StudyClassSubject(){
 
-    private List<StudyClassVersion> children = new ArrayList<>();
-
-    public String getSubjectCatalog() {
-        return subjectCatalog;
     }
 
-    public void setSubjectCatalog(String subjectCatalog) {
-        this.subjectCatalog = subjectCatalog;
+    public StudyClassSubject(String versionName){
+        StudyClassVersion value = new StudyClassVersion();
+        value.productName = versionName;
+        this.dataType = 1;
     }
 
-    public String getSubjectCatalogName() {
-        return subjectCatalogName;
+    /**
+     * 0-版本  1-精学
+     */
+    public int dataType = 0;
+
+    public String getProductId(){
+        if(value !=null){
+            return value.productId;
+        }
+        return "";
     }
 
-    public void setSubjectCatalogName(String subjectCatalogName) {
-        this.subjectCatalogName = subjectCatalogName;
+    public String getProductName(){
+        if(value !=null){
+            return value.productName;
+        }
+        return "";
     }
 
-    public String getPurchased() {
-        return purchased;
+    public List<StudyClassGrade> getGradeList(){
+        List<StudyClassGrade> courseList = new ArrayList<>();
+        if(value !=null){
+            courseList.addAll(value.courseList);
+        }
+        return courseList;
     }
 
-    public void setPurchased(String purchased) {
-        this.purchased = purchased;
-    }
-
-    public String getPurchasedMsg() {
-        return purchasedMsg;
-    }
-
-    public void setPurchasedMsg(String purchasedMsg) {
-        this.purchasedMsg = purchasedMsg;
-    }
-
-    public List<StudyClassVersion> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<StudyClassVersion> children) {
-        this.children = children;
-    }
 }
