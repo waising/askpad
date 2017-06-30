@@ -15,7 +15,7 @@ import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenNoPreActivity;
-import com.asking.pad.app.commom.AESHelper;
+import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
@@ -267,7 +267,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
     }
 
     private void displayFromUri(final String filePath) {
-        AESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+        DESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
             @Override
             public void onResultSuccess(byte[] res) {
                 pdfView.fromBytes(res)   //设置pdf文件地址

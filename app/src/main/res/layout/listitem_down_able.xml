@@ -26,13 +26,6 @@
             android:textColor="@color/colorText_56"
             android:textSize="@dimen/textSize_20"/>
 
-        <TextView
-            android:id="@+id/item_unzip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="正在解压..."
-            android:textColor="@color/colorText_56"
-            android:textSize="@dimen/textSize_20"/>
 
         <com.asking.pad.app.widget.RoundProgressBar
             android:id="@+id/progress"

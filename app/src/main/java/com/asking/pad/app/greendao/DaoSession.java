@@ -8,11 +8,13 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
+import com.asking.pad.app.entity.book.BookTable;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
 
-import com.asking.pad.app.greendao.BookInfoDao;
+import com.asking.pad.app.greendao.BookDownInfoDao;
+import com.asking.pad.app.greendao.BookTableDao;
 import com.asking.pad.app.greendao.ClassMediaTableDao;
 import com.asking.pad.app.greendao.StudyRecordDao;
 
@@ -25,11 +27,13 @@ import com.asking.pad.app.greendao.StudyRecordDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig bookInfoDaoConfig;
+    private final DaoConfig bookDownInfoDaoConfig;
+    private final DaoConfig bookTableDaoConfig;
     private final DaoConfig classMediaTableDaoConfig;
     private final DaoConfig studyRecordDaoConfig;
 
-    private final BookInfoDao bookInfoDao;
+    private final BookDownInfoDao bookDownInfoDao;
+    private final BookTableDao bookTableDao;
     private final ClassMediaTableDao classMediaTableDao;
     private final StudyRecordDao studyRecordDao;
 
@@ -37,8 +41,11 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
-        bookInfoDaoConfig = daoConfigMap.get(BookInfoDao.class).clone();
-        bookInfoDaoConfig.initIdentityScope(type);
+        bookDownInfoDaoConfig = daoConfigMap.get(BookDownInfoDao.class).clone();
+        bookDownInfoDaoConfig.initIdentityScope(type);
+
+        bookTableDaoConfig = daoConfigMap.get(BookTableDao.class).clone();
+        bookTableDaoConfig.initIdentityScope(type);
 
         classMediaTableDaoConfig = daoConfigMap.get(ClassMediaTableDao.class).clone();
         classMediaTableDaoConfig.initIdentityScope(type);
@@ -46,23 +53,30 @@ public class DaoSession extends AbstractDaoSession {
         studyRecordDaoConfig = daoConfigMap.get(StudyRecordDao.class).clone();
         studyRecordDaoConfig.initIdentityScope(type);
 
-        bookInfoDao = new BookInfoDao(bookInfoDaoConfig, this);
+        bookDownInfoDao = new BookDownInfoDao(bookDownInfoDaoConfig, this);
+        bookTableDao = new BookTableDao(bookTableDaoConfig, this);
         classMediaTableDao = new ClassMediaTableDao(classMediaTableDaoConfig, this);
         studyRecordDao = new StudyRecordDao(studyRecordDaoConfig, this);
 
-        registerDao(BookInfo.class, bookInfoDao);
+        registerDao(BookDownInfo.class, bookDownInfoDao);
+        registerDao(BookTable.class, bookTableDao);
         registerDao(ClassMediaTable.class, classMediaTableDao);
         registerDao(StudyRecord.class, studyRecordDao);
     }
     
     public void clear() {
-        bookInfoDaoConfig.clearIdentityScope();
+        bookDownInfoDaoConfig.clearIdentityScope();
+        bookTableDaoConfig.clearIdentityScope();
         classMediaTableDaoConfig.clearIdentityScope();
         studyRecordDaoConfig.clearIdentityScope();
     }
 
-    public BookInfoDao getBookInfoDao() {
-        return bookInfoDao;
+    public BookDownInfoDao getBookDownInfoDao() {
+        return bookDownInfoDao;
+    }
+
+    public BookTableDao getBookTableDao() {
+        return bookTableDao;
     }
 
     public ClassMediaTableDao getClassMediaTableDao() {

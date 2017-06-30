@@ -81,7 +81,7 @@ public class DownBookActivity extends BaseActivity {
             if(position == 0){
                 f = DownAbleFragment.newInstance(courseTypeId);
             }else{
-                f = DownFinishFragment.newInstance();
+                f = DownFinishFragment.newInstance(courseTypeId);
             }
             return f;
         }

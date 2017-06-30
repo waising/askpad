@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.commom.AESHelper;
+import com.asking.pad.app.commom.DESHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,7 +63,7 @@ public class DownloadFile {
                         is = httpConnection.getInputStream();
                         fos = new FileOutputStream(new File(savePath), false);
 
-                        AESHelper.encrypt(is, fos);
+                        DESHelper.encrypt(is, fos);
 
 //                        byte buffer[] = new byte[2048];
 //                        int readSize = 0;

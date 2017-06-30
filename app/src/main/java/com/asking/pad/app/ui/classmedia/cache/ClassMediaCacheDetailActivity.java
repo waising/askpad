@@ -9,7 +9,7 @@ import android.view.View;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseActivity;
-import com.asking.pad.app.commom.AESHelper;
+import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
@@ -128,7 +128,7 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
     }
 
     private void displayFromUri(String filePath) {
-        AESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+        DESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
             @Override
             public void onResultSuccess(byte[] res) {
                 pdfView.fromBytes(res)   //设置pdf文件地址
