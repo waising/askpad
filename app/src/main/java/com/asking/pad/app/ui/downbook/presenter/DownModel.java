@@ -13,8 +13,8 @@ import rx.Observable;
 
 public class DownModel extends BaseModel {
 
-    public Observable<ResponseBody> versionsForUser() {
-        return Networks.getInstance().getUserApi().versionsForUser().compose(RxSchedulers.<ResponseBody>io_main());
+    public Observable<ResponseBody> finListdWithDownloadUrl(String courseTypeId,int start,int limit) {
+        return Networks.getInstance().getUserApi().finListdWithDownloadUrl(courseTypeId,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
 }

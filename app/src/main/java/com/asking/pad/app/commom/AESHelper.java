@@ -1,6 +1,10 @@
 package com.asking.pad.app.commom;
 
 
+import android.app.Activity;
+
+import com.asking.pad.app.api.ApiRequestListener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -72,37 +76,70 @@ public class AESHelper {
     /**
      * AES方式解密文件
      */
-    public static byte[] decryptFile(String sourceFilePath) {
-        FileInputStream in = null;
-        File sourceFile = null;
-        try {
-            sourceFile = new File(sourceFilePath);
-            long fileSize = sourceFile.length();
-            if (fileSize > Integer.MAX_VALUE) {
-                return null;
+    public static void decryptFile(final Activity mActivity,final String sourceFilePath
+            ,final ApiRequestListener Listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    FileInputStream in = null;
+                    File sourceFile;
+                    try {
+                        sourceFile = new File(sourceFilePath);
+                        long fileSize = sourceFile.length();
+                        if (fileSize > Integer.MAX_VALUE) {
+                            mActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Listener.onResultFail();
+                                }
+                            });
+                            return;
+                        }
+                        in = new FileInputStream(sourceFile);
+                        byte[] buffer = new byte[(int) fileSize];
+                        int offset = 0;
+                        int numRead;
+                        while (offset < buffer.length
+                                && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
+                            offset += numRead;
+                        }
+                        SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
+                        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+                        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+                        final byte[] dataByte = cipher.doFinal(buffer);
+
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Listener.onResultSuccess(dataByte);
+                            }
+                        });
+                    } catch (Exception e) {
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Listener.onResultFail();
+                            }
+                        });
+                        e.printStackTrace();
+                    } catch (OutOfMemoryError e) {
+                        e.printStackTrace();
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Listener.onResultFail();
+                            }
+                        });
+                    }finally {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
             }
-            in = new FileInputStream(sourceFile);
-            byte[] buffer = new byte[(int) fileSize];
-            int offset = 0;
-            int numRead = 0;
-            while (offset < buffer.length
-                    && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
-                offset += numRead;
-            }
-            SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return cipher.doFinal(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+        }).start();
     }
 
     /**

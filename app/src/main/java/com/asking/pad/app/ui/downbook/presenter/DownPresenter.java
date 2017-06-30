@@ -9,8 +9,8 @@ import com.asking.pad.app.mvp.BasePresenter;
 
 public class DownPresenter extends BasePresenter<DownModel> {
 
-    public void versionsForUser(ApiRequestListener mListener) {
-        baseReq(mModel.versionsForUser(),"content", mListener);
+    public void finListdWithDownloadUrl(String courseTypeId,int start,int limit,ApiRequestListener mListener) {
+        baseReq(mModel.finListdWithDownloadUrl(courseTypeId,start,limit),"content", mListener);
     }
 
 }

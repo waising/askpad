@@ -149,10 +149,7 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("classType",labelEntity.getId());
-                    bundle.putString("className", labelEntity.getName());
-                    CommonUtil.openActivity(ClassifyActivty.class,bundle);
+                    ClassifyActivty.openActivity(labelEntity.getId(),labelEntity.getName(),false);
                 }
             });
         }

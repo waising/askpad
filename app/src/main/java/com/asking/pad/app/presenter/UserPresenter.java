@@ -204,6 +204,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.orderhistory(start, limit, account, role), "content", mListener);
     }
 
+    public void userreact(String start, String limit,ApiRequestListener mListener) {
+        baseReq(mModel.userreact(start, limit), "content", mListener);
+    }
+
     public void studentinfo(ApiRequestListener mListener) {
         baseReq(mModel.studentinfo(AppContext.getInstance().getUserEntity().getUserName()), "content", mListener);
     }

@@ -17,8 +17,8 @@ import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
+import com.asking.pad.app.ui.mine.MineStudyRecordActivity;
 import com.asking.pad.app.ui.pay.PayAskActivity;
-import com.asking.pad.app.ui.personalcenter.BuyRecordActivity;
 import com.asking.pad.app.ui.personalcenter.CollectionActivity;
 import com.asking.pad.app.ui.personalcenter.NoteActivity;
 import com.asking.pad.app.ui.personalcenter.SettingActivity;
@@ -122,8 +122,8 @@ public class SecondMainFragment extends BaseFrameFragment<UserPresenter, UserMod
                         case R.mipmap.mine_note://笔记本
                             CommonUtil.openActivity(NoteActivity.class);
                             break;
-                        case R.mipmap.mine_shopping_record://购买记录
-                            CommonUtil.openAuthActivity(BuyRecordActivity.class);
+                        case R.mipmap.mine_shopping_record://我的课程
+                            CommonUtil.openAuthActivity(MineStudyRecordActivity.class);
                             break;
                         case R.mipmap.mine_set://设置
                             CommonUtil.openAuthActivity(SettingActivity.class);

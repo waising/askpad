@@ -60,6 +60,15 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
     List<Fragment> fragments = new ArrayList<>();
 
     StudyClassSubject mVersion;
+    String productId="";
+
+    public static void openActivity(String classType,String className,boolean isSelectNode){
+        Bundle bundle = new Bundle();
+        bundle.putString("classType", classType);
+        bundle.putString("className", className);
+        bundle.putBoolean("isSelectNode", isSelectNode);
+        CommonUtil.openActivity(ClassifyActivty.class, bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +91,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_info:
-                        CommonUtil.openActivity(DownBookActivity.class);
+                        DownBookActivity.openActivity(productId);
                         break;
                 }
                 return true;
@@ -142,6 +151,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         this.mVersion = e;
         switch (e.dataType) {  //0-版本  1-精学
             case 0:
+                this.productId = e.getProductId();
                 setFragmentPage(0);
                 ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
                 break;
@@ -188,13 +198,14 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
             StudyClassSubject e = versionList.get(0);
             e.isSelect = true;
             this.mVersion = e;
+            this.productId = e.getProductId();
             ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
         }
 
         String name = "";
-        if (TextUtils.equals("M2", classType) || TextUtils.equals("P2", classType)) {
+        if (TextUtils.equals("XK01", classType) || TextUtils.equals("XK02", classType)) {
             name = "中考精学-";
-        } else if (TextUtils.equals("M3", classType) || TextUtils.equals("P3", classType)) {
+        } else if (TextUtils.equals("XK03", classType) || TextUtils.equals("XK04", classType)) {
             name = "高考精学-";
         }
         versionList.add(new StudyClassSubject(name + className));
