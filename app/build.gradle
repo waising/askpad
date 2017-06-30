@@ -243,14 +243,11 @@ dependencies {
     compile 'com.github.piasy:BigImageViewer:1.2.5'
     compile 'com.github.piasy:FrescoImageLoader:1.2.5'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
     compile 'com.aliyun.ams:alicloud-android-httpdns:1.+'
-
     compile 'org.greenrobot:greendao:3.2.2'
-    compile'org.greenrobot:greendao-generator:3.2.2'
-
+    compile 'org.greenrobot:greendao-generator:3.2.2'
     compile 'im.amomo.andun7z:library:1.2.1'
-
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile 'com.github.barteksc:android-pdf-viewer:2.6.0'
+    compile files('libs/sun.misc.BASE64Decoder.jar')
 }
