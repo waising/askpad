@@ -16,7 +16,7 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.ShopCartEvent;
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.entity.ShopCartEntity;
 import com.asking.pad.app.presenter.ShopCartModel;
 import com.asking.pad.app.presenter.ShopCartPresenter;
@@ -407,7 +407,7 @@ public class ShopCartListFragmentCopy extends BaseEvenFrameFragment<ShopCartPres
             });
         }
     }
-    public void onEventMainThread(BookInfo event) {
+    public void onEventMainThread(BookDownInfo event) {
 
     }
 

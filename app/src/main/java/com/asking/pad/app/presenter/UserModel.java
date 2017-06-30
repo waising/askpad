@@ -191,6 +191,13 @@ public class UserModel extends BaseModel {
                 .userreact(start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> updateWithSchedule(String commodityId, String schedulePercent
+            , String scheduleTitle, String scheduleId, String scheduleContent) {
+        return Networks.getInstance().getUserApi()
+                .updateWithSchedule(commodityId, schedulePercent
+                        , scheduleTitle, scheduleId, scheduleContent).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> findListByPage(String courseTypeId,int start, int limit) {
         return Networks.getInstance().getUserApi()
                 .findListByPage(courseTypeId,start, limit).compose(RxSchedulers.<ResponseBody>io_main());

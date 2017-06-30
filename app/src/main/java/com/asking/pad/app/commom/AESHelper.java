@@ -1,253 +1,66 @@
 package com.asking.pad.app.commom;
 
 
-import android.app.Activity;
-
-import com.asking.pad.app.api.ApiRequestListener;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.SecretKey;
+import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
-import static org.apache.commons.io.FileUtils.getFile;
+import Decoder.BASE64Decoder;
 
 /**
  * Created by jswang on 2017/6/9.
  */
 
 public class AESHelper {
-    //秘钥算法
-    private static final String KEY_ALGORITHM = "DES";
-    //加密算法：algorithm/mode/padding 算法/工作模式/填充模式
-    private static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
-    private static final byte[] KEY = {56, 57, 58, 59, 60, 61, 62, 63};//DES 秘钥长度必须是8 位或以上
+    final static String  decryptKey = "91asking";
+//    /**
+//     * AES解密
+//     * @param encryptBytes 待解密的byte[]
+//     * @return 解密后的String
+//     * @throws Exception
+//     */
+//    public static String aesDecryptByBytes(byte[] encryptBytes) throws Exception {
+//        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+//        kgen.init(128, new SecureRandom(decryptKey.getBytes("utf-8")));
+//
+//        Cipher cipher = Cipher.getInstance("AES");
+//        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
+//        byte[] decryptBytes = cipher.doFinal(encryptBytes);
+//
+//        return new String(decryptBytes);
+//    }
+//
+//    /**
+//     * 将base 64 code AES解密
+//     * @param encryptStr 待解密的base 64 code
+//     * @return 解密后的string
+//     * @throws Exception
+//     */
+//    public static String aesDecrypt(String encryptStr) throws Exception {
+//        byte[] bytes = base64Decode(encryptStr);
+//        return TextUtils.isEmpty(encryptStr) ? null : aesDecryptByBytes(bytes);
+//    }
+//
+//    /**
+//     * base 64 decode
+//     * @param base64Code 待解码的base 64 code
+//     * @return 解码后的byte[]
+//     * @throws Exception
+//     */
+//    public static byte[] base64Decode(String base64Code) throws Exception{
+//        return TextUtils.isEmpty(base64Code) ? null : new BASE64Decoder().decodeBuffer(base64Code);
+//    }
 
-    /**
-     * 文件进行加密并保存加密后的文件到指定目录
-     */
-    public static void encrypt(InputStream is, OutputStream out) {
-        SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
-        CipherInputStream cis = null;
-        try {
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            cis = new CipherInputStream(is, cipher);
-            byte[] buffer = new byte[1024];
-            int r;
-            while ((r = cis.read(buffer)) > 0) {
-                out.write(buffer, 0, r);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (cis != null) {
-                    cis.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public static String aesDecrypt(String args) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgen.init(128, new SecureRandom("91asking".getBytes()));
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] bytes = decoder.decodeBuffer(args);
+        byte[] bytes1 = cipher.doFinal(bytes);
+        return new String(bytes1);
     }
-
-    /**
-     * AES方式解密文件
-     */
-    public static void decryptFile(final Activity mActivity,final String sourceFilePath
-            ,final ApiRequestListener Listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                    FileInputStream in = null;
-                    File sourceFile;
-                    try {
-                        sourceFile = new File(sourceFilePath);
-                        long fileSize = sourceFile.length();
-                        if (fileSize > Integer.MAX_VALUE) {
-                            mActivity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Listener.onResultFail();
-                                }
-                            });
-                            return;
-                        }
-                        in = new FileInputStream(sourceFile);
-                        byte[] buffer = new byte[(int) fileSize];
-                        int offset = 0;
-                        int numRead;
-                        while (offset < buffer.length
-                                && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
-                            offset += numRead;
-                        }
-                        SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
-                        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-                        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-                        final byte[] dataByte = cipher.doFinal(buffer);
-
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Listener.onResultSuccess(dataByte);
-                            }
-                        });
-                    } catch (Exception e) {
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Listener.onResultFail();
-                            }
-                        });
-                        e.printStackTrace();
-                    } catch (OutOfMemoryError e) {
-                        e.printStackTrace();
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Listener.onResultFail();
-                            }
-                        });
-                    }finally {
-                        try {
-                            in.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-            }
-        }).start();
-    }
-
-    /**
-     * 文件进行解密并保存解密后的文件到指定目录
-     *
-     * @param fromFilePath 已加密的文件 如c:/加密后文件.txt
-     * @param toFilePath   解密后存放的文件 如c:/ test/解密后文件.txt
-     */
-    public static void decrypt(String fromFilePath, String toFilePath) {
-        File fromFile = new File(fromFilePath);
-        if (!fromFile.exists()) {
-            return;
-        }
-        File toFile = getFile(toFilePath);
-
-        SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
-
-        InputStream is = null;
-        OutputStream out = null;
-        CipherOutputStream cos = null;
-        try {
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            is = new FileInputStream(fromFile);
-            out = new FileOutputStream(toFile);
-            cos = new CipherOutputStream(out, cipher);
-            byte[] buffer = new byte[1024];
-            int r;
-            while ((r = is.read(buffer)) >= 0) {
-                cos.write(buffer, 0, r);
-            }
-        } catch (Exception e) {
-        } finally {
-            try {
-                if (cos != null) {
-                    cos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * 文件进行加密并保存加密后的文件到指定目录
-     */
-    public static void encrypt(String fromFilePath, String toFilePath) {
-
-        File fromFile = new File(fromFilePath);
-        if (!fromFile.exists()) {
-            return;
-        }
-        File toFile = getFile(toFilePath);
-
-        SecretKey secretKey = new SecretKeySpec(KEY, KEY_ALGORITHM);
-        InputStream is = null;
-        OutputStream out = null;
-        CipherInputStream cis = null;
-        try {
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            is = new FileInputStream(fromFile);
-            out = new FileOutputStream(toFile);
-            cis = new CipherInputStream(is, cipher);
-            byte[] buffer = new byte[1024];
-            int r;
-            while ((r = cis.read(buffer)) > 0) {
-                out.write(buffer, 0, r);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (cis != null) {
-                    cis.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

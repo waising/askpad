@@ -14,7 +14,7 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.ui.downbook.download.DownState;
 import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
@@ -46,8 +46,8 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
 
     CommAdapter mAdapter;
 
-    private ArrayList<BookInfo> netDataList = new ArrayList<>();
-    private ArrayList<BookInfo> dataList = new ArrayList<>();
+    private ArrayList<BookDownInfo> netDataList = new ArrayList<>();
+    private ArrayList<BookDownInfo> dataList = new ArrayList<>();
 
     String courseTypeId;
 
@@ -94,7 +94,7 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
             @Override
             public void onResultSuccess(String res) {
                 netDataList.clear();
-                netDataList.addAll(JSON.parseArray(res, BookInfo.class));
+                netDataList.addAll(JSON.parseArray(res, BookDownInfo.class));
                 if(netDataList.size()>0){
                     initBookData();
                 }else{
@@ -114,20 +114,20 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
             @Override
             public void call(final Subscriber<? super Object> subscriber) {
                 dataList.clear();
-                List<BookInfo> dbList = DbHelper.getInstance().getAllBookInfo();
+                List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookInfo(courseTypeId);
                 for(int i= 0;i<netDataList.size();i++){
-                    BookInfo e = netDataList.get(i);
+                    BookDownInfo e = netDataList.get(i);
                     e.setDownState(DownState.START);
                     if(!dbList.contains(e)){
                         dataList.add(e);
                     }else{
                         for(int j= 0;j<dbList.size();j++){
-                            BookInfo dbE = dbList.get(j);
-                            if(TextUtils.equals(e.getBookId(),dbE.getBookId())){
+                            BookDownInfo dbE = dbList.get(j);
+                            if(TextUtils.equals(e.getCommodityId(),dbE.getCommodityId())){
                                 if(dbE.getDownState()<DownState.START){
                                     dbE.setDownState(DownState.PAUSE);
                                 }
-                                if(TextUtils.equals(e.getUrl(),dbE.getUrl())){
+                                if(TextUtils.equals(e.getDownloadUrl(),dbE.getDownloadUrl())){
                                     if(dbE.getDownState()!=DownState.FINISH){
                                         dataList.add(dbE);
                                     }
@@ -159,29 +159,28 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
         });
     }
 
-    public void onEventMainThread(BookInfo event) {
+    public void onEventMainThread(BookDownInfo event) {
         try {
             if(event.getDownState() == DownState.FINISH){
                 if (null != dataList && dataList.size() > 0) {
-                    Iterator<BookInfo> it = dataList.iterator();
+                    Iterator<BookDownInfo> it = dataList.iterator();
                     while(it.hasNext()){
-                        BookInfo stu = it.next();
-                        if (TextUtils.equals(event.getBookId(), stu.getBookId())) {
+                        BookDownInfo stu = it.next();
+                        if (TextUtils.equals(event.getCommodityId(), stu.getCommodityId())) {
                             it.remove();
                         }
                     }
                     mAdapter.notifyDataSetChanged();
                 }
-                EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_DWON_FINISH_REQUEST,event.getVersionId(),event.getLevelId()));
+                EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_DWON_FINISH_REQUEST,event.getCommodityId()));
             }else if(event.getDownState() == DownState.DELETE){
                 initBookData();
             }else {
                 for (int i = 0; i < dataList.size(); i++) {
-                    if (TextUtils.equals(event.getBookId(), dataList.get(i).getBookId())) {
+                    if (TextUtils.equals(event.getCommodityId(), dataList.get(i).getCommodityId())) {
                         CommViewHolder mHolder = (CommViewHolder) rec_view.findViewHolderForAdapterPosition(i);
 
-                        mHolder.item_unzip.setVisibility(event.getDownState() == DownState.UN7ZIP?View.VISIBLE:View.GONE);
-                        mHolder.progress.setVisibility(event.getDownState() == DownState.UN7ZIP?View.GONE:View.VISIBLE);
+                        mHolder.progress.setVisibility(event.getDownState() == DownState.FINISH?View.GONE:View.VISIBLE);
                         mHolder.progress.setDownPause(event.getDownState());
                         mHolder.progress.setMax((int) event.getCountLength());
                         mHolder.progress.setProgress((int) event.getReadLength());
@@ -196,9 +195,6 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
     class CommViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_name)
         TextView item_name;
-
-        @BindView(R.id.item_unzip)
-        TextView item_unzip;
 
         @BindView(R.id.progress)
         RoundProgressBar progress;
@@ -217,15 +213,10 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
 
         @Override
         public void onBindViewHolder(final CommViewHolder holder, final int position) {
-            final BookInfo e = dataList.get(position);
-            if(TextUtils.isEmpty(e.getLevelName())){
-                holder.item_name.setText(String.format("%s-%s", e.getVersionName(), e.getSubjectCatalogName()));
-            }else{
-                holder.item_name.setText(String.format("%s-%s-%s", e.getVersionName(), e.getSubjectCatalogName(),e.getLevelName()));
-            }
+            final BookDownInfo e = dataList.get(position);
+            holder.item_name.setText(String.format("%s-%s", e.getCommodityName(), e.getCourseName()));
 
-            holder.item_unzip.setVisibility(e.getDownState() == DownState.UN7ZIP?View.VISIBLE:View.GONE);
-            holder.progress.setVisibility(e.getDownState() == DownState.UN7ZIP?View.GONE:View.VISIBLE);
+            holder.progress.setVisibility(e.getDownState() == DownState.FINISH?View.GONE:View.VISIBLE);
             holder.progress.setDownPause(e.getDownState());
             holder.progress.setMax((int) e.getCountLength());
             holder.progress.setProgress((int) e.getReadLength());

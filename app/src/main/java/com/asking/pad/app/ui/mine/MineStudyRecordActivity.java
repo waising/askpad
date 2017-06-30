@@ -1,11 +1,15 @@
 package com.asking.pad.app.ui.mine;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,7 +193,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
             if(e.schedulePercent == 0){
                 holder.tv_study.setText("马上去学习");
             }else{
-                holder.tv_study.setText("上次学到："+e.schedulePercent+"%");
+                holder.tv_study.setText("上次学到了："+e.schedulePercent+"%");
             }
 
             holder.ll_expand.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +244,8 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
         }
     }
 
+    ForegroundColorSpan greySpan = new ForegroundColorSpan(Color.parseColor("#333333"));
+
     class ChildAdapter extends RecyclerView.Adapter<ChildHolder> {
 
         private List<MineStudyRecord> list = new ArrayList<>();
@@ -258,13 +264,16 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
         public void onBindViewHolder(final ChildHolder holder, final int position) {
             final MineStudyRecord e = list.get(position);
             holder.tv_title.setText(e.commodityName);
-            holder.tv_title1.setText(e.commodityType);
+            holder.tv_title1.setText(e.commodityTypeName);
             holder.tv_time.setText(e.createTime);
 
             if(e.schedulePercent == 0){
                 holder.tv_study.setText("马上去学习");
             }else{
-                holder.tv_study.setText("上次学到："+e.schedulePercent+"%");
+                String ss = "上次学到：";
+                SpannableStringBuilder builder = new SpannableStringBuilder(ss+e.schedulePercent+"%");
+                builder.setSpan(greySpan, 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.tv_study.setText(builder.toString());
             }
         }
 

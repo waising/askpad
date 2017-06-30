@@ -1,6 +1,6 @@
 package com.asking.pad.app.ui.downbook.download.DownLoadListener;
 
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 
 import java.io.IOException;
 
@@ -13,9 +13,9 @@ import okhttp3.Response;
  */
 public class DownloadInterceptor implements Interceptor {
 
-    private BookInfo mBookInfo;
+    private BookDownInfo mBookInfo;
 
-    public DownloadInterceptor(BookInfo mBookInfo) {
+    public DownloadInterceptor(BookDownInfo mBookInfo) {
         this.mBookInfo = mBookInfo;
     }
 

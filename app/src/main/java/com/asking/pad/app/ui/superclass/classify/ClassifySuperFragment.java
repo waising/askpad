@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,37 +158,18 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
     private void classSection() {
         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         know_load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        if (isBuy) {
-            mPresenter.classSection(commodityId, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    if (!TextUtils.isEmpty(res)) {
-                        List<SuperLessonTree> list = JSON.parseArray(res, SuperLessonTree.class);
-                        initSectionData(list);
-                    } else {
-                        know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
-                    }
-                }
+        mPresenter.synclesson(isBuy,commodityId, new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String res) {
+                List<SuperLessonTree> list = JSON.parseArray(res, SuperLessonTree.class);
+                initSectionData(list);
+            }
 
-                @Override
-                public void onResultFail() {
-                    know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
-                }
-            });
-        } else {
-            mPresenter.synclesson(commodityId, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    List<SuperLessonTree> list = JSON.parseArray(res, SuperLessonTree.class);
-                    initSectionData(list);
-                }
-
-                @Override
-                public void onResultFail() {
-                    know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
-                }
-            });
-        }
+            @Override
+            public void onResultFail() {
+                know_load_view.setViewState(load_view.VIEW_STATE_ERROR);
+            }
+        });
     }
 
     private void initSectionData(List<SuperLessonTree> list) {

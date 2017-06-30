@@ -3,10 +3,10 @@ package com.asking.pad.app.ui.downbook.db;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.asking.pad.app.AppContext;
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
-import com.asking.pad.app.greendao.BookInfoDao;
+import com.asking.pad.app.greendao.BookDownInfoDao;
 import com.asking.pad.app.greendao.ClassMediaTableDao;
 import com.asking.pad.app.greendao.DaoMaster;
 import com.asking.pad.app.greendao.DaoSession;
@@ -64,19 +64,19 @@ public class DbHelper {
 
 //------------------------超级辅导课下载---------------------------------------
 
-    private BookInfoDao getBookInfoDao() {
-        return getDaoSession().getBookInfoDao();
+    private BookDownInfoDao getBookInfoDao() {
+        return getDaoSession().getBookDownInfoDao();
     }
 
-    public void insertBookInfo(BookInfo e) {
+    public void insertBookInfo(BookDownInfo e) {
         getBookInfoDao().insert(e);
     }
 
-    public void insertOrReplaceBookInfo(BookInfo e) {
+    public void insertOrReplaceBookInfo(BookDownInfo e) {
         getBookInfoDao().insertOrReplace(e);
     }
 
-    public void updateBookInfo(BookInfo e) {
+    public void updateBookInfo(BookDownInfo e) {
         getBookInfoDao().update(e);
     }
 
@@ -84,8 +84,9 @@ public class DbHelper {
         getBookInfoDao().deleteByKey(id);
     }
 
-    public List<BookInfo> getAllBookInfo() {
-        return getBookInfoDao().queryBuilder().where(BookInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())).list();
+    public List<BookDownInfo> getAllBookInfo(String CourseTypeId) {
+        return getBookInfoDao().queryBuilder().where(BookDownInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())
+        , BookDownInfoDao.Properties.CourseTypeId.eq(CourseTypeId)).list();
     }
 
 //------------------------超级辅导课下载---------------------------------------

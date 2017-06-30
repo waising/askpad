@@ -312,6 +312,10 @@ public interface UserApi {
     @GET("userreact/userCourse/findByPage")
     Observable<ResponseBody> userreact(@Query("start") String start, @Query("limit") String limit);
 
+    @POST("userreact/userCourse/updateWithSchedule")
+    Observable<ResponseBody> updateWithSchedule(@Query("commodityId") String commodityId, @Query("schedulePercent") String schedulePercent
+            , @Query("scheduleTitle") String scheduleTitle, @Query("scheduleId") String scheduleId, @Query("scheduleContent") String scheduleContent);
+
 
     /**
      * 获取省份数据

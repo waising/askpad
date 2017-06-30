@@ -1,6 +1,6 @@
 package com.asking.pad.app.ui.downbook.download.DownLoadListener;
 
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.ui.downbook.download.DownState;
 
@@ -22,10 +22,10 @@ import okio.Source;
 public class DownloadResponseBody extends ResponseBody {
 
     private ResponseBody responseBody;
-    private BookInfo mBookInfo;
+    private BookDownInfo mBookInfo;
     private BufferedSource bufferedSource;
 
-    public DownloadResponseBody(ResponseBody responseBody, BookInfo mBookInfo) {
+    public DownloadResponseBody(ResponseBody responseBody, BookDownInfo mBookInfo) {
         this.responseBody = responseBody;
         this.mBookInfo = mBookInfo;
     }

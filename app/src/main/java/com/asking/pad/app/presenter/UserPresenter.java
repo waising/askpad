@@ -78,18 +78,14 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getResetPassYZM(userName), "", mListener);
     }
 
-    public void synclesson(String commodityId,ApiRequestListener mListener) {
-        baseReqStr(mModel.synclesson(commodityId), mListener);
+    public void synclesson(boolean isReadDB,String commodityId,ApiRequestListener mListener) {
+        String id = String.format("courseapi/synclesson/%s", commodityId);
+        baseReqStrDB(mModel.synclesson(commodityId),isReadDB,commodityId,id, mListener);
     }
 
     public void findTreeListWithAllCourse(String productId,ApiRequestListener mListener) {
         String cacheKey = AppContext.getInstance().getUserId() + "_findTreeListWithAllCourse";
         baseReqFlag0Cache(mModel.findTreeListWithAllCourse(productId),"content",cacheKey, mListener);
-    }
-
-    public void classSection(String gradeId, ApiRequestListener mListener) {
-        String filePath = Constants.getBookPath(String.format("coach/version/level/%s/knowledgeClassic", gradeId));
-        baseReqStrFile(mModel.buyStudyLevel(gradeId), filePath, mListener);
     }
 
     public void firstreviewzhangjd(String orgId, ApiRequestListener mListener) {
@@ -206,6 +202,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
     public void userreact(String start, String limit,ApiRequestListener mListener) {
         baseReq(mModel.userreact(start, limit), "content", mListener);
+    }
+
+    public void updateWithSchedule(String commodityId, String schedulePercent
+            , String scheduleTitle, String scheduleId, String scheduleContent,ApiRequestListener mListener) {
+        baseReq(mModel.updateWithSchedule(commodityId, schedulePercent
+                , scheduleTitle, scheduleId, scheduleContent), "content", mListener);
     }
 
     public void studentinfo(ApiRequestListener mListener) {

@@ -2,7 +2,7 @@ package com.asking.pad.app.ui.downbook.download;
 
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.BuildConfig;
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.ui.downbook.download.DownLoadListener.DownloadInterceptor;
 
@@ -16,8 +16,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import de.greenrobot.event.EventBus;
-import im.amomo.andun7z.AndUn7z;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
@@ -37,7 +35,7 @@ public class OkHttpDownManager {
     private final int DEFAULT_TIMEOUT = 10;
 
     /*记录下载数据*/
-    private Set<BookInfo> BookInfos;
+    private Set<BookDownInfo> BookInfos;
     /*回调sub队列*/
     private HashMap<String, ProgressDownSubscriber> subMap;
     /*单利对象*/
@@ -68,16 +66,16 @@ public class OkHttpDownManager {
     /**
      * 开始下载
      */
-    public void startDown(final BookInfo info) {
+    public void startDown(final BookDownInfo info) {
         /*正在下载不处理*/
-        if (info == null || subMap.get(info.getUrl()) != null) {
+        if (info == null || subMap.get(info.getDownloadUrl()) != null) {
             return;
         }
         info.setUserId(AppContext.getInstance().getUserId());
         /*添加回调处理类*/
         ProgressDownSubscriber subscriber = new ProgressDownSubscriber(info);
         /*记录回调sub*/
-        subMap.put(info.getUrl(), subscriber);
+        subMap.put(info.getDownloadUrl(), subscriber);
         /*获取service，多次请求公用一个sercie*/
         DownLoadApi httpService;
 
@@ -96,25 +94,20 @@ public class OkHttpDownManager {
         httpService = retrofit.create(DownLoadApi.class);
 
         /*得到rx对象-上一次下載的位置開始下載*/
-        Observable<ResponseBody> mObservable = httpService.download("bytes=" + info.getReadLength() + "-", info.getUrl());
+        Observable<ResponseBody> mObservable = httpService.download("bytes=" + info.getReadLength() + "-", info.getDownloadUrl());
                 /*指定线程*/
         mObservable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                    /*失败后的retry配置*/
                 .retryWhen(new RetryWhenNetworkException())
                 /*读取下载写入文件*/
-                .map(new Func1<ResponseBody, BookInfo>() {
+                .map(new Func1<ResponseBody, BookDownInfo>() {
                     @Override
-                    public BookInfo call(ResponseBody responseBody) {
+                    public BookDownInfo call(ResponseBody responseBody) {
                         File mFile = new File(info.getSavePath());
                         try {
                             writeCache(responseBody, mFile, info);
                         } catch (IOException e) {
-                        }
-                        if (mFile.exists() && info.getReadLength() > 0 && info.getReadLength() == info.getCountLength()) {
-                            info.setDownState(DownState.UN7ZIP);
-                            EventBus.getDefault().post(info);
-                            AndUn7z.extract7z(mFile.getAbsolutePath(), info.getBookUnZipPath());
                         }
                         return info;
                     }
@@ -129,13 +122,13 @@ public class OkHttpDownManager {
     /**
      * 停止下载
      */
-    public void stopDown(BookInfo info) {
+    public void stopDown(BookDownInfo info) {
         if (info == null) return;
         info.setDownState(DownState.STOP);
-        if (subMap.containsKey(info.getUrl())) {
-            ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
+        if (subMap.containsKey(info.getDownloadUrl())) {
+            ProgressDownSubscriber subscriber = subMap.get(info.getDownloadUrl());
             subscriber.unsubscribe();
-            subMap.remove(info.getUrl());
+            subMap.remove(info.getDownloadUrl());
         }
         /*同步数据库*/
     }
@@ -146,8 +139,8 @@ public class OkHttpDownManager {
      *
      * @param info
      */
-    public void deleteDown(BookInfo info) {
-        DbHelper.getInstance().deleteByIdBookInfo(info.getBookId());
+    public void deleteDown(BookDownInfo info) {
+        DbHelper.getInstance().deleteByIdBookInfo(info.getCommodityId());
         stopDown(info);
          /*删除数据库信息和本地文件*/
     }
@@ -158,14 +151,14 @@ public class OkHttpDownManager {
      *
      * @param info
      */
-    public void pause(BookInfo info) {
+    public void pause(BookDownInfo info) {
         try{
             if (info == null) return;
             info.setDownState(DownState.PAUSE);
-            if (subMap.containsKey(info.getUrl())) {
-                ProgressDownSubscriber subscriber = subMap.get(info.getUrl());
+            if (subMap.containsKey(info.getDownloadUrl())) {
+                ProgressDownSubscriber subscriber = subMap.get(info.getDownloadUrl());
                 subscriber.unsubscribe();
-                subMap.remove(info.getUrl());
+                subMap.remove(info.getDownloadUrl());
             }
         }catch (Exception e){}
 
@@ -176,7 +169,7 @@ public class OkHttpDownManager {
      * 停止全部下载
      */
     public void stopAllDown() {
-        for (BookInfo BookInfo : BookInfos) {
+        for (BookDownInfo BookInfo : BookInfos) {
             stopDown(BookInfo);
         }
         subMap.clear();
@@ -187,7 +180,7 @@ public class OkHttpDownManager {
      * 暂停全部下载
      */
     public void pauseAll() {
-        for (BookInfo BookInfo : BookInfos) {
+        for (BookDownInfo BookInfo : BookInfos) {
             pause(BookInfo);
         }
         subMap.clear();
@@ -200,7 +193,7 @@ public class OkHttpDownManager {
      *
      * @return
      */
-    public Set<BookInfo> getBookInfos() {
+    public Set<BookDownInfo> getBookInfos() {
         return BookInfos;
     }
 
@@ -212,7 +205,7 @@ public class OkHttpDownManager {
      * @param info
      * @throws IOException
      */
-    public void writeCache(ResponseBody responseBody, File file, BookInfo info) throws IOException {
+    public void writeCache(ResponseBody responseBody, File file, BookDownInfo info) throws IOException {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         long allLength;

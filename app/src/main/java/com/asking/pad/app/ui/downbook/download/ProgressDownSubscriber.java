@@ -1,6 +1,6 @@
 package com.asking.pad.app.ui.downbook.download;
 
-import com.asking.pad.app.entity.BookInfo;
+import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 
 import de.greenrobot.event.EventBus;
@@ -15,10 +15,10 @@ import rx.Subscriber;
 public class ProgressDownSubscriber<T> extends Subscriber<T> {
 
     /*下载数据*/
-    private BookInfo downInfo;
+    private BookDownInfo downInfo;
 
 
-    public ProgressDownSubscriber(BookInfo downInfo) {
+    public ProgressDownSubscriber(BookDownInfo downInfo) {
         this.downInfo=downInfo;
     }
 

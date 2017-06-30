@@ -191,13 +191,13 @@ public class Constants {
      */
     public static String getActionType(String classType) {
         String actionType = "";
-        if (TextUtils.equals("M2", classType)) {
+        if (TextUtils.equals("XK01", classType)) {
             actionType = "8";
-        } else if (TextUtils.equals("P2", classType)) {
+        } else if (TextUtils.equals("XK02", classType)) {
             actionType = "6";
-        } else if (TextUtils.equals("M3", classType)) {
+        } else if (TextUtils.equals("XK03", classType)) {
             actionType = "9";
-        } else if (TextUtils.equals("P3", classType)) {
+        } else if (TextUtils.equals("XK04", classType)) {
             actionType = "7";
         }
         return actionType;

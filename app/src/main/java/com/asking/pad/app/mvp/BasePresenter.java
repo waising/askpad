@@ -10,9 +10,12 @@ import com.asking.pad.app.AppContext;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.api.HttpCodeConstant;
 import com.asking.pad.app.api.Networks;
+import com.asking.pad.app.commom.AESHelper;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.commom.NetworkUtils;
+import com.asking.pad.app.entity.book.BookTable;
+import com.asking.pad.app.ui.downbook.db.DbBookHelper;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -274,6 +277,100 @@ public abstract class BasePresenter<M> {
         );
     }
 
+    public void baseReqStrDB(Observable mObservable,boolean isReadDB,String dbName,String pathId
+            ,final ApiRequestListener mListener) {
+        baseReqDB(mObservable,isReadDB,dbName,pathId,2,"",mListener);
+    }
+
+    public void baseReqFlag0DB(Observable mObservable,boolean isReadDB, String dbName,String pathId
+            ,String valueKey, final ApiRequestListener mListener) {
+        baseReqDB(mObservable,isReadDB,dbName,pathId,0,valueKey,mListener);
+    }
+
+    public void baseReqFlag1DB(Observable mObservable,boolean isReadDB, String dbName,String pathId
+            ,String valueKey, final ApiRequestListener mListener) {
+        baseReqDB(mObservable,isReadDB,dbName,pathId,1,valueKey,mListener);
+    }
+
+    public Observable getDBObservable(final String dbName,final String pathId) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(final Subscriber<? super String> subscriber) {
+                try {
+                    BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
+                    String res = AESHelper.aesDecrypt(mTable.getValue());
+                    subscriber.onNext(res);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * @param mObservable
+     * @param resType     0-flag(成功为0) 1-flag(成功为1) 2-不做处理返回字符串
+     * @param valueKey 如：content
+     * @param dbName 数据库名
+     * @param mListener
+     */
+    @SuppressWarnings("unchecked")
+    public void baseReqDB(Observable mObservable, final boolean isReadDB,String dbName,String pathId
+            ,final int resType,final String valueKey, final ApiRequestListener mListener) {
+        if (isReadDB) {
+            mObservable = getDBObservable(dbName,pathId);
+        }
+        mRxManager.add(mObservable
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .map(new Func1<Object, String>() {
+                    @Override
+                    public String call(Object resBody) {
+                        String resStr = "";
+                        try {
+                            if (resBody instanceof ResponseBody) {
+                                resStr = ((ResponseBody) resBody).string();
+                            } else {
+                                resStr = (String) resBody;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return resStr;
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String resStr) {
+                        switch (resType) {
+                            case 0:
+                                resSuccess(valueKey, resStr, mListener);
+                                break;
+                            case 1:
+                                resSuccess1(valueKey, resStr, mListener);
+                                break;
+                            case 2:
+                                mListener.onResultSuccess(resStr);
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        mListener.onResultFail();
+                        String msg = HttpCodeConstant.getErrorMsg(CommonUtil.getRequestEntity(throwable));
+                        if (!TextUtils.isEmpty(msg)) {
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+
+        );
+    }
+
+
     public void baseReqStrCache(Observable mObservable, final String cacheKey, final ApiRequestListener mListener) {
         baseReqCache(mObservable, 2, "", cacheKey, mListener);
     }
@@ -389,7 +486,7 @@ public abstract class BasePresenter<M> {
 
     @SuppressWarnings("unchecked")
     public void baseReqFile(Observable mObservable, final int resType, final String valueKey, final String filePath, final ApiRequestListener mListener) {
-        mObservable = getFileObservable(filePath);
+        //mObservable = getFileObservable(filePath);
         mRxManager.add(mObservable
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
