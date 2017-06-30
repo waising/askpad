@@ -304,6 +304,16 @@ public interface UserApi {
     Observable<ResponseBody> studentcomplain(@Query("reason") String reason, @Query("details") String details, @Query("id") String id);
 
     /**
+     * 我的课程（分页查询）
+     * @param start
+     * @param limit
+     * @return
+     */
+    @GET("userreact/userCourse/findByPage")
+    Observable<ResponseBody> userreact(@Query("start") String start, @Query("limit") String limit);
+
+
+    /**
      * 获取省份数据
      * regionCode:0 获取省份数据，传入省份ID获取城市数据，
      * 传入城市ID获得城市对应区县数据
@@ -553,8 +563,9 @@ public interface UserApi {
                                        @Query("id") String id);
 
 
-    @GET("/record/web/offline/superlesson/versionsForUser")
-    Observable<ResponseBody> versionsForUser();
+    @POST("productapi/product/courseManage/finListdWithDownloadUrl")
+    Observable<ResponseBody> finListdWithDownloadUrl(@Query("courseTypeId") String courseTypeId,
+                                             @Query("start") int start,@Query("limit") int limit);
 
 
     /* 删除我的购买记录 */
@@ -614,7 +625,7 @@ public interface UserApi {
     @POST("productapi/product/courseManage/V1/findListByPage")
     Observable<ResponseBody> findListByPage(@Query("courseTypeId") String courseTypeId,@Query("start") int start, @Query("limit") int limit);
 
-    @POST("paymentNew/payment/charge/get")
+    @POST("paymentNewapi/payment/charge/get")
     Observable<ResponseBody> paymentcharge(@Query("orderType") String orderType, @Query("payType") String payType
             , @Query("commodityId") String commodityId,@Query("finalPrice") String finalPrice,@Query("deviceType") String deviceType);
 

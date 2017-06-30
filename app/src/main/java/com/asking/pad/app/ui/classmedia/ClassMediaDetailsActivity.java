@@ -2,7 +2,6 @@ package com.asking.pad.app.ui.classmedia;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,12 +27,8 @@ import com.asking.pad.app.ui.classmedia.download.ClassDownloadManager;
 import com.asking.pad.app.ui.commom.DownloadFile;
 import com.asking.pad.app.widget.MultiStateView;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnDrawListener;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 
-import java.io.File;
 import java.math.BigDecimal;
 
 import butterknife.BindView;
@@ -47,7 +42,7 @@ import tcking.github.com.giraffeplayer.GiraffePlayerView;
  * Created by jswang on 2017/6/1.
  */
 
-public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements OnPageChangeListener, OnLoadCompleteListener, OnDrawListener {
+public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
@@ -262,7 +257,6 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
             @Override
             public void onResultSuccess(Object res) {
                 displayFromUri(pdfPath);
-                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
 
             @Override
@@ -272,14 +266,11 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
         });
     }
 
-    private void displayFromUri(String filePath) {
-        try {
-            File file = new File(filePath);
-            if (file.exists() && file.isFile()) {
-                pdfView.fromBytes(AESHelper.decryptFile(filePath))   //设置pdf文件地址
-                        .onPageChange(this)     //设置翻页监听
-                        .onLoad(this)           //设置加载监听
-                        .onDraw(this)            //绘图监听
+    private void displayFromUri(final String filePath) {
+        AESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+            @Override
+            public void onResultSuccess(byte[] res) {
+                pdfView.fromBytes(res)   //设置pdf文件地址
                         .swipeHorizontal(false)  //pdf文档翻页是否是垂直翻页，默认是左右滑动翻页
                         .enableSwipe(true)   //是否允许翻页，默认是允许翻
                         .onRender(new OnRenderListener() {
@@ -289,10 +280,14 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
                             }
                         })
                         .load();
+                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onResultFail() {
+                load_view.setViewState(load_view.VIEW_STATE_ERROR);
+            }
+        });
     }
 
     @OnClick({R.id.btn_pay})
@@ -353,20 +348,5 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity implements 
             return;
         }
         super.onBackPressed();
-    }
-
-    @Override
-    public void onPageChanged(int page, int pageCount) {
-
-    }
-
-    @Override
-    public void loadComplete(int nbPages) {
-
-    }
-
-    @Override
-    public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-
     }
 }

@@ -20,8 +20,6 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -78,7 +76,6 @@ public class ClassPdfDetailsActivity extends BaseActivity implements OnPageChang
             @Override
             public void onResultSuccess(Object res) {
                 displayFromUri(pdfPath);
-                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
 
             @Override
@@ -89,13 +86,10 @@ public class ClassPdfDetailsActivity extends BaseActivity implements OnPageChang
     }
 
     private void displayFromUri(String filePath) {
-        try {
-            File file = new File(filePath);
-            if (file.exists() && file.isFile()) {
-                pdfView.fromBytes(AESHelper.decryptFile(filePath))   //设置pdf文件地址
-                        .onPageChange(this)     //设置翻页监听
-                        .onLoad(this)           //设置加载监听
-                        .onDraw(this)            //绘图监听
+        AESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+            @Override
+            public void onResultSuccess(byte[] res) {
+                pdfView.fromBytes(res)   //设置pdf文件地址
                         .swipeHorizontal(false)  //pdf文档翻页是否是垂直翻页，默认是左右滑动翻页
                         .enableSwipe(true)   //是否允许翻页，默认是允许翻
                         .onRender(new OnRenderListener() {
@@ -105,10 +99,14 @@ public class ClassPdfDetailsActivity extends BaseActivity implements OnPageChang
                             }
                         })
                         .load();
+                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onResultFail() {
+                load_view.setViewState(load_view.VIEW_STATE_ERROR);
+            }
+        });
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseEvenAppCompatActivity;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.ParamHelper;
 import com.asking.pad.app.entity.superclass.SuperLessonTree;
 import com.asking.pad.app.presenter.UserModel;
@@ -58,13 +57,14 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
     private View[] mTabs;
 
     boolean isBuy;
-    String classType;
     String gradeId;
     String knowledgeName;
     String knowledgeId;
     int free;
-
     int knowledgeIndex;
+
+    String classType;
+    String className;
 
     List<SuperLessonTree> treeLessonList = new ArrayList<>();
 
@@ -74,8 +74,10 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
         setContentView(R.layout.activity_super_class);
         ButterKnife.bind(this);
 
-        isBuy = this.getIntent().getBooleanExtra("isBuy", false);
         classType = this.getIntent().getStringExtra("classType");
+        className = this.getIntent().getStringExtra("className");
+
+        isBuy = this.getIntent().getBooleanExtra("isBuy", false);
         gradeId = this.getIntent().getStringExtra("gradeId");
         knowledgeId = this.getIntent().getStringExtra("knowledgeId");
         knowledgeName = this.getIntent().getStringExtra("knowledgeName");
@@ -118,12 +120,14 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
         switch (event.type) {
             case AppEventType.CLASSIFY_REQUEST:
 
-                gradeId = (String) event.values[2];
-                knowledgeId = (String) event.values[4];
-                classType = (String) event.values[1];
                 isBuy = (boolean) event.values[0];
+                gradeId = (String) event.values[1];
+                knowledgeId = (String) event.values[2];
                 knowledgeName = (String) event.values[3];
-                knowledgeIndex = (int) event.values[5];
+                knowledgeIndex = (int) event.values[4];
+                free = (int) event.values[5];
+                treeLessonList.clear();
+                treeLessonList.addAll((List<SuperLessonTree>)event.values[6]);
 
                 initDataView(gradeId, knowledgeId, isBuy);
                 break;
@@ -161,12 +165,7 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
                 mCurTabIndex = index;
                 break;
             case R.id.tv_title:
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("isBuy", isBuy);
-                bundle.putString("classType", classType);
-                bundle.putString("className", Constants.getClassName(this, classType));
-                bundle.putBoolean("isSelectNode", true);
-                CommonUtil.openActivity(ClassifyActivty.class, bundle);
+                ClassifyActivty.openActivity(classType,className,true);
                 break;
             case R.id.tv_pre:
                 knowledgeIndex = knowledgeIndex - 1;

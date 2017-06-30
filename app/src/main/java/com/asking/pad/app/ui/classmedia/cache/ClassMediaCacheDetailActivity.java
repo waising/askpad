@@ -19,8 +19,6 @@ import com.asking.pad.app.widget.MultiStateView;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tcking.github.com.giraffeplayer.GiraffePlayerView;
@@ -120,7 +118,6 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
             @Override
             public void onResultSuccess(Object res) {
                 displayFromUri(pdfPath);
-                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
 
             @Override
@@ -131,10 +128,10 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
     }
 
     private void displayFromUri(String filePath) {
-        try {
-            File file = new File(filePath);
-            if (file.exists() && file.isFile()) {
-                pdfView.fromBytes(AESHelper.decryptFile(filePath))   //设置pdf文件地址
+        AESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+            @Override
+            public void onResultSuccess(byte[] res) {
+                pdfView.fromBytes(res)   //设置pdf文件地址
                         .swipeHorizontal(false)  //pdf文档翻页是否是垂直翻页，默认是左右滑动翻页
                         .enableSwipe(true)   //是否允许翻页，默认是允许翻
                         .onRender(new OnRenderListener() {
@@ -144,10 +141,14 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
                             }
                         })
                         .load();
+                load_view.setViewState(load_view.VIEW_STATE_CONTENT);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onResultFail() {
+                load_view.setViewState(load_view.VIEW_STATE_ERROR);
+            }
+        });
     }
 
     @Override

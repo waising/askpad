@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseActivity;
+import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -34,11 +35,21 @@ public class DownBookActivity extends BaseActivity {
 
     ArrayList<String> tabList = new ArrayList<>();
 
+    String courseTypeId;
+
+    public static void openActivity(String courseTypeId){
+        Bundle bundle = new Bundle();
+        bundle.putString("courseTypeId", courseTypeId);
+        CommonUtil.openActivity(DownBookActivity.class,bundle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_book);
         ButterKnife.bind(this);
+
+        courseTypeId = this.getIntent().getStringExtra("courseTypeId");
     }
 
     @Override
@@ -68,7 +79,7 @@ public class DownBookActivity extends BaseActivity {
         public Fragment getItem(int position) {
             Fragment f;
             if(position == 0){
-                f = DownAbleFragment.newInstance();
+                f = DownAbleFragment.newInstance(courseTypeId);
             }else{
                 f = DownFinishFragment.newInstance();
             }

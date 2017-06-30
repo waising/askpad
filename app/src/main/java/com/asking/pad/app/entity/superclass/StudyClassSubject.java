@@ -24,7 +24,7 @@ public class StudyClassSubject {
     }
 
     public StudyClassSubject(String versionName){
-        StudyClassVersion value = new StudyClassVersion();
+        value = new StudyClassVersion();
         value.productName = versionName;
         this.dataType = 1;
     }

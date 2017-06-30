@@ -58,9 +58,14 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
     GradeAdapter gradeAdapter;
 
-    boolean isSelectNode;
+
     boolean isBuy;
     String commodityId;
+
+    String classType;
+    String className;
+    boolean isSelectNode;
+
     ArrayList<StudyClassGrade> gradeList = new ArrayList<>();
 
     /**
@@ -83,6 +88,8 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
+            classType = bundle.getString("classType");
+            className = bundle.getString("className");
             isSelectNode = bundle.getBoolean("isSelectNode");
         }
     }
@@ -130,22 +137,28 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
     }
 
     public void initGradeData(List<StudyClassGrade> list) {
-        gradeList.clear();
-        gradeList.addAll(list);
-        if (gradeList.size() > 0) {
-            StudyClassGrade e = gradeList.get(0);
-            e.isSelect = true;
-            this.commodityId = e.commodityId;
-            this.isBuy = e.getIsBuy();
+        if (list.size() > 0) {
+            gradeList.clear();
+            gradeList.addAll(list);
+            for (int i = 0; i < gradeList.size(); i++) {
+                StudyClassGrade e = gradeList.get(i);
+                e.isSelect = false;
+                if (i == 0) {
+                    e.isSelect = true;
+                    this.commodityId = e.commodityId;
+                    this.isBuy = e.getIsBuy();
+                }
+            }
+            gradeAdapter.notifyDataSetChanged();
+            classSection();
+        } else {
+            load_view.setViewState(load_view.VIEW_STATE_EMPTY);
         }
-        gradeAdapter.notifyDataSetChanged();
-        classSection();
     }
 
     private void classSection() {
         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         know_load_view.setViewState(load_view.VIEW_STATE_LOADING);
-
         if (isBuy) {
             mPresenter.classSection(commodityId, new ApiRequestListener<String>() {
                 @Override
@@ -212,7 +225,9 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         }
 
         if (isSelectNode) {
-            EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST, isBuy, commodityId));
+            EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST
+                    , isBuy, commodityId,value.id,value.name,value.knowledgeIndex,value.free,treeLessonList));
+            getActivity().finish();
         } else {
             if (isBuy) {
                 openSuperClassActiity(value);
@@ -230,10 +245,14 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         Bundle bundle = new Bundle();
         bundle.putBoolean("isBuy", isBuy);
         bundle.putString("gradeId", commodityId);
-        bundle.putString("knowledgeName", value.name);
         bundle.putString("knowledgeId", value.id);
+        bundle.putString("knowledgeName", value.name);
         bundle.putInt("knowledgeIndex", value.knowledgeIndex);
         bundle.putInt("free", value.free);
+
+        bundle.putString("classType", classType);
+        bundle.putString("className", className);
+
         HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(ClassifyActivty.class.getName());
         mParams.put("treeLessonList", treeLessonList);
         CommonUtil.openActivity(SuperClassActiity.class, bundle);

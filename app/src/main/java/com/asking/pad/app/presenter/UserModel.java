@@ -186,6 +186,11 @@ public class UserModel extends BaseModel {
                 .orderhistory(start, limit, account, role).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> userreact(String start, String limit) {
+        return Networks.getInstance().getUserApi()
+                .userreact(start, limit).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> findListByPage(String courseTypeId,int start, int limit) {
         return Networks.getInstance().getUserApi()
                 .findListByPage(courseTypeId,start, limit).compose(RxSchedulers.<ResponseBody>io_main());

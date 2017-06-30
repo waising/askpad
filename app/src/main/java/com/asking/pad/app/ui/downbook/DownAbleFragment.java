@@ -49,8 +49,13 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
     private ArrayList<BookInfo> netDataList = new ArrayList<>();
     private ArrayList<BookInfo> dataList = new ArrayList<>();
 
-    public static DownAbleFragment newInstance() {
+    String courseTypeId;
+
+    public static DownAbleFragment newInstance(String courseTypeId) {
         DownAbleFragment fragment = new DownAbleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("courseTypeId", courseTypeId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -58,6 +63,11 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_down_able);
         ButterKnife.bind(this, getContentView());
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            courseTypeId = bundle.getString("courseTypeId");
+        }
     }
 
     @Override
@@ -80,7 +90,7 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
 
     private void netBookData(){
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        mPresenter.versionsForUser(new ApiRequestListener<String>() {
+        mPresenter.finListdWithDownloadUrl(courseTypeId,0,1000,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 netDataList.clear();

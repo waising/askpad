@@ -270,6 +270,12 @@
             android:theme="@style/Custom_Theme"/>
 
         <activity
+            android:name=".ui.mine.MineStudyRecordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"/>
+
+        <activity
             android:name=".ui.commom.PhotoShowActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
