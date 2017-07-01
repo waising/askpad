@@ -103,14 +103,9 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqFlag0File(mModel.secondreviewtree(orgId), "content", filePath, mListener);
     }
 
-    public void synclesson(String gradeId, String knowledgeId, int type, ApiRequestListener mListener) {
-        baseReqStr(mModel.synclesson(gradeId, knowledgeId, type), mListener);
-    }
-
-    public void getSuperBuyFragment1(String levelId, String knowledgeId, int type, ApiRequestListener mListener) {
-        String filePath = Constants.getBookPath(String.format("coach/version/%s/knowledge/%s/attr？type=%s"
-                , levelId, knowledgeId, type));
-        baseReqStrFile(mModel.getSuperBuyFragment1(levelId, knowledgeId, type), filePath, mListener);
+    public void synclesson(boolean isReadDB,String gradeId, String knowledgeId, int type, ApiRequestListener mListener) {
+        String id = String.format("courseapi/synclesson/%s/%s/%s", gradeId,knowledgeId,type);
+        baseReqStrDB(mModel.synclesson(gradeId, knowledgeId, type),isReadDB,gradeId,id, mListener);
     }
 
     public void getVoicePath(boolean isBuy,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
@@ -122,12 +117,6 @@ public class UserPresenter extends BasePresenter<UserModel> {
         }else{
             baseReqStr(mObservable, mListener);
         }
-    }
-
-    public void getSuperBuyCoach(String versionLevelId, String id, int start, int limit, ApiRequestListener mListener) {
-        String filePath = Constants.getBookPath(String.format("coach/version/%s/knowledge/%s/kindClassic"
-                , versionLevelId, id));
-        baseReqStrFile(mModel.getSuperBuyCoach(versionLevelId, id, start, limit), filePath, mListener);
     }
 
     public void subject(String answerstr, String code, ApiRequestListener mListener) {
@@ -143,15 +132,16 @@ public class UserPresenter extends BasePresenter<UserModel> {
         }else{
             baseReqStr(mObservable, mListener);
         }
-
     }
 
-    public void getSubjectTopic(String gradeId, String knowledgeId, ApiRequestListener mListener) {
-        baseReqStr(mModel.getSubjectTopic(gradeId,knowledgeId), mListener);
+    public void getSubjectTopic(boolean isReadDB,String gradeId, String knowledgeId, ApiRequestListener mListener) {
+        String id = String.format("courseapi/sprint/%s/%s", gradeId,knowledgeId);
+        baseReqStrDB(mModel.getSubjectTopic(gradeId,knowledgeId),isReadDB,gradeId,id, mListener);
     }
 
-    public void getAllSubjectClassic(String gradeId, String knowledgeId, String topic_id, int start, int limit, ApiRequestListener mListener) {
-        baseReqStr(mModel.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit), mListener);
+    public void getAllSubjectClassic(boolean isReadDB,String gradeId, String knowledgeId, String topic_id, int start, int limit, ApiRequestListener mListener) {
+        String id = String.format("courseapi/sprint/%s/%s/%s", gradeId,knowledgeId,topic_id);
+        baseReqStrDB(mModel.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit),isReadDB,gradeId,id, mListener);
     }
 
     public void checkTodaySign(ApiRequestListener mListener) {

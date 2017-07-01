@@ -78,12 +78,7 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
         this.isBuy = isBuy;
-
-        if (isBuy) {
-            mPresenter.getSuperBuyCoach(gradeId, knowledgeId, start, limit, buy3Listener);
-        } else {
-            mPresenter.synclesson(gradeId, knowledgeId,4, buy3Listener);
-        }
+        mPresenter.synclesson(isBuy,gradeId, knowledgeId,4, buy3Listener);
     }
 
     ApiRequestListener buy3Listener = new ApiRequestListener<String>() {

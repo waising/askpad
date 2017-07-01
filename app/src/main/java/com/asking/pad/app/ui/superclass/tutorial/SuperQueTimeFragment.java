@@ -82,14 +82,8 @@ public class SuperQueTimeFragment extends BaseFrameFragment<UserPresenter, UserM
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
         this.isBuy = isBuy;
-
         load_View.setViewState(MultiStateView.VIEW_STATE_LOADING);
-
-        if (isBuy) {
-            mPresenter.getSuperBuyFragment1(gradeId, knowledgeId, 2, buy2Listener);
-        } else {
-            mPresenter.synclesson(gradeId, knowledgeId, 2, buy2Listener);
-        }
+        mPresenter.synclesson(isBuy,gradeId, knowledgeId, 2, buy2Listener);
     }
 
     ApiRequestListener buy2Listener = new ApiRequestListener<String>() {

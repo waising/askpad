@@ -147,62 +147,54 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
         this.knowledgeId = knowledgeId;
         this.isBuy = isBuy;
 
-        if (isBuy) {
-
-        } else {
-            mPresenter.getSubjectTopic(gradeId, knowledgeId, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    subjectList.clear();
-                    subjectList.add(new SubjectTopicEntity("0", "综合篇"));
-                    subjectList.addAll(JSON.parseArray(res, SubjectTopicEntity.class));
-                    if (subjectList.size() > 0) {
-                        SubjectTopicEntity entity = subjectList.get(0);
-                        topic_id = entity.topicId;
-                        entity.isSelect = true;
-                    }
-                    subjectAdapter.notifyDataSetChanged();
-                    loadSubject();
+        mPresenter.getSubjectTopic(isBuy,gradeId, knowledgeId, new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String res) {
+                subjectList.clear();
+                subjectList.add(new SubjectTopicEntity("0", "综合篇"));
+                subjectList.addAll(JSON.parseArray(res, SubjectTopicEntity.class));
+                if (subjectList.size() > 0) {
+                    SubjectTopicEntity entity = subjectList.get(0);
+                    topic_id = entity.topicId;
+                    entity.isSelect = true;
                 }
-            });
-        }
+                subjectAdapter.notifyDataSetChanged();
+                loadSubject();
+            }
+        });
     }
 
     private void loadSubject() {
-        if (isBuy) {
+        mPresenter.getAllSubjectClassic(isBuy,gradeId, knowledgeId, topic_id, start, limit, new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String res) {
+                JSONObject jsonRes = JSON.parseObject(res);
+                List<SubjectExerEntity> list = JSON.parseArray(jsonRes.getString("subjects"),SubjectExerEntity.class);
+                if (start == 0) {
+                    topicList.clear();
+                }
+                topicList.addAll(list);
+                mPagerAdapter.notifyDataSetChanged();
+                indicator.notifyDataSetChanged();
 
-        } else {
-            mPresenter.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    JSONObject jsonRes = JSON.parseObject(res);
-                    List<SubjectExerEntity> list = JSON.parseArray(jsonRes.getString("subjects"),SubjectExerEntity.class);
-                    if (start == 0) {
-                        topicList.clear();
-                    }
-                    topicList.addAll(list);
-                    mPagerAdapter.notifyDataSetChanged();
-                    indicator.notifyDataSetChanged();
-
-                    if (start == 0) {
-                        mViewpager.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mViewpager.setCurrentItem(0);
-                            }
-                        });
-                    }
-
-                    isRunLoaMoreData = false;
+                if (start == 0) {
+                    mViewpager.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mViewpager.setCurrentItem(0);
+                        }
+                    });
                 }
 
-                @Override
-                public void onResultFail() {
-                    start = start - 1;
-                    isRunLoaMoreData = false;
-                }
-            });
-        }
+                isRunLoaMoreData = false;
+            }
+
+            @Override
+            public void onResultFail() {
+                start = start - 1;
+                isRunLoaMoreData = false;
+            }
+        });
     }
 
     class CommViewHolder extends RecyclerView.ViewHolder {
