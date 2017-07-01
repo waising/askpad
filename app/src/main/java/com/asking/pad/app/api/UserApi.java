@@ -115,12 +115,6 @@ public interface UserApi {
     Observable<ResponseBody> synclesson(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId, @Path("type") int type);
 
     /**
-     * 获取超级辅导课阿思可博士有话说列表
-     */
-    @POST("coach/version/{levelId}/knowledge/{knowledgeId}/attr")
-    Observable<ResponseBody> getSuperBuyFragment1(@Path("levelId") String levelId, @Path("knowledgeId") String knowledgeId, @Query("type") int type);
-
-    /**
      * 音频播放
      * prefix--1--有话说==2--问答时间==3来讲题（课堂总结没有音频）
      * suffix--获取的音频的内容在列表的顺序+1（第0个及最开头的一个播放音频的suffix=1）
@@ -128,12 +122,6 @@ public interface UserApi {
     @GET("courseapi/synclesson/voice/{gradeId}/{knowledgeId}/{type}/{position}")
     Observable<ResponseBody> getVoicePath(@Path("gradeId") String gradeId, @Path("knowledgeId") String knowledgeId,
                                           @Path("type") int type, @Path("position") int position);
-
-    /**
-     * 超级辅导课阿思可博士来讲题
-     */
-    @POST("coach/version/{versionLevelId}/knowledge/{id}/kindClassic")
-    Observable<ResponseBody> getSuperBuyCoach(@Path("versionLevelId") String versionLevelId, @Path("id") String id, @Query("start") int start, @Query("limit") int limit);
 
     @POST("learn/subject/freeStudyClassic/like/test")
     Observable<ResponseBody> subject(@Query("answerstr") String answerstr, @Query("code") String code);

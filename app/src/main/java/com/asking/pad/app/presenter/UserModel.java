@@ -75,16 +75,8 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().synclesson(gradeId, knowledgeId, type).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getSuperBuyFragment1(String levelId, String knowledgeId, int type) {
-        return Networks.getInstance().getUserApi().getSuperBuyFragment1(levelId, knowledgeId, type).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
     public Observable<ResponseBody> getVoicePath(String gradeId, String knowledgeId, int type, int position) {
         return Networks.getInstance().getUserApi().getVoicePath(gradeId, knowledgeId, type, position).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> getSuperBuyCoach(String versionLevelId, String id, int start, int limit) {
-        return Networks.getInstance().getUserApi().getSuperBuyCoach(versionLevelId, id, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> subject(String answerstr, String code) {

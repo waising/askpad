@@ -65,12 +65,7 @@ public class SuperSumaryFragment extends BaseFrameFragment<UserPresenter, UserMo
         this.isBuy = isBuy;
 
         say_mathview.formatMath().showWebImage(load_View);
-
-        if (isBuy) {
-            mPresenter.getSuperBuyFragment1(gradeId, knowledgeId, 3, buy4Listener);
-        } else {
-            mPresenter.synclesson(gradeId, knowledgeId, 3, buy4Listener);
-        }
+        mPresenter.synclesson(isBuy,gradeId, knowledgeId, 3, buy4Listener);
     }
 
     ApiRequestListener buy4Listener = new ApiRequestListener<String>() {

@@ -66,11 +66,7 @@ public class SuperSayFragment extends BaseFrameFragment<UserPresenter, UserModel
 
         say_mathview.formatMath().showWebImage(load_View);
 
-        if (isBuy) {
-            mPresenter.getSuperBuyFragment1(gradeId, knowledgeId, 1, buy1Listener);
-        } else {
-            mPresenter.synclesson(gradeId, knowledgeId, 1, buy1Listener);
-        }
+        mPresenter.synclesson(isBuy,gradeId, knowledgeId, 1, buy1Listener);
     }
 
     ApiRequestListener buy1Listener = new ApiRequestListener<String>() {
