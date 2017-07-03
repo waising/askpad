@@ -39,9 +39,6 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
     String gradeId;
     String knowledgeId;
 
-    int start;
-    int limit = 10;
-
     public static SuperSpeakerFragment newInstance(String gradeId, String knowledgeId, boolean isBuy) {
         SuperSpeakerFragment fragment = new SuperSpeakerFragment();
         Bundle bundle = new Bundle();

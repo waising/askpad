@@ -127,12 +127,6 @@ public interface UserApi {
     Observable<ResponseBody> subject(@Query("answerstr") String answerstr, @Query("code") String code);
 
     /**
-     * 获取变式题
-     */
-    @POST("freeStudyClassic/subject/subjectMul")
-    Observable<ResponseBody> getSubjectMul(@Query("kindId") String kindId, @Query("catalogCode") String catalogCode, @Query("start") int start, @Query("limit") int limit);
-
-    /**
      * 演练大冲关获取题类
      * subjectCatalog--M3
      */

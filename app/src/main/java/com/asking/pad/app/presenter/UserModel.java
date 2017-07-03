@@ -83,10 +83,6 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().subject(answerstr, code).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getSubjectMul(String kindId, String catalogCode, int start, int limit) {
-        return Networks.getInstance().getUserApi().getSubjectMul(kindId, catalogCode, start, limit).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
     public Observable<ResponseBody> getSubjectTopic(String gradeId, String knowledgeId) {
         return Networks.getInstance().getUserApi().getSubjectTopic(gradeId, knowledgeId).compose(RxSchedulers.<ResponseBody>io_main());
     }

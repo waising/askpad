@@ -1,11 +1,13 @@
 package com.asking.pad.app.commom;
 
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -182,6 +184,7 @@ public class FileUtils {
 
     /**
      * 获得某个目录下所有文件大小
+     *
      * @return 目录大小(String 类型)
      */
     public static String getCacheDirSize(File file) {
@@ -190,6 +193,7 @@ public class FileUtils {
 
     /**
      * 获取某个目录下所有文件大小
+     *
      * @return 目录大小(long 类型)
      */
     public static long getDirSize(File file) {
@@ -214,7 +218,7 @@ public class FileUtils {
      * @return {@code true}: 删除成功<br>{@code false}: 删除失败
      */
     public static boolean deleteDir(File dir) {
-        try{
+        try {
             if (dir == null) return false;
             // 目录不存在返回true
             if (!dir.exists()) return true;
@@ -230,7 +234,8 @@ public class FileUtils {
                 }
             }
             return dir.delete();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return false;
     }
 
@@ -251,9 +256,10 @@ public class FileUtils {
      * @return {@code true}: 删除成功<br>{@code false}: 删除失败
      */
     public static boolean deleteFile(File file) {
-        try{
+        try {
             return file != null && (!file.exists() || file.isFile() && file.delete());
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return false;
     }
 
@@ -284,7 +290,6 @@ public class FileUtils {
 
     /**
      * 读取文本文件
-     *
      */
     public static String readFileStr(String filePath) {
         try {
@@ -323,7 +328,7 @@ public class FileUtils {
     public static String formatFileSize(long fileS) {
         java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
         String fileSizeString = "";
-        try{
+        try {
             if (fileS < 1024) {
                 fileSizeString = df.format((double) fileS) + "B";
             } else if (fileS < 1048576) {
@@ -333,9 +338,40 @@ public class FileUtils {
             } else {
                 fileSizeString = df.format((double) fileS / 1073741824) + "G";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return fileSizeString;
+    }
+
+    public static String getFileMusicPath(String fileName) {
+        File fileDir = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_BOOK_PATH + "/music/");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        return fileDir.getAbsolutePath() + "/" + fileName;
+    }
+
+    public static boolean writeFile(byte[] buffer, String fileName) {
+        boolean writeSucc = false;
+        File file = new File(getFileMusicPath(fileName));
+        if (file.exists()) {
+            return true;
+        }
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            out.write(buffer);
+            writeSucc = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return writeSucc;
     }
 }
