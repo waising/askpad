@@ -16,6 +16,7 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.commom.MusicPlayer;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by jswang on 2017/4/10.
@@ -194,12 +197,36 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
             mPresenter.getVoicePath(isBuy, gradeId, knowledgeId, type, position + 1, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
-                    musicUrl = res;
+                    voicePath(res,gradeId, knowledgeId, type, position);
+                }
+            });
+        }
+    }
+
+    private  void voicePath(final String res,String gradeId,String knowledgeId,final int type,final int position){
+        if(isBuy){
+            final String fileName = String.format("%s-%s-%s-%s",gradeId, knowledgeId, type, position);
+            Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
+                @Override
+                public void call(final Subscriber<? super Object> subscriber) {
+                    FileUtils.writeFile(res.getBytes(),fileName);
+                    subscriber.onCompleted();
+                }
+            });
+            mPresenter.newThread(mObservable, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String res) {
+                    musicUrl = FileUtils.getFileMusicPath(fileName);
                     musicPlayer.play(musicUrl);
                     voiceType = type;
                     voicePosition = position;
                 }
             });
+        }else{
+            musicUrl = res;
+            musicPlayer.play(musicUrl);
+            voiceType = type;
+            voicePosition = position;
         }
     }
 

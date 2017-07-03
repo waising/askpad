@@ -298,7 +298,7 @@ public abstract class BasePresenter<M> {
             public void call(final Subscriber<? super String> subscriber) {
                 try {
                     BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
-                    String res = AESHelper.aesDecrypt(mTable.getValue());
+                    String res = AESHelper.decode(mTable.getValue());
                     subscriber.onNext(res);
                 } catch (Exception e) {
                     e.printStackTrace();

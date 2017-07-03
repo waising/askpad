@@ -108,30 +108,13 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStrDB(mModel.synclesson(gradeId, knowledgeId, type),isReadDB,gradeId,id, mListener);
     }
 
-    public void getVoicePath(boolean isBuy,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
-        Observable<ResponseBody> mObservable = mModel.getVoicePath(gradeId, knowledgeId, type, position);
-        if (isBuy) {
-            String filePath = Constants.getBookPath(String.format("freeStudyClassic/version/%s/knowledge/%s/voice？prefix=%s&suffix=%s"
-                    , gradeId, knowledgeId, type, position));
-            baseReqStrFile(mObservable, filePath, mListener);
-        }else{
-            baseReqStr(mObservable, mListener);
-        }
+    public void getVoicePath(boolean isReadDB,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
+        String id = String.format("courseapi/synclesson/voice/%s/%s/%s/%s", gradeId,knowledgeId,type,position);
+        baseReqStrDB(mModel.getVoicePath(gradeId, knowledgeId, type, position),isReadDB,gradeId,id, mListener);
     }
 
     public void subject(String answerstr, String code, ApiRequestListener mListener) {
         baseReqStr(mModel.subject(answerstr, code), mListener);
-    }
-
-    public void getSubjectMul(boolean isBuy,String kindId, String catalogCode, int start, int limit, ApiRequestListener mListener) {
-        Observable<ResponseBody> mObservable = mModel.getSubjectMul(kindId, catalogCode, start, limit);
-        if (isBuy) {
-            String filePath = Constants.getBookPath(String.format("freeStudyClassic/subject/subjectMul？kindId=%s&catalogCode=%s"
-                    , kindId, catalogCode));
-            baseReqStrFile(mObservable, filePath, mListener);
-        }else{
-            baseReqStr(mObservable, mListener);
-        }
     }
 
     public void getSubjectTopic(boolean isReadDB,String gradeId, String knowledgeId, ApiRequestListener mListener) {
