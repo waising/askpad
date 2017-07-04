@@ -298,9 +298,11 @@ public abstract class BasePresenter<M> {
             public void call(final Subscriber<? super String> subscriber) {
                 try {
                     BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
-                    String res = AESHelper.decode(mTable.getValue());
+                    String value = mTable.getValue();
+                    String res = AESHelper.decode(value);
                     subscriber.onNext(res);
                 } catch (Exception e) {
+                    subscriber.onError(e);
                     e.printStackTrace();
                 }
             }

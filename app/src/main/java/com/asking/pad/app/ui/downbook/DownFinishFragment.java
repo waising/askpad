@@ -19,6 +19,7 @@ import com.asking.pad.app.ui.downbook.download.DownState;
 import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 import com.asking.pad.app.ui.downbook.presenter.DownModel;
 import com.asking.pad.app.ui.downbook.presenter.DownPresenter;
+import com.asking.pad.app.ui.mine.CommDialog;
 import com.asking.pad.app.ui.personalcenter.DeleteDialog;
 import com.asking.pad.app.widget.MultiStateView;
 
@@ -76,7 +77,7 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
         initBookData();
     }
 
-    private void initBookData(){
+    public void initBookData(){
         dataList.clear();
         List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookInfo(courseTypeId);
         for(int j= 0;j<dbList.size();j++){
@@ -110,6 +111,9 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
         @BindView(R.id.img_del)
         ImageView img_del;
 
+        @BindView(R.id.tv_update)
+        TextView tv_update;
+
         public CommViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -138,6 +142,28 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
 
     }
 
+    CommDialog cDialog;
+    private void showUpDialog(final BookDownInfo e) {
+        if(cDialog == null){
+            cDialog = new CommDialog();
+        }
+        cDialog.setDeleteListner(new CommDialog.DeleteListner(){
+            @Override
+            public void ok(int position, String id, CommDialog deleteDialog) {
+                OkHttpDownManager.getInstance().deleteDown(e);
+                initBookData();
+                e.setDownState(DownState.DELETE);
+                DbBookHelper.deleteDatabase(e.getCommodityId());
+                EventBus.getDefault().post(e);
+                OkHttpDownManager.getInstance().startDown(e);
+            }
+        });
+        cDialog.setPosition(0);
+        cDialog.setId("");
+        cDialog.show(getChildFragmentManager(), "");
+
+    }
+
     /**
      * recyclew中的adapter
      */
@@ -163,6 +189,18 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
                 public void onClick(View v) {
                     EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_OPEN_REQUEST,e.getCommodityId()));
                     getActivity().finish();
+                }
+            });
+            holder.item_name.setVisibility(View.GONE);
+            if(e.getUpdate() == 1){
+                holder.tv_update.setVisibility(View.VISIBLE);
+            }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(e.getUpdate() == 1){
+                        showUpDialog(e);
+                    }
                 }
             });
         }

@@ -66,7 +66,7 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
         super.initView();
 
         rv_speaker.setLayoutManager(new LinearLayoutManager(getContext()));
-        mSeakerAdapter = new SuperSpeakerAdapter(getActivity(),isBuy, mSpeakerTimes);
+        mSeakerAdapter = new SuperSpeakerAdapter(getActivity(),isBuy, rv_speaker,mSpeakerTimes);
         rv_speaker.setAdapter(mSeakerAdapter);
 
         refreshData(gradeId, knowledgeId, isBuy);

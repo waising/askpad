@@ -9,10 +9,10 @@ import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.ui.downbook.download.DownState;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.File;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by jswang on 2017/5/2.
@@ -39,6 +39,12 @@ public class BookDownInfo {
     @JSONField(name="version")
     private String version;
 
+    /**
+     * 0-不需要更新  1-需要更新
+     */
+    @JSONField(name="update")
+    private int update = 0;
+
     private String userId;
 
     private byte downState = DownState.START;
@@ -48,9 +54,9 @@ public class BookDownInfo {
     /**下载长度*/
     private long readLength;
 
-    @Generated(hash = 1607911134)
+    @Generated(hash = 848508106)
     public BookDownInfo(String commodityId, String downloadUrl, String courseName, String commodityName,
-            String courseTypeId, String version, String userId, byte downState, long countLength,
+            String courseTypeId, String version, int update, String userId, byte downState, long countLength,
             long readLength) {
         this.commodityId = commodityId;
         this.downloadUrl = downloadUrl;
@@ -58,6 +64,7 @@ public class BookDownInfo {
         this.commodityName = commodityName;
         this.courseTypeId = courseTypeId;
         this.version = version;
+        this.update = update;
         this.userId = userId;
         this.downState = downState;
         this.countLength = countLength;
@@ -66,6 +73,14 @@ public class BookDownInfo {
 
     @Generated(hash = 2101010063)
     public BookDownInfo() {
+    }
+
+    public int getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(int update) {
+        this.update = update;
     }
 
     public String getCourseTypeId() {

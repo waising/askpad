@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,6 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
      * @param list
      */
     List<SuperLessonTree> treeLessonList = new ArrayList<>();
-
     StudyClassGrade mGrade;
 
     public static ClassifySuperFragment newInstance(Bundle bundle) {
@@ -111,19 +111,30 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         know_load_view.setErrorRefBtnTxt("点击下载相关课程", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtil.openActivity(DownBookActivity.class);
+                if (mGrade != null) {
+                    DownBookActivity.openActivity(mGrade.courseTypeId);
+                }
             }
         });
     }
 
     public void onEventMainThread(AppEventType event) {
         try {
-            if (event.type == AppEventType.BOOK_DWON_FINISH_REQUEST) {
-//                if(mGrade!=null && TextUtils.equals(mGrade.getLevelId(),(String)event.values[1])){
-//                    OnCommItem(mGrade);
-//                }
+            if (event.type == AppEventType.BOOK_DWON_FINISH_REQUEST || event.type == AppEventType.BOOK_OPEN_REQUEST) {
+                for (int i = 0; i < gradeList.size(); i++) {
+                    StudyClassGrade e = gradeList.get(i);
+                    e.isSelect = false;
+                    if (TextUtils.equals(e.commodityId, (String) event.values[0])) {
+                        e.isSelect = true;
+                        this.commodityId = e.commodityId;
+                        this.isBuy = e.getIsBuy();
+                    }
+                }
+                gradeAdapter.notifyDataSetChanged();
+                classSection();
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -158,7 +169,7 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
     private void classSection() {
         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         know_load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        mPresenter.synclesson(isBuy,commodityId, new ApiRequestListener<String>() {
+        mPresenter.synclesson(isBuy, commodityId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 List<SuperLessonTree> list = JSON.parseArray(res, SuperLessonTree.class);
@@ -206,7 +217,7 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
         if (isSelectNode) {
             EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST
-                    , isBuy, commodityId,value.id,value.name,value.knowledgeIndex,value.free,treeLessonList));
+                    , isBuy, commodityId, value.id, value.name, value.knowledgeIndex, value.free, treeLessonList));
             getActivity().finish();
         } else {
             if (isBuy) {

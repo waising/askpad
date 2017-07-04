@@ -19,6 +19,9 @@ public class StudyClassGrade{
     @JSONField(name="purchaseState")
     public String purchaseState;
 
+    @JSONField(name="courseTypeId")
+    public String courseTypeId;
+
     public boolean isSelect;
 
     public boolean getIsBuy(){

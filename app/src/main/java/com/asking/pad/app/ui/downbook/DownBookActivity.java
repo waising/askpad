@@ -13,6 +13,7 @@ import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +35,7 @@ public class DownBookActivity extends BaseActivity {
     ViewPager viewPager;
 
     ArrayList<String> tabList = new ArrayList<>();
-
+    List<Fragment> listFragments = new ArrayList<>();
     String courseTypeId;
 
     public static void openActivity(String courseTypeId){
@@ -60,6 +61,9 @@ public class DownBookActivity extends BaseActivity {
         tabList.add("可下载课程");
         tabList.add("已下载课程");
 
+        listFragments.add(DownAbleFragment.newInstance(courseTypeId));
+        listFragments.add(DownFinishFragment.newInstance(courseTypeId));
+
         indicator.setLayoutResource(R.layout.layout_indicator_tab_view3);
         CommAdapter mAdapter = new CommAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
@@ -67,6 +71,23 @@ public class DownBookActivity extends BaseActivity {
 
         mAdapter.notifyDataSetChanged();
         indicator.notifyDataSetChanged();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position== 0){
+                    ((DownAbleFragment)listFragments.get(0)).netBookData();
+                }else{
+                    ((DownFinishFragment)listFragments.get(1)).initBookData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 
     class CommAdapter extends FragmentStatePagerAdapter {
@@ -77,13 +98,7 @@ public class DownBookActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment f;
-            if(position == 0){
-                f = DownAbleFragment.newInstance(courseTypeId);
-            }else{
-                f = DownFinishFragment.newInstance(courseTypeId);
-            }
-            return f;
+            return listFragments.get(position);
         }
 
         @Override

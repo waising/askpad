@@ -30,10 +30,11 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
         public final static Property CommodityName = new Property(3, String.class, "commodityName", false, "COMMODITY_NAME");
         public final static Property CourseTypeId = new Property(4, String.class, "courseTypeId", false, "COURSE_TYPE_ID");
         public final static Property Version = new Property(5, String.class, "version", false, "VERSION");
-        public final static Property UserId = new Property(6, String.class, "userId", false, "USER_ID");
-        public final static Property DownState = new Property(7, byte.class, "downState", false, "DOWN_STATE");
-        public final static Property CountLength = new Property(8, long.class, "countLength", false, "COUNT_LENGTH");
-        public final static Property ReadLength = new Property(9, long.class, "readLength", false, "READ_LENGTH");
+        public final static Property Update = new Property(6, int.class, "update", false, "UPDATE");
+        public final static Property UserId = new Property(7, String.class, "userId", false, "USER_ID");
+        public final static Property DownState = new Property(8, byte.class, "downState", false, "DOWN_STATE");
+        public final static Property CountLength = new Property(9, long.class, "countLength", false, "COUNT_LENGTH");
+        public final static Property ReadLength = new Property(10, long.class, "readLength", false, "READ_LENGTH");
     }
 
 
@@ -55,10 +56,11 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
                 "\"COMMODITY_NAME\" TEXT," + // 3: commodityName
                 "\"COURSE_TYPE_ID\" TEXT," + // 4: courseTypeId
                 "\"VERSION\" TEXT," + // 5: version
-                "\"USER_ID\" TEXT," + // 6: userId
-                "\"DOWN_STATE\" INTEGER NOT NULL ," + // 7: downState
-                "\"COUNT_LENGTH\" INTEGER NOT NULL ," + // 8: countLength
-                "\"READ_LENGTH\" INTEGER NOT NULL );"); // 9: readLength
+                "\"UPDATE\" INTEGER NOT NULL ," + // 6: update
+                "\"USER_ID\" TEXT," + // 7: userId
+                "\"DOWN_STATE\" INTEGER NOT NULL ," + // 8: downState
+                "\"COUNT_LENGTH\" INTEGER NOT NULL ," + // 9: countLength
+                "\"READ_LENGTH\" INTEGER NOT NULL );"); // 10: readLength
     }
 
     /** Drops the underlying database table. */
@@ -100,14 +102,15 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
         if (version != null) {
             stmt.bindString(6, version);
         }
+        stmt.bindLong(7, entity.getUpdate());
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(7, userId);
+            stmt.bindString(8, userId);
         }
-        stmt.bindLong(8, entity.getDownState());
-        stmt.bindLong(9, entity.getCountLength());
-        stmt.bindLong(10, entity.getReadLength());
+        stmt.bindLong(9, entity.getDownState());
+        stmt.bindLong(10, entity.getCountLength());
+        stmt.bindLong(11, entity.getReadLength());
     }
 
     @Override
@@ -143,14 +146,15 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
         if (version != null) {
             stmt.bindString(6, version);
         }
+        stmt.bindLong(7, entity.getUpdate());
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(7, userId);
+            stmt.bindString(8, userId);
         }
-        stmt.bindLong(8, entity.getDownState());
-        stmt.bindLong(9, entity.getCountLength());
-        stmt.bindLong(10, entity.getReadLength());
+        stmt.bindLong(9, entity.getDownState());
+        stmt.bindLong(10, entity.getCountLength());
+        stmt.bindLong(11, entity.getReadLength());
     }
 
     @Override
@@ -167,10 +171,11 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // commodityName
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // courseTypeId
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // version
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // userId
-            (byte) cursor.getShort(offset + 7), // downState
-            cursor.getLong(offset + 8), // countLength
-            cursor.getLong(offset + 9) // readLength
+            cursor.getInt(offset + 6), // update
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // userId
+            (byte) cursor.getShort(offset + 8), // downState
+            cursor.getLong(offset + 9), // countLength
+            cursor.getLong(offset + 10) // readLength
         );
         return entity;
     }
@@ -183,10 +188,11 @@ public class BookDownInfoDao extends AbstractDao<BookDownInfo, String> {
         entity.setCommodityName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setCourseTypeId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setVersion(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setUserId(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setDownState((byte) cursor.getShort(offset + 7));
-        entity.setCountLength(cursor.getLong(offset + 8));
-        entity.setReadLength(cursor.getLong(offset + 9));
+        entity.setUpdate(cursor.getInt(offset + 6));
+        entity.setUserId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setDownState((byte) cursor.getShort(offset + 8));
+        entity.setCountLength(cursor.getLong(offset + 9));
+        entity.setReadLength(cursor.getLong(offset + 10));
      }
     
     @Override
