@@ -130,8 +130,14 @@ public class CommonUtil {
     }
 
     public static boolean isEnglish(String str){
-        if(!TextUtils.isEmpty(str))
-            return str.matches(".*[a-zA-z$\\\\%].*");
+        if(!TextUtils.isEmpty(str)){
+            for(int i=0 ; i<str.length() ; i++){
+                char c = str.charAt(i);
+                if(Pattern.compile(".*[a-zA-Z]+.*").matcher(c+"").matches()){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

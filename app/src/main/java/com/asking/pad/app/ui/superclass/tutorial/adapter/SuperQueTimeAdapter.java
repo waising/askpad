@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -120,25 +118,12 @@ public class SuperQueTimeAdapter extends RecyclerView.Adapter<SuperQueTimeAdapte
         @BindView(R.id.ad_voice)
         AskSimpleDraweeView ad_voice;
 
-        boolean isLoading = true;
-
         public CommViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mathView.formatMath().showWebImage(multiStateView);
             titleMathView.formatMath();
             ad_voice.setImageUrl(Constants.GifHeard+"voice.gif");
-            titleMathView.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    super.onProgressChanged(view, newProgress);
-                    if (newProgress >= 100) {
-                        isLoading = false;
-                    } else{
-                        isLoading = true;
-                    }
-                }
-            });
         }
     }
 

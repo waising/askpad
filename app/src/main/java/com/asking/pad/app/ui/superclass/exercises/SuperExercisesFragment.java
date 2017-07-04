@@ -148,6 +148,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
         this.isBuy = isBuy;
 
         mPresenter.getSubjectTopic(isBuy,gradeId, knowledgeId, new ApiRequestListener<String>() {
+
             @Override
             public void onResultSuccess(String res) {
                 subjectList.clear();

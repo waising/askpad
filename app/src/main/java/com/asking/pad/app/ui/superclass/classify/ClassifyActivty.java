@@ -128,18 +128,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         try {
             if(event.type== AppEventType.BOOK_OPEN_REQUEST){
                 if(mVersion!=null){
-//                    for(StudyClassSubject e:versionList){
-//                        e.isSelect = false;
-//                        String v1 = e.getVersionId();
-//                        String v2 = (String)event.values[0];
-//                        if(TextUtils.equals(v1,v2)){
-//                            this.mVersion = e;
-//                            e.isSelect = true;
-//                            ((ClassifySuperFragment)fragments.get(0)).classGrade((String)event.values[0],(String)event.values[1],e.nodelist);
-//                            break;
-//                        }
-//                    }
-//                    versionAdapter.notifyDataSetChanged();
+
                 }
             }
         } catch (Exception e) {

@@ -88,7 +88,7 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
         netBookData();
     }
 
-    private void netBookData(){
+    public void netBookData(){
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
         mPresenter.finListdWithDownloadUrl(courseTypeId,0,1000,new ApiRequestListener<String>() {
             @Override
@@ -132,7 +132,11 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
                                         dataList.add(dbE);
                                     }
                                 }else{
-                                    dataList.add(e);
+                                    if(dbE.getDownState()==DownState.FINISH){
+                                        dbE.setUpdate(1);
+                                        dbE.setDownloadUrl(e.getDownloadUrl());
+                                        DbHelper.getInstance().updateBookInfo(dbE);
+                                    }
                                 }
                             }
                         }
