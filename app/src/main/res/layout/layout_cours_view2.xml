@@ -19,7 +19,7 @@
     <com.asking.pad.app.widget.NoScrollGridView
         android:id="@+id/course_view"
         style="@style/NoScrollGrid_style"
-        android:columnWidth="100dp"
+        android:columnWidth="120dp"
         android:numColumns="auto_fit"/>
 
     <View

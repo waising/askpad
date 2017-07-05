@@ -140,27 +140,29 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
     @Override
     public void OnCommItem(StudyClassGrade e) {
+        e.isSelect = true;
         this.mGrade = e;
         this.commodityId = e.commodityId;
         this.isBuy = e.getIsBuy();
         classSection();
     }
 
-    public void initGradeData(List<StudyClassGrade> list) {
+    public void initGradeData(String gradeId,List<StudyClassGrade> list) {
         if (list.size() > 0) {
             gradeList.clear();
             gradeList.addAll(list);
             for (int i = 0; i < gradeList.size(); i++) {
                 StudyClassGrade e = gradeList.get(i);
                 e.isSelect = false;
-                if (i == 0) {
-                    e.isSelect = true;
-                    this.commodityId = e.commodityId;
-                    this.isBuy = e.getIsBuy();
+                if(TextUtils.isEmpty(gradeId)){
+                    if (i == 0){
+                        OnCommItem(e);
+                    }
+                }else if(TextUtils.equals(gradeId,e.courseId)){
+                    OnCommItem(e);
                 }
             }
             gradeAdapter.notifyDataSetChanged();
-            classSection();
         } else {
             load_view.setViewState(load_view.VIEW_STATE_EMPTY);
         }

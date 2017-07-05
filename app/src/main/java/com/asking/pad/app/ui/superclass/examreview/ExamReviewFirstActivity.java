@@ -116,7 +116,7 @@ public class ExamReviewFirstActivity extends BaseEvenAppCompatActivity<UserPrese
                 bundle.putBoolean("isFromExamReview",true);
                 bundle.putBoolean("isBuy",isBuy);
                 bundle.putString("classType",classType);
-                bundle.putString("className", Constants.getClassName(this,classType));
+                bundle.putString("className", Constants.getClassName(classType));
                 bundle.putBoolean("isSelectNode",true);
                 bundle.putString("mExamReviewType","0");
                 CommonUtil.openActivity(ClassifyActivty.class,bundle);

@@ -222,9 +222,7 @@ public class ClassMediaCacheActivity extends BaseEvenAppCompatActivity<UserPrese
                 @Override
                 public void onClick(View v) {
                     if (e.getDownState() == DownState.FINISH ) {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("ClassMediaTable", e);
-                        openActivity(ClassMediaCacheDetailActivity.class,bundle);
+                        ClassMediaCacheDetailActivity.openActivity(e);
                     }
 
                 }

@@ -25,6 +25,7 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
+import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
 
@@ -217,6 +218,9 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         @BindView(R.id.tv_progress)
         TextView tv_progress;
 
+        @BindView(R.id.tea_avatar)
+        AskSimpleDraweeView tea_avatar;
+
         public CommViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -285,10 +289,13 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 if (!TextUtils.equals(e.getPurchaseState(), "0")) {
                     int percentage = e.getPlayPercentage();
                     if (percentage > 0) {
-                        holder.tv_progress.setText(percentage + "%");
+                        holder.tv_progress.setText("已学习"+percentage + "%");
+                    }else{
+                        holder.tv_progress.setText("马上学习");
                     }
                 }
                 holder.tv_tea_name.setText(e.getTeacher());
+                holder.tea_avatar.setImageUrl(e.getTeacherImgUrl());
                 holder.tv_price.setText("￥" + e.getPrice());
                 holder.tv_price_count.setText(String.format("已有%s人购买", e.getPurchasedNum()));
             } else if (mHolder instanceof CommentSecondHolder) {

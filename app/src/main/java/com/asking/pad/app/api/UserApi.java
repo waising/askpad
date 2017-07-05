@@ -299,6 +299,9 @@ public interface UserApi {
             , @Query("scheduleTitle") String scheduleTitle, @Query("scheduleId") String scheduleId, @Query("scheduleContent") String scheduleContent);
 
 
+    @GET("productapi/product/courseManage/findByCommodityId")
+    Observable<ResponseBody> findByCommodityId(@Query("commodityId") String commodityId);
+
     /**
      * 获取省份数据
      * regionCode:0 获取省份数据，传入省份ID获取城市数据，

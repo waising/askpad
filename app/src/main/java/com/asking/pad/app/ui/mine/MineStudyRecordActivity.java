@@ -17,13 +17,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
+import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
+import com.asking.pad.app.entity.classmedia.ClassMedia;
+import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.entity.mine.MineStudyRecord;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
+import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheDetailActivity;
+import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
 
@@ -65,6 +71,8 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
      */
     int start = 0, limit = 10;
 
+    MaterialDialog mDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +80,12 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
         ButterKnife.bind(this);
     }
 
-
     @Override
     public void initView() {
         super.initView();
         setToolbar(toolBar, getString(R.string.shopping_record));
+        mDialog = getLoadingDialog().build();
+
         recycler.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new CommAdapter(this);
         recycler.setAdapter(mAdapter);
@@ -110,7 +119,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
      * 请求数据
      */
     private void loadData() {
-        mPresenter.userreact(start + "", limit + "",new ApiRequestListener<String>() {
+        mPresenter.userreact(start + "", limit + "", new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 List<MineStudyRecord> list = JSON.parseArray(resStr, MineStudyRecord.class);
@@ -165,6 +174,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
     }
 
     int curExpandIndex = -1;
+
     class CommAdapter extends RecyclerView.Adapter<CommViewHolder> {
         private Context mContext;
 
@@ -185,16 +195,17 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
             holder.tv_time.setText(e.createTime);
 
             holder.ll_expand.setVisibility(View.GONE);
-            if(e.childCommodityList.size()>0){
+            holder.tv_study.setText("");
+            if (e.childCommodityList.size() > 0) {
                 holder.ll_expand.setVisibility(View.VISIBLE);
+            } else {
+                if (e.schedulePercent == 0) {
+                    holder.tv_study.setText("马上去学习");
+                } else {
+                    holder.tv_study.setText("上次学到了：" + e.schedulePercent + "%");
+                }
             }
             holder.child_recycler.setAdapter(new ChildAdapter(e.childCommodityList));
-
-            if(e.schedulePercent == 0){
-                holder.tv_study.setText("马上去学习");
-            }else{
-                holder.tv_study.setText("上次学到了："+e.schedulePercent+"%");
-            }
 
             holder.ll_expand.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,7 +213,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
                     if (curExpandIndex != position) {
                         holder.el_layout.expand();
                         holder.iv_expand.setSelected(true);
-                        if(curExpandIndex != -1){
+                        if (curExpandIndex != -1) {
                             CommViewHolder h = (CommViewHolder) recycler.findViewHolderForAdapterPosition(curExpandIndex);
                             if (h != null) {
                                 h.iv_expand.setSelected(false);
@@ -217,12 +228,40 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
                     }
                 }
             });
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (e.childCommodityList.size() == 0 && e.getDataType() == 1) {
+                        onClickItem(e.commodityId);
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
             return dataList.size();
         }
+    }
+
+    private void onClickItem(String commodityId) {
+        mDialog.show();
+        mPresenter.findByCommodityId(commodityId, new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String resStr) {
+                ClassMedia mClassVideo = JSON.parseObject(resStr,ClassMedia.class);
+                ClassMediaTable e = new ClassMediaTable();
+                e.setUserId(AppContext.getInstance().getUserId());
+                e.setCourseTypeId(mClassVideo.getCourseTypeId());
+                e.setCourseDataId(mClassVideo.getCourseDataId());
+                e.setPdfUrl(mClassVideo.getPdfUrl());
+                e.setVideoUrl(mClassVideo.getVideoUrl());
+                e.setCourseName(mClassVideo.getCourseName());
+                ClassMediaCacheDetailActivity.openActivity(e);
+                mDialog.dismiss();
+            }
+        });
     }
 
     class ChildHolder extends RecyclerView.ViewHolder {
@@ -267,14 +306,22 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
             holder.tv_title1.setText(e.commodityTypeName);
             holder.tv_time.setText(e.createTime);
 
-            if(e.schedulePercent == 0){
+            if (e.schedulePercent == 0) {
                 holder.tv_study.setText("马上去学习");
-            }else{
+            } else {
                 String ss = "上次学到：";
-                SpannableStringBuilder builder = new SpannableStringBuilder(ss+e.schedulePercent+"%");
+                SpannableStringBuilder builder = new SpannableStringBuilder(ss + e.schedulePercent + "%");
                 builder.setSpan(greySpan, 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.tv_study.setText(builder.toString());
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (e.childCommodityList.size() == 0 && e.getDataType() == 0) {
+                        ClassifyActivty.openActivity(e.getClassId(),e.getVersionId(),e.geGradeId());
+                    }
+                }
+            });
         }
 
         @Override

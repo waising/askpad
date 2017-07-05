@@ -177,8 +177,6 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
                     mAdapter.notifyDataSetChanged();
                 }
                 EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_DWON_FINISH_REQUEST,event.getCommodityId()));
-            }else if(event.getDownState() == DownState.DELETE){
-                initBookData();
             }else {
                 for (int i = 0; i < dataList.size(); i++) {
                     if (TextUtils.equals(event.getCommodityId(), dataList.get(i).getCommodityId())) {
@@ -193,6 +191,7 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

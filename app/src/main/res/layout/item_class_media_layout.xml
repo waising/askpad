@@ -89,6 +89,15 @@
                 android:paddingBottom="@dimen/space_5"
                 android:paddingTop="@dimen/space_5">
 
+                <com.asking.pad.app.widget.AskSimpleDraweeView
+                    android:id="@+id/tea_avatar"
+                    android:layout_width="@dimen/space_40"
+                    android:layout_height="@dimen/space_40"
+                    android:layout_marginRight="@dimen/space_10"
+                    android:clickable="true"
+                    app:backgroundImage="@color/main_bg"
+                    app:roundAsCircle="true"/>
+
                 <TextView
                     android:id="@+id/tv_tea_name"
                     android:layout_width="0dp"
