@@ -130,9 +130,7 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
             public void ok(int position, String id, DeleteDialog deleteDialog) {
                 OkHttpDownManager.getInstance().deleteDown(e);
                 initBookData();
-                e.setDownState(DownState.DELETE);
                 DbBookHelper.deleteDatabase(e.getCommodityId());
-                EventBus.getDefault().post(e);
                 deleteDialog.dismiss();
             }
         });
@@ -152,9 +150,7 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
             public void ok(int position, String id, CommDialog deleteDialog) {
                 OkHttpDownManager.getInstance().deleteDown(e);
                 initBookData();
-                e.setDownState(DownState.DELETE);
                 DbBookHelper.deleteDatabase(e.getCommodityId());
-                EventBus.getDefault().post(e);
                 OkHttpDownManager.getInstance().startDown(e);
             }
         });

@@ -472,11 +472,18 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="ll_class_video_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/space_10</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/space_10</item>
+    </style>
 
     <style name="tv_pay_class_video_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSize_20</item>
+        <item name="android:textSize">@dimen/textSize_30</item>
         <item name="android:textColor">@color/oto_waiting_t1</item>
     </style>
 

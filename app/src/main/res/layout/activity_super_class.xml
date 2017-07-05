@@ -53,7 +53,7 @@
             <TextView
                 android:id="@+id/tv_supertutorial"
                 style="@style/tab_styles"
-                android:text="超级课堂"/>
+                android:text="同步课堂"/>
 
             <TextView
                 android:id="@+id/tv_exercises"

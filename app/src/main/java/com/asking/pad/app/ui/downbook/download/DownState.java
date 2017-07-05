@@ -12,6 +12,5 @@ public class DownState {
 
     public static final byte START = 6;
     public static final byte FINISH = 7;
-    public static final byte DELETE = 8;
 
 }

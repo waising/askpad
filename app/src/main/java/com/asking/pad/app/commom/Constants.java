@@ -1,6 +1,5 @@
 package com.asking.pad.app.commom;
 
-import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -172,16 +171,16 @@ public class Constants {
         return "";
     }
 
-    public static String getClassName(Context mContext, String classType) {
+    public static String getClassName(String classType) {
         String className = "";
-        if (TextUtils.equals("M2", classType)) {
-            className = mContext.getString(R.string.ask_czsx);
-        } else if (TextUtils.equals("P2", classType)) {
-            className = mContext.getString(R.string.ask_czwl);
-        } else if (TextUtils.equals("M3", classType)) {
-            className = mContext.getString(R.string.ask_gzsx);
-        } else if (TextUtils.equals("P3", classType)) {
-            className = mContext.getString(R.string.ask_gzwl);
+        if (TextUtils.equals("XK01", classType)) {
+            className = AppContext.getInstance().getString(R.string.ask_czsx);
+        } else if (TextUtils.equals("XK02", classType)) {
+            className = AppContext.getInstance().getString(R.string.ask_czwl);
+        } else if (TextUtils.equals("XK03", classType)) {
+            className = AppContext.getInstance().getString(R.string.ask_gzsx);
+        } else if (TextUtils.equals("XK04", classType)) {
+            className = AppContext.getInstance().getString(R.string.ask_gzwl);
         }
         return className;
     }

@@ -86,7 +86,7 @@ public class DbHelper {
 
     public List<BookDownInfo> getAllBookInfo(String CourseTypeId) {
         return getBookInfoDao().queryBuilder().where(BookDownInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())
-        , BookDownInfoDao.Properties.CourseTypeId.eq(CourseTypeId)).list();
+                , BookDownInfoDao.Properties.CourseTypeId.eq(CourseTypeId)).list();
     }
 
 //------------------------超级辅导课下载---------------------------------------
@@ -138,9 +138,13 @@ public class DbHelper {
     }
 
     public int getPlayProgress(String courseDataId) {
-        StudyRecord e = getStudyRecordDao().queryBuilder().where(StudyRecordDao.Properties.CourseDataId.eq(courseDataId)).unique();
-        if(e !=null ){
-           return e.getPlayProgress();
+        try {
+            StudyRecord e = getStudyRecordDao().queryBuilder().where(StudyRecordDao.Properties.CourseDataId.eq(courseDataId)).unique();
+            if (e != null) {
+                return e.getPlayProgress();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return -1;
     }

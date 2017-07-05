@@ -15,16 +15,17 @@ import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenNoPreActivity;
-import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
 import com.asking.pad.app.ui.classmedia.download.ClassDownloadManager;
 import com.asking.pad.app.ui.commom.DownloadFile;
+import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.asking.pad.app.widget.MultiStateView;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
@@ -42,7 +43,7 @@ import tcking.github.com.giraffeplayer.GiraffePlayerView;
  * Created by jswang on 2017/6/1.
  */
 
-public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
+public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
@@ -64,14 +65,20 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
     @BindView(R.id.tv_price)
     TextView tv_price;
 
+    @BindView(R.id.tea_avatar)
+    AskSimpleDraweeView tea_avatar;
+
+    @BindView(R.id.tv_class_name)
+    TextView tv_class_name;
+
+    @BindView(R.id.tv_tea_name)
+    TextView tv_tea_name;
+
     @BindView(R.id.tv_price_count)
     TextView tv_price_count;
 
     @BindView(R.id.btn_pay)
     TextView btn_pay;
-
-    @BindView(R.id.tv_student)
-    TextView tv_student;
 
     @BindView(R.id.tv_class_detail)
     WebView tv_class_detail;
@@ -99,7 +106,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
         playProgress = mClassVideo.getPlayProgress();
     }
 
-    private void downMediaMenu(){
+    private void downMediaMenu() {
         toolBar.inflateMenu(R.menu.menu_down_class_media);
         toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -125,7 +132,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
     @Override
     public void initView() {
         super.initView();
-        setToolbar(toolBar, mClassVideo.getCourseName());
+        setToolbar(toolBar, "课程详情");
 
         video_view.setShowNavIcon(false);
         video_view.setVideoPath(mClassVideo.getVideoUrl());
@@ -150,7 +157,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
 
         BitmapUtil.displayImage(mClassVideo.getVideoImgUrl(), video_view.iv_tmpimg_video, true);
 
-        try{
+        try {
             /**
              * 设置加载进来的页面自适应手机屏幕
              */
@@ -160,7 +167,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
             tv_class_detail.setVerticalScrollbarOverlay(false);
             tv_class_detail.setHorizontalScrollBarEnabled(false);
             tv_class_detail.setHorizontalScrollbarOverlay(false);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -169,10 +176,12 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
         if (TextUtils.equals(mClassVideo.getPurchaseState(), "0")) {
             ll_detail.setVisibility(View.VISIBLE);
             tv_free_time.setVisibility(View.VISIBLE);
-            tv_price.setText(mClassVideo.getPrice());
+            tv_class_name.setText(mClassVideo.getCourseName());
+            tv_tea_name.setText(mClassVideo.getTeacher());
+            tea_avatar.setImageUrl(mClassVideo.getTeacherImgUrl());
+            tv_price.setText("￥" + mClassVideo.getPrice());
             tv_price_count.setText(String.format("已有%s人购买", mClassVideo.getPurchasedNum()));
-            tv_student.setText(mClassVideo.getTargetUser());
-            tv_class_detail.loadDataWithBaseURL(null,mClassVideo.getDetail(), "text/html", "utf-8", "about:blank");
+            tv_class_detail.loadDataWithBaseURL(null, mClassVideo.getDetail(), "text/html", "utf-8", "about:blank");
             try {
                 BigDecimal freeTime = new BigDecimal(mClassVideo.getFreeTime());
                 int time = freeTime.divide(new BigDecimal(60), 2, BigDecimal.ROUND_HALF_UP).intValue();
@@ -192,12 +201,12 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
             video_view.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(playProgress > 5000 && video_view.isPlayerSupport()){
+                    if (playProgress > 5000 && video_view.isPlayerSupport()) {
                         video_view.start();
-                        video_view.seekTo(playProgress,false);
+                        video_view.seekTo(playProgress, false);
                     }
                 }
-            },300);
+            }, 300);
 
             downMediaMenu();
         }
@@ -267,7 +276,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
     }
 
     private void displayFromUri(final String filePath) {
-        DESHelper.decryptFile(this,filePath,new ApiRequestListener<byte[]>(){
+        DESHelper.decryptFile(this, filePath, new ApiRequestListener<byte[]>() {
             @Override
             public void onResultSuccess(byte[] res) {
                 pdfView.fromBytes(res)   //设置pdf文件地址
@@ -330,7 +339,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity{
         if (!TextUtils.equals(mClassVideo.getPurchaseState(), "0") && progress > 0) {
             int max = video_view.getDuration();
             EventBus.getDefault().post(new AppEventType(AppEventType.RE_STU_PROGRESSS_SUCCESSS_REQUEST
-                    ,mClassVideo.getCourseTypeId(),mClassVideo.getCourseDataId(),max,progress));
+                    , mClassVideo.getCourseTypeId(), mClassVideo.getCourseDataId(), max, progress));
         }
     }
 

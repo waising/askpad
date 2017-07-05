@@ -7,6 +7,7 @@
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_10"
         android:background="@drawable/corners_item_course"
         android:gravity="center"
         android:paddingBottom="@dimen/space_10"

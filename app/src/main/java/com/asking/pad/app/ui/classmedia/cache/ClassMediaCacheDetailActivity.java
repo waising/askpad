@@ -9,6 +9,7 @@ import android.view.View;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseActivity;
+import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
@@ -44,6 +45,12 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
     PDFView pdfView;
 
     ClassMediaTable mClass;
+
+    public static void openActivity(ClassMediaTable e){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("ClassMediaTable", e);
+        CommonUtil.openActivity(ClassMediaCacheDetailActivity.class,bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

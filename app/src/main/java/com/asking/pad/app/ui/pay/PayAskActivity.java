@@ -6,21 +6,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseFrameActivity;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
-import com.asking.pad.app.ui.personalcenter.ShopCartListActivity;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 充值页面
@@ -89,17 +85,5 @@ public class PayAskActivity extends BaseFrameActivity<UserPresenter, UserModel> 
         public int getCount() {
             return tabList.size();
         }
-    }
-
-
-    @OnClick(R.id.tv_right)
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_right://跳转到购物车页面
-              CommonUtil.openAuthActivity(ShopCartListActivity.class);
-               // CommonUtil.openAuthActivity(ShopCartListActivityCopy.class);//如果后期要滑动切换用这个
-                break;
-        }
-
     }
 }

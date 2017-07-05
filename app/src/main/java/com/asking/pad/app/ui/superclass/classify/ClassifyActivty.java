@@ -62,11 +62,23 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
     StudyClassSubject mVersion;
     String productId="";
 
+    String versionId="";
+    String gradeId="";
+
     public static void openActivity(String classType,String className,boolean isSelectNode){
         Bundle bundle = new Bundle();
         bundle.putString("classType", classType);
         bundle.putString("className", className);
         bundle.putBoolean("isSelectNode", isSelectNode);
+        CommonUtil.openActivity(ClassifyActivty.class, bundle);
+    }
+
+    public static void openActivity(String classType,String versionId,String gradeId){
+        Bundle bundle = new Bundle();
+        bundle.putString("classType", classType);
+        bundle.putString("className", Constants.getClassName(classType));
+        bundle.putString("versionId", versionId);
+        bundle.putString("gradeId", gradeId);
         CommonUtil.openActivity(ClassifyActivty.class, bundle);
     }
 
@@ -77,6 +89,8 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         ButterKnife.bind(this);
         classType = this.getIntent().getStringExtra("classType");
         className = this.getIntent().getStringExtra("className");
+        versionId = this.getIntent().getStringExtra("versionId");
+        gradeId = this.getIntent().getStringExtra("gradeId");
         isSelectNode = this.getIntent().getBooleanExtra("isSelectNode", false);
     }
 
@@ -142,7 +156,7 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
             case 0:
                 this.productId = e.getProductId();
                 setFragmentPage(0);
-                ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
+                ((ClassifySuperFragment)fragments.get(0)).initGradeData("",e.getGradeList());
                 break;
             case 1:
                 setFragmentPage(1);
@@ -182,13 +196,25 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
         });
     }
 
+    private void selectVersionData(StudyClassSubject e) {
+        e.isSelect = true;
+        this.mVersion = e;
+        this.productId = e.getProductId();
+        ((ClassifySuperFragment)fragments.get(0)).initGradeData(gradeId,e.getGradeList());
+    }
+
     private void initVersionData() {
         if(versionList.size()>0){
-            StudyClassSubject e = versionList.get(0);
-            e.isSelect = true;
-            this.mVersion = e;
-            this.productId = e.getProductId();
-            ((ClassifySuperFragment)fragments.get(0)).initGradeData(e.getGradeList());
+            if(TextUtils.isEmpty(versionId)){
+                selectVersionData(versionList.get(0));
+            }else{
+                for(StudyClassSubject e:versionList){
+                    if(TextUtils.equals(e.getProductId(),versionId)){
+                        selectVersionData(e);
+                        break;
+                    }
+                }
+            }
         }
 
         String name = "";
