@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/space_30"
+    android:layout_marginBottom="@dimen/space_5"
+    android:layout_marginLeft="@dimen/space_30"
+    android:layout_marginRight="@dimen/space_30"
+    android:layout_marginTop="@dimen/space_5"
     app:cardCornerRadius="10dp"
     app:cardElevation="@dimen/space_5"
     app:cardUseCompatPadding="true">
@@ -15,8 +18,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/space_20">
-
+        android:paddingBottom="@dimen/space_10"
+        android:paddingLeft="@dimen/space_20"
+        android:paddingRight="@dimen/space_20"
+        android:paddingTop="@dimen/space_10">
 
         <TextView
             android:id="@+id/item_name"
@@ -25,7 +30,6 @@
             android:layout_weight="1"
             android:textColor="@color/colorText_56"
             android:textSize="@dimen/textSize_20"/>
-
 
         <com.asking.pad.app.widget.RoundProgressBar
             android:id="@+id/progress"

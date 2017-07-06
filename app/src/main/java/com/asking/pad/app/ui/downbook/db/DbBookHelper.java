@@ -1,18 +1,19 @@
 package com.asking.pad.app.ui.downbook.db;
 
+import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.entity.book.BookTable;
 import com.asking.pad.app.greendao.BookTableDao;
 import com.asking.pad.app.greendao.DaoMaster;
 import com.asking.pad.app.greendao.DaoSession;
+import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
 import java.io.File;
 import java.util.List;
-
-import static android.R.attr.id;
 
 /**
  * Created by jswang on 2017/5/3.
@@ -55,12 +56,19 @@ public class DbBookHelper {
         return this;
     }
 
-    public static void deleteDatabase(final String commodityId) {
+    public static void deleteBookDownInfoThread(final Activity mActivity,final BookDownInfo e,final ApiRequestListener mListener) {
         new Thread() {
             @Override
             public void run() {
-                String dbPath = BookDownInfo.getBookDirPath(commodityId);
+                OkHttpDownManager.getInstance().deleteDown(e);
+                String dbPath = BookDownInfo.getBookDirPath(e.getCommodityId());
                 FileUtils.deleteFile(new File(dbPath));
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mListener.onResultSuccess("");
+                    }
+                });
             }
         }.start();
     }

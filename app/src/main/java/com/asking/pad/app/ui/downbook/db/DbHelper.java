@@ -3,6 +3,7 @@ package com.asking.pad.app.ui.downbook.db;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.asking.pad.app.AppContext;
+import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
@@ -11,6 +12,7 @@ import com.asking.pad.app.greendao.ClassMediaTableDao;
 import com.asking.pad.app.greendao.DaoMaster;
 import com.asking.pad.app.greendao.DaoSession;
 import com.asking.pad.app.greendao.StudyRecordDao;
+import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,9 +86,16 @@ public class DbHelper {
         getBookInfoDao().deleteByKey(id);
     }
 
-    public List<BookDownInfo> getAllBookInfo(String CourseTypeId) {
-        return getBookInfoDao().queryBuilder().where(BookDownInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())
+    public List<BookDownInfo> getAllBookDownInfo(String CourseTypeId) {
+        List<BookDownInfo> dbList = getBookInfoDao().queryBuilder().where(BookDownInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())
                 , BookDownInfoDao.Properties.CourseTypeId.eq(CourseTypeId)).list();
+        for(int j= 0;j<dbList.size();j++){
+            BookDownInfo dbE = dbList.get(j);
+            if(!FileUtils.isFileExists(dbE.getSavePath())){
+                OkHttpDownManager.getInstance().deleteDown(dbE);
+            }
+        }
+        return dbList;
     }
 
 //------------------------超级辅导课下载---------------------------------------

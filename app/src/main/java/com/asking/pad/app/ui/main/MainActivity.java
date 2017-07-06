@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 import static com.asking.pad.app.R.id.tv_error_note;
 
@@ -89,6 +90,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
         indicator.setViewPager(viewPager);
 
         initUser();
+        findTreeListWithAllCourse();
     }
 
     @OnClick({R.id.ll_user_info, R.id.tv_sign, tv_error_note, R.id.tv_msg, R.id.tv_monny})
@@ -101,6 +103,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
                 CommonUtil.openAuthActivity(WrongTopicActivity.class);
                 break;
             case R.id.tv_msg:
+
                 break;
             case R.id.ll_user_info:
                 CommonUtil.openAuthActivity(UserInfoActivity.class);
@@ -141,6 +144,15 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
         });
     }
 
+    private void findTreeListWithAllCourse(){
+        mPresenter.findTreeListWithAllCourse("KC03",new ApiRequestListener<String>(){
+            @Override
+            public void onResultSuccess(String res) {
+                EventBus.getDefault().post(new AppEventType(AppEventType.RE_CLASSIFY_REQUEST));
+            }
+        });
+    }
+
 
     private void clearUser() {
         tv_name.setText("");
@@ -157,6 +169,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
                     mPresenter.checkUserInfo();
                 }
                 initUser();
+                findTreeListWithAllCourse();
                 break;
             case AppLoginEvent.LOGIN_OUT:
                 clearUser();
@@ -171,6 +184,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
                 break;
             case AppEventType.PAY_SUCCESSS_REQUEST:
                 refreshUser();
+                findTreeListWithAllCourse();
                 break;
         }
     }

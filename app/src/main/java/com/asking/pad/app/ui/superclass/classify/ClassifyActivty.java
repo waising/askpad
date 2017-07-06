@@ -139,13 +139,19 @@ public class ClassifyActivty extends BaseEvenAppCompatActivity<UserPresenter, Us
     }
 
     public void onEventMainThread(AppEventType event) {
-        try {
-            if(event.type== AppEventType.BOOK_OPEN_REQUEST){
-                if(mVersion!=null){
+        switch (event.type){
+            case AppEventType.BOOK_OPEN_REQUEST:
 
+                break;
+            case AppEventType.RE_CLASSIFY_REQUEST:
+                try{
+                    versionId = productId;
+                    gradeId = ((ClassifySuperFragment)fragments.get(0)).courseId;
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-            }
-        } catch (Exception e) {
+                initClassVersion();
+                break;
         }
     }
 
