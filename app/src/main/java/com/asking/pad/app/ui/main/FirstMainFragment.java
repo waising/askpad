@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
-import com.asking.pad.app.commom.AppLoginEvent;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.NetworkUtils;
 import com.asking.pad.app.entity.LabelEntity;
@@ -66,15 +64,6 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
         rv_main.setLayoutManager(mgr);
         mineAdapter = new CommAdapter(getActivity(), mDatas);
         rv_main.setAdapter(mineAdapter);
-
-        initNetData();
-    }
-
-    public void initNetData() {
-        mPresenter.findTreeListWithAllCourse("KC03",new ApiRequestListener<String>(){
-            @Override
-            public void onResultSuccess(String res) {}
-        });
     }
 
     @OnClick({R.id.iv_oto,R.id.iv_video})
@@ -91,17 +80,6 @@ public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
             case R.id.iv_video:
                 CommonUtil.openActivity(ClassMediaActivity.class);
                 break;
-        }
-    }
-
-    public void onEventMainThread(AppLoginEvent event) {
-        switch (event.type){
-            case AppLoginEvent.LOGIN_SUCCESS:
-                initNetData();
-                break;
-            case AppLoginEvent.LOGIN_OUT:
-                break;
-
         }
     }
 

@@ -302,7 +302,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
             String result = data.getExtras().getString("pay_result");
             if (TextUtils.equals("success", result)) {//支付成功
                 EventBus.getDefault().post(new AppEventType(AppEventType.PAY_SUCCESSS_REQUEST));
-                finish();
+                PaySuccessFragment.newInstance().show(getSupportFragmentManager(),"PaySuccessFragment");
             }
         }
     }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
+import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.entity.book.BookDownInfo;
@@ -29,6 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by jswang on 2017/5/2.
@@ -78,21 +81,36 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
     }
 
     public void initBookData(){
-        dataList.clear();
-        List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookInfo(courseTypeId);
-        for(int j= 0;j<dbList.size();j++){
-            BookDownInfo dbE = dbList.get(j);
-            if(dbE.getDownState()==DownState.FINISH){
-                dataList.add(dbE);
+        Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(final Subscriber<? super Object> subscriber) {
+                dataList.clear();
+                List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookDownInfo(courseTypeId);
+                for(int j= 0;j<dbList.size();j++){
+                    BookDownInfo dbE = dbList.get(j);
+                    if(dbE.getDownState()==DownState.FINISH){
+                        dataList.add(dbE);
+                    }
+                }
+                subscriber.onCompleted();
             }
-        }
-        mAdapter.notifyDataSetChanged();
+        });
+        mPresenter.newThread(mObservable,new ApiRequestListener<String>(){
+            @Override
+            public void onResultSuccess(String res) {
+                if(dataList.size()>0){
+                    mAdapter.notifyDataSetChanged();
+                    load_view.setViewState(load_view.VIEW_STATE_CONTENT);
+                }else{
+                    load_view.setViewState(load_view.VIEW_STATE_EMPTY);
+                }
+            }
 
-        if(dataList.size()>0){
-            load_view.setViewState(load_view.VIEW_STATE_CONTENT);
-        }else{
-            load_view.setViewState(load_view.VIEW_STATE_EMPTY);
-        }
+            @Override
+            public void onResultFail() {
+                load_view.setViewState(load_view.VIEW_STATE_ERROR);
+            }
+        });
     }
 
     public void onEventMainThread(BookDownInfo event) {
@@ -105,6 +123,9 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
     }
 
     class CommViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ll_root)
+        View ll_root;
+
         @BindView(R.id.item_name)
         TextView item_name;
 
@@ -128,9 +149,12 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
         deleteDialog.setDeleteListner(new DeleteDialog.DeleteListner(){
             @Override
             public void ok(int position, String id, DeleteDialog deleteDialog) {
-                OkHttpDownManager.getInstance().deleteDown(e);
-                initBookData();
-                DbBookHelper.deleteDatabase(e.getCommodityId());
+                DbBookHelper.deleteBookDownInfoThread(getActivity(),e,new ApiRequestListener(){
+                    @Override
+                    public void onResultSuccess(Object res) {
+                        initBookData();
+                    }
+                });
                 deleteDialog.dismiss();
             }
         });
@@ -148,16 +172,19 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
         cDialog.setDeleteListner(new CommDialog.DeleteListner(){
             @Override
             public void ok(int position, String id, CommDialog deleteDialog) {
-                OkHttpDownManager.getInstance().deleteDown(e);
-                initBookData();
-                DbBookHelper.deleteDatabase(e.getCommodityId());
-                OkHttpDownManager.getInstance().startDown(e);
+                DbBookHelper.deleteBookDownInfoThread(getActivity(),e,new ApiRequestListener(){
+                    @Override
+                    public void onResultSuccess(Object res) {
+                        initBookData();
+                        OkHttpDownManager.getInstance().startDown(e);
+                    }
+                });
+                deleteDialog.dismiss();
             }
         });
         cDialog.setPosition(0);
         cDialog.setId("");
         cDialog.show(getChildFragmentManager(), "");
-
     }
 
     /**
@@ -180,22 +207,18 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
                     showDelDialog(e);
                 }
             });
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_OPEN_REQUEST,e.getCommodityId()));
-                    getActivity().finish();
-                }
-            });
-            holder.item_name.setVisibility(View.GONE);
+            holder.tv_update.setVisibility(View.GONE);
             if(e.getUpdate() == 1){
                 holder.tv_update.setVisibility(View.VISIBLE);
             }
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.ll_root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(e.getUpdate() == 1){
                         showUpDialog(e);
+                    }else{
+                        EventBus.getDefault().post(new AppEventType(AppEventType.BOOK_OPEN_REQUEST,e.getCommodityId()));
+                        getActivity().finish();
                     }
                 }
             });

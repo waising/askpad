@@ -107,7 +107,8 @@ public class OkHttpDownManager {
                         File mFile = new File(info.getSavePath());
                         try {
                             writeCache(responseBody, mFile, info);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         return info;
                     }

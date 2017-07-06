@@ -104,7 +104,7 @@ public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, User
     private void initUser(){
         UserEntity mUser = AppContext.getInstance().getUserEntity();
         if(mUser != null){
-            ad_avatar.setImageUrl(mUser.getAvatarUrl());
+            ad_avatar.setImageUrl(mUser.getAvatar());
             tv_name.setText(mUser.getNickName());
             tv_shcool.setText(mUser.getSchoolName());
             tv_monny.setText(String.valueOf(mUser.getIntegral()));
@@ -140,6 +140,7 @@ public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, User
         switch (view.getId()) {
             case R.id.tv_recharge:
                 CommonUtil.openAuthActivity(PayAskActivity.class);
+                finish();
                 break;
         }
     }

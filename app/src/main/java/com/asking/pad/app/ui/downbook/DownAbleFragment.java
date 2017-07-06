@@ -114,7 +114,7 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
             @Override
             public void call(final Subscriber<? super Object> subscriber) {
                 dataList.clear();
-                List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookInfo(courseTypeId);
+                List<BookDownInfo> dbList = DbHelper.getInstance().getAllBookDownInfo(courseTypeId);
                 for(int i= 0;i<netDataList.size();i++){
                     BookDownInfo e = netDataList.get(i);
                     e.setDownState(DownState.START);

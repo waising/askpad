@@ -61,7 +61,7 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
 
     boolean isBuy;
     String commodityId;
-
+    String courseId;
     String classType;
     String className;
     boolean isSelectNode;
@@ -143,6 +143,7 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         e.isSelect = true;
         this.mGrade = e;
         this.commodityId = e.commodityId;
+        this.courseId = e.courseId;
         this.isBuy = e.getIsBuy();
         classSection();
     }
