@@ -10,6 +10,7 @@ import com.asking.pad.app.entity.book.BookTable;
 import com.asking.pad.app.greendao.BookTableDao;
 import com.asking.pad.app.greendao.DaoMaster;
 import com.asking.pad.app.greendao.DaoSession;
+import com.asking.pad.app.ui.downbook.download.DownState;
 import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
 import java.io.File;
@@ -45,10 +46,15 @@ public class DbBookHelper {
 
     public DbBookHelper setDatabase(String commodityId) {
         try {
-            String dbPath = BookDownInfo.getBookDirPath(commodityId);
-            if (new File(dbPath).exists()) {
-                mDaoMaster = new DaoMaster(SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE));
-                mDaoSession = mDaoMaster.newSession();
+            BookDownInfo info = DbHelper.getInstance().getBookDownInfo(commodityId);
+            if(info!=null && info.getDownState() == DownState.FINISH){
+                String dbPath = BookDownInfo.getBookDirPath(commodityId);
+                if (new File(dbPath).exists()) {
+                    mDaoMaster = new DaoMaster(SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE));
+                    mDaoSession = mDaoMaster.newSession();
+                }
+            }else{
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();

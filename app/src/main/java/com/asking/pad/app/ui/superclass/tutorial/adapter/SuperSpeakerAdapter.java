@@ -55,14 +55,13 @@ public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapte
         holder.mathView.setText(item.getSubjectDescriptionHtml());
 
 
-        holder.titleMathView.setOnAskMathClickListener(openTopicItemActivity(item));
-
-        holder.mathView.setOnAskMathClickListener(new AskMathView.OnAskMathClickListener() {
+        holder.titleMathView.setOnAskMathClickListener(new AskMathView.OnAskMathClickListener() {
             @Override
             public void OnClick() {
                 openExpand(position,holder);
             }
         });
+        holder.mathView.setOnAskMathClickListener(openTopicItemActivity(item));
         holder.ll_expand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

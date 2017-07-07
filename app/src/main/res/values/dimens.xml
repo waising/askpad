@@ -20,6 +20,8 @@
 
     <dimen name="super_buy_top_stroke_width">1dp</dimen>
 
+    <dimen name="tab_super_class_name">18sp</dimen>
+
     <dimen name="space__40">-40dp</dimen>
     <dimen name="space__6">-6dp</dimen>
     <dimen name="space_0.3">0.3dp</dimen>

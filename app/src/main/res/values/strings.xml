@@ -190,6 +190,9 @@
     <string name="none_msg2">或者向老师求助哦！</string>
     <string name="refresh">刷新</string>
     <string name="back_home">回到首页</string>
+
+    <string name="down_book_btn">点击下载相关课程</string>
+    <string name="down_book_content">无相关课程资料或未下载课程！</string>
     <!--end-->
 
     <!-- 我的 -->

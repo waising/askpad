@@ -14,13 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.ui.downbook.DownBookActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import static com.asking.pad.app.R.id.know_load_view;
 
 
 /**
@@ -183,12 +179,6 @@ public class MultiStateView extends FrameLayout {
         return super.addViewInLayout(child, index, params, preventRequestLayout);
     }
 
-    /**
-     * Returns the {@link View} associated with the {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} with to return the view for
-     * @return The {@link View} associated with the {@link com.kennyc.view.MultiStateView.ViewState}, null if no view is present
-     */
     @Nullable
     public View getView(@ViewState int state) {
         switch (state) {
@@ -209,21 +199,12 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    /**
-     * Returns the current {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @return
-     */
+
     @ViewState
     public int getViewState() {
         return mViewState;
     }
 
-    /**
-     * Sets the current {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} to set {@link MultiStateView} to
-     */
     public void setViewState(@ViewState int state) {
         if (state != mViewState) {
             mViewState = state;
@@ -231,9 +212,6 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    /**
-     * Shows the {@link View} based on the {@link com.kennyc.view.MultiStateView.ViewState}
-     */
     private void setView() {
         switch (mViewState) {
             case VIEW_STATE_LOADING:
@@ -302,8 +280,6 @@ public class MultiStateView extends FrameLayout {
      * Sets the view for the given view state
      *
      * @param view          The {@link View} to use
-     * @param state         The {@link com.kennyc.view.MultiStateView.ViewState}to set
-     * @param switchToState If the {@link com.kennyc.view.MultiStateView.ViewState} should be switched to
      */
     public void setViewForState(View view, @ViewState int state, boolean switchToState) {
         switch (state) {
@@ -336,21 +312,12 @@ public class MultiStateView extends FrameLayout {
     }
 
     /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param view  The {@link View} to use
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} to set
      */
     public void setViewForState(View view, @ViewState int state) {
         setViewForState(view, state, false);
     }
 
     /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param layoutRes     Layout resource id
-     * @param state         The {@link com.kennyc.view.MultiStateView.ViewState} to set
-     * @param switchToState If the {@link com.kennyc.view.MultiStateView.ViewState} should be switched to
      */
     public void setViewForState(@LayoutRes int layoutRes, @ViewState int state, boolean switchToState) {
         if (mInflater == null) mInflater = LayoutInflater.from(getContext());
@@ -358,12 +325,6 @@ public class MultiStateView extends FrameLayout {
         setViewForState(view, state, switchToState);
     }
 
-    /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param layoutRes Layout resource id
-     * @param state     The {@link View} state to set
-     */
     public void setViewForState(@LayoutRes int layoutRes, @ViewState int state) {
         setViewForState(layoutRes, state, false);
     }
@@ -384,13 +345,13 @@ public class MultiStateView extends FrameLayout {
         mEmptyRefBtn.setOnClickListener(clickLinstener);
     }
 
-    public void setErrorRefBtnTxt(String str,View.OnClickListener mListener){
-        network_tv.setText("无相关课程资料或未下载课程！");
+    public void setErrorRefBtnTxt(String btnStr,String contentStr,int leftImg,View.OnClickListener mListener){
+        network_tv.setText(contentStr);
         network_tv1.setVisibility(View.GONE);
         network_tv2.setVisibility(View.GONE);
         mErrorRefBtn.setVisibility(View.VISIBLE);
-        mErrorRefBtn.setText(str);
-        mErrorRefBtn.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_down_book,0,0,0);
+        mErrorRefBtn.setText(btnStr);
+        mErrorRefBtn.setCompoundDrawablesWithIntrinsicBounds(leftImg,0,0,0);
         mErrorRefBtn.setOnClickListener(mListener);
     }
 

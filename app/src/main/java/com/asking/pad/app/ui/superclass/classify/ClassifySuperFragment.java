@@ -107,15 +107,6 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         gradeAdapter = new GradeAdapter(getActivity(), gradeList, this);
         rv_grade.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rv_grade.setAdapter(gradeAdapter);
-
-        know_load_view.setErrorRefBtnTxt("点击下载相关课程", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mGrade != null) {
-                    DownBookActivity.openActivity(mGrade.courseTypeId);
-                }
-            }
-        });
     }
 
     public void onEventMainThread(AppEventType event) {
@@ -148,18 +139,18 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         classSection();
     }
 
-    public void initGradeData(String gradeId,List<StudyClassGrade> list) {
+    public void initGradeData(String gradeId, List<StudyClassGrade> list) {
         if (list.size() > 0) {
             gradeList.clear();
             gradeList.addAll(list);
             for (int i = 0; i < gradeList.size(); i++) {
                 StudyClassGrade e = gradeList.get(i);
                 e.isSelect = false;
-                if(TextUtils.isEmpty(gradeId)){
-                    if (i == 0){
+                if (TextUtils.isEmpty(gradeId)) {
+                    if (i == 0) {
                         OnCommItem(e);
                     }
-                }else if(TextUtils.equals(gradeId,e.courseId)){
+                } else if (TextUtils.equals(gradeId, e.courseId)) {
                     OnCommItem(e);
                 }
             }
@@ -170,6 +161,26 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
     }
 
     private void classSection() {
+        if (isBuy) {
+            know_load_view.setErrorRefBtnTxt(getString(R.string.down_book_btn), getString(R.string.down_book_content),
+                    R.mipmap.ic_down_book, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mGrade != null) {
+                                DownBookActivity.openActivity(mGrade.courseTypeId);
+                            }
+                        }
+                    });
+        } else {
+            know_load_view.setErrorRefBtnTxt(getString(R.string.refresh), getString(R.string.internet_reconnet)
+                    , 0, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            classSection();
+                        }
+                    });
+        }
+
         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
         know_load_view.setViewState(load_view.VIEW_STATE_LOADING);
         mPresenter.synclesson(isBuy, commodityId, new ApiRequestListener<String>() {
