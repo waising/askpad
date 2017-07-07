@@ -152,7 +152,6 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
             @Override
             public void onResultSuccess(String res) {
                 subjectList.clear();
-                subjectList.add(new SubjectTopicEntity("0", "综合篇"));
                 subjectList.addAll(JSON.parseArray(res, SubjectTopicEntity.class));
                 if (subjectList.size() > 0) {
                     SubjectTopicEntity entity = subjectList.get(0);

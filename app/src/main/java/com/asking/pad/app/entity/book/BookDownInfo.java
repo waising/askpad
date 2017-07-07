@@ -4,15 +4,16 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.asking.pad.app.AppContext;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.ui.downbook.download.DownState;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.File;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by jswang on 2017/5/2.
@@ -181,7 +182,8 @@ public class BookDownInfo {
             FileUtils.deleteDir(file);
             file.mkdirs();
         }
-        return file.getAbsolutePath() + "/" + commodityId;
+        String path = String.format("%s/%s_%s",file.getAbsolutePath(),commodityId, AppContext.getInstance().getUserId());
+        return  path;
     }
 
     @Override

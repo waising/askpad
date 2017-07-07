@@ -79,7 +79,7 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mExamReviewType = bundle.getString("mExamReviewType","0");
+            mExamReviewType = bundle.getString("mExamReviewType", "0");
             isBuy = bundle.getBoolean("isBuy");
             classType = bundle.getString("classType");
             isSelectNode = bundle.getBoolean("isSelectNode");
@@ -112,7 +112,7 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
         rv_review.setAdapter(reviewAdapter);
         reviewAdapter.notifyDataSetChanged();
 
-        classAdapter = new CommExamAdapter(getActivity(), mPresenter, classList, rv_exam,new CommExamAdapter.OnCommItemListener(){
+        classAdapter = new CommExamAdapter(getActivity(), mPresenter, classList, rv_exam, new CommExamAdapter.OnCommItemListener() {
             @Override
             public void OnClickItem(ExamReviewTree e) {
                 OnExamReviewTreeItem(e);
@@ -121,18 +121,19 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
         rv_exam.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rv_exam.setAdapter(classAdapter);
 
-        if(isSelectNode){
+        if (isSelectNode) {
             rv_review.setVisibility(View.GONE);
         }
 
         classExam(mExamReviewType);
 
-        load_view.setErrorRefBtnTxt("点击下载相关课程",new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtil.openActivity(DownBookActivity.class);
-            }
-        });
+        load_view.setErrorRefBtnTxt(getString(R.string.down_book_btn), getString(R.string.down_book_content),
+                R.mipmap.ic_down_book, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CommonUtil.openActivity(DownBookActivity.class);
+                    }
+                });
     }
 
     @Override
@@ -147,14 +148,14 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
     public void classExam(String type) {
         mExamReviewType = type;
 
-        Constants.setBookdir(classType,String.format("-%s",actionType),"");
+        Constants.setBookdir(classType, String.format("-%s", actionType), "");
 
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
         if (TextUtils.equals(mExamReviewType, "0")) {
             mPresenter.firstreviewzhangjd(actionType, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
-                    if(!TextUtils.isEmpty(res)){
+                    if (!TextUtils.isEmpty(res)) {
                         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
                         classList.clear();
                         classList.addAll(JSON.parseArray(res, ExamReviewTree.class));
@@ -175,7 +176,7 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
                                 });
                             }
                         }
-                    }else{
+                    } else {
                         load_view.setViewState(load_view.VIEW_STATE_ERROR);
                     }
                 }
@@ -190,14 +191,14 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
 
                 @Override
                 public void onResultSuccess(String res) {
-                    if(!TextUtils.isEmpty(res)){
+                    if (!TextUtils.isEmpty(res)) {
                         load_view.setViewState(load_view.VIEW_STATE_CONTENT);
 
                         classList.clear();
                         classList.addAll(JSON.parseArray(res, ExamReviewTree.class));
                         classAdapter.isHavChild = false;
                         classAdapter.notifyDataSetChanged();
-                    }else{
+                    } else {
                         load_view.setViewState(load_view.VIEW_STATE_ERROR);
                     }
                 }
@@ -210,42 +211,42 @@ public class ClassifyExamReviewFragment extends BaseFrameFragment<UserPresenter,
         }
     }
 
-    private void OnExamReviewTreeItem(ExamReviewTree e){
+    private void OnExamReviewTreeItem(ExamReviewTree e) {
         int knowledgeIndex = 0;
-        for(int i=0;i<classList.size();i++){
-            if(TextUtils.equals(e.id,classList.get(i).id)){
+        for (int i = 0; i < classList.size(); i++) {
+            if (TextUtils.equals(e.id, classList.get(i).id)) {
                 knowledgeIndex = i;
             }
         }
         if (isSelectNode) {
             String knowledgeId;
-            if(TextUtils.equals(mExamReviewType,"0")){
+            if (TextUtils.equals(mExamReviewType, "0")) {
                 knowledgeId = e._id;
-            }else{
+            } else {
                 knowledgeId = e.id;
                 HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(ClassifyActivty.class.getName());
-                mParams.put("examList",classList);
+                mParams.put("examList", classList);
             }
             EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST, isBuy, classType
-                    ,knowledgeId,e.getText(),knowledgeIndex,e.name));
-        }else{
+                    , knowledgeId, e.getText(), knowledgeIndex, e.name));
+        } else {
             Bundle parameter = new Bundle();
-            parameter.putBoolean("isBuy",isBuy);
-            parameter.putString("classType",classType);
+            parameter.putBoolean("isBuy", isBuy);
+            parameter.putString("classType", classType);
 
-            if(TextUtils.equals(mExamReviewType,"0")){
-                parameter.putString("knowledgeId",e._id);
-                parameter.putString("knowledgeName",e.getText());
+            if (TextUtils.equals(mExamReviewType, "0")) {
+                parameter.putString("knowledgeId", e._id);
+                parameter.putString("knowledgeName", e.getText());
 
-                openActivity(ExamReviewFirstActivity.class,parameter);
-            }else{
-                parameter.putInt("knowledgeIndex",knowledgeIndex);
-                parameter.putString("knowledgeId",e.id);
-                parameter.putString("knowledgeName",e.name);
+                openActivity(ExamReviewFirstActivity.class, parameter);
+            } else {
+                parameter.putInt("knowledgeIndex", knowledgeIndex);
+                parameter.putString("knowledgeId", e.id);
+                parameter.putString("knowledgeName", e.name);
                 HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(ClassifyActivty.class.getName());
-                mParams.put("examList",classList);
+                mParams.put("examList", classList);
 
-                openActivity(ExamReviewSecondActivity.class,parameter);
+                openActivity(ExamReviewSecondActivity.class, parameter);
             }
         }
         getActivity().finish();

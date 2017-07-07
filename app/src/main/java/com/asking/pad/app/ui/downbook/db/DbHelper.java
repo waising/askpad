@@ -86,6 +86,10 @@ public class DbHelper {
         getBookInfoDao().deleteByKey(id);
     }
 
+    public BookDownInfo getBookDownInfo(String id) {
+      return   getBookInfoDao().load(id);
+    }
+
     public List<BookDownInfo> getAllBookDownInfo(String CourseTypeId) {
         List<BookDownInfo> dbList = getBookInfoDao().queryBuilder().where(BookDownInfoDao.Properties.UserId.eq(AppContext.getInstance().getUserId())
                 , BookDownInfoDao.Properties.CourseTypeId.eq(CourseTypeId)).list();
