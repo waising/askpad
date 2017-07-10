@@ -19,8 +19,10 @@ import com.asking.pad.app.commom.AppLoginEvent;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.UserEntity;
+import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
+import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.ui.mine.SignInActivity;
 import com.asking.pad.app.ui.mine.UserInfoActivity;
 import com.asking.pad.app.ui.mine.WrongTopicActivity;
@@ -187,6 +189,15 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
                 findTreeListWithAllCourse();
                 break;
         }
+    }
+
+    public void onEventMainThread(StudyRecord event) {
+        DbHelper.getInstance().insertOrReplaceStudyRecord(event);
+        mPresenter.updateWithSchedule(event.getCourseDataId(),event.getPlayPercentage()+"","","",""
+                ,new ApiRequestListener<String>(){
+            @Override
+            public void onResultSuccess(String res) {}
+        });
     }
 
     class CommAdapter extends FragmentStatePagerAdapter {

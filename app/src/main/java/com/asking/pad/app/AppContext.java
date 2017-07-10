@@ -177,4 +177,9 @@ public class AppContext extends BaseApplication {
         }
         return studyClassMap.get(classType);
     }
+
+    public static int getImagesPixels(int id) {
+        int pixels = getInstance().getResources().getDimensionPixelSize(id);
+        return pixels;
+    }
 }

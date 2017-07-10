@@ -19,8 +19,8 @@
         <RadioButton
             android:id="@+id/rb_tab1"
             style="@style/radio_styles"
-            android:drawableLeft="@drawable/supertutial_rbtn1_bg"
             android:checked="true"
+            android:drawableLeft="@drawable/supertutial_rbtn1_bg"
             android:text="阿思可博士有话说"/>
 
 
@@ -42,7 +42,8 @@
             android:id="@+id/rb_tab4"
             style="@style/radio_styles"
             android:drawableLeft="@drawable/supertutial_rbtn4_bg"
-            android:text="课堂总结"/>
+            android:text="课堂总结"
+            android:visibility="gone"/>
     </RadioGroup>
 
     <RelativeLayout

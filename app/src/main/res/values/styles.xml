@@ -529,6 +529,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSize_30</item>
+        <item name="android:layout_marginLeft">@dimen/space_10</item>
         <item name="android:textColor">@color/colorText_56</item>
     </style>
 

@@ -22,8 +22,6 @@ public class AppEventType {
 
     public static final int PAY_SUCCESSS_REQUEST = 0X25;
 
-    public static final int RE_STU_PROGRESSS_SUCCESSS_REQUEST = 0X26;
-
     public static final int RE_CLASSIFY_REQUEST = 0X27;
 
     public int  type;

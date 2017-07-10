@@ -17,7 +17,6 @@ import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.ui.downbook.db.DbBookHelper;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.ui.downbook.download.DownState;
-import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 import com.asking.pad.app.ui.downbook.presenter.DownModel;
 import com.asking.pad.app.ui.downbook.presenter.DownPresenter;
 import com.asking.pad.app.ui.mine.CommDialog;
@@ -49,11 +48,17 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
     String courseTypeId;
     private ArrayList<BookDownInfo> dataList = new ArrayList<>();
 
-    public static DownFinishFragment newInstance(String courseTypeId) {
+    OnDownFinishListener mListener;
+    public interface OnDownFinishListener{
+        void OnDownFinish(BookDownInfo e);
+    }
+
+    public static DownFinishFragment newInstance(String courseTypeId,OnDownFinishListener mListener) {
         DownFinishFragment fragment = new DownFinishFragment();
         Bundle bundle = new Bundle();
         bundle.putString("courseTypeId", courseTypeId);
         fragment.setArguments(bundle);
+        fragment.mListener = mListener;
         return fragment;
     }
 
@@ -176,7 +181,9 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
                     @Override
                     public void onResultSuccess(Object res) {
                         initBookData();
-                        OkHttpDownManager.getInstance().startDown(e);
+                        if(mListener!=null){
+                            mListener.OnDownFinish(e);
+                        }
                     }
                 });
                 deleteDialog.dismiss();

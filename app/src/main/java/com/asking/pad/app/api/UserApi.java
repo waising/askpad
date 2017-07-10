@@ -72,6 +72,7 @@ public interface UserApi {
     @POST("productapi/product/courseType/findTreeListWithAllCourse")
     Observable<ResponseBody> findTreeListWithAllCourse(@Query("productId") String productId);
 
+
     /**
      * 检查用户学校信息是否完善
      *
@@ -294,6 +295,15 @@ public interface UserApi {
     @GET("userreact/userCourse/findByPage")
     Observable<ResponseBody> userreact(@Query("start") String start, @Query("limit") String limit);
 
+    /**
+     * 我的课程（提交进度）
+     * @param commodityId
+     * @param schedulePercent
+     * @param scheduleTitle
+     * @param scheduleId
+     * @param scheduleContent
+     * @return
+     */
     @POST("userreact/userCourse/updateWithSchedule")
     Observable<ResponseBody> updateWithSchedule(@Query("commodityId") String commodityId, @Query("schedulePercent") String schedulePercent
             , @Query("scheduleTitle") String scheduleTitle, @Query("scheduleId") String scheduleId, @Query("scheduleContent") String scheduleContent);

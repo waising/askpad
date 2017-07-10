@@ -21,6 +21,7 @@ import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
+import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
 import com.asking.pad.app.ui.classmedia.download.ClassDownloadManager;
@@ -37,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import tcking.github.com.giraffeplayer.GiraffePlayerView;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 
 /**
@@ -90,7 +92,12 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
     TextView tv_free_time;
 
     ClassMedia mClassVideo;
-    int playProgress;
+
+    public static void openActivity(ClassMedia e){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("ClassMedia", e);
+        CommonUtil.openActivity(ClassMediaDetailsActivity.class,bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +110,6 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
         }
 
         mClassVideo = this.getIntent().getParcelableExtra("ClassMedia");
-        playProgress = mClassVideo.getPlayProgress();
     }
 
     private void downMediaMenu() {
@@ -135,7 +141,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
         setToolbar(toolBar, "课程详情");
 
         video_view.setShowNavIcon(false);
-        video_view.setVideoPath(mClassVideo.getVideoUrl());
+        video_view.setVideoPath(mClassVideo.getVideoUrl() + "?avvod/m3u8");
         video_view.setOnOrienChangeListener(new GiraffePlayerView.OnOrienChangeListener() {
             @Override
             public void OnPortrait() {
@@ -198,16 +204,22 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
                 }
             });
             netPdfData();
-            video_view.postDelayed(new Runnable() {
+            video_view.setOnPreparedListener(new IMediaPlayer.OnPreparedListener(){
                 @Override
-                public void run() {
-                    if (playProgress > 5000 && video_view.isPlayerSupport()) {
-                        video_view.start();
-                        video_view.seekTo(playProgress, false);
+                public void onPrepared(IMediaPlayer mp) {
+                    try{
+                        if(mClassVideo.getPlayPercentage()>0){
+                            BigDecimal percentage = new BigDecimal(mClassVideo.getPlayPercentage())
+                                    .divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
+                            BigDecimal max = new BigDecimal(mp.getDuration());
+                            int playProgress =  max.multiply(percentage).intValue();
+                            video_view.seekTo(playProgress, false);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
-            }, 300);
-
+            });
             downMediaMenu();
         }
 
@@ -338,8 +350,13 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
         int progress = video_view.getCurrentPosition();
         if (!TextUtils.equals(mClassVideo.getPurchaseState(), "0") && progress > 0) {
             int max = video_view.getDuration();
-            EventBus.getDefault().post(new AppEventType(AppEventType.RE_STU_PROGRESSS_SUCCESSS_REQUEST
-                    , mClassVideo.getCourseTypeId(), mClassVideo.getCourseDataId(), max, progress));
+            StudyRecord e = new StudyRecord();
+            e.setCourseDataId(mClassVideo.getCourseDataId());
+            e.setPlayMax(max);
+            e.setPlayProgress(progress);
+            int i2 = Math.round(100.0f * progress / max);
+            e.setPlayPercentage(i2);
+            EventBus.getDefault().post(e);
         }
     }
 
