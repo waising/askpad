@@ -352,17 +352,17 @@ public class FileUtils {
         return fileDir.getAbsolutePath() + "/" + fileName;
     }
 
-    public static boolean writeFile(byte[] buffer, String fileName) {
-        boolean writeSucc = false;
+    public static String writeFile(byte[] buffer, String fileName) {
+        String  path = "";
         File file = new File(getFileMusicPath(fileName));
         if (file.exists()) {
-            return true;
+            return file.getAbsolutePath();
         }
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
             out.write(buffer);
-            writeSucc = true;
+            path = file.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -372,6 +372,6 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
-        return writeSucc;
+        return path;
     }
 }

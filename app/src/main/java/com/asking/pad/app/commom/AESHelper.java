@@ -6,8 +6,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import Decoder.BASE64Decoder;
 
-import static android.R.attr.password;
-
 /**
  * Created by jswang on 2017/6/9.
  */
@@ -35,6 +33,13 @@ public class AESHelper {
         BASE64Decoder base64Decoder = new BASE64Decoder();
         byte[] b = decrypt(base64Decoder.decodeBuffer(content));
         return new String(b);
+    }
+
+    public static  byte[] decodeByte(String content) throws Exception {
+        //解密之前,先将输入的字符串按照16进制转成二进制的字节数组,作为待解密的内容输入
+        BASE64Decoder base64Decoder = new BASE64Decoder();
+        byte[] b = decrypt(base64Decoder.decodeBuffer(content));
+        return b;
     }
 
 }
