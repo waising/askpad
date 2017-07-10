@@ -12,11 +12,11 @@ import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.Constants;
-import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.commom.MusicPlayer;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -27,8 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by jswang on 2017/4/10.
@@ -60,6 +58,8 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
 
     String[] tits;
 
+    private MaterialDialog mDialog;
+
     public static SuperTutorialFragment newInstance(Bundle bundle) {
         SuperTutorialFragment fragment = new SuperTutorialFragment();
         fragment.setArguments(bundle);
@@ -83,6 +83,9 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
     @Override
     public void initView() {
         super.initView();
+
+        mDialog = getLoadingDialog().build();
+
         tits = getResources().getStringArray(R.array.super_free_menu);
         musicPlayer = MusicPlayer.getPlayer().bindVoice(ad_voice);
         ad_voice.setImageUrl(Constants.GifHeard + "voice.gif");
@@ -194,6 +197,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
                 musicPlayer.play(musicUrl);
             }
         } else {
+            mDialog.show();
             mPresenter.getVoicePath(isBuy, gradeId, knowledgeId, type, position + 1, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
@@ -201,36 +205,15 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
                     musicPlayer.play(musicUrl);
                     voiceType = type;
                     voicePosition = position;
-                    //voicePath(res,gradeId, knowledgeId, type, position);
-                }
-            });
-        }
-    }
 
-    private  void voicePath(final String res,String gradeId,String knowledgeId,final int type,final int position){
-        if(isBuy){
-            final String fileName = String.format("%s-%s-%s-%s",gradeId, knowledgeId, type, position);
-            Observable<Object> mObservable = Observable.create(new Observable.OnSubscribe<Object>() {
+                    mDialog.dismiss();
+                }
+
                 @Override
-                public void call(final Subscriber<? super Object> subscriber) {
-                    FileUtils.writeFile(res.getBytes(),fileName);
-                    subscriber.onCompleted();
+                public void onResultFail() {
+                    mDialog.dismiss();
                 }
             });
-            mPresenter.newThread(mObservable, new ApiRequestListener<String>() {
-                @Override
-                public void onResultSuccess(String res) {
-                    musicUrl = FileUtils.getFileMusicPath(fileName);
-                    musicPlayer.play(musicUrl);
-                    voiceType = type;
-                    voicePosition = position;
-                }
-            });
-        }else{
-            musicUrl = res;
-            musicPlayer.play(musicUrl);
-            voiceType = type;
-            voicePosition = position;
         }
     }
 

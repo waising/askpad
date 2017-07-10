@@ -299,6 +299,7 @@ public abstract class BasePresenter<M> {
                 try {
                     BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
                     String value = mTable.getValue();
+                    //String value = DbBookHelper.getInstance().setDatabase(dbName).getBookTableValue(pathId);
                     String res = AESHelper.decode(value);
                     subscriber.onNext(res);
                 } catch (Exception e) {
@@ -316,12 +317,16 @@ public abstract class BasePresenter<M> {
      * @param dbName 数据库名
      * @param mListener
      */
-    @SuppressWarnings("unchecked")
     public void baseReqDB(Observable mObservable, final boolean isReadDB,String dbName,String pathId
             ,final int resType,final String valueKey, final ApiRequestListener mListener) {
         if (isReadDB) {
             mObservable = getDBObservable(dbName,pathId);
         }
+        setObservableByResponseBodyOrString(mObservable,resType,valueKey,mListener);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setObservableByResponseBodyOrString(Observable mObservable,final int resType,final String valueKey, final ApiRequestListener mListener) {
         mRxManager.add(mObservable
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

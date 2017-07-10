@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.api.ApiRequestListener;
+import com.asking.pad.app.commom.AESHelper;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.PayEntity;
 import com.asking.pad.app.entity.ShopCartPayEntity;
 import com.asking.pad.app.mvp.BasePresenter;
@@ -79,14 +81,14 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getResetPassYZM(userName), "", mListener);
     }
 
-    public void synclesson(boolean isReadDB,String commodityId,ApiRequestListener mListener) {
+    public void synclesson(boolean isReadDB, String commodityId, ApiRequestListener mListener) {
         String id = String.format("courseapi/synclesson/%s", commodityId);
-        baseReqStrDB(mModel.synclesson(commodityId),isReadDB,commodityId,id, mListener);
+        baseReqStrDB(mModel.synclesson(commodityId), isReadDB, commodityId, id, mListener);
     }
 
-    public void findTreeListWithAllCourse(String productId,ApiRequestListener mListener) {
+    public void findTreeListWithAllCourse(String productId, ApiRequestListener mListener) {
         String cacheKey = AppContext.getInstance().getUserId() + "_findTreeListWithAllCourse";
-        baseReqFlag0Cache(mModel.findTreeListWithAllCourse(productId),"content",cacheKey, mListener);
+        baseReqFlag0Cache(mModel.findTreeListWithAllCourse(productId), "content", cacheKey, mListener);
     }
 
     public void firstreviewzhangjd(String orgId, ApiRequestListener mListener) {
@@ -104,31 +106,55 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqFlag0File(mModel.secondreviewtree(orgId), "content", filePath, mListener);
     }
 
-    public void synclesson(boolean isReadDB,String gradeId, String knowledgeId, int type, ApiRequestListener mListener) {
-        String id = String.format("courseapi/synclesson/%s/%s/%s", gradeId,knowledgeId,type);
-        baseReqStrDB(mModel.synclesson(gradeId, knowledgeId, type),isReadDB,gradeId,id, mListener);
+    public void synclesson(boolean isReadDB, String gradeId, String knowledgeId, int type, ApiRequestListener mListener) {
+        String id = String.format("courseapi/synclesson/%s/%s/%s", gradeId, knowledgeId, type);
+        baseReqStrDB(mModel.synclesson(gradeId, knowledgeId, type), isReadDB, gradeId, id, mListener);
     }
 
-    public void getVoicePath(boolean isReadDB,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
-        String id = String.format("courseapi/synclesson/voice/%s/%s/%s/%s", gradeId,knowledgeId,type,position);
-
-        DbBookHelper.getInstance().setDatabase(gradeId).getBookTableValue(id);
-
-        baseReqStrDB(mModel.getVoicePath(gradeId, knowledgeId, type, position),isReadDB,gradeId,id, mListener);
+    public void getVoicePath(boolean isReadDB, final String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
+        final String id = String.format("courseapi/synclesson/voice/%s/%s/%s/%s", gradeId, knowledgeId, type, position);
+        final String fileName = String.format("%s_%s_%s_%s", gradeId, knowledgeId, type, position);
+        Observable mObservable = null;
+        if (isReadDB) {
+            try {
+                mObservable = Observable.create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(final Subscriber<? super String> subscriber) {
+                        try {
+                            String musicUrl = FileUtils.getFileMusicPath(fileName);
+                            if(!FileUtils.isFileExists(musicUrl)){
+                                String value = DbBookHelper.getInstance().setDatabase(gradeId).getBookTableValue(id);
+                                byte[] res = AESHelper.decodeByte(value);
+                                FileUtils.writeFile(res,fileName);
+                            }
+                            subscriber.onNext(musicUrl);
+                        } catch (Exception e) {
+                            subscriber.onError(e);
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            mObservable = mModel.getVoicePath(gradeId, knowledgeId, type, position);
+        }
+        setObservableByResponseBodyOrString(mObservable, 2,"", mListener);
     }
 
     public void subject(String answerstr, String code, ApiRequestListener mListener) {
         baseReqStr(mModel.subject(answerstr, code), mListener);
     }
 
-    public void getSubjectTopic(boolean isReadDB,String gradeId, String knowledgeId, ApiRequestListener mListener) {
-        String id = String.format("courseapi/sprint/%s/%s", gradeId,knowledgeId);
-        baseReqStrDB(mModel.getSubjectTopic(gradeId,knowledgeId),isReadDB,gradeId,id, mListener);
+    public void getSubjectTopic(boolean isReadDB, String gradeId, String knowledgeId, ApiRequestListener mListener) {
+        String id = String.format("courseapi/sprint/%s/%s", gradeId, knowledgeId);
+        baseReqStrDB(mModel.getSubjectTopic(gradeId, knowledgeId), isReadDB, gradeId, id, mListener);
     }
 
-    public void getAllSubjectClassic(boolean isReadDB,String gradeId, String knowledgeId, String topic_id, int start, int limit, ApiRequestListener mListener) {
-        String id = String.format("courseapi/sprint/%s/%s/%s", gradeId,knowledgeId,topic_id);
-        baseReqStrDB(mModel.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit),isReadDB,gradeId,id, mListener);
+    public void getAllSubjectClassic(boolean isReadDB, String gradeId, String knowledgeId, String topic_id, int start, int limit, ApiRequestListener mListener) {
+        String id = String.format("courseapi/sprint/%s/%s/%s", gradeId, knowledgeId, topic_id);
+        baseReqStrDB(mModel.getAllSubjectClassic(gradeId, knowledgeId, topic_id, start, limit), isReadDB, gradeId, id, mListener);
     }
 
     public void checkTodaySign(ApiRequestListener mListener) {
@@ -141,12 +167,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
     public void suitcy(String classId, String difficultyId, String choice_count, String filling_count,
                        String solving_count, final ApiRequestListener mListener) {
-        baseReqStr(mModel.suitcy(classId,difficultyId,choice_count,filling_count,solving_count), mListener);
+        baseReqStr(mModel.suitcy(classId, difficultyId, choice_count, filling_count, solving_count), mListener);
     }
 
     public void tuozyy(String classId, String difficultyId, String choice_count, String filling_count,
                        String solving_count, final ApiRequestListener mListener) {
-        baseReq(mModel.tuozyy(classId,difficultyId,choice_count,filling_count,solving_count),"content", mListener);
+        baseReq(mModel.tuozyy(classId, difficultyId, choice_count, filling_count, solving_count), "content", mListener);
     }
 
     public void sign(ApiRequestListener mListener) {
@@ -160,15 +186,15 @@ public class UserPresenter extends BasePresenter<UserModel> {
      * @param limit
      * @param mListener
      */
-    public void findListByPage(String courseTypeId,int start, int limit, ApiRequestListener mListener) {
-        baseReq(mModel.findListByPage(courseTypeId,start, limit), "content", mListener);
+    public void findListByPage(String courseTypeId, int start, int limit, ApiRequestListener mListener) {
+        baseReq(mModel.findListByPage(courseTypeId, start, limit), "content", mListener);
     }
 
     public void paymentcharge(String orderType, String payType, String commodityId, String finalPrice, ApiRequestListener mListener) {
-        baseReq(mModel.paymentcharge(orderType, payType,commodityId,finalPrice), "content", mListener);
+        baseReq(mModel.paymentcharge(orderType, payType, commodityId, finalPrice), "content", mListener);
     }
 
-    public void packagefind(String packageId,ApiRequestListener mListener) {
+    public void packagefind(String packageId, ApiRequestListener mListener) {
         baseReq(mModel.packagefind(packageId), "content", mListener);
     }
 
@@ -177,16 +203,16 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.orderhistory(start, limit, account, role), "content", mListener);
     }
 
-    public void userreact(String start, String limit,ApiRequestListener mListener) {
+    public void userreact(String start, String limit, ApiRequestListener mListener) {
         baseReq(mModel.userreact(start, limit), "content", mListener);
     }
 
-    public void findByCommodityId(String commodityId,ApiRequestListener mListener) {
+    public void findByCommodityId(String commodityId, ApiRequestListener mListener) {
         baseReq(mModel.findByCommodityId(commodityId), "content", mListener);
     }
 
     public void updateWithSchedule(String commodityId, String schedulePercent
-            , String scheduleTitle, String scheduleId, String scheduleContent,ApiRequestListener mListener) {
+            , String scheduleTitle, String scheduleId, String scheduleContent, ApiRequestListener mListener) {
         baseReq(mModel.updateWithSchedule(commodityId, schedulePercent
                 , scheduleTitle, scheduleId, scheduleContent), "content", mListener);
     }
@@ -240,7 +266,7 @@ public class UserPresenter extends BasePresenter<UserModel> {
     }
 
     public void integralLog(int start, int limit, ApiRequestListener mListener) {
-        baseReqStr(mModel.integralLog(start,limit), mListener);
+        baseReqStr(mModel.integralLog(start, limit), mListener);
     }
 
     public void ordercheckbill(String id, ApiRequestListener mListener) {
@@ -256,11 +282,11 @@ public class UserPresenter extends BasePresenter<UserModel> {
     }
 
     public void productType(String packageTypeId, ApiRequestListener mListener) {
-        baseReq(mModel.productType(packageTypeId),"content", mListener);
+        baseReq(mModel.productType(packageTypeId), "content", mListener);
     }
 
     public void getCommodityList(String packageTypeId, int timeLimit, int start, int limit, ApiRequestListener mListener) {
-        baseReq(mModel.getCommodityList(packageTypeId, timeLimit, start,limit),"content", mListener);
+        baseReq(mModel.getCommodityList(packageTypeId, timeLimit, start, limit), "content", mListener);
     }
 
     public void getAppCharge(PayEntity payEntity, ApiRequestListener mListener) {
@@ -281,8 +307,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStr(mModel.modelGetSchoolInfo(regionCode), mListener);
     }
 
-    public void getRechargeList(int start, int limit,ApiRequestListener mListener) {
-        baseReq(mModel.getRechargeList(start,limit), "content", mListener);
+    public void getRechargeList(int start, int limit, ApiRequestListener mListener) {
+        baseReq(mModel.getRechargeList(start, limit), "content", mListener);
     }
 
     /**
@@ -292,9 +318,9 @@ public class UserPresenter extends BasePresenter<UserModel> {
                            String birthday, String regionName,
                            String regionCode, String schoolName,
                            String remark, String area,
-                           String levelId, String classId,String avatar, ApiRequestListener mListener) {
+                           String levelId, String classId, String avatar, ApiRequestListener mListener) {
         baseReqStr(mModel.updateUser(AppContext.getInstance().getToken(), name, nickName, sex, birthday, regionName,
-                regionCode, schoolName, remark, area, levelId, classId,avatar), mListener);
+                regionCode, schoolName, remark, area, levelId, classId, avatar), mListener);
     }
 
     public void orderbuild(String subject, String grade, String parse, String url, String wanted

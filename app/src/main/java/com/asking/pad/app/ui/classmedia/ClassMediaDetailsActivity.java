@@ -213,7 +213,8 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
                                     .divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
                             BigDecimal max = new BigDecimal(mp.getDuration());
                             int playProgress =  max.multiply(percentage).intValue();
-                            video_view.seekTo(playProgress, false);
+                            video_view.seekTo(playProgress, true);
+                            video_view.start();
                         }
                     }catch (Exception e){
                         e.printStackTrace();
