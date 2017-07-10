@@ -153,7 +153,7 @@ public class OkHttpDownManager {
      * @param info
      */
     public void pause(BookDownInfo info) {
-        try{
+        try {
             if (info == null) return;
             info.setDownState(DownState.PAUSE);
             if (subMap.containsKey(info.getDownloadUrl())) {
@@ -161,7 +161,8 @@ public class OkHttpDownManager {
                 subscriber.unsubscribe();
                 subMap.remove(info.getDownloadUrl());
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
     }

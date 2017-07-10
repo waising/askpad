@@ -12,6 +12,7 @@ import com.asking.pad.app.entity.PayEntity;
 import com.asking.pad.app.entity.ShopCartPayEntity;
 import com.asking.pad.app.mvp.BasePresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
+import com.asking.pad.app.ui.downbook.db.DbBookHelper;
 import com.hanvon.HWCloudManager;
 
 import java.util.HashMap;
@@ -110,6 +111,9 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
     public void getVoicePath(boolean isReadDB,String gradeId, String knowledgeId, int type, int position, ApiRequestListener mListener) {
         String id = String.format("courseapi/synclesson/voice/%s/%s/%s/%s", gradeId,knowledgeId,type,position);
+
+        DbBookHelper.getInstance().setDatabase(gradeId).getBookTableValue(id);
+
         baseReqStrDB(mModel.getVoicePath(gradeId, knowledgeId, type, position),isReadDB,gradeId,id, mListener);
     }
 

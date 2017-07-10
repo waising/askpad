@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
-import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
@@ -25,7 +24,6 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
-import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
 
@@ -94,25 +92,16 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
     }
 
 
-    public void onEventMainThread(AppEventType event) {
-        switch (event.type) {
-            case AppEventType.RE_STU_PROGRESSS_SUCCESSS_REQUEST:
-                if (TextUtils.equals((String) event.values[0], courseTypeId)) {
-                    DbHelper.getInstance().insertOrReplaceStudyRecord((String) event.values[1]
-                            , (int) event.values[2], (int) event.values[3]);
-                    for (StudyRecord e : DbHelper.getInstance().getStudyRecordList()) {
-                        for (ClassMedia e1 : dataList) {
-                            if (TextUtils.equals(e.getCourseDataId(), e1.getCourseDataId())) {
-                                e1.setPlayPercentage(e.getPlayPercentage());
-                                e1.setPlayMax(e.getPlayMax());
-                                e1.setPlayProgress(e.getPlayProgress());
-                            }
-                        }
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
+    public void onEventMainThread(StudyRecord event) {
+        for (ClassMedia e : dataList) {
+            if (TextUtils.equals(event.getCourseDataId(), e.getCourseDataId())) {
+                e.setPlayPercentage(event.getPlayPercentage());
+                e.setPlayMax(event.getPlayMax());
+                e.setPlayProgress(event.getPlayProgress());
                 break;
+            }
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -219,7 +208,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
         TextView tv_progress;
 
         @BindView(R.id.tea_avatar)
-        AskSimpleDraweeView tea_avatar;
+        ImageView tea_avatar;
 
         public CommViewHolder(View itemView) {
             super(itemView);
@@ -274,9 +263,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("ClassMedia", e);
-                        openActivity(ClassMediaDetailsActivity.class,bundle);
+                        ClassMediaDetailsActivity. openActivity(e);
                     }
                 });
                 BitmapUtil.displayImage(e.getVideoImgUrl(), holder.iv_temp, true);
@@ -295,7 +282,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                     }
                 }
                 holder.tv_tea_name.setText(e.getTeacher());
-                holder.tea_avatar.setImageUrl(e.getTeacherImgUrl());
+                BitmapUtil.displayCirImage(e.getTeacherImgUrl(), holder.tea_avatar);
                 holder.tv_price.setText("￥" + e.getPrice());
                 holder.tv_price_count.setText(String.format("已有%s人购买", e.getPurchasedNum()));
             } else if (mHolder instanceof CommentSecondHolder) {

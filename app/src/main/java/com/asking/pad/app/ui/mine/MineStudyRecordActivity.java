@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +20,16 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
-import com.asking.pad.app.AppContext;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameActivity;
+import com.asking.pad.app.base.BaseEvenAppCompatActivity;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
-import com.asking.pad.app.entity.classmedia.ClassMediaTable;
+import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.entity.mine.MineStudyRecord;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
-import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheDetailActivity;
+import com.asking.pad.app.ui.classmedia.ClassMediaDetailsActivity;
 import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
@@ -47,7 +48,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Created by jswang on 2017/6/29.
  */
 
-public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, UserModel> {
+public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPresenter, UserModel> {
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
@@ -233,7 +234,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
                 @Override
                 public void onClick(View v) {
                     if (e.childCommodityList.size() == 0 && e.getDataType() == 1) {
-                        onClickItem(e.commodityId);
+                        onClickItem(e);
                     }
                 }
             });
@@ -245,23 +246,29 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
         }
     }
 
-    private void onClickItem(String commodityId) {
+    private void onClickItem(final MineStudyRecord e) {
         mDialog.show();
-        mPresenter.findByCommodityId(commodityId, new ApiRequestListener<String>() {
+        mPresenter.findByCommodityId(e.commodityId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
-                ClassMedia mClassVideo = JSON.parseObject(resStr,ClassMedia.class);
-                ClassMediaTable e = new ClassMediaTable();
-                e.setUserId(AppContext.getInstance().getUserId());
-                e.setCourseTypeId(mClassVideo.getCourseTypeId());
-                e.setCourseDataId(mClassVideo.getCourseDataId());
-                e.setPdfUrl(mClassVideo.getPdfUrl());
-                e.setVideoUrl(mClassVideo.getVideoUrl());
-                e.setCourseName(mClassVideo.getCourseName());
-                ClassMediaCacheDetailActivity.openActivity(e);
+                JSONObject jsonRes = JSON.parseObject(resStr);
+                ClassMedia mClassVideo = JSON.parseObject(resStr, ClassMedia.class);
+                mClassVideo.setCourseDataId(jsonRes.getString("commodityId"));
+                mClassVideo.setPlayPercentage((int)e.schedulePercent);
+                ClassMediaDetailsActivity.openActivity(mClassVideo);
                 mDialog.dismiss();
             }
         });
+    }
+
+    public void onEventMainThread(StudyRecord event) {
+        for (MineStudyRecord e : dataList) {
+            if (TextUtils.equals(event.getCourseDataId(), e.commodityId) && e.getDataType() == 1) {
+                e.schedulePercent = event.getPlayPercentage();
+                break;
+            }
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     class ChildHolder extends RecyclerView.ViewHolder {
@@ -318,7 +325,7 @@ public class MineStudyRecordActivity extends BaseFrameActivity<UserPresenter, Us
                 @Override
                 public void onClick(View v) {
                     if (e.childCommodityList.size() == 0 && e.getDataType() == 0) {
-                        ClassifyActivty.openActivity(e.getClassId(),e.getVersionId(),e.geGradeId());
+                        ClassifyActivty.openActivity(e.getClassId(), e.getVersionId(), e.geGradeId());
                     }
                 }
             });

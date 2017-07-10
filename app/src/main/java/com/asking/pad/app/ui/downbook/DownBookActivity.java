@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseActivity;
 import com.asking.pad.app.commom.CommonUtil;
+import com.asking.pad.app.entity.book.BookDownInfo;
+import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -62,7 +64,18 @@ public class DownBookActivity extends BaseActivity {
         tabList.add("已下载课程");
 
         listFragments.add(DownAbleFragment.newInstance(courseTypeId));
-        listFragments.add(DownFinishFragment.newInstance(courseTypeId));
+        listFragments.add(DownFinishFragment.newInstance(courseTypeId,new DownFinishFragment.OnDownFinishListener(){
+            @Override
+            public void OnDownFinish(final BookDownInfo e) {
+                viewPager.setCurrentItem(0);
+                viewPager.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpDownManager.getInstance().startDown(e);
+                    }
+                },500);
+            }
+        }));
 
         indicator.setLayoutResource(R.layout.layout_indicator_tab_view3);
         CommAdapter mAdapter = new CommAdapter(getSupportFragmentManager());

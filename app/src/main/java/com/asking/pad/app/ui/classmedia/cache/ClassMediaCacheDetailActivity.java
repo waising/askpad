@@ -10,9 +10,10 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseActivity;
 import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
+import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.commom.DownloadFile;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
@@ -22,6 +23,7 @@ import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import tcking.github.com.giraffeplayer.GiraffePlayerView;
 
 /**
@@ -187,7 +189,13 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
         int progress = video_view.getCurrentPosition();
         if (progress > 0) {
             int max = video_view.getDuration();
-            DbHelper.getInstance().insertOrReplaceStudyRecord(mClass.getCourseDataId(),max,progress);
+            StudyRecord e = new StudyRecord();
+            e.setCourseDataId(mClass.getCourseDataId());
+            e.setPlayMax(max);
+            e.setPlayProgress(progress);
+            int i2 = Math.round(100.0f * progress / max);
+            e.setPlayPercentage(i2);
+            EventBus.getDefault().post(e);
         }
     }
 

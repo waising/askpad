@@ -1,6 +1,7 @@
 package com.asking.pad.app.ui.downbook.db;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.asking.pad.app.api.ApiRequestListener;
@@ -23,6 +24,7 @@ import java.util.List;
 public class DbBookHelper {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
+    private SQLiteDatabase mDb;
 
     /*单利对象*/
     private volatile static DbBookHelper INSTANCE;
@@ -47,13 +49,14 @@ public class DbBookHelper {
     public DbBookHelper setDatabase(String commodityId) {
         try {
             BookDownInfo info = DbHelper.getInstance().getBookDownInfo(commodityId);
-            if(info!=null && info.getDownState() == DownState.FINISH){
+            if (info != null && info.getDownState() == DownState.FINISH) {
                 String dbPath = BookDownInfo.getBookDirPath(commodityId);
                 if (new File(dbPath).exists()) {
-                    mDaoMaster = new DaoMaster(SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE));
+                    mDb = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+                    mDaoMaster = new DaoMaster(mDb);
                     mDaoSession = mDaoMaster.newSession();
                 }
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -62,7 +65,7 @@ public class DbBookHelper {
         return this;
     }
 
-    public static void deleteBookDownInfoThread(final Activity mActivity,final BookDownInfo e,final ApiRequestListener mListener) {
+    public static void deleteBookDownInfoThread(final Activity mActivity, final BookDownInfo e, final ApiRequestListener mListener) {
         new Thread() {
             @Override
             public void run() {
@@ -99,7 +102,56 @@ public class DbBookHelper {
 
     public BookTable getBookTable(String pathId) {
         try {
-            return getBookTableDao().queryBuilder().where(BookTableDao.Properties.PathId.eq(pathId)).unique();
+            return getBookTableDao().load(pathId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+//    /**
+//     * DbBookHelper.getInstance().setDatabase(gradeId).getBookTableValue(id);
+//     * @param pathId
+//     * @return
+//     */
+//
+//    public String getBookTableValue(String pathId) {
+//        try {
+//            String sql = String.format("SELECT * FROM sync_lesson  WHERE k = '%s'",pathId);
+//            Cursor cur = getBookTableDao().getDatabase().rawQuery( sql, null);
+//            if (cur.moveToFirst()){
+//                String columnName = BookTableDao.Properties.PathId.columnName;
+//                int nameColumnIndex = cur.getColumnIndex(columnName);
+//                String name = cur.getString(nameColumnIndex);
+//
+//                String columnValue = BookTableDao.Properties.Value.columnName;
+//                int valueColumnIndex = cur.getColumnIndex(columnValue);
+//                String value = cur.getString(valueColumnIndex);
+//
+//                return value;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
+    public String getBookTableValue(String pathId) {
+        try {
+            Cursor cur =mDb.query("sync_lesson",new String[]{BookTableDao.Properties.PathId.columnName
+            , BookTableDao.Properties.Value.columnName},BookTableDao.Properties.PathId.columnName+"=?"
+            ,new String[]{pathId},null,null,null);
+            if (cur.moveToFirst()){
+                String columnName = BookTableDao.Properties.PathId.columnName;
+                int nameColumnIndex = cur.getColumnIndex(columnName);
+                String name = cur.getString(0);
+
+                String columnValue = BookTableDao.Properties.Value.columnName;
+                int valueColumnIndex = cur.getColumnIndex(columnValue);
+                String value = cur.getString(valueColumnIndex);
+
+                return value;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

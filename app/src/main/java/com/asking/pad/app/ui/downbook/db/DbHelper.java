@@ -127,14 +127,8 @@ public class DbHelper {
         return getDaoSession().getStudyRecordDao();
     }
 
-    public void insertOrReplaceStudyRecord(String id, int max, int progress) {
+    public void insertOrReplaceStudyRecord(StudyRecord e) {
         try {
-            StudyRecord e = new StudyRecord();
-            e.setCourseDataId(id);
-            e.setPlayMax(max);
-            e.setPlayProgress(progress);
-            int i2 = Math.round(100.0f * progress / max);
-            e.setPlayPercentage(i2);
             getStudyRecordDao().insertOrReplace(e);
         } catch (Exception ex) {
             ex.printStackTrace();

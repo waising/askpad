@@ -197,7 +197,11 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
             mPresenter.getVoicePath(isBuy, gradeId, knowledgeId, type, position + 1, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String res) {
-                    voicePath(res,gradeId, knowledgeId, type, position);
+                    musicUrl = res;
+                    musicPlayer.play(musicUrl);
+                    voiceType = type;
+                    voicePosition = position;
+                    //voicePath(res,gradeId, knowledgeId, type, position);
                 }
             });
         }
