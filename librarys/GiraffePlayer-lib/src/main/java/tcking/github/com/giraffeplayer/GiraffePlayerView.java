@@ -1150,4 +1150,8 @@ public class GiraffePlayerView extends RelativeLayout {
         return this;
     }
 
+    public void setOnPreparedListener(IMediaPlayer.OnPreparedListener l) {
+        videoView.setOnPreparedListener(l);
+    }
+
 }
