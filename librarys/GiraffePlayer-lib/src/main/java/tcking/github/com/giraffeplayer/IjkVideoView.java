@@ -116,6 +116,18 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     private boolean enableTextureView=false;
     private boolean enableNoView=false;
 
+    public void setUsingAndroidPlayer(boolean usingAndroidPlayer){
+        this.usingAndroidPlayer = usingAndroidPlayer;
+    }
+
+    public void setUsingMediaCodec(boolean usingMediaCodec){
+        this.usingMediaCodec = usingMediaCodec;
+    }
+
+    public void setUsingMediaCodecAutoRotate(boolean usingMediaCodecAutoRotate){
+        this.usingMediaCodecAutoRotate = usingMediaCodecAutoRotate;
+    }
+
     public IjkVideoView(Context context) {
         super(context);
         initVideoView(context);
