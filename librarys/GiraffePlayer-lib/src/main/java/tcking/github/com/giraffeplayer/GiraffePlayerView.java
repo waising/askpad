@@ -1154,4 +1154,15 @@ public class GiraffePlayerView extends RelativeLayout {
         videoView.setOnPreparedListener(l);
     }
 
+    public void setUsingAndroidPlayer(boolean usingAndroidPlayer){
+        videoView.setUsingAndroidPlayer(usingAndroidPlayer);
+    }
+
+    public void setUsingMediaCodec(boolean usingMediaCodec){
+        videoView.setUsingMediaCodec(usingMediaCodec);
+    }
+
+    public void setUsingMediaCodecAutoRotate(boolean usingMediaCodecAutoRotate){
+        videoView.setUsingMediaCodecAutoRotate(usingMediaCodecAutoRotate);
+    }
 }
