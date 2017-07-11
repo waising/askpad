@@ -72,6 +72,7 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
         super.initView();
         setToolbar(toolBar, mClass.getCourseName());
 
+        video_view.setUsingAndroidPlayer(true);
         video_view.setShowNavIcon(false);
         video_view.setVideoPath(Constants.getVideoPath(mClass.getVideoUrl()));
         video_view.setOnOrienChangeListener(new GiraffePlayerView.OnOrienChangeListener() {

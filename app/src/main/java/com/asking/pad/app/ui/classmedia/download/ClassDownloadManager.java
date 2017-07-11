@@ -141,7 +141,7 @@ public class ClassDownloadManager {
      * @param info
      */
     public void deleteDown(ClassMediaTable info) {
-        DbHelper.getInstance().deleteByIdBookInfo(info.getCourseDataId());
+        DbHelper.getInstance().deleteByIdClassMedia(info.getCourseDataId());
         stopDown(info);
          /*删除数据库信息和本地文件*/
     }
@@ -161,7 +161,9 @@ public class ClassDownloadManager {
                 subscriber.unsubscribe();
                 subMap.remove(info.getVideoUrl());
             }
-        }catch (Exception e){}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         /*这里需要讲info信息写入到数据中，可自由扩展，用自己项目的数据库*/
     }

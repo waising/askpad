@@ -120,6 +120,10 @@ public class DbHelper {
         return getClassMediaTableDao().queryBuilder().where(ClassMediaTableDao.Properties.UserId.eq(AppContext.getInstance().getUserId())).list();
     }
 
+    public void deleteByIdClassMedia(String id) {
+        getClassMediaTableDao().deleteByKey(id);
+    }
+
 
 //------------------------初升高播发进度---------------------------------------
 

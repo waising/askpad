@@ -249,6 +249,7 @@ public class ClassMediaCacheActivity extends BaseEvenAppCompatActivity<UserPrese
                 dataList.remove(e);
                 ClassDownloadManager.getInstance().deleteDown(e);
                 initLoad();
+                delDialog.dismiss();
             }
         });
         answerRecordDelDialog.show(this.getSupportFragmentManager(), "AnswerRecordDelDialog");
