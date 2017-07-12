@@ -17,7 +17,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseFrameActivity;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.ParamHelper;
 import com.asking.pad.app.mvp.OnCountDownListener;
 import com.asking.pad.app.presenter.UserModel;
@@ -31,7 +30,6 @@ import com.asking.pad.app.widget.doodle.Transaction;
 import com.asking.pad.app.widget.doodle.TransactionCenter;
 import com.asking.pad.app.widget.doodle.action.MyPath;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.hanvon.HWCloudManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
@@ -91,7 +89,6 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
     private RTSData sessionInfo; // 本次会话的信息
     private boolean finishFlag = false; // 结束标记，避免多次回调onFinish
 
-    private HWCloudManager hwCloudManagerFormula;
     private MaterialDialog materialDialog;
 
     /**
@@ -132,7 +129,6 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
     @Override
     public void initData() {
         super.initData();
-        hwCloudManagerFormula = new HWCloudManager(mActivity, Constants.HWY_KEY);
         try {
             String extraStr = sessionInfo.getExtra();
             BigDecimal scale = new BigDecimal(extraStr);
@@ -370,8 +366,7 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
 
             }
         });
-
-        AVChatManager.getInstance().hangUp(new AVChatCallback<Void>() {
+        AVChatManager.getInstance().hangUp2(0,new AVChatCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -434,7 +429,7 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
                 //首单免费体验时长20分钟
                 totalTime = totalTime.add(new BigDecimal(120));
             }
-            int takeTime = totalTime.multiply(new BigDecimal(1000)).intValue();
+            int takeTime = totalTime.intValue();
             //倒计时60秒显示等待提示
             mPresenter.countDownPresenter(takeTime, new OnCountDownListener() {
                 @Override
@@ -448,7 +443,9 @@ public class OtoLearningActivity extends BaseFrameActivity<UserPresenter, UserMo
                     });
                 }
             });
-        }catch (Exception e){}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

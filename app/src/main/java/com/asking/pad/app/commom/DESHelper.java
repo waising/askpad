@@ -133,7 +133,7 @@ public class DESHelper {
                     }finally {
                         try {
                             in.close();
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
