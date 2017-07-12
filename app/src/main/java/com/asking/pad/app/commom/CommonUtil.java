@@ -133,7 +133,7 @@ public class CommonUtil {
         if(!TextUtils.isEmpty(str)){
             for(int i=0 ; i<str.length() ; i++){
                 char c = str.charAt(i);
-                if(Pattern.compile(".*[a-zA-Z]+.*").matcher(c+"").matches()){
+                if(Pattern.compile(".*[a-zA-Z$]+.*").matcher(c+"").matches()){
                     return true;
                 }
             }

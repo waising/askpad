@@ -201,6 +201,7 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
         SuperLessonTree e = treeLessonList.get(knowledgeIndex);
         knowledgeName = e.name;
         knowledgeId = e.id;
+        free = e.free;
         if (free != 0 || isBuy) {
             initDataView(gradeId, knowledgeId, isBuy);
         }else{

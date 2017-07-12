@@ -205,6 +205,14 @@
             </intent-filter>
         </activity>
 
+        <!-- 白板 -->
+        <activity
+            android:name=".ui.oto.RTSActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity
             android:name=".ui.oto.OtoEndActivity"
             android:launchMode="singleTop"
@@ -377,24 +385,12 @@
         </service>
         -->
 
-        <receiver
-            android:name="com.netease.cosine.target.CosineReceiver"
-            android:exported="true"
-            android:process=":cosine"/>
-
         <meta-data
             android:name="com.netease.cosine.target"
             android:value=""/>
         <meta-data
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver"/>
-
-        <!-- 申明本地电话状态（通话状态）的广播接收器，第三方APP集成时音视频模块时，如果需要网络通话与本地电话互斥，请加上此接收器 -->
-        <receiver android:name="com.netease.nimlib.receiver.IncomingCallReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
-            </intent-filter>
-        </receiver>
 
         <!-- *****************************网易白板End********************************* -->
 

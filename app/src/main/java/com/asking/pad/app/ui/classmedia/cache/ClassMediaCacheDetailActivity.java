@@ -14,7 +14,6 @@ import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.entity.classmedia.ClassMediaTable;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
-import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.commom.DownloadFile;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
 import com.asking.pad.app.widget.MultiStateView;
@@ -93,7 +92,8 @@ public class ClassMediaCacheDetailActivity extends BaseActivity {
             }
         });
 
-        BitmapUtil.displayImage(mClass.getVideoImgUrl(), video_view.iv_tmpimg_video, true);
+        //BitmapUtil.displayImage(mClass.getVideoImgUrl(), video_view.iv_tmpimg_video, true);
+        video_view.iv_tmpimg_video.setVisibility(View.GONE);
 
         load_view.setVisibility(View.VISIBLE);
         load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
