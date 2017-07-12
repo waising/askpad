@@ -230,15 +230,15 @@ dependencies {
     // 添加依赖。注意，版本号必须一致。
 
     // 基础功能 (必需)
-    compile 'com.netease.nimlib:basesdk:3.4.0'
+    compile 'com.netease.nimlib:basesdk:4.0.0'
     // 音视频需要
-    compile 'com.netease.nimlib:avchat:3.4.0'
+    compile 'com.netease.nimlib:avchat:4.0.0'
     //    // 聊天室需要
 
     //    compile 'com.netease.nimlib:chatroom:3.4.0'
 
     // 实时会话服务需要
-    compile 'com.netease.nimlib:rts:3.4.0'
+    compile 'com.netease.nimlib:rts:4.0.0'
     /*网易白板-------------------End------*/
     compile 'com.github.piasy:BigImageViewer:1.2.5'
     compile 'com.github.piasy:FrescoImageLoader:1.2.5'
