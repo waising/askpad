@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseActivity;
+import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
@@ -33,6 +34,12 @@ public class PhotoShowActivity extends BaseActivity {
     LinearLayout mPhotoLv;
 
     private String mImageUrl;
+
+    public  static void openActivity(String url){
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.WEB_IMAGE_URL, url);
+        CommonUtil.openActivity(PhotoShowActivity.class, bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

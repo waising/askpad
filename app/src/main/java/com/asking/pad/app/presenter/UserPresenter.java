@@ -123,7 +123,7 @@ public class UserPresenter extends BasePresenter<UserModel> {
                         try {
                             String musicUrl = FileUtils.getFileMusicPath(fileName);
                             if(!FileUtils.isFileExists(musicUrl)){
-                                String value = DbBookHelper.getInstance().setDatabase(gradeId).getBookTableValue(id);
+                                String value = DbBookHelper.getInstance().setDatabase(gradeId).getBookTableVoicePath(id);
                                 byte[] res = AESHelper.decodeByte(value);
                                 FileUtils.writeFile(res,fileName);
                             }

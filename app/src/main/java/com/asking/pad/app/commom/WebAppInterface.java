@@ -1,11 +1,11 @@
 package com.asking.pad.app.commom;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 
+import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.ui.commom.PhotoShowActivity;
-
 
 
 /**
@@ -21,8 +21,18 @@ public class WebAppInterface {
 
     @JavascriptInterface
     public void openImage(String url) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.WEB_IMAGE_URL, url);
-        CommonUtil.openActivity(PhotoShowActivity.class,bundle);
+        if (!TextUtils.isEmpty(url)) {
+            if (url.startsWith("data:image/png;base64,")) {
+                String data = url.replace("data:image/png;base64,","");
+                FileUtils.writeBookImg(data,data.hashCode()+"",new ApiRequestListener<String>(){
+                    @Override
+                    public void onResultSuccess(String res) {
+                        PhotoShowActivity.openActivity(res);
+                    }
+                });
+            } else {
+                PhotoShowActivity.openActivity(url);
+            }
+        }
     }
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.WebAppClient;
 import com.asking.pad.app.commom.WebAppInterface;
@@ -88,7 +87,7 @@ public class AskMathWebView extends WebView {
 
     public void setText(String text) {
         if(!TextUtils.isEmpty(text)){
-            mText = CommonUtil.changePathImg(text);
+            mText = text;
             Chunk chunk = getChunk();
             String TAG_FORMULA = "formula";
             chunk.set(TAG_FORMULA, mText);

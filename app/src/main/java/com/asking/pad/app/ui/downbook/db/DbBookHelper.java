@@ -1,13 +1,10 @@
 package com.asking.pad.app.ui.downbook.db;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.book.BookDownInfo;
 import com.asking.pad.app.entity.book.BookTable;
@@ -17,9 +14,7 @@ import com.asking.pad.app.greendao.DaoSession;
 import com.asking.pad.app.ui.downbook.download.DownState;
 import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -122,56 +117,22 @@ public class DbBookHelper {
 //     * @return
 //     */
 //
-//    public String getBookTableValue(String pathId) {
-//        try {
-//            String sql = String.format("SELECT * FROM sync_lesson  WHERE k = '%s'",pathId);
-//            Cursor cur = getBookTableDao().getDatabase().rawQuery( sql, null);
-//            if (cur.moveToFirst()){
-//                String columnName = BookTableDao.Properties.PathId.columnName;
-//                int nameColumnIndex = cur.getColumnIndex(columnName);
-//                String name = cur.getString(nameColumnIndex);
-//
-//                String columnValue = BookTableDao.Properties.Value.columnName;
-//                int valueColumnIndex = cur.getColumnIndex(columnValue);
-//                String value = cur.getString(valueColumnIndex);
-//
-//                return value;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
-
-    public void insertBookTableValue() throws Exception {
+    public String getBookTableValue(String pathId) {
         try {
-            //mDb
-            File file = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_BOOK_PATH + "/voice/1.mp3");
-            if (file.exists()) {
-                int byte_size = 1024;
-                byte[] b = new byte[byte_size];
-                FileInputStream fileInputStream = new FileInputStream(file);
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream(
-                        byte_size);
-                for (int length; (length = fileInputStream.read(b)) != -1; ) {
-                    outputStream.write(b, 0, length);
-                }
-                fileInputStream.close();
-                outputStream.close();
-                String ddd = new String(outputStream.toByteArray());
-
-                ContentValues cv = new ContentValues();
-                cv.put(BookTableDao.Properties.PathId.columnName, "1234567");
-                cv.put(BookTableDao.Properties.Value.columnName, ddd);
-                mDb.insert(BookTableDao.TABLENAME, null, cv);
+            Cursor cur =mDb.query(BookTableDao.TABLENAME,new String[]{BookTableDao.Properties.Value.columnName}
+                ,BookTableDao.Properties.PathId.columnName+"=?"
+                ,new String[]{pathId},null,null,null);
+            if (cur.moveToFirst()){
+                String value = cur.getString(0);
+                return value;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public String getBookTableValue(String pathId) throws Exception {
+    public String getBookTableVoicePath(String pathId) throws Exception {
 //        Cursor cur =mDb.query(BookTableDao.TABLENAME,new String[]{BookTableDao.Properties.PathId.columnName}
 //                ,BookTableDao.Properties.PathId.columnName+"=?"
 //                ,new String[]{pathId},null,null,null);

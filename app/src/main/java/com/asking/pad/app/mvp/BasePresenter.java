@@ -14,7 +14,6 @@ import com.asking.pad.app.commom.AESHelper;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.commom.NetworkUtils;
-import com.asking.pad.app.entity.book.BookTable;
 import com.asking.pad.app.ui.downbook.db.DbBookHelper;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -297,9 +296,9 @@ public abstract class BasePresenter<M> {
             @Override
             public void call(final Subscriber<? super String> subscriber) {
                 try {
-                    BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
-                    String value = mTable.getValue();
-                    //String value = DbBookHelper.getInstance().setDatabase(dbName).getBookTableValue(pathId);
+//                    BookTable mTable = DbBookHelper.getInstance().setDatabase(dbName).getBookTable(pathId);
+//                    String value = mTable.getValue();
+                    String value = DbBookHelper.getInstance().setDatabase(dbName).getBookTableValue(pathId);
                     String res = AESHelper.decode(value);
                     subscriber.onNext(res);
                 } catch (Exception e) {

@@ -171,11 +171,15 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
                 JSONObject jsonRes = JSON.parseObject(res);
                 List<SubjectExerEntity> list = JSON.parseArray(jsonRes.getString("subjects"),SubjectExerEntity.class);
                 if(isBuy){
-                    int endIndex = start + limit;
+                    int startIndex = start * limit;
+                    int endIndex = startIndex + limit;
+                    if(startIndex > list.size()){
+                        startIndex = list.size();
+                    }
                     if(endIndex > list.size()){
                         endIndex = list.size();
                     }
-                    list = list.subList(start,endIndex);
+                    list = list.subList(startIndex,endIndex);
                 }
                 if (start == 0) {
                     topicList.clear();
