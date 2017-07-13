@@ -4,13 +4,16 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.asking.pad.app.api.ApiRequestListener;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import Decoder.BASE64Decoder;
 
 /**
  * 文件帮助类
@@ -313,7 +316,7 @@ public class FileUtils {
             outStream.close();
             inStream.close();
             return outStream.toString();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.i("FileTest", e.getMessage());
         }
         return null;
@@ -368,10 +371,45 @@ public class FileUtils {
         } finally {
             try {
                 out.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return path;
+    }
+
+    public static void writeBookImg(final String data,final String fileName, final ApiRequestListener<String> mListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileOutputStream out = null;
+                try {
+                    byte[] buffer = new BASE64Decoder().decodeBuffer(data);
+                    String  path;
+                    File fileDir = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_BOOK_PATH + "/img/");
+                    if (!fileDir.exists()) {
+                        fileDir.mkdirs();
+                    }
+                    File file = new File(fileDir.getAbsolutePath() + "/" + fileName);
+                    if (file.exists()) {
+                        mListener.onResultSuccess(file.getAbsolutePath());
+                        return;
+                    }
+
+                    out = new FileOutputStream(file);
+                    out.write(buffer);
+                    path = file.getAbsolutePath();
+                    mListener.onResultSuccess(path);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        out.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 }
