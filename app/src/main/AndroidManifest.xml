@@ -92,7 +92,14 @@
         </activity>
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.MainActivity2"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity
+            android:name=".ui.mine.MineAcivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:theme="@style/Custom_Theme"

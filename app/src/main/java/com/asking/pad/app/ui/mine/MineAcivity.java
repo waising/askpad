@@ -1,6 +1,8 @@
-package com.asking.pad.app.ui.main;
+package com.asking.pad.app.ui.mine;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.base.BaseFrameActivity;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
-import com.asking.pad.app.ui.mine.MineStudyRecordActivity;
 import com.asking.pad.app.ui.pay.PayAskActivity;
 import com.asking.pad.app.ui.personalcenter.CollectionActivity;
 import com.asking.pad.app.ui.personalcenter.NoteActivity;
@@ -34,19 +35,23 @@ import butterknife.ButterKnife;
  * Created by jswang on 2017/4/10.
  */
 
-public class SecondMainFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class MineAcivity extends BaseFrameActivity<UserPresenter, UserModel> {
     @BindView(R.id.mine_rv)
     RecyclerView mine_rv;
 
     CommAdapter mineAdapter;
     List<LabelEntity> mDatas = new ArrayList<>();
 
+    public static void openActivity(Activity activity){
+        Intent intent = new Intent(activity, MineAcivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_second_main);
-        ButterKnife.bind(this, getContentView());
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -61,9 +66,9 @@ public class SecondMainFragment extends BaseFrameFragment<UserPresenter, UserMod
         mDatas.add(new LabelEntity(R.mipmap.mine_set, getString(R.string.set)));
 
 
-        GridLayoutManager mgr = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager mgr = new GridLayoutManager(this, 3);
         mine_rv.setLayoutManager(mgr);
-        mineAdapter = new CommAdapter(getActivity(), mDatas);
+        mineAdapter = new CommAdapter(this, mDatas);
         mine_rv.setAdapter(mineAdapter);
     }
 

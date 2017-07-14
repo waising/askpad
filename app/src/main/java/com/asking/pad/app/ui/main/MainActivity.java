@@ -82,8 +82,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
 
     @Override
     public void initView() {
-        listFragments.add(new FirstMainFragment());
-        listFragments.add(new SecondMainFragment());
+        listFragments.add(new ClassMainFragment());
 
         CommAdapter mAdapter = new CommAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
