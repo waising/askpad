@@ -625,4 +625,58 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="tab_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/space_20</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="tab_main_iv">
+        <item name="android:layout_width">@dimen/space_40</item>
+        <item name="android:layout_height">@dimen/space_40</item>
+    </style>
+
+    <style name="tab_main_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/space_10</item>
+        <item name="android:textColor">@drawable/tab_main_txt_color</item>
+        <item name="android:textSize">@dimen/textSize_12</item>
+    </style>
+
+    <style name="radio_group_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/colorTest_f8</item>
+    </style>
+
+    <style name="radio_main_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/space_20</item>
+        <item name="android:drawablePadding">@dimen/space_10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/tab_main_txt_color</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
+    <style name="radio_share_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_tab_share_corners</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/space_20</item>
+        <item name="android:drawablePadding">@dimen/space_10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/tab_share_txt_color</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
 </resources>

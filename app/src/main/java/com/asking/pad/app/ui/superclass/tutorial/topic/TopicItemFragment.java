@@ -93,7 +93,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         super.initView();
 
         topic_mathview.formatMath();
-        answer_mathView.formatMath();
+        answer_mathView.formatMath().showWebImage();
 
         optionsAdapter = new TopicItemOpAdapter(getActivity(), mSubjectClass.getOptions());
         optionsAdapter.userAnswer = mSubjectClass.userAnswer;

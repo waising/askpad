@@ -36,12 +36,17 @@ import static com.asking.pad.app.commom.Constants.APP_CAMERA_PATH_KEY;
  * Created by jswang on 2017/4/10.
  */
 
-public class FirstMainFragment extends BaseEvenFrameFragment<UserPresenter,UserModel> {
+public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserModel> {
     @BindView(R.id.rv_main)
     RecyclerView rv_main;
 
     CommAdapter mineAdapter;
     List<LabelEntity> mDatas = new ArrayList<>();
+
+    public static ClassMainFragment newInstance() {
+        ClassMainFragment fragment = new ClassMainFragment();
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
