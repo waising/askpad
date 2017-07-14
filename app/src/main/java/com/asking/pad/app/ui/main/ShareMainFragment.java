@@ -55,7 +55,7 @@ public class ShareMainFragment extends BaseFragment {
     public void initView() {
         super.initView();
 
-        dataList.add(new LabelEntity("","回答广场",true));
+        dataList.add(new LabelEntity("","问答广场",true));
         dataList.add(new LabelEntity("","共享专题",false));
         dataList.add(new LabelEntity("","共享之星",false));
         dataList.add(new LabelEntity("","我的空间",false));
