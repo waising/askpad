@@ -221,6 +221,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.studentinfo(AppContext.getInstance().getUserEntity().getUserName()), "content", mListener);
     }
 
+    public void communionapi(String grade,String subject,int start,int limit,ApiRequestListener mListener) {
+        baseReq(mModel.communionapi(grade,subject,start,limit), "content", mListener);
+    }
+
     public void subjectClassic(String answerstr, String code, ApiRequestListener mListener) {
         try {
             Map<String, RequestBody> params = new HashMap<>();

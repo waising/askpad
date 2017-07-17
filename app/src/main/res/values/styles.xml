@@ -679,4 +679,16 @@
         <item name="android:textSize">@dimen/textSize_18</item>
     </style>
 
+
+    <style name="tv_share_ques_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/space_5</item>
+        <item name="android:layout_marginLeft">@dimen/space_10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorText_ae</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
 </resources>
