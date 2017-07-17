@@ -28,16 +28,21 @@
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
-                android:gravity="center"
-                android:paddingBottom="@dimen/space_5"
-                android:paddingLeft="@dimen/space_10"
-                android:paddingRight="@dimen/space_10"
-                android:paddingTop="@dimen/space_5"
+                android:layout_weight="1"
                 android:text="数学-七年级"
-                android:textColor="@color/text_white"
+                android:textColor="@color/colorText_88"
+                android:textSize="@dimen/textSize_14"/>
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="开始"
+                android:textColor="@color/red"
                 android:textSize="@dimen/textSize_14"/>
 
         </LinearLayout>
@@ -50,14 +55,6 @@
             android:layout_marginTop="@dimen/space_10"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_tea_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="张三"
-                android:textColor="@color/login_text"
-                android:textSize="@dimen/textSize_16"/>
-
             <com.asking.pad.app.widget.FoursquareImgeView
                 android:id="@+id/iv_oto_tip"
                 android:layout_width="match_parent"
@@ -66,6 +63,15 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_already_evaluated"/>
 
+            <TextView
+                android:id="@+id/tv_gread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:text="七年级"
+                android:textColor="@color/login_gomain"
+                android:textSize="@dimen/textSize_18"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,39 +79,25 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_gread"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="七年级"
-                    android:textColor="@color/login_gomain"
-                    android:textSize="@dimen/textSize_18"/>
-
-                <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/space_12"
-                    android:text="10分钟"
+                    android:text="游览123"
                     android:textColor="@color/colorText_88"
                     android:textSize="@dimen/textSize_18"/>
 
                 <TextView
                     android:id="@+id/tv_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_12"
-                    android:text="已评价"
-                    android:textColor="@color/colorText_88"
-                    android:textSize="@dimen/textSize_18"/>
+                    style="@style/tv_share_ques_styles"
+                    android:drawableLeft="@mipmap/ic_share_ques_c"
+                    android:text="123"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_12"
-                    android:text="已评价"
-                    android:textColor="@color/colorText_88"
-                    android:textSize="@dimen/textSize_18"/>
+                    android:id="@+id/tv_f"
+                    style="@style/tv_share_ques_styles"
+                    android:drawableLeft="@mipmap/ic_share_ques_f"
+                    android:text="103"/>
             </LinearLayout>
         </LinearLayout>
 

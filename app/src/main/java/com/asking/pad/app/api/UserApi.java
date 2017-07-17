@@ -193,6 +193,10 @@ public interface UserApi {
     @GET(BuildConfig.API_OTO_RE_URL + "student/info")
     Observable<ResponseBody> studentinfo(@Query("userName") String userName);
 
+    @GET("communionapi/topic/page")
+    Observable<ResponseBody> communionapi(@Query("grade") String grade,@Query("subject") String subject
+            ,@Query("start") int start,@Query("limit") int limit);
+
     @Multipart
     @POST(BuildConfig.API_OTO_RE_URL + "order/build")
     Observable<ResponseBody> orderbuild(@PartMap Map<String, RequestBody> params);
