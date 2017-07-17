@@ -15,7 +15,7 @@ import com.asking.pad.app.base.BaseFragment;
 import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.ui.sharespace.MineSpaceFragment;
 import com.asking.pad.app.ui.sharespace.QuestionsFragment;
-import com.asking.pad.app.ui.sharespace.ShareStarlFragment;
+import com.asking.pad.app.ui.sharespace.ShareStarFragement;
 import com.asking.pad.app.ui.sharespace.SpecialFragment;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ShareMainFragment extends BaseFragment {
 
         fragments.add(QuestionsFragment.newInstance());
         fragments.add(SpecialFragment.newInstance());
-        fragments.add(ShareStarlFragment.newInstance());
+        fragments.add(ShareStarFragement.newInstance());
         fragments.add(MineSpaceFragment.newInstance());
 
         getChildFragmentManager().beginTransaction()

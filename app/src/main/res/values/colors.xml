@@ -252,4 +252,6 @@
 
     <color name="color_red">#ff7878</color>
     <color name="transparent70">#70000000</color>
+    <color name="text_color_4">#444444</color>
+
 </resources>

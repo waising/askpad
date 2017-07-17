@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,16 @@ public class BaseFragment extends Fragment implements BaseFuncIml {
 
     public MaterialDialog.Builder getLoadingDialog() {
         return mLoadingDialog;
+    }
+
+    protected void setToolbar(Toolbar toolbar, String title) {
+        toolbar.setTitle(title);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
     }
 
 }

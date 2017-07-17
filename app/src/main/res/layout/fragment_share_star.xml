@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_30"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/space_30">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_share_star_red"
+                android:drawablePadding="@dimen/space_10"
+                android:gravity="center_vertical"
+                android:text="本期共享之星"
+                android:textSize="@dimen/textSize_18" />
+
+            <TextView
+                android:id="@+id/tv_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_42"
+                android:text="共享之星规则>>"
+                android:textColor="#49bdf1"
+                android:textSize="@dimen/textSize_16" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_60"
+                android:layout_marginTop="@dimen/space_10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/ad_avatar"
+                    android:layout_marginRight="@dimen/space_8"
+                    android:src="@mipmap/ic_crown" />
+
+
+                <com.asking.pad.app.widget.AskSimpleDraweeView
+                    android:id="@+id/ad_avatar"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_marginBottom="@dimen/space_20"
+                    android:layout_marginTop="@dimen/space_15"
+                    android:paddingRight="@dimen/space_10"
+                    app:backgroundImage="@color/main_bg"
+                    app:roundAsCircle="true" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ad_avatar"
+                    android:layout_centerHorizontal="true"
+                    android:text="北岸初晴"
+                    android:textColor="@color/text_color_4"
+                    android:textSize="@dimen/textSize_20" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_100">
+
+                <TextView
+                    android:id="@+id/tv_share_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20"
+                    android:drawableLeft="@mipmap/ic_share_score"
+                    android:drawablePadding="@dimen/space_8"
+                    android:text="共享成绩"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/textSize_16" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rel_answer_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_share_score"
+                    android:layout_marginTop="@dimen/space_34">
+
+                    <ImageView
+                        android:id="@+id/iv_answer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_answer_num" />
+
+                    <TextView
+                        android:id="@+id/tv_answer_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_answer"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="150"
+                        android:textColor="#46c6ff"
+                        android:textSize="@dimen/space_30" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_answer_num"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="回答数"
+                        android:textColor="#888888"
+                        android:textSize="@dimen/textSize_16" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/rel_answer_num"
+                    android:layout_marginLeft="@dimen/space_80"
+                    android:layout_toRightOf="@+id/rel_answer_num">
+
+                    <ImageView
+                        android:id="@+id/iv_accept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_accept" />
+
+                    <TextView
+                        android:id="@+id/tv_accept_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_accept"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="150"
+                        android:textColor="#46c6ff"
+                        android:textSize="@dimen/space_30" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_accept_num"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="被采纳数"
+                        android:textColor="#888888"
+                        android:textSize="@dimen/textSize_16" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_80">
+
+                <TextView
+                    android:id="@+id/tv_get_pride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20"
+                    android:drawableLeft="@mipmap/ic_pride"
+                    android:drawablePadding="@dimen/space_8"
+                    android:text="获得奖品"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/textSize_16" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rel_good_pride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_get_pride"
+                    android:layout_below="@+id/tv_get_pride"
+                    android:layout_marginTop="@dimen/space_34">
+
+                    <ImageView
+                        android:id="@+id/iv_pride"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_good_pride" />
+
+                    <TextView
+                        android:id="@+id/tv_good_pride_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_pride"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="150"
+                        android:textColor="#46c6ff"
+                        android:textSize="@dimen/space_30" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_good_pride_num"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="精美礼品"
+                        android:textColor="#888888"
+                        android:textSize="@dimen/textSize_16" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/rel_good_pride"
+                    android:layout_marginLeft="@dimen/space_80"
+                    android:layout_toRightOf="@+id/rel_good_pride">
+
+                    <ImageView
+                        android:id="@+id/iv_ask_coin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_coin_ask" />
+
+                    <TextView
+                        android:id="@+id/tv_ask_coin_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_ask_coin"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="150"
+                        android:textColor="#46c6ff"
+                        android:textSize="@dimen/space_30" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_ask_coin_num"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:text="阿思币"
+                        android:textColor="#888888"
+                        android:textSize="@dimen/textSize_16" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        <View
+            style="@style/view_horizontal_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/space_30" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_30"
+            android:layout_marginTop="@dimen/space_24"
+            android:drawableLeft="@mipmap/ic_share_star_yellow"
+            android:drawablePadding="@dimen/space_10"
+            android:gravity="center_vertical"
+            android:text="共享之星候选人"
+            android:textSize="@dimen/textSize_18" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:layout_marginTop="@dimen/space_34" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>
