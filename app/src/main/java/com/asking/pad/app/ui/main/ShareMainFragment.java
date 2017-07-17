@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.asking.pad.app.R.id.toolBar;
+
 /**
  * Created by jswang on 2017/4/10.
  */
 
 public class ShareMainFragment extends BaseFragment {
+    @BindView(toolBar)
+    Toolbar mToolbar;
 
     @BindView(R.id.rv_version)
     RecyclerView rv_version;
@@ -54,11 +59,12 @@ public class ShareMainFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
+        setToolbarStyle("问答广场",R.mipmap.ic_share_main);
 
-        dataList.add(new LabelEntity("","问答广场",true));
-        dataList.add(new LabelEntity("","共享专题",false));
-        dataList.add(new LabelEntity("","共享之星",false));
-        dataList.add(new LabelEntity("","我的空间",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"问答广场",true));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"共享专题",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"共享之星",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"我的空间",false));
 
         mAdapter = new CommAdapter();
         rv_version.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -78,6 +84,11 @@ public class ShareMainFragment extends BaseFragment {
                 .hide(fragments.get(2))
                 .hide(fragments.get(3))
                 .show(fragments.get(0)).commit();
+    }
+
+    public void setToolbarStyle(String title,int resId){
+        mToolbar.setNavigationIcon(resId);
+        mToolbar.setTitle(title);
     }
 
     private void setFragmentPage(int index) {
@@ -114,6 +125,8 @@ public class ShareMainFragment extends BaseFragment {
                     }
                     e.setSelect(true);
                     notifyDataSetChanged();
+
+                    setToolbarStyle(e.getName(),e.getIcon());
                     onCommItem(position);
                 }
             });
