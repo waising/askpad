@@ -16,7 +16,6 @@ import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -132,38 +131,32 @@ public class DbBookHelper {
         return null;
     }
 
-    public String getBookTableVoicePath(String pathId) throws Exception {
+    public TreeMap<Integer, byte[]> getBookTableVoicePath(String pathId) throws Exception {
 //        Cursor cur =mDb.query(BookTableDao.TABLENAME,new String[]{BookTableDao.Properties.PathId.columnName}
 //                ,BookTableDao.Properties.PathId.columnName+"=?"
 //                ,new String[]{pathId},null,null,null);
         StringBuilder mBuilder = new StringBuilder("");
 
-        TreeMap<Integer, String> treeMap = new TreeMap();
+        TreeMap<Integer, byte[]> treeMap = new TreeMap();
 
         mDb.beginTransaction();
-        Cursor cur = mDb.query(BookTableDao.TABLENAME, new String[]{BookTableDao.Properties.PathId.columnName, BookTableDao.Properties.Value.columnName}
+        Cursor cur = mDb.query(BookTableDao.TABLENAME, new String[]{BookTableDao.Properties.PathId.columnName, BookTableDao.Properties.Media.columnName}
                 , BookTableDao.Properties.PathId.columnName + " LIKE ? ", new String[]{pathId + "%"}
                 , null, null, null);
-
         try {
             for(cur.moveToFirst();!cur.isAfterLast();cur.moveToNext()){
                 String id = cur.getString(0);
 
                 Integer index = Integer.parseInt(id.replaceAll("^" + pathId + "_(.*)", "$1"));
 
-                String value = cur.getString(1);
+                byte[] value = cur.getBlob(1);
 
                 treeMap.put(index, value);
             }
-            System.out.println(treeMap.keySet());
-            for (Map.Entry<Integer, String> integerStringEntry : treeMap.entrySet()) {
-                mBuilder.append(integerStringEntry.getValue());
-            }
-
         } finally {
             cur.close();
             mDb.endTransaction();
         }
-        return mBuilder.toString();
+        return treeMap;
     }
 }

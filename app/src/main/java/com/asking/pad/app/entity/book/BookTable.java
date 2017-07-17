@@ -18,10 +18,14 @@ public class BookTable {
     @Property(nameInDb="v")
     private String value;
 
-    @Generated(hash = 2086876761)
-    public BookTable(String pathId, String value) {
+    @Property(nameInDb="b")
+    private byte[] media;
+
+    @Generated(hash = 170486571)
+    public BookTable(String pathId, String value, byte[] media) {
         this.pathId = pathId;
         this.value = value;
+        this.media = media;
     }
 
     @Generated(hash = 1470141119)
@@ -42,5 +46,13 @@ public class BookTable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public byte[] getMedia() {
+        return this.media;
+    }
+
+    public void setMedia(byte[] media) {
+        this.media = media;
     }
 }

@@ -135,6 +135,9 @@ public class DownAbleFragment extends BaseEvenFrameFragment<DownPresenter, DownM
                                     if(dbE.getDownState()==DownState.FINISH){
                                         e.setUpdate(1);
                                         DbHelper.getInstance().updateBookInfo(e);
+                                    }else{
+                                        dbE.setUpdate(1);
+                                        dataList.add(dbE);
                                     }
                                 }
                             }

@@ -26,6 +26,7 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
     public static class Properties {
         public final static Property PathId = new Property(0, String.class, "pathId", true, "k");
         public final static Property Value = new Property(1, String.class, "value", false, "v");
+        public final static Property Media = new Property(2, byte[].class, "media", false, "b");
     }
 
 
@@ -42,7 +43,8 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"sync_lesson\" (" + //
                 "\"k\" TEXT PRIMARY KEY NOT NULL ," + // 0: pathId
-                "\"v\" TEXT);"); // 1: value
+                "\"v\" TEXT," + // 1: value
+                "\"b\" BLOB);"); // 2: media
     }
 
     /** Drops the underlying database table. */
@@ -64,6 +66,11 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
         if (value != null) {
             stmt.bindString(2, value);
         }
+ 
+        byte[] media = entity.getMedia();
+        if (media != null) {
+            stmt.bindBlob(3, media);
+        }
     }
 
     @Override
@@ -79,6 +86,11 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
         if (value != null) {
             stmt.bindString(2, value);
         }
+ 
+        byte[] media = entity.getMedia();
+        if (media != null) {
+            stmt.bindBlob(3, media);
+        }
     }
 
     @Override
@@ -90,7 +102,8 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
     public BookTable readEntity(Cursor cursor, int offset) {
         BookTable entity = new BookTable( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // pathId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // value
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // value
+            cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2) // media
         );
         return entity;
     }
@@ -99,6 +112,7 @@ public class BookTableDao extends AbstractDao<BookTable, String> {
     public void readEntity(Cursor cursor, BookTable entity, int offset) {
         entity.setPathId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setValue(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setMedia(cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2));
      }
     
     @Override
