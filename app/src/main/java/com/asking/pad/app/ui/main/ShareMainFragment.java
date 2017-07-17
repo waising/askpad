@@ -17,7 +17,7 @@ import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.ui.sharespace.MineSpaceFragment;
 import com.asking.pad.app.ui.sharespace.QuestionsFragment;
 import com.asking.pad.app.ui.sharespace.ShareStarFragement;
-import com.asking.pad.app.ui.sharespace.SpecialFragment;
+import com.asking.pad.app.ui.sharespace.special.SpecialFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +59,12 @@ public class ShareMainFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
-        setToolbarStyle("问答广场",R.mipmap.ic_share_main);
+        setToolbarStyle("问答广场",R.mipmap.ic_share_ques_head);
 
-        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"问答广场",true));
-        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"共享专题",false));
-        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"共享之星",false));
-        dataList.add(new LabelEntity(R.mipmap.ic_share_main,"我的空间",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_ques_head,"问答广场",true));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_special_head,"共享专题",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_star_head,"共享之星",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_ques_head,"我的空间",false));
 
         mAdapter = new CommAdapter();
         rv_version.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

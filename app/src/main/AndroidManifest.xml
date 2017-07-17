@@ -278,6 +278,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/Custom_Theme" />
 
+        <activity
+            android:name=".ui.sharespace.special.SpecialDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Custom_Theme" />
+
         <!-- Ping++ SDK -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"

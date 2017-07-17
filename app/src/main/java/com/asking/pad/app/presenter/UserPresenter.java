@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.commom.AESHelper;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
@@ -19,6 +18,7 @@ import com.hanvon.HWCloudManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -123,9 +123,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
                         try {
                             String musicUrl = FileUtils.getFileMusicPath(fileName);
                             if(!FileUtils.isFileExists(musicUrl)){
-                                String value = DbBookHelper.getInstance().setDatabase(gradeId).getBookTableVoicePath(id);
-                                byte[] res = AESHelper.decodeByte(value);
-                                FileUtils.writeFile(res,fileName);
+                                TreeMap<Integer, byte[]>   value = DbBookHelper.getInstance().setDatabase(gradeId).getBookTableVoicePath(id);
+                                FileUtils.writeFile(value,fileName);
                             }
                             subscriber.onNext(musicUrl);
                         } catch (Exception e) {

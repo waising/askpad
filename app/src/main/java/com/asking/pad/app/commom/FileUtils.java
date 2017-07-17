@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import Decoder.BASE64Decoder;
 
@@ -355,7 +357,7 @@ public class FileUtils {
         return fileDir.getAbsolutePath() + "/" + fileName;
     }
 
-    public static String writeFile(byte[] buffer, String fileName) {
+    public static String writeFile(TreeMap<Integer, byte[]> value , String fileName) {
         String  path = "";
         File file = new File(getFileMusicPath(fileName));
         if (file.exists()) {
@@ -363,8 +365,10 @@ public class FileUtils {
         }
         FileOutputStream out = null;
         try {
-            out = new FileOutputStream(file);
-            out.write(buffer);
+            out = new FileOutputStream(file,true);
+            for (Map.Entry<Integer, byte[]> integerStringEntry : value.entrySet()) {
+                out.write(integerStringEntry.getValue());
+            }
             path = file.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
