@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by jswang on 2017/4/6.
  */
@@ -93,6 +95,11 @@ public class AppContext extends BaseApplication {
         }
         //在这里初始化
         Bugtags.start("946471e6b02485187261a14ba24c5a39", this, bugtagsEvent);
+
+
+        //jplus推送
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        JPushInterface.init(this);
     }
 
     public static File getOwnCacheDirectory(Context context, String cachePath) {

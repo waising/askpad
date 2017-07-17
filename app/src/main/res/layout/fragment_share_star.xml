@@ -218,7 +218,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/space_14"
                         android:text="150"
-                        android:textColor="#46c6ff"
+                        android:textColor="#fda995"
                         android:textSize="@dimen/space_30" />
 
                     <TextView
@@ -255,7 +255,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/space_14"
                         android:text="150"
-                        android:textColor="#46c6ff"
+                        android:textColor="#fda995"
                         android:textSize="@dimen/space_30" />
 
                     <TextView
