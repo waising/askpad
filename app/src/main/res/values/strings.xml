@@ -360,6 +360,6 @@
     <string name="alipay_pay">支付宝</string>
     <string name="unionpay_pay">银联</string>
     <string name="wechatpay_pay">微信</string>
-
+    <string name="share_star">共享之星</string>
 
 </resources>
