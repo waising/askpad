@@ -224,6 +224,11 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.communionapi(grade,subject,start,limit), "content", mListener);
     }
 
+    public void getQuestionList(String type,String query,String km,
+                                String levelId,String state,int start,int limit,ApiRequestListener mListener) {
+        baseReq(mModel.getQuestionList(type,query,km,levelId,state,start,limit), "content", mListener);
+    }
+
     public void topicmsg(String communionTopicId,String content,String imgUrl,ApiRequestListener mListener) {
         String message = "";
         if(!TextUtils.isEmpty(imgUrl)){
