@@ -129,6 +129,12 @@ public class UserModel extends BaseModel {
                 .communionapi(grade,subject,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> getQuestionList(String type,String query,String km,
+                                                    String levelId,String state,int start,int limit) {
+        return Networks.getInstance().getUserApi()
+                .getQuestionList(type,query,km,levelId,state,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> topicmsg(RequestBody body) {
         return Networks.getInstance().getUserApi().topicmsg(body).compose(RxSchedulers.<ResponseBody>io_main());
     }
