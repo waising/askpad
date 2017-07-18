@@ -502,4 +502,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.orderhistoryDel(id, role), "content", mListener);
     }
 
+
+
+
+
 }
