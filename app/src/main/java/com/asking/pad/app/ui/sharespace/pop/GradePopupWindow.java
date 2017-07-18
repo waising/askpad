@@ -40,7 +40,7 @@ public class GradePopupWindow {
         rv_grade = (RecyclerView) customView.findViewById(R.id.rv_grade);
         rv_subject = (RecyclerView) customView.findViewById(R.id.rv_subject);
 
-        gradeList.add(new LabelEntity("", "全部年纪", true));
+        gradeList.add(new LabelEntity("", "全部年级", true));
         gradeList.add(new LabelEntity("7", "七年级", false));
         gradeList.add(new LabelEntity("8", "八年级", false));
         gradeList.add(new LabelEntity("9", "九年级", false));

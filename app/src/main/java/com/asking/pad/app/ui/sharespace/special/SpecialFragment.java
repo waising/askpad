@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
@@ -17,6 +18,7 @@ import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.entity.sharespace.ShareSpecial;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.sharespace.pop.GradePopupWindow;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
@@ -44,6 +46,9 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
     @BindView(R.id.swipe_layout)
     AskSwipeRefreshLayout swipeLayout;
 
+    @BindView(R.id.tv_selectgrade)
+    TextView tv_selectgrade;
+
     ArrayList<ShareSpecial> dataList = new ArrayList<>();
     CommAdapter mAdapter;
 
@@ -67,10 +72,6 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
     @Override
     public void initView() {
         super.initView();
-
-        for(int i=0; i<10 ; i++){
-            dataList.add(new ShareSpecial());
-        }
 
         GridLayoutManager mgr = new GridLayoutManager(getActivity(), 3);
         recycler.setLayoutManager(mgr);
@@ -98,15 +99,16 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
                 loadData();
             }
         });
-//        load_view.setViewState(load_view.VIEW_STATE_LOADING);
-//        loadData();
+        load_view.setViewState(load_view.VIEW_STATE_LOADING);
+        loadData();
     }
 
     private void loadData() {
         mPresenter.communionapi(gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
-                List<ShareSpecial> list = JSON.parseArray(res, ShareSpecial.class);
+                JSONObject jsonRes = JSONObject.parseObject(res);
+                List<ShareSpecial> list = JSON.parseArray(jsonRes.getString("content"), ShareSpecial.class);
                 if (list != null && list.size() > 0) {
                     dataList.addAll(list);
                     mAdapter.notifyDataSetChanged();
@@ -136,6 +138,7 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
                     public void OnGradePopup(LabelEntity gradeEntity, LabelEntity subjectEntity) {
                         gradeId = gradeEntity.getId();
                         subjectId = subjectEntity.getId();
+                        tv_selectgrade.setText(String.format("%s - %s",gradeEntity.getName(),subjectEntity.getName()));
                         swipeLayout.autoRefresh();
                     }
                 });
@@ -184,6 +187,10 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
         @Override
         public void onBindViewHolder(final CommViewHolder holder, final int position) {
             final ShareSpecial e = dataList.get(position);
+
+            BitmapUtil.displayImage(e.getPalteImgUrl(), holder.iv_bg);
+            BitmapUtil.displayCirImage(e.getTeaAvatarUrl(), holder.iv_avatar);
+            holder.tv_name.setText(e.getTeaNickName()+"老师");
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -279,6 +279,14 @@ public class BitmapUtil {
         imageLoader.displayImage(url, item_icon, item40Options);
     }
 
+    public static void displayImage(String url, ImageView item_icon) {
+        String path = url;
+        if (!TextUtils.isEmpty(path) && !(path.contains("http") || path.contains("https"))) {
+            path = ImageDownloader.Scheme.FILE.wrap(url);
+        }
+        imageLoader.displayImage(path, item_icon, itemOptions);
+    }
+
     public static void displayImage(String url, ImageView item_icon, boolean isNet) {
         String path = url;
         if (!isNet && !TextUtils.isEmpty(path) && !(path.contains("http") || path.contains("https"))) {

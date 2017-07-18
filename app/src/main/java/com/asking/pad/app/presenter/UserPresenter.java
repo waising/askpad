@@ -224,6 +224,22 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.communionapi(grade,subject,start,limit), "content", mListener);
     }
 
+    public void topicmsg(String communionTopicId,String content,String imgUrl,ApiRequestListener mListener) {
+        String message = "";
+        if(!TextUtils.isEmpty(imgUrl)){
+            message = String.format("<img src=\"%s\">",imgUrl);
+        }
+        if(!TextUtils.isEmpty(content)){
+            message = String.format("<p>%s</p>",content);
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("communionTopicId",communionTopicId);
+        params.put("message",message);
+        String paramsStr = JSON.toJSONString(params);
+        RequestBody mBody = getRequestBody(paramsStr);
+        baseReq(mModel.topicmsg(mBody), "content", mListener);
+    }
+
     public void subjectClassic(String answerstr, String code, ApiRequestListener mListener) {
         try {
             Map<String, RequestBody> params = new HashMap<>();
