@@ -182,6 +182,8 @@ public class DownFinishFragment extends BaseEvenFrameFragment<DownPresenter, Dow
                     public void onResultSuccess(Object res) {
                         initBookData();
                         if(mListener!=null){
+                            e.setUpdate(0);
+                            e.setDownState(DownState.START);
                             mListener.OnDownFinish(e);
                         }
                     }

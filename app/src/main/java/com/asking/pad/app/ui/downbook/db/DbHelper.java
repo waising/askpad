@@ -12,7 +12,6 @@ import com.asking.pad.app.greendao.ClassMediaTableDao;
 import com.asking.pad.app.greendao.DaoMaster;
 import com.asking.pad.app.greendao.DaoSession;
 import com.asking.pad.app.greendao.StudyRecordDao;
-import com.asking.pad.app.ui.downbook.download.OkHttpDownManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,7 @@ public class DbHelper {
         for(int j= 0;j<dbList.size();j++){
             BookDownInfo dbE = dbList.get(j);
             if(!FileUtils.isFileExists(dbE.getSavePath())){
-                OkHttpDownManager.getInstance().deleteDown(dbE);
+                DbHelper.getInstance().deleteByIdBookInfo(dbE.getCommodityId());
             }
         }
         return dbList;

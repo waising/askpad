@@ -6,8 +6,10 @@ import java.util.Map;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
@@ -196,6 +198,10 @@ public interface UserApi {
     @GET("communionapi/topic/page")
     Observable<ResponseBody> communionapi(@Query("grade") String grade,@Query("subject") String subject
             ,@Query("start") int start,@Query("limit") int limit);
+
+    @Headers({"Content-Type: application/json"})
+    @GET("communionapi/topicmsg")
+    Observable<ResponseBody> topicmsg(@Body RequestBody body);
 
     @Multipart
     @POST(BuildConfig.API_OTO_RE_URL + "order/build")
