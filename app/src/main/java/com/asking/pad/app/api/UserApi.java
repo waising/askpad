@@ -656,4 +656,17 @@ public interface UserApi {
             ,@Query("levelId") String levelId
             ,@Query("state") String state
             ,@Query("start") int start,@Query("limit") int limit);
+
+
+
+    /* 共享之星排行查询*/
+    @GET("/QA/space/adopt/sort")
+    Observable<ResponseBody> ShareRank(@Query("limit") int limit);
+
+    /* 共享之星历史记录分页查询*/
+    @GET("/QA/shareStar/findByPage")
+    Observable<ResponseBody> ShareHistory(@Query("start") int start,@Query("limit") int limit);
+    /* 共享之星头像*/
+    @POST("/user/avatar/{userID}")
+    Observable<ResponseBody> userAvator(@Path("userID") String userID);
 }
