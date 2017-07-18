@@ -1,6 +1,7 @@
 package com.asking.pad.app.commom;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -659,5 +660,25 @@ public class DateUtil {
             return String.format("%02d:%02d:%02d",longHours,longMinutes,longss);
         }catch (Exception e){}
         return "";
+    }
+
+    /**
+     * 计算时间差 --分钟
+     * @param startTime
+     * @param nowTime
+     * @return
+     */
+    public static int getMinutes(String startTime,String nowTime){
+        if(TextUtils.isEmpty(startTime) || TextUtils.isEmpty(nowTime))
+            return 0;
+        int minutes = 0;
+        try {
+            long from = datetimeFormat.parse(startTime).getTime();
+            long to = datetimeFormat.parse(nowTime).getTime();
+            minutes = (int) ((to - from)/(1000 * 60));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return minutes;
     }
 }

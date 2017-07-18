@@ -362,4 +362,10 @@
     <string name="wechatpay_pay">微信</string>
     <string name="share_star">共享之星</string>
 
+
+    <!-- 问答广场 -->
+    <string name="aq_no_quest">待答问题</string>
+    <string name="aq_askmoney_quest">悬赏问题</string>
+    <string name="aq_quested">已采纳问题</string>
+
 </resources>

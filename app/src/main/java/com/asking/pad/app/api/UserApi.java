@@ -641,4 +641,19 @@ public interface UserApi {
     @POST("productapi/product/package/V1/find")
     Observable<ResponseBody> packagefind(@Query("packageId") String packageId);
 
+
+    /**
+     * 问答广场
+     * @param type  8已采纳  9 待答问题 7 悬赏问题
+     * @param
+     * @param start
+     * @param limit
+     * @return
+     */
+    @GET("QA/V1/list")
+    Observable<ResponseBody> getQuestionList(@Query("type") String type,@Query("query") String query
+            ,@Query("km") String km
+            ,@Query("levelId") String levelId
+            ,@Query("state") String state
+            ,@Query("start") int start,@Query("limit") int limit);
 }
