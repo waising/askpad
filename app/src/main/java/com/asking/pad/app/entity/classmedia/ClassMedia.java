@@ -29,6 +29,8 @@ public class ClassMedia implements Parcelable {
     private String targetUser;
     private String courseTypeFullName;
 
+    private String teacherNickName;
+
     private int playProgress;
 
     private int playMax;
@@ -56,6 +58,14 @@ public class ClassMedia implements Parcelable {
 
     public void setCourseTypeFullName(String courseTypeFullName) {
         this.courseTypeFullName = courseTypeFullName;
+    }
+
+    public String getTeacherNickName() {
+        return teacherNickName;
+    }
+
+    public void setTeacherNickName(String teacherNickName) {
+        this.teacherNickName = teacherNickName;
     }
 
     public String getTeacherImgUrl() {
@@ -296,6 +306,7 @@ public class ClassMedia implements Parcelable {
         dest.writeString(this.entryStaff);
         dest.writeString(this.targetUser);
         dest.writeString(this.courseTypeFullName);
+        dest.writeString(this.teacherNickName);
         dest.writeInt(this.playProgress);
         dest.writeInt(this.playMax);
         dest.writeInt(this.playPercentage);
@@ -323,6 +334,7 @@ public class ClassMedia implements Parcelable {
         this.entryStaff = in.readString();
         this.targetUser = in.readString();
         this.courseTypeFullName = in.readString();
+        this.teacherNickName = in.readString();
         this.playProgress = in.readInt();
         this.playMax = in.readInt();
         this.playPercentage = in.readInt();
@@ -333,7 +345,7 @@ public class ClassMedia implements Parcelable {
         this.courseDataArray = in.createTypedArrayList(CourseDataArray.CREATOR);
     }
 
-    public static final Parcelable.Creator<ClassMedia> CREATOR = new Parcelable.Creator<ClassMedia>() {
+    public static final Creator<ClassMedia> CREATOR = new Creator<ClassMedia>() {
         @Override
         public ClassMedia createFromParcel(Parcel source) {
             return new ClassMedia(source);

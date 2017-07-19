@@ -1,5 +1,6 @@
 package com.asking.pad.app.ui.sharespace.special;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.entity.sharespace.ShareSpecial;
 import com.asking.pad.app.presenter.UserModel;
@@ -171,6 +173,12 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
         @BindView(R.id.tv_likenum)
         TextView tv_likenum;
 
+        @BindView(R.id.tv_title)
+        TextView tv_title;
+
+        @BindView(R.id.tv_time)
+        TextView tv_time;
+
         public CommViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -191,11 +199,35 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
             BitmapUtil.displayImage(e.getPalteImgUrl(), holder.iv_bg);
             BitmapUtil.displayCirImage(e.getTeaAvatarUrl(), holder.iv_avatar);
             holder.tv_name.setText(e.getTeaNickName()+"老师");
+            holder.tv_gread.setText(e.getGradeName()+" - "+ e.getSubjectName());
+
+            holder.tv_visitnum.setText("游览"+e.seenCount);
+            holder.tv_commnum.setText(e.interactionCount);
+            holder.tv_likenum.setText(e.followCount);
+
+            holder.tv_title.setText(e.name);
+            holder.tv_time.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(e.startTime)
+                    , DateUtil.getHHMM(e.endTime)));
+
+            switch(e.getTimeState()){
+                case 0:
+                    holder.tv_state.setTextColor(Color.parseColor("#fd3a0d"));
+                    holder.tv_state.setText("未开始");
+                    break;
+                case 1:
+                    holder.tv_state.setTextColor(Color.parseColor("#38c1ff"));
+                    holder.tv_state.setText("进行中");
+                    break;
+                case -1:
+                    holder.tv_state.setTextColor(Color.parseColor("#aeaeae"));
+                    holder.tv_state.setText("已结束");
+                    break;
+            }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SpecialDetailActivity.openActivity("");
+                    SpecialDetailActivity.openActivity(e);
                 }
             });
         }

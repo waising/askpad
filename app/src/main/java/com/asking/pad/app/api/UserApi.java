@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -201,8 +202,30 @@ public interface UserApi {
             , @Query("start") int start, @Query("limit") int limit);
 
     @Headers({"Content-Type: application/json"})
-    @GET("communionapi/topicmsg")
+    @POST("communionapi/topicmsg")
     Observable<ResponseBody> topicmsg(@Body RequestBody body);
+
+    @GET("communionapi/topicmsg/init/{communionTopicId}")
+    Observable<ResponseBody> topicmsginit(@Path("communionTopicId") String communionTopicId);
+
+    @GET("communionapi/topicmsg/list")
+    Observable<ResponseBody> replytopicmsginit(@Query("createDate") String createDate,
+                                               @Query("communionTopicId") String communionTopicId,
+                                               @Query("userId") String userId);
+
+    /**
+     *关注某专题（点击心）
+     */
+    @PUT("communionapi/topic/follow/{communionTopicId}")
+    Observable<ResponseBody> PUTtopicfollow(@Path("communionTopicId") String communionTopicId);
+
+    /**
+     * 取消关注某专题（点击心）
+     * @param communionTopicId
+     * @return
+     */
+    @DELETE("communionapi/topic/follow/{communionTopicId}")
+    Observable<ResponseBody> DELETEtopicfollow(@Path("communionTopicId") String communionTopicId);
 
     @Multipart
     @POST(BuildConfig.API_OTO_RE_URL + "order/build")

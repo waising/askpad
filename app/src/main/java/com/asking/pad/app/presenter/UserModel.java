@@ -139,6 +139,22 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().topicmsg(body).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> topicfollow(boolean isfavor,String communionTopicId) {
+        if(isfavor){
+            return Networks.getInstance().getUserApi().PUTtopicfollow(communionTopicId).compose(RxSchedulers.<ResponseBody>io_main());
+        }else{
+            return  Networks.getInstance().getUserApi().DELETEtopicfollow(communionTopicId).compose(RxSchedulers.<ResponseBody>io_main());
+        }
+    }
+
+    public Observable<ResponseBody> topicmsginit(String communionTopicId) {
+        return Networks.getInstance().getUserApi().topicmsginit(communionTopicId).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> replytopicmsginit(String createDate,String communionTopicId,String userId) {
+        return Networks.getInstance().getUserApi().replytopicmsginit(createDate,communionTopicId,userId).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> orderbuild(Map<String, RequestBody> params) {
         return Networks.getInstance().getUserApi()
                 .orderbuild(params).compose(RxSchedulers.<ResponseBody>io_main());

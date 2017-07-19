@@ -154,6 +154,14 @@ public class DateUtil {
 
     }
 
+    public static String getYYMMDDHHMM(long time) {
+        return new SimpleDateFormat("yyyy年MM月dd日 HH:mm").format(time);
+    }
+
+    public static String getHHMM(long time) {
+        return new SimpleDateFormat("HH:mm").format(time);
+    }
+
     /**
      * 字符串转换到时间格式
      *
@@ -680,5 +688,108 @@ public class DateUtil {
             e.printStackTrace();
         }
         return minutes;
+    }
+
+    /**
+     * yyyy-MM-dd HH:mm:ss
+     */
+    private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
+
+    /**
+     * yyyy-MM-dd
+     */
+    private final static ThreadLocal<SimpleDateFormat> dateFormater2 = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
+    /**
+     * HH:mm
+     */
+    private final static ThreadLocal<SimpleDateFormat> dateFormater3 = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("HH:mm");
+        }
+    };
+
+    public static Date toDate2(String sdate) {
+        try {
+            return dateFormater2.get().parse(sdate);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 将字符串转为日期类型 yyyy-MM-dd HH:mm:ss
+     *
+     * @param sdate
+     * @return
+     */
+    public static Date toDate(String sdate) {
+        try {
+            return dateFormater.get().parse(sdate);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * 以友好的方式显示时间
+     *
+     * @param sdate
+     * @return
+     */
+    public static String friendly_time(String sdate) {
+        Date time = null;
+        time = toDate(sdate);
+        if (time == null) {
+            return "Unknown";
+        }
+        String ftime = "";
+        try {
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // 判断是否是同一天
+            String curDate = sFormat.format(cal.getTime());// 获取当前时间
+            String paramDate = sFormat.format(sFormat.parse(sdate));// 接收获取到的时间
+            if (TextUtils.equals(curDate,paramDate)) {
+                ftime = "今天  " + dateFormater3.get().format(time);
+                return ftime;
+            }
+
+            long lt = toDate2(paramDate).getTime();
+            long ct = toDate2(curDate).getTime();
+            long d = 1000 * 60 * 60 * 24;
+            long days = (ct - lt) / d;
+            if (days == 0) {
+                int hour = (int) ((cal.getTimeInMillis() - time.getTime()) / 3600000);
+                if (hour == 0)
+                    ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000, 1) + "分钟前";
+                else
+                    ftime = hour + "小时前";
+            } else if (days == 1) {
+                ftime = "昨天  " + dateFormater3.get().format(time);
+            } else if (days == 2) {
+                ftime = "前天  " + dateFormater3.get().format(time);
+            } else if (days > 2 && days <= 10) {
+                ftime = days + "天前  " + dateFormater3.get().format(time);
+            } else if (days > 10) {
+                ftime = dateFormater2.get().format(time);
+            } else if (days < 0) {
+                ftime = dateFormater2.get().format(time);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ftime;
     }
 }

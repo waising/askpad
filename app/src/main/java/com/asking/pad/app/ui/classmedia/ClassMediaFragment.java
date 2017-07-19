@@ -281,7 +281,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                         holder.tv_progress.setText("马上学习");
                     }
                 }
-                holder.tv_tea_name.setText(e.getTeacher());
+                holder.tv_tea_name.setText(e.getTeacherNickName()+"老师");
                 BitmapUtil.displayCirImage(e.getTeacherImgUrl(), holder.tea_avatar);
                 holder.tv_price.setText("￥" + e.getPrice());
                 holder.tv_price_count.setText(String.format("已有%s人购买", e.getPurchasedNum()));

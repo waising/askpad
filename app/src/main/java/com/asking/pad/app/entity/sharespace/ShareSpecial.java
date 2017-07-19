@@ -1,14 +1,36 @@
 package com.asking.pad.app.entity.sharespace;
 
+import android.text.TextUtils;
+
+import com.asking.pad.app.commom.Constants;
+
+import java.util.Date;
+
 /**
  * Created by jswang on 2017/7/17.
  */
 
 public class ShareSpecial {
 
+    public String id;
+
+    public String name;
+
+    public String contentHtml;
+
     public long endTime;
 
     public long startTime;
+
+    public int grade;
+
+    public String subject;
+
+    public String seenCount;
+    public String interactionCount;
+    public String followCount;
+
+    public boolean followed;
 
     public ShareTeacher teacher;
 
@@ -21,6 +43,15 @@ public class ShareSpecial {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public long getCreateDate(){
+        try{
+            return communionPlate.createDate;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public String getTeaAvatarUrl(){
@@ -39,6 +70,30 @@ public class ShareSpecial {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public String getGradeName(){
+        try{
+            return Constants.versionTv[grade-7];
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getSubjectName(){
+        return TextUtils.equals(subject,"M")?"数学":"物理";
+    }
+
+    public int getTimeState(){
+        long nowTime = new Date().getTime();
+        if (nowTime < startTime) {
+            return 0;
+        } else if (nowTime > endTime) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
 }

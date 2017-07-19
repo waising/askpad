@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.sharespace.ShareSpecial;
+import com.asking.pad.app.commom.DateUtil;
+import com.asking.pad.app.entity.sharespace.SpecialComment;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
 
 import java.util.ArrayList;
@@ -22,13 +24,20 @@ import butterknife.ButterKnife;
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommViewHolder> {
-    ArrayList<ShareSpecial> dataList = new ArrayList<>();
+    ArrayList<SpecialComment> dataList = new ArrayList<>();
 
     Activity mActivity;
 
-    public CommentAdapter(Activity mActivity,ArrayList<ShareSpecial> dataList){
+    public OnItemCommentListener mListener;
+
+    public interface OnItemCommentListener {
+        void OnItemComment(SpecialComment e);
+    }
+
+    public CommentAdapter(Activity mActivity, ArrayList<SpecialComment> dataList, OnItemCommentListener mListener) {
         this.mActivity = mActivity;
         this.dataList = dataList;
+        this.mListener = mListener;
     }
 
     @Override
@@ -38,14 +47,29 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommView
 
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
-        final ShareSpecial e = dataList.get(position);
+        final SpecialComment e = dataList.get(position);
 
-        //BitmapUtil.displayCirImage(e.getTeacherImgUrl(), holder.tea_avatar);
+        BitmapUtil.displayCirImage(e.getAvatarUrl(), holder.iv_avatar);
+        holder.tv_time.setText(DateUtil.friendly_time(DateUtil.getDateToString(e.createDate)));
+        holder.tv_name.setText(e.getNickName());
+        holder.content_mathview.setText(e.message);
+
+        holder.tv_reply.setText(e.answerCount > 0 ? String.format("%s  回复", e.answerCount) : "");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SpecialDetailActivity.openActivity("");
+                if (mListener != null) {
+                    mListener.OnItemComment(e);
+                }
+            }
+        });
+        holder.content_mathview.setOnAskMathClickListener(new AskMathView.OnAskMathClickListener() {
+            @Override
+            public void OnClick() {
+                if (mListener != null) {
+                    mListener.OnItemComment(e);
+                }
             }
         });
     }
@@ -64,6 +88,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommView
 
         @BindView(R.id.tv_time)
         TextView tv_time;
+
+        @BindView(R.id.tv_reply)
+        TextView tv_reply;
 
         @BindView(R.id.content_mathview)
         AskMathView content_mathview;
