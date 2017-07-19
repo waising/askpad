@@ -6,4 +6,6 @@ package com.asking.pad.app.entity.sharespace;
 
 public class CommunionPlate {
     public String palteImgUrl;
+
+    public long createDate;
 }

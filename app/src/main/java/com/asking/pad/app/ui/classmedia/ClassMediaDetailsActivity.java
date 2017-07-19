@@ -183,7 +183,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
             ll_detail.setVisibility(View.VISIBLE);
             tv_free_time.setVisibility(View.VISIBLE);
             tv_class_name.setText(mClassVideo.getCourseName());
-            tv_tea_name.setText(mClassVideo.getTeacher());
+            tv_tea_name.setText(mClassVideo.getTeacherNickName()+"老师");
             tea_avatar.setImageUrl(mClassVideo.getTeacherImgUrl());
             tv_price.setText("￥" + mClassVideo.getPrice());
             tv_price_count.setText(String.format("已有%s人购买", mClassVideo.getPurchasedNum()));

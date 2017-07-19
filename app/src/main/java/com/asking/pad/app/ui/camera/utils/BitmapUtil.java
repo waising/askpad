@@ -279,6 +279,21 @@ public class BitmapUtil {
         imageLoader.displayImage(url, item_icon, item40Options);
     }
 
+    public static void displayCirImage(String url,int resId, ImageView item_icon) {
+        DisplayImageOptions itemOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.mipmap.no_pic)
+                .showImageForEmptyUri(R.mipmap.no_pic)
+                .showImageOnFail(R.mipmap.no_pic)
+                .resetViewBeforeLoading(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Config.RGB_565)
+                .considerExifParams(true)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .displayer(new RoundedBitmapDisplayer(AppContext.getImagesPixels(resId))).build();
+        imageLoader.displayImage(url, item_icon, itemOptions);
+    }
+
     public static void displayImage(String url, ImageView item_icon) {
         String path = url;
         if (!TextUtils.isEmpty(path) && !(path.contains("http") || path.contains("https"))) {

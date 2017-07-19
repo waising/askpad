@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_weight="1"
-                android:text="数学-七年级"
+                android:text="丸子老师"
                 android:textColor="@color/colorText_88"
                 android:textSize="@dimen/textSize_14"/>
 
@@ -41,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="开始"
                 android:textColor="@color/red"
                 android:textSize="@dimen/textSize_14"/>
 
@@ -55,13 +54,57 @@
             android:layout_marginTop="@dimen/space_10"
             android:orientation="vertical">
 
-            <com.asking.pad.app.widget.FoursquareImgeView
-                android:id="@+id/iv_bg"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_10"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_already_evaluated"/>
+                android:layout_height="wrap_content">
+
+                <com.asking.pad.app.widget.FoursquareImgeView
+                    android:id="@+id/iv_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_already_evaluated"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_10">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:shadowColor="@color/white"
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1"
+                        android:text="初中数学暑假学习攻略"
+                        android:textColor="#FDA600"
+                        android:textSize="@dimen/textSize_20"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_20"
+                        android:text="初中数学暑假学习攻略"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_20"
+                        android:text="初中数学暑假学习攻略"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize_12"/>
+
+                </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_gread"

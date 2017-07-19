@@ -1,27 +1,25 @@
 package com.asking.pad.app.ui.sharespace.special;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseEvenAppCompatActivity;
-import com.asking.pad.app.commom.AppEventType;
+import com.asking.pad.app.base.BaseFrameActivity;
 import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DateUtil;
+import com.asking.pad.app.commom.ParamHelper;
 import com.asking.pad.app.entity.sharespace.ShareSpecial;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
-import com.asking.pad.app.ui.camera.ui.CameraActivity;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
+import com.asking.pad.app.widget.AskMathView;
+import com.asking.pad.app.widget.MultiStateView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,22 +29,42 @@ import butterknife.OnClick;
  * Created by jswang on 2017/7/17.
  */
 
-public class SpecialDetailActivity extends BaseEvenAppCompatActivity<UserPresenter, UserModel> {
-    @BindView(R.id.edt_note_content)
-    EditText edt_note_content;//新增笔记按钮
+public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, UserModel> {
+    @BindView(R.id.iv_favor)
+    ImageView iv_favor;
 
-    @BindView(R.id.recycler)
-    RecyclerView recycler;
+    @BindView(R.id.iv_avatar)
+    ImageView iv_avatar;
 
-    ArrayList<ShareSpecial> dataList = new ArrayList<>();
-    CommentAdapter mAdapter;
+    @BindView(R.id.tv_teaname)
+    TextView tv_teaname;
+
+    @BindView(R.id.tv_subtime)
+    TextView tv_subtime;
+
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
+    @BindView(R.id.tv_statetime)
+    TextView tv_statetime;
+
+    @BindView(R.id.load_View)
+    MultiStateView load_View;
+
+    @BindView(R.id.content_mathview)
+    AskMathView content_mathview;
+
+    @BindView(R.id.tv_visitnum)
+    TextView tv_visitnum;
 
     private MaterialDialog mLoadDialog;
 
-    public static void openActivity(String courseTypeId){
-        Bundle bundle = new Bundle();
-        bundle.putString("courseTypeId", courseTypeId);
-        CommonUtil.openActivity(SpecialDetailActivity.class,bundle);
+    ShareSpecial mShareSpecial;
+
+    public static void openActivity(ShareSpecial e){
+        HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(SpecialDetailActivity.class.getName());
+        mParams.put("ShareSpecial", e);
+        CommonUtil.openActivity(SpecialDetailActivity.class);
     }
 
     @Override
@@ -54,6 +72,9 @@ public class SpecialDetailActivity extends BaseEvenAppCompatActivity<UserPresent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specical_detail);
         ButterKnife.bind(this);
+
+        HashMap<String, Object> mParams = ParamHelper.acceptParams(SpecialDetailActivity.class.getName());
+        mShareSpecial = (ShareSpecial)mParams.get("ShareSpecial");
     }
 
     @Override
@@ -61,75 +82,33 @@ public class SpecialDetailActivity extends BaseEvenAppCompatActivity<UserPresent
         super.initView();
         mLoadDialog = getLoadingDialog().build();
 
-        for(int i =0;i<10;i++){
-            dataList.add(new ShareSpecial());
-        }
+        content_mathview.formatMath().showWebImage(load_View);
+        content_mathview.setText(mShareSpecial.contentHtml);
 
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new CommentAdapter(this,dataList);
-        recycler.setAdapter(mAdapter);
+        tv_teaname.setText(mShareSpecial.getTeaNickName()+"老师");
+        tv_subtime.setText(DateUtil.getYYMMDDHHMM(mShareSpecial.getCreateDate()));
+        tv_title.setText(mShareSpecial.name);
+        tv_statetime.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(mShareSpecial.startTime)
+                , DateUtil.getHHMM(mShareSpecial.endTime)));
+        tv_visitnum.setText(mShareSpecial.seenCount);
+        BitmapUtil.displayCirImage(mShareSpecial.getTeaAvatarUrl(),R.dimen.space_80, iv_avatar);
+
+        iv_favor.setSelected(mShareSpecial.followed);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment,SpecialCommentFragment.newInstance(mShareSpecial.id)).commit();
     }
 
-    public void onEventMainThread(AppEventType event) {
-        switch (event.type) {
-            case AppEventType.NOTE_CAMERA_REQUEST:
-                loadImage((String)event.values[0]);
-                break;
-        }
-    }
-
-    /**
-     * 加载拍照后图片存储路径
-     *
-     * @param ivPhotoView
-     * @param ivTakePhoto
-     */
-    String qiNiuImgName;
-    public void loadImage(String filePath) {
-        mLoadDialog.show();
-        qiNiuImgName = DateUtil.currentDateMilltime().replace(":", "-").replace(" ", "_") + "note.jpg";
-        mPresenter.qiNiuUploadFile(filePath, qiNiuImgName, new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String res) {
-                String qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
-                submit("5965d99d5905eec328694d0d","",qiNiuUrl);
-            }
-
-            @Override
-            public void onResultFail() {
-                mLoadDialog.dismiss();
-            }
-        });
-    }
-
-    private void submit(String communionTopicId,String content,String imgUrl){
-        mPresenter.topicmsg(communionTopicId,content,imgUrl,new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String res) {
-                mLoadDialog.dismiss();
-            }
-
-            @Override
-            public void onResultFail() {
-                mLoadDialog.dismiss();
-            }
-        });
-    }
-
-    @OnClick({R.id.iv_photo_view,R.id.btn_submit})
+    @OnClick({R.id.iv_favor})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_photo_view:
-                CameraActivity.openActivity(SpecialDetailActivity.this, AppEventType.NOTE_CAMERA_REQUEST, CameraActivity.FROM_NOTE);
-                break;
-            case R.id.btn_submit:
-                String content = edt_note_content.getText().toString();
-                if(!TextUtils.isEmpty(content)){
-                    Toast.makeText(SpecialDetailActivity.this,"评价不能为空！",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mLoadDialog.show();
-                submit("5965d99d5905eec328694d0d",content,"");
+            case R.id.iv_favor:
+                mPresenter.topicfollow(!iv_favor.isSelected(),mShareSpecial.id,new ApiRequestListener<String>() {
+                    @Override
+                    public void onResultSuccess(String res) {
+                        iv_favor.setSelected(!iv_favor.isSelected());
+                    }
+                });
                 break;
         }
     }

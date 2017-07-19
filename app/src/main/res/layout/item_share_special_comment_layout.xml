@@ -49,6 +49,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2 回复"
+            android:textColor="@color/colorText_88"
+            android:textSize="@dimen/textSize_14"/>
     </LinearLayout>
 
     <include layout="@layout/layout_line"/>

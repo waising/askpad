@@ -242,7 +242,19 @@ public class UserPresenter extends BasePresenter<UserModel> {
         params.put("message",message);
         String paramsStr = JSON.toJSONString(params);
         RequestBody mBody = getRequestBody(paramsStr);
-        baseReq(mModel.topicmsg(mBody), "content", mListener);
+        baseReqStr(mModel.topicmsg(mBody), mListener);
+    }
+
+    public void topicfollow(boolean isfavor,String communionTopicId,ApiRequestListener mListener) {
+        baseReqStr(mModel.topicfollow(isfavor,communionTopicId), mListener);
+    }
+
+    public void topicmsginit(String communionTopicId,ApiRequestListener mListener) {
+        baseReqStr(mModel.topicmsginit(communionTopicId), mListener);
+    }
+
+    public void replytopicmsginit(String createDate,String communionTopicId,String userId,ApiRequestListener mListener) {
+        baseReq(mModel.replytopicmsginit(createDate,communionTopicId,userId), "content",mListener);
     }
 
     public void subjectClassic(String answerstr, String code, ApiRequestListener mListener) {
