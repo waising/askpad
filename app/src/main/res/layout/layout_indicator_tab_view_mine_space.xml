@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/space_40"
+    android:paddingRight="@dimen/space_40"
+    android:paddingTop="@dimen/space_50">
+
+
+    <TextView
+        android:id="@+id/tab_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_select_ask"
+        android:gravity="center"
+        android:paddingBottom="@dimen/space_15"
+        android:paddingLeft="@dimen/space_15"
+        android:paddingRight="@dimen/space_15"
+        android:text="sss"
+        android:textColor="@drawable/textcolor_oto_end_cbx"
+        android:textSize="@dimen/textSize_20" />
+</LinearLayout>

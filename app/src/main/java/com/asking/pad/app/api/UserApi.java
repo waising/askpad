@@ -64,11 +64,10 @@ public interface UserApi {
      * @param mobile
      * @return
      */
-    @POST(BuildConfig.API_SSO_URL +"modify/requestMessage/mobile")
+    @POST(BuildConfig.API_SSO_URL + "modify/requestMessage/mobile")
     Observable<ResponseBody> getResetPassYZM(@Query("mobile") String mobile);
 
     /**
-     *
      * @return
      */
     @POST("productapi/product/courseType/findTreeListWithAllCourse")
@@ -83,7 +82,9 @@ public interface UserApi {
     @POST("user/checkUserInfo")
     Observable<ResponseBody> checkUserInfo();
 
-    /**获取章节目录*/
+    /**
+     * 获取章节目录
+     */
     @GET("courseapi/synclesson/{commodityId}")
     Observable<ResponseBody> synclesson(@Path("commodityId") String commodityId);
 
@@ -196,8 +197,8 @@ public interface UserApi {
     Observable<ResponseBody> studentinfo(@Query("userName") String userName);
 
     @GET("communionapi/topic/page")
-    Observable<ResponseBody> communionapi(@Query("grade") String grade,@Query("subject") String subject
-            ,@Query("start") int start,@Query("limit") int limit);
+    Observable<ResponseBody> communionapi(@Query("grade") String grade, @Query("subject") String subject
+            , @Query("start") int start, @Query("limit") int limit);
 
     @Headers({"Content-Type: application/json"})
     @GET("communionapi/topicmsg")
@@ -245,7 +246,7 @@ public interface UserApi {
 
 
     @GET("user/integralLog")
-    Observable<ResponseBody> integralLog(@Query("start") int start,@Query("limit") int limit);
+    Observable<ResponseBody> integralLog(@Query("start") int start, @Query("limit") int limit);
 
     /**
      * 5.学生正常结算接口
@@ -298,6 +299,7 @@ public interface UserApi {
 
     /**
      * 我的课程（分页查询）
+     *
      * @param start
      * @param limit
      * @return
@@ -307,6 +309,7 @@ public interface UserApi {
 
     /**
      * 我的课程（提交进度）
+     *
      * @param commodityId
      * @param schedulePercent
      * @param scheduleTitle
@@ -357,10 +360,11 @@ public interface UserApi {
                                         @Query("birthdayStr") String birthday, @Query("region_name") String regionName,
                                         @Query("region_code") String regionCode, @Query("school_name") String schoolName,
                                         @Query("remark") String remark, @Query("area") String area,
-                                        @Query("levelId") String levelId, @Query("classId") String classId,@Query("avatar") String avatar);
+                                        @Query("levelId") String levelId, @Query("classId") String classId, @Query("avatar") String avatar);
 
     /**
      * 套餐类型（根据id查询类型列表）
+     *
      * @param packageTypeId
      * @return
      */
@@ -383,8 +387,8 @@ public interface UserApi {
      * @return
      */
     @POST("productapi/product/askCurrency/findByPage")
-    Observable<ResponseBody> getRechargeList( @Query("start") int start,
-                                              @Query("limit") int limit);
+    Observable<ResponseBody> getRechargeList(@Query("start") int start,
+                                             @Query("limit") int limit);
 
     /**
      * 获取充值提交数据
@@ -461,8 +465,8 @@ public interface UserApi {
      * @return
      */
     @GET("firstreview/suitcy/{pid}")
-    Observable<ResponseBody> suitcy(@Path("pid") String pid,@Query("difficulty") String difficulty,@Query("xuanzt") String xuanzt
-            ,@Query("tiankt") String tiankt,@Query("jiedt") String jiedt);
+    Observable<ResponseBody> suitcy(@Path("pid") String pid, @Query("difficulty") String difficulty, @Query("xuanzt") String xuanzt
+            , @Query("tiankt") String tiankt, @Query("jiedt") String jiedt);
 
     /**
      * 拓展应用
@@ -470,8 +474,8 @@ public interface UserApi {
      * @return
      */
     @GET("secondreview/tuozyy")
-    Observable<ResponseBody> tuozyy(@Query("pid") String pid,@Query("difficulty") String difficulty,@Query("xuanzt") String xuanzt
-            ,@Query("tiankt") String tiankt,@Query("jiedt") String jiedt);
+    Observable<ResponseBody> tuozyy(@Query("pid") String pid, @Query("difficulty") String difficulty, @Query("xuanzt") String xuanzt
+            , @Query("tiankt") String tiankt, @Query("jiedt") String jiedt);
 
     /**
      * 签到
@@ -559,7 +563,7 @@ public interface UserApi {
      * 保存笔记请求
      */
     @POST("space/noteBook/save")
-    Observable<ResponseBody> saveNode(@Query("title") String title,@Query("content") String content,@Query("imgurl") String imgurl);
+    Observable<ResponseBody> saveNode(@Query("title") String title, @Query("content") String content, @Query("imgurl") String imgurl);
 
     /* 修改笔记 */
     @POST("space/noteBook/save/")
@@ -574,7 +578,7 @@ public interface UserApi {
 
     @POST("productapi/product/courseManage/finListdWithDownloadUrl")
     Observable<ResponseBody> finListdWithDownloadUrl(@Query("courseTypeId") String courseTypeId,
-                                             @Query("start") int start,@Query("limit") int limit);
+                                                     @Query("start") int start, @Query("limit") int limit);
 
 
     /* 删除我的购买记录 */
@@ -632,11 +636,11 @@ public interface UserApi {
 
 
     @POST("productapi/product/courseManage/V1/findListByPage")
-    Observable<ResponseBody> findListByPage(@Query("courseTypeId") String courseTypeId,@Query("start") int start, @Query("limit") int limit);
+    Observable<ResponseBody> findListByPage(@Query("courseTypeId") String courseTypeId, @Query("start") int start, @Query("limit") int limit);
 
     @POST("paymentNewapi/payment/charge/get")
     Observable<ResponseBody> paymentcharge(@Query("orderType") String orderType, @Query("payType") String payType
-            , @Query("commodityId") String commodityId,@Query("finalPrice") String finalPrice,@Query("deviceType") String deviceType);
+            , @Query("commodityId") String commodityId, @Query("finalPrice") String finalPrice, @Query("deviceType") String deviceType);
 
     @POST("productapi/product/package/V1/find")
     Observable<ResponseBody> packagefind(@Query("packageId") String packageId);
@@ -644,6 +648,7 @@ public interface UserApi {
 
     /**
      * 问答广场
+     *
      * @param type  8已采纳  9 待答问题 7 悬赏问题
      * @param
      * @param start
@@ -651,12 +656,11 @@ public interface UserApi {
      * @return
      */
     @GET("QA/V1/list")
-    Observable<ResponseBody> getQuestionList(@Query("type") String type,@Query("query") String query
-            ,@Query("km") String km
-            ,@Query("levelId") String levelId
-            ,@Query("state") String state
-            ,@Query("start") int start,@Query("limit") int limit);
-
+    Observable<ResponseBody> getQuestionList(@Query("type") String type, @Query("query") String query
+            , @Query("km") String km
+            , @Query("levelId") String levelId
+            , @Query("state") String state
+            , @Query("start") int start, @Query("limit") int limit);
 
 
     /* 共享之星排行查询*/
@@ -665,8 +669,36 @@ public interface UserApi {
 
     /* 共享之星历史记录分页查询*/
     @GET("/QA/shareStar/findByPage")
-    Observable<ResponseBody> ShareHistory(@Query("start") int start,@Query("limit") int limit);
+    Observable<ResponseBody> ShareHistory(@Query("start") int start, @Query("limit") int limit);
+
     /* 共享之星头像*/
     @POST("/user/avatar/{userID}")
     Observable<ResponseBody> userAvator(@Path("userID") String userID);
+
+
+    /* 关注列表查询*/
+    @GET("/otoapi/student/favor")
+    Observable<ResponseBody> AttentionList(@Query("start") int start, @Query("limit") int limit, @Query("userName") String userName);
+
+
+    /**
+     * 关注老师
+     *
+     * @param userName
+     * @return
+     */
+    @POST("/otoapi/student/favor")
+    Observable<ResponseBody> Attention(@Query("userName") String userName, @Query("account") String account);
+
+
+    /**
+     * 取消关注老师
+     *
+     * @param userName
+     * @return
+     */
+    @POST("/otoapi/student/unfavor")
+    Observable<ResponseBody> cancelAttention(@Query("userName") String userName, @Query("account") String account);
+
+
 }

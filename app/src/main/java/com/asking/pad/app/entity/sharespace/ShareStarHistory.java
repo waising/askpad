@@ -26,9 +26,12 @@ public class ShareStarHistory {
     private long createTime;
     private int sort;
     private int weekOfYear;
-    private int adoptNum;
-    private int answerNum;
+    private long adoptNum;
+    private long answerNum;
     private int year;
+
+
+
 
     public String getId() {
         return id;
@@ -86,19 +89,19 @@ public class ShareStarHistory {
         this.weekOfYear = weekOfYear;
     }
 
-    public int getAdoptNum() {
+    public long getAdoptNum() {
         return adoptNum;
     }
 
-    public void setAdoptNum(int adoptNum) {
+    public void setAdoptNum(long adoptNum) {
         this.adoptNum = adoptNum;
     }
 
-    public int getAnswerNum() {
+    public long getAnswerNum() {
         return answerNum;
     }
 
-    public void setAnswerNum(int answerNum) {
+    public void setAnswerNum(long answerNum) {
         this.answerNum = answerNum;
     }
 
