@@ -1,16 +1,19 @@
 package com.asking.pad.app.ui.sharespace;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.entity.sharespace.ShareStarHistory;
+import com.asking.pad.app.entity.sharespace.ShareStarRank;
 import com.asking.pad.app.presenter.ShareModel;
 import com.asking.pad.app.presenter.SharePresenter;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
@@ -52,12 +55,39 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_share_star);
         ButterKnife.bind(this, getContentView());
-        requestHistory();
+    }
 
-//        GridLayoutManager mgr = new GridLayoutManager(getActivity(), 4);
-//        recyclerView.setLayoutManager(mgr);
-//        shareStarGridAdapter = new ShareStarGridAdapter(getActivity(), initList());
-//        recyclerView.setAdapter(shareStarGridAdapter);
+
+    @Override
+    public void initLoad() {
+        super.initLoad();
+        requestHistory();
+    }
+
+    /**
+     * 请求排名，显示前八名
+     */
+    private void requestRank() {
+        mPresenter.presenterShareRank(8, new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String resStr) {//数据返回成功
+                if (!TextUtils.isEmpty(resStr)) {
+                    List<ShareStarRank> entity = JSON.parseArray(resStr, ShareStarRank.class);
+                    if (entity != null && entity.size() > 0) {
+                        GridLayoutManager mgr = new GridLayoutManager(getActivity(), 4);
+                        recyclerView.setLayoutManager(mgr);
+                        shareStarGridAdapter = new ShareStarGridAdapter(getActivity(), entity);
+                        recyclerView.setAdapter(shareStarGridAdapter);
+
+                    } else {
+
+                    }
+
+                }
+
+            }
+
+        });
     }
 
     /**
@@ -69,13 +99,16 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 if (!TextUtils.isEmpty(resStr)) {
-                    List<ShareStarHistory> entity = JSON.parseArray(resStr, ShareStarHistory.class);
+                    JSONObject resobj = JSON.parseObject(resStr);
+                    String resList = resobj.getString("list");
+                    List<ShareStarHistory> entity = JSON.parseArray(resList, ShareStarHistory.class);
                     if (entity != null && entity.size() > 0) {
-                      //  ad_avatar.setImageUrl(entity.get(0).);
+                        //  ad_avatar.setImageUrl(entity.get(0).);
                         tvName.setText(entity.get(0).getNickName());
-                        tvAnswerNum.setText(entity.get(0).getAnswerNum());
-                        tvAcceptNum.setText(entity.get(0).getAdoptNum());
-                        requestUserAvator(entity.get(0).getUserId());
+                        tvAnswerNum.setText(entity.get(0).getAnswerNum()+"");
+                        tvAcceptNum.setText(entity.get(0).getAdoptNum()+"");
+                        //   requestUserAvator(entity.get(0).getUserId());
+                        requestRank();
                     } else {
 
                     }

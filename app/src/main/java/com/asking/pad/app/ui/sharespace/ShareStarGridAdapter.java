@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
-import com.asking.pad.app.entity.CandidateEntity;
+import com.asking.pad.app.entity.sharespace.ShareStarRank;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static com.asking.pad.app.R.id.iv_rank;
 
@@ -20,13 +20,12 @@ import static com.asking.pad.app.R.id.iv_rank;
 public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdapter.ViewHolder> {
 
 
-    private ArrayList<CandidateEntity> mList;
-
+    private List<ShareStarRank> mList;
 
 
     private Context mContext;
 
-    public ShareStarGridAdapter(Context context, ArrayList<CandidateEntity> list) {
+    public ShareStarGridAdapter(Context context, List<ShareStarRank> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -44,8 +43,10 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
 
 
         AskSimpleDraweeView draweeViewRankAvator;
-
-        TextView tvRankName;
+        /**
+         * 昵称
+         */
+        TextView tvNickName;
         /**
          * 被采纳数
          */
@@ -57,18 +58,17 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
             ivRank = (ImageView) itemView.findViewById(iv_rank);
             tvRankNum = (TextView) itemView.findViewById(R.id.tv_rank_num);
             draweeViewRankAvator = (AskSimpleDraweeView) itemView.findViewById(R.id.rank_avatar);
-            tvRankName = (TextView) itemView.findViewById(R.id.tv_rank_name);
+            tvNickName = (TextView) itemView.findViewById(R.id.tv_nick_name);
             tvAcceptNum = (TextView) itemView.findViewById(R.id.tv_accept_num);
 
         }
     }
 
 
-
     @Override
     public void onBindViewHolder(ShareStarGridAdapter.ViewHolder holder, final int position) {
-        CandidateEntity candidateEntity = mList.get(position);
-        if (candidateEntity != null) {
+        ShareStarRank shareStarRank = mList.get(position);
+        if (shareStarRank != null) {
             if (position == 0) {//第一名
                 holder.ivRank.setImageResource(R.mipmap.ic_share_num_1);
                 holder.tvRankNum.setVisibility(View.GONE);
@@ -81,13 +81,11 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
             } else {
                 holder.ivRank.setImageResource(R.mipmap.ic_share_nums);
                 holder.tvRankNum.setVisibility(View.VISIBLE);
-                holder.tvRankNum.setText(position);
+                holder.tvRankNum.setText(position+1);
             }
-            holder.tvAcceptNum.setText(candidateEntity.getAcceptNum());
-            holder.tvRankName.setText(candidateEntity.getRankName());
-
+            holder.tvAcceptNum.setText(mContext.getString(R.string.accept_num, shareStarRank.getAdoptNum() + ""));
+            holder.tvNickName.setText(shareStarRank.getNickName());
         }
-
 
     }
 
