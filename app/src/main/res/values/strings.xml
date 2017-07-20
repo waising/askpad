@@ -372,11 +372,12 @@
     <string name="accept_num">被采纳数%1$s</string>
 
 
-
     <string name="my_question">我的提问</string>
     <string name="my_answer">我的回答</string>
     <string name="my_attention">我的关注</string>
     <string name="my_subject">我的专题</string>
 
     <string name="subject_num">%1$s篇</string>
+
+    <string name="fans_num">粉丝数：%1$s</string>
 </resources>

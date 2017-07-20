@@ -427,6 +427,20 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi()
                 .orderhistoryDel(id, role).compose(RxSchedulers.<ResponseBody>io_main());
     }
+    /**
+     * 关注教师
+     */
+    public Observable<ResponseBody> modelAttention(String userName, String account) {
+        return Networks.getInstance().getUserApi()
+                .Attention(userName, account).compose(RxSchedulers.<ResponseBody>io_main());
+    }
 
+    /**
+     * 取消关注教师
+     */
+    public Observable<ResponseBody> modelCancelAttention(String userName, String account) {
+        return Networks.getInstance().getUserApi()
+                .cancelAttention(userName, account).compose(RxSchedulers.<ResponseBody>io_main());
+    }
 
 }

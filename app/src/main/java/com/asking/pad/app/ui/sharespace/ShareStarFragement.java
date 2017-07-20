@@ -104,9 +104,16 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
                     List<ShareStarHistory> entity = JSON.parseArray(resList, ShareStarHistory.class);
                     if (entity != null && entity.size() > 0) {
                         //  ad_avatar.setImageUrl(entity.get(0).);
-                        tvName.setText(entity.get(0).getNickName());
-                        tvAnswerNum.setText(entity.get(0).getAnswerNum()+"");
-                        tvAcceptNum.setText(entity.get(0).getAdoptNum()+"");
+                        ShareStarHistory shareStarHistory = entity.get(0);
+                        if (shareStarHistory != null) {
+                            if (!TextUtils.isEmpty(shareStarHistory.getNickName())) {//昵称为空，显示手机号
+                                tvName.setText(shareStarHistory.getNickName());
+                            } else {
+                                tvName.setText(shareStarHistory.getMobile());
+                            }
+                            tvAnswerNum.setText(shareStarHistory.getAnswerNum() + "");
+                            tvAcceptNum.setText(shareStarHistory.getAdoptNum() + "");
+                        }
                         //   requestUserAvator(entity.get(0).getUserId());
                         requestRank();
                     } else {
@@ -121,7 +128,6 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     }
 
     private void requestUserAvator(String userId) {
-
 
         mPresenter.presenterUserAvator(userId, new ApiRequestListener<String>() {
             @Override
@@ -162,4 +168,10 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+
+    }
 }

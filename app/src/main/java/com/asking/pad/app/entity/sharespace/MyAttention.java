@@ -20,6 +20,16 @@ public class MyAttention {
     private long createDate;
     private int topicCount;
 
+    private int favorCount;
+
+    public int getFavorCount() {
+        return favorCount;
+    }
+
+    public void setFavorCount(int favorCount) {
+        this.favorCount = favorCount;
+    }
+
     public int getTopicCount() {
         return topicCount;
     }
