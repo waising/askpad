@@ -89,31 +89,37 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
             @Override
             public void onLoadMoreBegin(PtrFrameLayout ptrFrameLayout) {//加载更多
                 start += limit;
-                loadData(teacherId,gradeId,subjectId);
+                loadData();
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {//下拉刷新
                 start = 0;
                 dataList.clear();
-                swipeLayout.setMode(PtrFrameLayout.Mode.BOTH);
-                loadData(teacherId,gradeId,subjectId);
+                loadData();
             }
         });
         load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData(teacherId,gradeId,subjectId);
+                loadData();
             }
         });
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
-        loadData(teacherId,gradeId,subjectId);
+        loadData();
     }
 
-    public void loadData(String teacherId,String gradeId,String subjectId) {
+    public void reLoadData(String teacherId,String gradeId,String subjectId) {
         this.teacherId = teacherId;
         this.gradeId = gradeId;
         this.subjectId = subjectId;
+        load_view.setViewState(load_view.VIEW_STATE_LOADING);
+        start = 0;
+        dataList.clear();
+        loadData();
+    }
+
+    public void loadData() {
         mPresenter.communionapi(teacherId,gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
