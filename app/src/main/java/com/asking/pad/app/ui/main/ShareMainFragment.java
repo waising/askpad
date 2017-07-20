@@ -25,14 +25,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.asking.pad.app.R.id.toolBar;
-
 /**
  * Created by jswang on 2017/4/10.
  */
 
 public class ShareMainFragment extends BaseFragment {
-    @BindView(toolBar)
+    @BindView(R.id.toolBar)
     Toolbar mToolbar;
 
     @BindView(R.id.rv_version)

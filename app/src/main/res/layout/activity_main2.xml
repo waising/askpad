@@ -14,6 +14,11 @@
         android:background="@color/colorTest_f8"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_50"
+            android:background="@color/login_gomain"/>
+
         <LinearLayout
             android:id="@+id/ll_user_info"
             style="@style/tab_main"
@@ -67,10 +72,21 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="0.3dp"
+    <LinearLayout
+        android:layout_width="@dimen/space_0.3"
         android:layout_height="match_parent"
-        android:background="@color/online_item_line"/>
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_50"
+            android:background="@color/login_gomain"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/online_item_line"/>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragment"

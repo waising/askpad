@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
@@ -30,8 +29,8 @@ import butterknife.OnClick;
  */
 
 public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, UserModel> {
-    @BindView(R.id.iv_favor)
-    ImageView iv_favor;
+    @BindView(R.id.tv_favor_num)
+    TextView tv_favor_num;
 
     @BindView(R.id.iv_avatar)
     ImageView iv_avatar;
@@ -57,8 +56,6 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
     @BindView(R.id.tv_visitnum)
     TextView tv_visitnum;
 
-    private MaterialDialog mLoadDialog;
-
     ShareSpecial mShareSpecial;
 
     public static void openActivity(ShareSpecial e){
@@ -80,8 +77,6 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
     @Override
     public void initView() {
         super.initView();
-        mLoadDialog = getLoadingDialog().build();
-
         content_mathview.formatMath().showWebImage(load_View);
         content_mathview.setText(mShareSpecial.contentHtml);
 
@@ -90,23 +85,32 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
         tv_title.setText(mShareSpecial.name);
         tv_statetime.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(mShareSpecial.startTime)
                 , DateUtil.getHHMM(mShareSpecial.endTime)));
-        tv_visitnum.setText(mShareSpecial.seenCount);
+        tv_visitnum.setText("游览"+mShareSpecial.seenCount);
         BitmapUtil.displayCirImage(mShareSpecial.getTeaAvatarUrl(),R.dimen.space_80, iv_avatar);
 
-        iv_favor.setSelected(mShareSpecial.followed);
-
+        tv_favor_num.setSelected(mShareSpecial.followed);
+        tv_favor_num.setText(mShareSpecial.followCount+"");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment,SpecialCommentFragment.newInstance(mShareSpecial.id)).commit();
     }
 
-    @OnClick({R.id.iv_favor})
+    @OnClick({R.id.tv_favor_num})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_favor:
-                mPresenter.topicfollow(!iv_favor.isSelected(),mShareSpecial.id,new ApiRequestListener<String>() {
+            case R.id.tv_favor_num:
+                mPresenter.topicfollow(!tv_favor_num.isSelected(),mShareSpecial.id,new ApiRequestListener<String>() {
                     @Override
                     public void onResultSuccess(String res) {
-                        iv_favor.setSelected(!iv_favor.isSelected());
+                        tv_favor_num.setSelected(!tv_favor_num.isSelected());
+                        try{
+                            if(tv_favor_num.isSelected()){
+                                tv_favor_num.setText((Integer.valueOf(mShareSpecial.followCount)+1)+"");
+                            }else{
+                                tv_favor_num.setText((Integer.valueOf(mShareSpecial.followCount)-1)+"");
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 break;
