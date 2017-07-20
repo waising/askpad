@@ -724,4 +724,7 @@ public interface UserApi {
     Observable<ResponseBody> cancelAttention(@Query("userName") String userName, @Query("account") String account);
 
 
+
+    @POST("/QA/app/{id}")
+    Observable<ResponseBody> getQuestionDetail(@Path("id") String id);
 }

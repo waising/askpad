@@ -135,6 +135,11 @@ public class UserModel extends BaseModel {
                 .getQuestionList(type,query,km,levelId,state,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> getQuestionDetail(String id) {
+        return Networks.getInstance().getUserApi()
+                .getQuestionDetail(id).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> topicmsg(RequestBody body) {
         return Networks.getInstance().getUserApi().topicmsg(body).compose(RxSchedulers.<ResponseBody>io_main());
     }

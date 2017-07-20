@@ -1,28 +1,22 @@
 package com.asking.pad.app.ui.sharespace;
 
 import android.content.Context;
-import android.nfc.cardemulation.HostApduService;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
+import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
-import com.asking.pad.app.widget.MultiStateView;
-import com.asking.pad.app.widget.StarView;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -104,6 +98,10 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 holder.askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
             }
 
+            //已采纳
+            if(questionEntity.getState()=="2"){
+                holder.questionsure.setVisibility(View.VISIBLE);
+            }
 //            holder.mathView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -142,6 +140,9 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
         @BindView(R.id.ask_ic)
         ImageView askIc;
+
+        @BindView(R.id.question_sure)
+        ImageView questionsure;
 //        @BindView(R.id.question_img_iv)
 //        ImageView questionImgIv;
 
@@ -167,6 +168,10 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 case R.id.question_title_tv:
                 case R.id.question_ll:
 
+                    QuestionEntity q = questionEntities.get(getAdapterPosition());
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("questionEntity",q);
+                    CommonUtil.openActivity(QuestionAnwserActivity.class,bundle);
                     //跳转
                     break;
 
