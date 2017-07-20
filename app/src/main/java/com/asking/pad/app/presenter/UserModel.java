@@ -124,9 +124,9 @@ public class UserModel extends BaseModel {
                 .studentinfo(userName).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> communionapi(String grade,String subject,int start,int limit) {
+    public Observable<ResponseBody> communionapi(String teacherId,String grade,String subject,int start,int limit) {
         return Networks.getInstance().getUserApi()
-                .communionapi(grade,subject,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
+                .communionapi(teacherId,grade,subject,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getQuestionList(String type,String query,String km,

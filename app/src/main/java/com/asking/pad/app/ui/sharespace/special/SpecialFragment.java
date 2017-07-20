@@ -106,7 +106,7 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
     }
 
     private void loadData() {
-        mPresenter.communionapi(gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
+        mPresenter.communionapi("",gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 JSONObject jsonRes = JSONObject.parseObject(res);

@@ -28,6 +28,5 @@ public class OtoMainFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
-
     }
 }
