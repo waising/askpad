@@ -104,9 +104,11 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
                         tv_favor_num.setSelected(!tv_favor_num.isSelected());
                         try{
                             if(tv_favor_num.isSelected()){
-                                tv_favor_num.setText((Integer.valueOf(mShareSpecial.followCount)+1)+"");
+                                mShareSpecial.followCount = (Integer.valueOf(mShareSpecial.followCount)+1)+"";
+                                tv_favor_num.setText(mShareSpecial.followCount);
                             }else{
-                                tv_favor_num.setText((Integer.valueOf(mShareSpecial.followCount)-1)+"");
+                                mShareSpecial.followCount = (Integer.valueOf(mShareSpecial.followCount)-1)+"";
+                                tv_favor_num.setText(mShareSpecial.followCount);
                             }
                         }catch (Exception e){
                             e.printStackTrace();
