@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
@@ -17,6 +18,7 @@ import com.asking.pad.app.entity.sharespace.MyAttention;
 import com.asking.pad.app.presenter.ShareModel;
 import com.asking.pad.app.presenter.SharePresenter;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
+import com.asking.pad.app.widget.MultiStateView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,8 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  */
 
 public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, ShareModel> implements MineAttentionGridAdapter.OnClickListener {
-
+    @BindView(R.id.load_view)
+    MultiStateView load_view;
     MineAttentionGridAdapter mineAttentionGridAdapter;
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
@@ -53,6 +56,7 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
      */
     private List<MyAttention> dataList = new ArrayList<>();
 
+    private MaterialDialog mDialog;
 
     public static MineAttentionFragment newInstance() {
         MineAttentionFragment fragment = new MineAttentionFragment();
@@ -68,6 +72,7 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
     @Override
     public void initView() {
         super.initView();
+        mDialog = getLoadingDialog().build();
         GridLayoutManager mgr = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mgr);
     }
@@ -75,6 +80,13 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
     @Override
     public void initLoad() {
         super.initLoad();
+        load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestList();
+            }
+        });
+        load_view.setViewState(load_view.VIEW_STATE_LOADING);
         requestList();
     }
 
@@ -109,13 +121,17 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
                     String resList = resobj.getString("content");
                     List<MyAttention> entity = JSON.parseArray(resList, MyAttention.class);
                     if (entity != null && entity.size() > 0) {
+                        load_view.setViewState(load_view.VIEW_STATE_CONTENT);
                         dataList.addAll(entity);
                         refshAdapt();
                     } else {
                         if (start > 0) {//上拉加载更多的情况下，没数据的情况下，加载到最后一页情况
                             swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
                             showShortToast(getActivity().getResources().getString(R.string.no_more_data));
+                        } else {
+                            load_view.setViewState(load_view.VIEW_STATE_EMPTY);
                         }
+
                     }
 
                 }
@@ -125,6 +141,7 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
             @Override
             public void onResultFail() {
                 super.onResultFail();
+                load_view.setViewState(load_view.VIEW_STATE_ERROR);
                 if (swipeLayout != null) {
                     swipeLayout.refreshComplete();
                 }
@@ -172,16 +189,18 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
      * @param userId
      */
     private void requestAttention(String userId) {
-
+        mDialog.show();
         mPresenter.presenterAttention(AppContext.getInstance().getUserName(), userId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
+                mDialog.dismiss();
                 ToastUtil.showMessage("关注成功");
             }
 
             @Override
             public void onResultFail() {
                 super.onResultFail();
+                mDialog.dismiss();
                 ToastUtil.showMessage("关注失败");
             }
         });
@@ -195,15 +214,18 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
      * @param userId
      */
     private void requestCancelAttention(String userId) {
+        mDialog.show();
         mPresenter.presenterCancelAttention(AppContext.getInstance().getUserName(), userId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
+                mDialog.dismiss();
                 ToastUtil.showMessage("取消关注成功");
             }
 
             @Override
             public void onResultFail() {
                 super.onResultFail();
+                mDialog.dismiss();
                 ToastUtil.showMessage("取消关注失败");
             }
         });

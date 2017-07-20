@@ -521,6 +521,19 @@ public class UserPresenter extends BasePresenter<UserModel> {
 
 
 
+    /**
+     * 关注老师
+     */
+    public void presenterAttention(String userName, String account, ApiRequestListener mListener) {
+        baseReq(mModel.modelAttention(userName, account), "content", mListener);
+    }
 
+
+    /**
+     * 取消关注老师
+     */
+    public void presenterCancelAttention(String userName, String account, ApiRequestListener mListener) {
+        baseReq(mModel.modelCancelAttention(userName, account), "content", mListener);
+    }
 
 }

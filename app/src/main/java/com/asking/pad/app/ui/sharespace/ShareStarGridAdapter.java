@@ -2,6 +2,7 @@ package com.asking.pad.app.ui.sharespace;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,10 +82,15 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
             } else {
                 holder.ivRank.setImageResource(R.mipmap.ic_share_nums);
                 holder.tvRankNum.setVisibility(View.VISIBLE);
-                holder.tvRankNum.setText(position+1);
+                holder.tvRankNum.setText(position + 1);
             }
             holder.tvAcceptNum.setText(mContext.getString(R.string.accept_num, shareStarRank.getAdoptNum() + ""));
-            holder.tvNickName.setText(shareStarRank.getNickName());
+            if (!TextUtils.isEmpty(shareStarRank.getNickName())) {
+                holder.tvNickName.setText(shareStarRank.getNickName());
+            } else {
+                holder.tvNickName.setText(shareStarRank.getUserName());
+            }
+
         }
 
     }

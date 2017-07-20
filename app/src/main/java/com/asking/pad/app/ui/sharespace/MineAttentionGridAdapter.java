@@ -1,6 +1,7 @@
 package com.asking.pad.app.ui.sharespace;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
@@ -16,6 +18,8 @@ import com.asking.pad.app.entity.sharespace.MyAttention;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 
 import java.util.List;
+
+import static com.asking.pad.app.commom.CommonUtil.openActivity;
 
 
 /**
@@ -69,6 +73,9 @@ public class MineAttentionGridAdapter extends RecyclerView.Adapter<MineAttention
 
         ImageView ivAttention;
 
+
+        LinearLayout llMain;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tvClassName = (TextView) itemView.findViewById(R.id.tv_class);
@@ -76,20 +83,38 @@ public class MineAttentionGridAdapter extends RecyclerView.Adapter<MineAttention
             tvTeacherName = (TextView) itemView.findViewById(R.id.tv_teacher_name);
             tvSubjectNum = (TextView) itemView.findViewById(R.id.tv_subject_num);
             ivAttention = (ImageView) itemView.findViewById(R.id.iv_attention);
+            llMain = (LinearLayout) itemView.findViewById(R.id.ll_main);
+
         }
     }
 
 
     @Override
-    public void onBindViewHolder(MineAttentionGridAdapter.ViewHolder holder, final int position) {
-        MyAttention mySpace = mList.get(position);
+    public void onBindViewHolder(final MineAttentionGridAdapter.ViewHolder holder, final int position) {
+        final MyAttention mySpace = mList.get(position);
         if (mySpace != null) {
-            MyAttention.AskInfoBean askInfoBean = mySpace.getAskInfo();
+            final MyAttention.AskInfoBean askInfoBean = mySpace.getAskInfo();
             if (askInfoBean != null) {
-                holder.tvClassName.setText(askInfoBean.getSubject());
-                holder.tvTeacherName.setText(askInfoBean.getNickName());
+                holder.tvClassName.setText("【" + askInfoBean.getSubject() + "】");
+                holder.tvTeacherName.setText(askInfoBean.getNickName() + "老师");
                 holder.draweeViewRankAvator.setImageUrl(askInfoBean.getAvatar());
                 holder.tvSubjectNum.setText(toSubjectNumString(R.string.subject_num, mySpace.getTopicCount() + ""));
+                holder.llMain.setOnClickListener(new View.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("teacherName", askInfoBean.getNickName());
+                        bundle.putString("className", askInfoBean.getSubject());
+                        bundle.putString("teacherAvatar", askInfoBean.getAvatar());
+                        bundle.putInt("fansNum", mySpace.getFavorCount());
+                        bundle.putString("teacherId", mySpace.getId());
+                        bundle.putBoolean("isSelected", holder.ivAttention.isSelected());
+                        openActivity(TeacherSpaceActivity.class, bundle);
+                    }
+                });
+
                 holder.ivAttention.setOnClickListener(new View.OnClickListener() {
 
 
