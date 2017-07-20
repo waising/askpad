@@ -598,6 +598,13 @@
             android:launchMode="singleTop"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".ui.sharespace.QuestionAnwserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.classmedia.PayClassMediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

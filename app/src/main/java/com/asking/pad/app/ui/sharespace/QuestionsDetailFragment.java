@@ -91,8 +91,9 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     @Override
     public void initData() {
         super.initData();
-        if(position==2)
+        if(position==2) {
             type = "8";
+        }
         else if(position==1)
             type = "7";
         getDataNow();

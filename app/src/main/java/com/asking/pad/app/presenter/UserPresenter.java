@@ -229,6 +229,11 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getQuestionList(type,query,km,levelId,state,start,limit), "content", mListener);
     }
 
+    public void getQuestionDetail(String id,ApiRequestListener mListener) {
+        baseReq(mModel.getQuestionDetail(id), "userQA", mListener);
+    }
+
+
     public void topicmsg(String communionTopicId,String content,String imgUrl,ApiRequestListener mListener) {
         String message = "";
         if(!TextUtils.isEmpty(imgUrl)){
