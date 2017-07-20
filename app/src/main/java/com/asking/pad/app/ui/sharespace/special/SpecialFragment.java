@@ -59,7 +59,7 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
                         gradeId = gradeEntity.getId();
                         subjectId = subjectEntity.getId();
                         tv_selectgrade.setText(String.format("%s - %s",gradeEntity.getName(),subjectEntity.getName()));
-                        fragment.loadData("",gradeId,subjectId);
+                        fragment.reLoadData("",gradeId,subjectId);
                     }
                 });
                 break;
