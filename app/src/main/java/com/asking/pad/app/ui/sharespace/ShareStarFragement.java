@@ -50,6 +50,11 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     @BindView(R.id.tv_accept_num)
     TextView tvAcceptNum;
 
+    /**
+     * 头像url
+     */
+    public static final String AVATOR_URL = "https://ssos.91asking.com/znSSO/user/avatar/";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +108,11 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
                     String resList = resobj.getString("list");
                     List<ShareStarHistory> entity = JSON.parseArray(resList, ShareStarHistory.class);
                     if (entity != null && entity.size() > 0) {
-                        //  ad_avatar.setImageUrl(entity.get(0).);
+
                         ShareStarHistory shareStarHistory = entity.get(0);
                         if (shareStarHistory != null) {
+                            ad_avatar.setImageUrl(AVATOR_URL + shareStarHistory.getUserId());
+                    //        BitmapUtil.displayUserImage(getActivity(),AVATOR_URL + shareStarHistory.getUserId(), ad_avatar);
                             if (!TextUtils.isEmpty(shareStarHistory.getNickName())) {//昵称为空，显示手机号
                                 tvName.setText(shareStarHistory.getNickName());
                             } else {
@@ -114,7 +121,6 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
                             tvAnswerNum.setText(shareStarHistory.getAnswerNum() + "");
                             tvAcceptNum.setText(shareStarHistory.getAdoptNum() + "");
                         }
-                        //   requestUserAvator(entity.get(0).getUserId());
                         requestRank();
                     } else {
 
@@ -127,29 +133,6 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
         });
     }
 
-    private void requestUserAvator(String userId) {
-
-        mPresenter.presenterUserAvator(userId, new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String resStr) {//数据返回成功
-                if (!TextUtils.isEmpty(resStr)) {
-
-
-                    List<ShareStarHistory> entity = JSON.parseArray(resStr, ShareStarHistory.class);
-                    if (entity != null && entity.size() > 0) {
-
-                    } else {
-
-                    }
-
-                }
-
-            }
-
-        });
-
-    }
-
 
     public static ShareStarFragement newInstance() {
         ShareStarFragement fragment = new ShareStarFragement();
@@ -159,7 +142,7 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     @OnClick({R.id.tv_rule})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_rule:
+            case R.id.tv_rule://共享之星的规则
                 ShareRuleDialog shareRuleDialog = new ShareRuleDialog();
                 shareRuleDialog.show(getChildFragmentManager(), "");
                 break;
@@ -171,7 +154,5 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-
     }
 }

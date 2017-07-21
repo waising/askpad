@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.entity.sharespace.ShareStarRank;
-import com.asking.pad.app.widget.AskSimpleDraweeView;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
         TextView tvRankNum;
 
 
-        AskSimpleDraweeView draweeViewRankAvator;
+        ImageView rankAvator;
         /**
          * 昵称
          */
@@ -58,7 +58,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
             super(itemView);
             ivRank = (ImageView) itemView.findViewById(iv_rank);
             tvRankNum = (TextView) itemView.findViewById(R.id.tv_rank_num);
-            draweeViewRankAvator = (AskSimpleDraweeView) itemView.findViewById(R.id.rank_avatar);
+            rankAvator = (ImageView) itemView.findViewById(R.id.rank_avatar);
             tvNickName = (TextView) itemView.findViewById(R.id.tv_nick_name);
             tvAcceptNum = (TextView) itemView.findViewById(R.id.tv_accept_num);
 
@@ -85,6 +85,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
                 holder.tvRankNum.setText(position + 1);
             }
             holder.tvAcceptNum.setText(mContext.getString(R.string.accept_num, shareStarRank.getAdoptNum() + ""));
+            BitmapUtil.displayUserImage(mContext,ShareStarFragement.AVATOR_URL + shareStarRank.getUserId(), holder.rankAvator);
             if (!TextUtils.isEmpty(shareStarRank.getNickName())) {
                 holder.tvNickName.setText(shareStarRank.getNickName());
             } else {
