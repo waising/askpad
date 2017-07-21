@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -16,7 +17,7 @@ import com.asking.pad.app.entity.sharespace.ShareStarHistory;
 import com.asking.pad.app.entity.sharespace.ShareStarRank;
 import com.asking.pad.app.presenter.ShareModel;
 import com.asking.pad.app.presenter.SharePresenter;
-import com.asking.pad.app.widget.AskSimpleDraweeView;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.dialog.ShareRuleDialog;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import butterknife.OnClick;
 public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareModel> {
 
     @BindView(R.id.ad_avatar)
-    AskSimpleDraweeView ad_avatar;
+    ImageView ad_avatar;
 
 
     ShareStarGridAdapter shareStarGridAdapter;
@@ -111,8 +112,7 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
 
                         ShareStarHistory shareStarHistory = entity.get(0);
                         if (shareStarHistory != null) {
-                            ad_avatar.setImageUrl(AVATOR_URL + shareStarHistory.getUserId());
-                    //        BitmapUtil.displayUserImage(getActivity(),AVATOR_URL + shareStarHistory.getUserId(), ad_avatar);
+                            BitmapUtil.displayUserImage(getActivity(),AVATOR_URL + shareStarHistory.getUserId(), ad_avatar);
                             if (!TextUtils.isEmpty(shareStarHistory.getNickName())) {//昵称为空，显示手机号
                                 tvName.setText(shareStarHistory.getNickName());
                             } else {
