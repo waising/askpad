@@ -250,7 +250,6 @@ dependencies {
     compile 'com.netease.nimlib:rts:4.0.0'
     compile 'com.github.piasy:BigImageViewer:1.2.5'
     compile 'com.github.piasy:FrescoImageLoader:1.2.5'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.aliyun.ams:alicloud-android-httpdns:1.+'
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'org.greenrobot:greendao-generator:3.2.2'
