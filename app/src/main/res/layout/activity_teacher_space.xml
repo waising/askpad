@@ -12,13 +12,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+       >
 
         <com.asking.pad.app.widget.AskSimpleDraweeView
             android:id="@+id/ad_avatar"
             android:layout_width="68dp"
             android:layout_height="68dp"
-            android:layout_marginBottom="@dimen/space_22"
             android:layout_marginLeft="@dimen/space_20"
             android:layout_marginTop="@dimen/space_22"
             app:backgroundImage="@color/main_bg"
@@ -55,6 +55,7 @@
             android:layout_marginTop="@dimen/space_10"
             android:text="粉丝数：123"
             android:textColor="@color/text_color_4"
+            android:paddingBottom="@dimen/space_22"
             android:textSize="@dimen/textSize_16" />
 
         <ImageView

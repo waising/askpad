@@ -86,7 +86,7 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
         mDialog = getLoadingDialog().build();
         toolBar.setTitle("");
         toolBar.setNavigationIcon(R.mipmap.ic_left_back);
-        toolBar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
 
 
             @Override
@@ -102,14 +102,14 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             adAvatar.setImageUrl(bundle.getString("teacherAvatar"));
-            tvClass.setText(bundle.getString("className"));
-            tvTeacherName.setText(bundle.getString("teacherName"));
+            tvClass.setText("【" + bundle.getString("className") + "】");
+            tvTeacherName.setText(bundle.getString("teacherName") + "老师");
             tvFansNum.setText(getString(R.string.fans_num, bundle.getInt("fansNum") + ""));
             teacherId = bundle.getString("teacherId");
             isSelected = bundle.getBoolean("isSelected");
             ivAttention.setSelected(isSelected);
         }
-        fragment = SpecialItemFragment.newInstance("",teacherId, "", "");
+        fragment = SpecialItemFragment.newInstance("", teacherId, "", "");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment, fragment).commit();
 

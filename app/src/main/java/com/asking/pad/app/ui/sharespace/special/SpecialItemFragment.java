@@ -20,6 +20,7 @@ import com.asking.pad.app.entity.sharespace.ShareSpecial;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
+import com.asking.pad.app.ui.sharespace.TeacherSpaceActivity;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
 
@@ -55,7 +56,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
     int start = 0;
     int limit = 10;
 
-    public static SpecialItemFragment newInstance(String mine,String teacherId,String gradeId,String subjectId) {
+    public static SpecialItemFragment newInstance(String mine, String teacherId, String gradeId, String subjectId) {
         SpecialItemFragment fragment = new SpecialItemFragment();
         Bundle bundle = new Bundle();
         bundle.putString("mine", mine);
@@ -112,7 +113,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
         loadData();
     }
 
-    public void reLoadData(String teacherId,String gradeId,String subjectId) {
+    public void reLoadData(String teacherId, String gradeId, String subjectId) {
         this.teacherId = teacherId;
         this.gradeId = gradeId;
         this.subjectId = subjectId;
@@ -123,7 +124,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
     }
 
     public void loadData() {
-        mPresenter.communionapi(mine,teacherId,gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
+        mPresenter.communionapi(mine, teacherId, gradeId, subjectId, start, limit, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 JSONObject jsonRes = JSONObject.parseObject(res);
@@ -132,9 +133,9 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
                     dataList.addAll(list);
                     mAdapter.notifyDataSetChanged();
                 }
-                if(dataList.size()>0){
+                if (dataList.size() > 0) {
                     load_view.setViewState(load_view.VIEW_STATE_CONTENT);
-                }else{
+                } else {
                     load_view.setViewState(load_view.VIEW_STATE_EMPTY);
                 }
                 swipeLayout.refreshComplete();
@@ -198,10 +199,10 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
 
             BitmapUtil.displayImage(e.getPalteImgUrl(), holder.iv_bg);
             BitmapUtil.displayCirImage(e.getTeaAvatarUrl(), holder.iv_avatar);
-            holder.tv_name.setText(e.getTeaNickName()+"老师");
-            holder.tv_gread.setText(e.getGradeName()+" - "+ e.getSubjectName());
+            holder.tv_name.setText(e.getTeaNickName() + "老师");
+            holder.tv_gread.setText(e.getGradeName() + " - " + e.getSubjectName());
 
-            holder.tv_visitnum.setText("浏览"+e.seenCount);
+            holder.tv_visitnum.setText("浏览" + e.seenCount);
             holder.tv_commnum.setText(e.interactionCount);
             holder.tv_likenum.setText(e.followCount);
 
@@ -209,7 +210,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
             holder.tv_time.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(e.startTime)
                     , DateUtil.getHHMM(e.endTime)));
 
-            switch(e.getTimeState()){
+            switch (e.getTimeState()) {
                 case 0:
                     holder.tv_state.setTextColor(Color.parseColor("#fd3a0d"));
                     holder.tv_state.setText("未开始");
@@ -230,6 +231,22 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
                     SpecialDetailActivity.openActivity(e);
                 }
             });
+            holder.iv_avatar.setOnClickListener(new View.OnClickListener() {//跳转到老师空间
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("teacherName", e.getTeaNickName());
+                    bundle.putString("className", e.getTeaSubject());
+                    bundle.putString("teacherAvatar", e.getTeaAvatarUrl());
+                    bundle.putInt("fansNum", e.getTeaFansNum());
+                    bundle.putString("teacherId", e.getTeaId());
+                    bundle.putBoolean("isSelected", !e.getTeaFavored());
+                    openActivity(TeacherSpaceActivity.class, bundle);
+
+                }
+            });
+
+
         }
 
         @Override

@@ -10,4 +10,8 @@ public class TeaAskInfo {
 
     public String nickName;
 
+
+    public String subject;
+
+
 }
