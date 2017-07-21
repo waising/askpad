@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_20"
-                android:text="数学-七年级"
+                android:text="xx"
                 android:textColor="@color/colorText_88"
                 android:textSize="@dimen/textSize_14"/>
 
@@ -39,9 +39,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_20"
                 android:gravity="center"
-                android:text="开始"
+                android:text=""
                 android:textColor="@color/colorText_88"
                 android:textSize="@dimen/textSize_14"/>
+
+            <ImageView
+                android:id="@+id/question_sure"
+                android:visibility="invisible"
+                android:layout_marginRight="@dimen/space_10"
+                android:layout_marginTop="@dimen/space_10"
+                android:src="@mipmap/question_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <com.asking.pad.app.widget.AskMathView
@@ -50,6 +59,29 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"/>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:id="@+id/re_answer_size_tv"
+            android:visibility="gone"
+            android:text="0人回复"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginBottom="@dimen/space_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:id="@+id/adopt_btn"
+            android:visibility="gone"
+            style="@style/btn_comm_styles"
+            android:layout_marginBottom="@dimen/space_6"
+            android:layout_marginRight="@dimen/space_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
     <include layout="@layout/layout_line"/>
 </LinearLayout>

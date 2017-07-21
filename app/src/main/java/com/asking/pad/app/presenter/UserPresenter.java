@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -233,6 +234,29 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getQuestionDetail(id), "userQA", mListener);
     }
 
+    public void getMyQuestionAskList(int start,int limit,String type,ApiRequestListener mListener) {
+        baseReq(mModel.getMyQuestionAskList(start,limit,type), "content", mListener);
+    }
+
+    public void sendSubmitPic(MultipartBody.Part part, ApiRequestListener mListener) {
+        baseReq(mModel.sendSubmitPic(part), "content", mListener);
+    }
+
+
+    public void sendQAAnswer(String id,String content, ApiRequestListener mListener) {
+        baseReq(mModel.sendQAAnswer(id,content), "content", mListener);
+    }
+
+    public void sendQaAgainAnswer(String id, String anserId, String html,ApiRequestListener mListener){
+        baseReq(mModel.sendQaAgainAnswer(id,anserId,html), "content", mListener);
+    }
+
+    public void sendQaAgainAsk(String id, String anserId, String html,ApiRequestListener mListener){
+        baseReq(mModel.sendQaAgainAsk(id,anserId,html), "content", mListener);
+    }
+    public void qaAdoptAnswer(String id, String anserId, ApiRequestListener mListener){
+        baseReq(mModel.qaAdoptAnswer(id,anserId), "content", mListener);
+    }
 
     public void topicmsg(String communionTopicId,String content,String imgUrl,ApiRequestListener mListener) {
         String message = "";

@@ -1,16 +1,21 @@
 package com.asking.pad.app.ui.sharespace;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.commom.CommonUtil;
+import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.widget.AskMathView;
@@ -23,6 +28,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * 题目的adpater
  * create by linbin
@@ -30,6 +37,12 @@ import butterknife.OnClick;
 
 public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHolder> {
 
+    public void setMine(boolean mine) {
+        isMine = mine;
+    }
+
+    //是否我的
+    private boolean isMine = false;
 
     private Context mContext;
 
@@ -74,7 +87,8 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             holder.questionTitleTv.setText(questionEntity.getTitle());
             //holder.questionImgIv.setImageURI();
             holder.mathView.setText(questionEntity.getDescription());
-            holder.kmTv.setText(questionEntity.getKm());
+            int level = TextUtils.isEmpty(questionEntity.getLevelId()) ? 0 : Integer.parseInt(questionEntity.getLevelId());
+            holder.kmTv.setText(getSubjectName(questionEntity.getKm())+" - "+getGradeName(level));
 
             int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(),DateUtil.currentDatetime());
             String time = questionEntity.getCreateDate_Fmt();
@@ -102,6 +116,30 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             if(questionEntity.getState()=="2"){
                 holder.questionsure.setVisibility(View.VISIBLE);
             }
+
+            //显示状态
+            if(isMine){
+                holder.userNameTv.setVisibility(View.GONE);
+                holder.userImgIv.setVisibility(View.GONE);
+                holder.questionStatusTv.setVisibility(View.VISIBLE);
+                holder.questionsure.setVisibility(View.GONE);
+                //
+                int color = R.color.black;
+                String status = "";
+                if(questionEntity.getAnswer_size()<=0){
+                    status = "待回答";
+                    color = R.color.green;
+                }else if(questionEntity.getState()!="2"){
+                    status ="待采纳";
+                    color = R.color.theme_blue_theme;
+                }else if(questionEntity.getState()=="2"){
+                    status = "已采纳";
+                    color = R.color.orange;
+                }
+
+                holder.questionStatusTv.setText(status);
+                holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext,color));
+            }
 //            holder.mathView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -116,6 +154,19 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
     public int getItemCount() {
         return questionEntities.size();
 
+    }
+
+    public String getGradeName(int grade){
+        try{
+            return Constants.versionTv[grade-7];
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getSubjectName(String subject){
+        return TextUtils.equals(subject,"M")?"数学":"物理";
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -137,6 +188,9 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
         @BindView(R.id.ask_question_count)
         TextView askQuestionCountTv;
+
+        @BindView(R.id.question_status_tv)
+        TextView questionStatusTv;
 
         @BindView(R.id.ask_ic)
         ImageView askIc;
@@ -171,7 +225,12 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                     QuestionEntity q = questionEntities.get(getAdapterPosition());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("questionEntity",q);
-                    CommonUtil.openActivity(QuestionAnwserActivity.class,bundle);
+                    int level = TextUtils.isEmpty(q.getLevelId()) ? 0 : Integer.parseInt(q.getLevelId());
+                    bundle.putString("km",getSubjectName(q.getKm())+" - "+getGradeName(level));
+                    Intent intent = new Intent(AppContext.getInstance().getApplicationContext(), QuestionAnwserActivity.class);
+                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtras(bundle);
+                    AppContext.getInstance().startActivity(intent);
                     //跳转
                     break;
 

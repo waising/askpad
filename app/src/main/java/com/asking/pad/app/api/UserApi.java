@@ -4,6 +4,7 @@ import com.asking.pad.app.BuildConfig;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -13,6 +14,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -727,4 +729,47 @@ public interface UserApi {
 
     @POST("/QA/app/{id}")
     Observable<ResponseBody> getQuestionDetail(@Path("id") String id);
+
+    @Multipart
+    @POST("QA/space/appAskPhotoContent")
+    Observable<ResponseBody> sendQASubmitPic(@Part MultipartBody.Part part);
+
+    @POST("QA/space/anser")
+    Observable<ResponseBody> sendQAAnswer(@Query("id") String id, @Query("content") String content);
+
+    /**
+     * 追答
+     * @param id 题目id
+     * @param anserId 评论id
+     * @param html
+     * @return
+     */
+    @POST("QA/space/againAnswer")
+    Observable<ResponseBody> sendQaAgainAnswer(@Query("id") String id, @Query("anserId") String anserId, @Query("html") String html);
+
+
+    /**
+     * 追问
+     * @param id
+     * @param anserId
+     * @param html
+     * @return
+     */
+    @POST("QA/space/againAsk")
+    Observable<ResponseBody> sendQaAgainAsk(@Query("id") String id, @Query("anserId") String anserId, @Query("html") String html);
+
+
+    /**
+     * 我的提问/回答
+     * @param start
+     * @param limit
+     * @param type 12：我的问题   null 我的回答
+     * @return
+     */
+    @POST("QA/V1/space/myAsk/list")
+    Observable<ResponseBody> getMyQuestionAskList(@Query("start") int start, @Query("limit") int limit, @Query("type") String type);
+
+    /**采纳问题*/
+    @POST("QA/space/adopt")
+    Observable<ResponseBody> qaAdoptAnswer(@Query("id") String id, @Query("anserId") String anserId);
 }

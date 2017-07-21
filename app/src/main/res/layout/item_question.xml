@@ -21,6 +21,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/question_status_tv"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <com.asking.pad.app.widget.AskSimpleDraweeView
                 android:id="@+id/user_img_iv"
