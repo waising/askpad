@@ -85,7 +85,7 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
         tv_title.setText(mShareSpecial.name);
         tv_statetime.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(mShareSpecial.startTime)
                 , DateUtil.getHHMM(mShareSpecial.endTime)));
-        tv_visitnum.setText("游览"+mShareSpecial.seenCount);
+        tv_visitnum.setText("浏览"+mShareSpecial.seenCount);
         BitmapUtil.displayCirImage(mShareSpecial.getTeaAvatarUrl(),R.dimen.space_80, iv_avatar);
 
         tv_favor_num.setSelected(mShareSpecial.followed);

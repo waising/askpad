@@ -200,7 +200,7 @@ public interface UserApi {
     Observable<ResponseBody> studentinfo(@Query("userName") String userName);
 
     @GET("communionapi/topic/page")
-    Observable<ResponseBody> communionapi(@Query("teacherId") String teacherId,@Query("grade") String grade, @Query("subject") String subject
+    Observable<ResponseBody> communionapi(@Query("mine") String mine,@Query("teacherId") String teacherId,@Query("grade") String grade, @Query("subject") String subject
             , @Query("start") int start, @Query("limit") int limit);
 
     @Headers({"Content-Type: application/json"})

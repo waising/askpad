@@ -23,7 +23,12 @@ public class SuperClassSpeaker {
     public List<SubjectClass> subjectmuls = new ArrayList<>();
 
     public String getSubjectDescriptionHtml() {
-        StringBuffer str = new StringBuffer(subject.subjectDescription);
+        StringBuffer str = new StringBuffer("");
+        try {
+            str = new StringBuffer(subject.subjectDescription);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             if (TextUtils.equals(subjectKindType, "1")) {
                 for (ClassOption e : subject.options) {

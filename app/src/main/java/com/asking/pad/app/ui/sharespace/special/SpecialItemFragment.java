@@ -48,15 +48,17 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
     ArrayList<ShareSpecial> dataList = new ArrayList<>();
     CommAdapter mAdapter;
 
+    String mine = "";
     String teacherId = "";
     String gradeId = "";
     String subjectId = "";
     int start = 0;
     int limit = 10;
 
-    public static SpecialItemFragment newInstance(String teacherId,String gradeId,String subjectId) {
+    public static SpecialItemFragment newInstance(String mine,String teacherId,String gradeId,String subjectId) {
         SpecialItemFragment fragment = new SpecialItemFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("mine", mine);
         bundle.putString("teacherId", teacherId);
         bundle.putString("gradeId", gradeId);
         bundle.putString("subjectId", subjectId);
@@ -70,6 +72,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
         ButterKnife.bind(this, getContentView());
         Bundle bundle = getArguments();
         if (bundle != null) {
+            mine = bundle.getString("mine");
             teacherId = bundle.getString("teacherId");
             gradeId = bundle.getString("gradeId");
             subjectId = bundle.getString("subjectId");
@@ -120,7 +123,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
     }
 
     public void loadData() {
-        mPresenter.communionapi(teacherId,gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
+        mPresenter.communionapi(mine,teacherId,gradeId,subjectId,start,limit,new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 JSONObject jsonRes = JSONObject.parseObject(res);
@@ -198,7 +201,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
             holder.tv_name.setText(e.getTeaNickName()+"老师");
             holder.tv_gread.setText(e.getGradeName()+" - "+ e.getSubjectName());
 
-            holder.tv_visitnum.setText("游览"+e.seenCount);
+            holder.tv_visitnum.setText("浏览"+e.seenCount);
             holder.tv_commnum.setText(e.interactionCount);
             holder.tv_likenum.setText(e.followCount);
 
