@@ -36,56 +36,94 @@ public class ShareSpecial {
 
     public CommunionPlate communionPlate;
 
-    public String getPalteImgUrl(){
-        try{
+    public String getPalteImgUrl() {
+        try {
             return communionPlate.palteImgUrl;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    public long getCreateDate(){
-        try{
+    public long getCreateDate() {
+        try {
             return communionPlate.createDate;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
 
-    public String getTeaAvatarUrl(){
-        try{
+    public String getTeaAvatarUrl() {
+        try {
             return teacher.askInfo.avatar;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    public String getTeaNickName(){
-        try{
+    public int getTeaFansNum() {
+        try {
+            return teacher.getFavorCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean getTeaFavored() {
+        try {
+            return teacher.isFavored();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public String getTeaId() {
+        try {
+            return teacher.getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getTeaNickName() {
+        try {
             return teacher.askInfo.nickName;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    public String getGradeName(){
-        try{
-            return Constants.versionTv[grade-7];
-        }catch (Exception e){
+    public String getTeaSubject() {
+        try {
+            return teacher.askInfo.subject;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
 
-    public String getSubjectName(){
-        return TextUtils.equals(subject,"M")?"数学":"物理";
+
+    public String getGradeName() {
+        try {
+            return Constants.versionTv[grade - 7];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
-    public int getTimeState(){
+    public String getSubjectName() {
+        return TextUtils.equals(subject, "M") ? "数学" : "物理";
+    }
+
+    public int getTimeState() {
         long nowTime = new Date().getTime();
         if (nowTime < startTime) {
             return 0;

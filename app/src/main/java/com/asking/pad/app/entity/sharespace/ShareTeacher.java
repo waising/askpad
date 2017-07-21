@@ -7,5 +7,39 @@ package com.asking.pad.app.entity.sharespace;
 public class ShareTeacher {
 
     public TeaAskInfo askInfo;
+    /**
+     * 粉丝数
+     */
+    private int favorCount;
+    /**
+     * 是否被关注
+     */
+    private boolean favored;
 
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getFavorCount() {
+        return favorCount;
+    }
+
+    public void setFavorCount(int favorCount) {
+        this.favorCount = favorCount;
+    }
+
+    public boolean isFavored() {
+        return favored;
+    }
+
+    public void setFavored(boolean favored) {
+        this.favored = favored;
+    }
 }
