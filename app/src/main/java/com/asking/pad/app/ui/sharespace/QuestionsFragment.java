@@ -5,7 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
@@ -15,6 +20,7 @@ import com.asking.pad.app.entity.LabelEntity;
 import com.asking.pad.app.entity.QuestionSubjectEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
+import com.asking.pad.app.ui.main.ShareMainFragment;
 import com.asking.pad.app.ui.sharespace.pop.GradePopupWindow;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
@@ -41,8 +47,10 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
     String gradeId = "";
     String subjectId = "";
 
+    static QuestionsFragment fragment;
     public static QuestionsFragment newInstance() {
-        QuestionsFragment fragment = new QuestionsFragment();
+        if(fragment==null)
+            fragment = new QuestionsFragment();
         return fragment;
     }
 
@@ -67,6 +75,16 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
 
         mAdapter.notifyDataSetChanged();
         indicator.notifyDataSetChanged();
+
+        ((ShareMainFragment)(getParentFragment())).setToolbarRight(R.menu.menu_question_ask, new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                openActivity(QuestionAskActivity.class);
+                //((ShareMainFragment)(getParentFragment())).showAskFragment();
+                return false;
+            }
+        });
     }
 
     class CommAdapter extends FragmentStatePagerAdapter {

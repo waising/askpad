@@ -156,6 +156,11 @@ public class UserModel extends BaseModel {
                 .sendQAAnswer(id,content).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> submitQuestion(String km,String levelId,String caifu, String title, String description) {
+        return Networks.getInstance().getUserApi()
+                .submitQuestion(km,levelId,caifu,title,description).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> sendQaAgainAnswer(String id, String anserId, String html){
         return Networks.getInstance().getUserApi().sendQaAgainAnswer(id, anserId, html)
                 .compose(RxSchedulers.<ResponseBody>io_main());

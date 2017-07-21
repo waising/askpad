@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.asking.pad.app.commom.Constants.AVATOR_URL;
+
 /**
  * Created by jswang on 2017/7/18.
  */
@@ -69,7 +71,7 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
 
         try{
             if(e!=null){
-                BitmapUtil.displayCirImage(null, holder.iv_avatar);
+                BitmapUtil.displayUserImage(mContext,AVATOR_URL + e.getUserId(), holder.iv_avatar);
                 holder.tv_name.setText(e.getUserName());
                 holder.tv_time.setText(e.getCreateDate_fmt());
                 if(e.getList()!=null && e.getList().size()>0) {

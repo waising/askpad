@@ -27,13 +27,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.asking.pad.app.widget.AskSimpleDraweeView
+            <ImageView
                 android:id="@+id/user_img_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="@dimen/space_8"
-                app:backgroundImage="@color/main_bg"
-                app:roundAsCircle="true"
                 android:layout_marginTop="12.3dp"
                 android:layout_marginLeft="12dp"
                 android:clickable="true"/>
@@ -117,6 +115,7 @@
         </LinearLayout>
 
        <RelativeLayout
+           android:layout_gravity="bottom"
            android:layout_width="match_parent"
            android:layout_height="wrap_content">
            <TextView
@@ -131,6 +130,7 @@
                android:id="@+id/time_tv"
                android:layout_toRightOf="@+id/km_tv"
                android:textColor="@color/colorText_ae"
+               android:layout_marginLeft="@dimen/space_10"
                android:textSize="@dimen/textSize_12"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content" />

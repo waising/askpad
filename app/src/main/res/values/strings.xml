@@ -367,7 +367,7 @@
     <string name="aq_no_quest">待答问题</string>
     <string name="aq_askmoney_quest">悬赏问题</string>
     <string name="aq_quested">已采纳问题</string>
-
+    <string name="aq_ask_caifu_info">您目前的阿思币为%s枚，提高悬赏，更能吸引回答哟~</string>
 
     <string name="accept_num">被采纳数%1$s</string>
 

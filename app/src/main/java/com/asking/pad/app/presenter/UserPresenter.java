@@ -247,6 +247,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.sendQAAnswer(id,content), "content", mListener);
     }
 
+    public void submitQuestion(String km,String levelId,String caifu, String title, String description, ApiRequestListener mListener) {
+        baseReq(mModel.submitQuestion(km,levelId,caifu,title,description), "content", mListener);
+    }
+
     public void sendQaAgainAnswer(String id, String anserId, String html,ApiRequestListener mListener){
         baseReq(mModel.sendQaAgainAnswer(id,anserId,html), "content", mListener);
     }
