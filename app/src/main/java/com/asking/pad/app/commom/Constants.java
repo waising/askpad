@@ -123,6 +123,8 @@ public class Constants {
      */
     public static final String QiNiuHead = "http://7xj9ur.com1.z0.glb.clouddn.com/";
 
+    public static final String AVATOR_URL = "https://ssos.91asking.com/znSSO/user/avatar/";
+
     /**
      * 网易Token
      */

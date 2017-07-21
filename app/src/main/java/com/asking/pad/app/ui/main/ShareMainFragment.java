@@ -72,22 +72,35 @@ public class ShareMainFragment extends BaseFragment {
         fragments.add(SpecialFragment.newInstance());
         fragments.add(ShareStarFragement.newInstance());
         fragments.add(MineSpaceFragment.newInstance());
+//        fragments.add(QuestionsAskFragment.newInstance());
 
         getChildFragmentManager().beginTransaction()
                 .add(R.id.fragment,fragments.get(0))
                 .add(R.id.fragment,fragments.get(1))
                 .add(R.id.fragment,fragments.get(2))
                 .add(R.id.fragment,fragments.get(3))
+//                .add(R.id.fragment,fragments.get(4))
                 .hide(fragments.get(1))
                 .hide(fragments.get(2))
                 .hide(fragments.get(3))
+//                .hide(fragments.get(4))
                 .show(fragments.get(0)).commit();
+    }
+
+    public void showAskFragment(){
+        //getChildFragmentManager().beginTransaction().show(fragments.get(4)).hide(fragments.get(0)).commit();
     }
 
     public void setToolbarStyle(String title,int resId){
         mToolbar.setNavigationIcon(resId);
         mToolbar.setTitle(title);
     }
+
+    public void setToolbarRight(int menu_item,Toolbar.OnMenuItemClickListener menuItemClickListener){
+        mToolbar.inflateMenu(menu_item);
+        mToolbar.setOnMenuItemClickListener(menuItemClickListener);
+    }
+
 
     private void setFragmentPage(int index) {
         FragmentTransaction trx = getChildFragmentManager().beginTransaction();
@@ -125,6 +138,9 @@ public class ShareMainFragment extends BaseFragment {
                     notifyDataSetChanged();
 
                     setToolbarStyle(e.getName(),e.getIcon());
+                    //
+                    mToolbar.getMenu().getItem(0).setVisible(position==0);
+
                     onCommItem(position);
                 }
             });

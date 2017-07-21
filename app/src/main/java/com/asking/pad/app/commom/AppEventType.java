@@ -24,6 +24,7 @@ public class AppEventType {
 
     public static final int RE_CLASSIFY_REQUEST = 0X27;
     public static final int QUESTION_REF = 0X28;
+    public static final int QUESTION_ASK = 0X29;
 
     public int  type;
     public Object[]  values;

@@ -15,34 +15,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_50"
-            android:background="@color/login_gomain"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_20"
-                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_specical_tit_flag"
+                android:drawablePadding="@dimen/space_5"
+                android:gravity="center"
                 android:text="问题详情"
-                android:textColor="@color/white"
+                android:textColor="@color/colorText_88"
                 android:textSize="@dimen/textSize_18"/>
 
         </LinearLayout>
-
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.asking.pad.app.widget.AskSimpleDraweeView
+            <ImageView
                 android:id="@+id/user_img_iv"
                 android:layout_width="@dimen/space_60"
                 android:layout_height="@dimen/space_60"
                 android:layout_marginRight="@dimen/space_8"
-                app:backgroundImage="@color/main_bg"
-                app:roundAsCircle="true"
                 android:layout_marginTop="12.3dp"
                 android:layout_marginLeft="12dp"
                 android:clickable="true"/>

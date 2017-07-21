@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.entity.QuestionEntity;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.asking.pad.app.commom.Constants.AVATOR_URL;
 
 /**
  * Created by jswang on 2017/7/17.
@@ -32,6 +35,8 @@ public class QuestionAnwserActivity extends AppCompatActivity {
     ImageView askIc;
     @BindView(R.id.ask_money_tv)
     TextView askMoneyTv;
+    @BindView(R.id.user_img_iv)
+    ImageView userImgIv;
 
     @BindView(R.id.mathView)
     AskMathView mathView;
@@ -66,6 +71,8 @@ public class QuestionAnwserActivity extends AppCompatActivity {
             }
             questionTitleTv.setText(questionEntity.getTitle());
             mathView.setText(questionEntity.getDescription());
+
+            BitmapUtil.displayUserImage(this,AVATOR_URL + questionEntity.getUserId(), userImgIv);
         }
 
         getSupportFragmentManager().beginTransaction()

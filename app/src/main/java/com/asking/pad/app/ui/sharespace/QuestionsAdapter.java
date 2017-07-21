@@ -18,6 +18,7 @@ import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
+import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.asking.pad.app.commom.Constants.AVATOR_URL;
 
 /**
  * 题目的adpater
@@ -89,6 +91,8 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             holder.mathView.setText(questionEntity.getDescription());
             int level = TextUtils.isEmpty(questionEntity.getLevelId()) ? 0 : Integer.parseInt(questionEntity.getLevelId());
             holder.kmTv.setText(getSubjectName(questionEntity.getKm())+" - "+getGradeName(level));
+
+            BitmapUtil.displayUserImage(mContext,AVATOR_URL + questionEntity.getUserId(), holder.userImgIv);
 
             int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(),DateUtil.currentDatetime());
             String time = questionEntity.getCreateDate_Fmt();
@@ -201,7 +205,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 //        ImageView questionImgIv;
 
         @BindView(R.id.user_img_iv)
-        AskSimpleDraweeView userImgIv;
+        ImageView userImgIv;
 
 //        @BindView(R.id.multiStateView)
 //        MultiStateView multiStateView;

@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
@@ -45,7 +46,7 @@ import okhttp3.MultipartBody;
  * Created by jswang on 2017/7/19.
  */
 
-public class QuestionReplyFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, UserModel> {
     @BindView(R.id.load_comment)
     MultiStateView load_comment;
 
@@ -179,11 +180,16 @@ public class QuestionReplyFragment extends BaseFrameFragment<UserPresenter, User
                             }
                         }
 
-                        dataDetailList.addAll(anwserMoreEntity.getList());
-                        mAdapter.setAnwserMoreEntity(anwserMoreEntity);
-                        mAdapter.setQuestionEntity(qe);
-                        mAdapter.notifyDataSetChanged();
-                        load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                        if(anwserMoreEntity.getList()!=null || anwserMoreEntity.getList().size()>0) {
+                            dataDetailList.addAll(anwserMoreEntity.getList());
+
+                            mAdapter.setAnwserMoreEntity(anwserMoreEntity);
+                            mAdapter.setQuestionEntity(qe);
+                            mAdapter.notifyDataSetChanged();
+                            load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                        }else{
+                            load_comment.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                        }
                     }
 
                 }

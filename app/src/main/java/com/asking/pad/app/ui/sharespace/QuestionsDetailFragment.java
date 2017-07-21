@@ -70,9 +70,30 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
                 levelId = qs.getLevelId();
                 swipeLayout.autoRefresh();
                 break;
+            case AppEventType.QUESTION_ASK:
+                refData((String) event.values[0]);
+                break;
         }
     }
 
+
+    private void refData(String caifu){
+        if(!TextUtils.isEmpty(caifu) && Integer.parseInt(caifu)>0){
+            swipeLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeLayout.autoRefresh();
+                }
+            });
+        }else if(position==0){
+            swipeLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeLayout.autoRefresh();
+                }
+            });
+        }
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

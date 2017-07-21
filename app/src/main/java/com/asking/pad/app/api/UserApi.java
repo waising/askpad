@@ -772,4 +772,8 @@ public interface UserApi {
     /**采纳问题*/
     @POST("QA/space/adopt")
     Observable<ResponseBody> qaAdoptAnswer(@Query("id") String id, @Query("anserId") String anserId);
+
+
+    @POST("QA/space/save")
+    Observable<ResponseBody> submitQuestion(@Query("km") String km, @Query("levelId") String levelId, @Query("caifu") String caifu, @Query("title") String title, @Query("description") String description);
 }
