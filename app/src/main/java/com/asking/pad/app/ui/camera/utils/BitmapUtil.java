@@ -19,6 +19,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.asking.pad.app.AppContext;
@@ -27,10 +28,12 @@ import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -77,7 +80,7 @@ public class BitmapUtil {
     }
 
 
-    public static File saveImage(Bitmap bitmap,String fileName) {
+    public static File saveImage(Bitmap bitmap, String fileName) {
         BufferedOutputStream bos = null;
         try {
             if (bitmap != null) {
@@ -279,7 +282,7 @@ public class BitmapUtil {
         imageLoader.displayImage(url, item_icon, item40Options);
     }
 
-    public static void displayCirImage(String url,int resId, ImageView item_icon) {
+    public static void displayCirImage(String url, int resId, ImageView item_icon) {
         DisplayImageOptions itemOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.no_pic)
                 .showImageForEmptyUri(R.mipmap.no_pic)
@@ -317,14 +320,16 @@ public class BitmapUtil {
         }
         imageLoader.displayImage(path, item_icon, itemNoCacheOptions);
     }
-    public static void displayNoCacheImage(String url, ImageView item_icon, boolean isNet,ImageLoadingListener listener) {
+
+    public static void displayNoCacheImage(String url, ImageView item_icon, boolean isNet, ImageLoadingListener listener) {
         String path = url;
         if (!isNet && !TextUtils.isEmpty(path) && !(path.contains("http") || path.contains("https"))) {
             path = ImageDownloader.Scheme.FILE.wrap(url);
         }
-        imageLoader.displayImage(path, item_icon, itemNoCacheOptions,listener);
+        imageLoader.displayImage(path, item_icon, itemNoCacheOptions, listener);
     }
-    public static void displayUserImage(Context context,String url,ImageView askSimpleDraweeView) {
+
+    public static void displayUserImage(Context context, String url, ImageView askSimpleDraweeView) {
         Map<String, String> headers = new HashMap();
         headers.put("Authorization", AppContext.getInstance().getToken());
         DisplayImageOptions itemUserOptions = new DisplayImageOptions.Builder()
@@ -339,11 +344,31 @@ public class BitmapUtil {
                 .cacheInMemory(true)
                 .cacheOnDisk(true).displayer(
                         new RoundedBitmapDisplayer(context.getResources().getDimensionPixelSize(R.dimen.space_102))).build();
-        imageLoader.displayImage(url,askSimpleDraweeView, itemUserOptions);
+        imageLoader.displayImage(url, askSimpleDraweeView, itemUserOptions, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                super.onLoadingStarted(imageUri, view);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                super.onLoadingFailed(imageUri, view, failReason);
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                super.onLoadingComplete(imageUri, view, loadedImage);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                super.onLoadingCancelled(imageUri, view);
+            }
+        });
     }
 
     public static String getGreyPath() {
-       return Environment.getExternalStorageDirectory() + "/" + Constants.APP_CACHE_IMG_GRAY_PATH;
+        return Environment.getExternalStorageDirectory() + "/" + Constants.APP_CACHE_IMG_GRAY_PATH;
     }
 
     /**
@@ -468,7 +493,7 @@ public class BitmapUtil {
     }
 
     public static int getInfoOrientation(String path) {
-        int degree  = 0;
+        int degree = 0;
         try {
             ExifInterface exifInterface = new ExifInterface(path);
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
@@ -490,11 +515,11 @@ public class BitmapUtil {
     }
 
     public static void createImageThumbnail(Context context,
-                                           String largeImagePath, String thumbfilePath, int square_size,
-                                           int quality) throws IOException {
+                                            String largeImagePath, String thumbfilePath, int square_size,
+                                            int quality) throws IOException {
         Options opts = new Options();
         opts.inJustDecodeBounds = true;
-        try{
+        try {
             BitmapFactory.decodeFile(largeImagePath, opts);
             // 原始图片bitmap
             //Bitmap cur_bitmap = getBitmapByPath(largeImagePath, opts);
@@ -515,13 +540,13 @@ public class BitmapUtil {
             return;
 
         // 原始图片的高宽
-        int[] cur_img_size = new int[] { cur_bitmap.getWidth(),
-                cur_bitmap.getHeight() };
+        int[] cur_img_size = new int[]{cur_bitmap.getWidth(),
+                cur_bitmap.getHeight()};
         // 计算原始图片缩放后的宽高
         int[] new_img_size = scaleImageSize(cur_img_size, square_size);
         // 生成缩放后的bitmap
         Bitmap thb_bitmap = zoomBitmap(cur_bitmap, new_img_size[0],
-                new_img_size[1],largeImagePath);
+                new_img_size[1], largeImagePath);
         // 生成缩放后的图片文件
         saveImageToSD(null, thumbfilePath, thb_bitmap, quality);
     }
@@ -605,8 +630,8 @@ public class BitmapUtil {
             return img_size;
         double ratio = square_size
                 / (double) Math.max(img_size[0], img_size[1]);
-        return new int[] { (int) (img_size[0] * ratio),
-                (int) (img_size[1] * ratio) };
+        return new int[]{(int) (img_size[0] * ratio),
+                (int) (img_size[1] * ratio)};
     }
 
     /**
@@ -617,7 +642,7 @@ public class BitmapUtil {
      * @param h
      * @return
      */
-    public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h,String largeImagePath) {
+    public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h, String largeImagePath) {
         Bitmap newbmp = null;
         if (bitmap != null) {
             int width = bitmap.getWidth();
@@ -628,7 +653,7 @@ public class BitmapUtil {
             matrix.postScale(scaleWidht, scaleHeight);
             newbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix,
                     true);
-            newbmp = getRotatedBitmap(newbmp,largeImagePath);
+            newbmp = getRotatedBitmap(newbmp, largeImagePath);
         }
         return newbmp;
     }
@@ -681,7 +706,7 @@ public class BitmapUtil {
                 }
             }
         } catch (Exception e) {
-        }catch (OutOfMemoryError ex) {
+        } catch (OutOfMemoryError ex) {
         }
         return bitmap;
     }

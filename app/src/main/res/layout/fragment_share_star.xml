@@ -63,15 +63,13 @@
                     android:src="@mipmap/ic_crown" />
 
 
-                <com.asking.pad.app.widget.AskSimpleDraweeView
+                <ImageView
                     android:id="@+id/ad_avatar"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:layout_marginBottom="@dimen/space_20"
                     android:layout_marginTop="@dimen/space_15"
-                    android:paddingRight="@dimen/space_10"
-                    app:backgroundImage="@color/main_bg"
-                    app:roundAsCircle="true" />
+                    android:paddingRight="@dimen/space_10" />
 
                 <TextView
                     android:id="@+id/tv_name"
