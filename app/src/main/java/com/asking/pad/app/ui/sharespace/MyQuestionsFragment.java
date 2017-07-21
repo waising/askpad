@@ -11,10 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
-import com.asking.pad.app.commom.AppEventType;
-import com.asking.pad.app.commom.ShopCartEvent;
 import com.asking.pad.app.entity.QuestionEntity;
-import com.asking.pad.app.entity.QuestionSubjectEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
@@ -25,7 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -33,7 +29,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 问答广场
  */
 
-public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserModel> {
 
 
     @BindView(R.id.swipe_layout)
@@ -46,37 +42,21 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     MultiStateView multiStateView;
 
     private int start = 0, limit = 6;
-    String type = "9";
-    int position = 0;
-    private String query="";
-    private String km="";
-    String levelId="";
-    String state="";
+    String type = "13";
 
     private QuestionsAdapter mQustionsAdapter;
     private List<QuestionEntity> questionList = new ArrayList<>();
 
-    public static QuestionsDetailFragment newInstance() {
-        QuestionsDetailFragment fragment = new QuestionsDetailFragment();
+    public static MyQuestionsFragment newInstance(String type) {
+        MyQuestionsFragment fragment = new MyQuestionsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
-    public void onEventMainThread(AppEventType event) {
-        switch (event.type) {
-            case AppEventType.QUESTION_REF:
-                //刷新数据
-                QuestionSubjectEntity qs = (QuestionSubjectEntity) event.values[0];
-                km = qs.getKm();
-                levelId = qs.getLevelId();
-                swipeLayout.autoRefresh();
-                break;
-        }
-    }
-
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.fragment_questions_detail);
         ButterKnife.bind(this, getContentView());
     }
@@ -91,18 +71,16 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     @Override
     public void initData() {
         super.initData();
-        if(position==2) {
-            type = "8";
-        }
-        else if(position==1)
-            type = "7";
-        //getDataNow();
-        swipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeLayout.autoRefresh();
-            }
-        });
+
+        type = getArguments().getString("type");
+        multiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+        getDataNow();
+//        swipeLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeLayout.autoRefresh();
+//            }
+//        });
     }
 
     @Override
@@ -130,14 +108,13 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
                 getDataNow();
             }
         });
-
-
     }
 
     public void refshAdapt(List<QuestionEntity> entityComment) {
         if (mQustionsAdapter == null) {
             mQustionsAdapter = new QuestionsAdapter(getContext(), entityComment);
             recyclerView.setAdapter(mQustionsAdapter);
+            mQustionsAdapter.setMine(type=="13");
         } else {
             if (start > 0) {
                 // 加载更多
@@ -150,7 +127,7 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     }
 
     private void getDataNow() {
-        mPresenter.getQuestionList(type,query,km,levelId,state,start, limit, new ApiRequestListener<String>() {//题目的id和类型请求
+        mPresenter.getMyQuestionAskList(start, limit,type, new ApiRequestListener<String>() {//题目的id和类型请求
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 swipeLayout.refreshComplete();
@@ -195,7 +172,5 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
     }
 }

@@ -129,28 +129,8 @@ public class QuestionEntity implements Parcelable {
     public QuestionEntity() {
     }
 
-    public class AnswerDetail{
-        public String getAnswer() {
-            return answer;
-        }
 
-        public void setAnswer(String answer) {
-            this.answer = answer;
-        }
-
-        public long getAnswerTime() {
-            return answerTime;
-        }
-
-        public void setAnswerTime(long answerTime) {
-            this.answerTime = answerTime;
-        }
-
-        private String answer;
-        private long answerTime;
-    }
-
-    public class AnwserMoreEntity {
+    public static class AnwserMoreEntity implements Parcelable {
         private String createDate_fmt;
         private long createDate;
         private int lousySize;
@@ -251,6 +231,56 @@ public class QuestionEntity implements Parcelable {
         private String content;
         private int goodSize;
         private int type;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.createDate_fmt);
+            dest.writeLong(this.createDate);
+            dest.writeInt(this.lousySize);
+            dest.writeList(this.list);
+            dest.writeString(this.userId);
+            dest.writeString(this.id);
+            dest.writeByte(this.adopt ? (byte) 1 : (byte) 0);
+            dest.writeString(this.userName);
+            dest.writeString(this.content);
+            dest.writeInt(this.goodSize);
+            dest.writeInt(this.type);
+        }
+
+        public AnwserMoreEntity() {
+        }
+
+        protected AnwserMoreEntity(Parcel in) {
+            this.createDate_fmt = in.readString();
+            this.createDate = in.readLong();
+            this.lousySize = in.readInt();
+            this.list = new ArrayList<AnswerDetail>();
+            in.readList(this.list, AnswerDetail.class.getClassLoader());
+            this.userId = in.readString();
+            this.id = in.readString();
+            this.adopt = in.readByte() != 0;
+            this.userName = in.readString();
+            this.content = in.readString();
+            this.goodSize = in.readInt();
+            this.type = in.readInt();
+        }
+
+        public static final Creator<AnwserMoreEntity> CREATOR = new Creator<AnwserMoreEntity>() {
+            @Override
+            public AnwserMoreEntity createFromParcel(Parcel source) {
+                return new AnwserMoreEntity(source);
+            }
+
+            @Override
+            public AnwserMoreEntity[] newArray(int size) {
+                return new AnwserMoreEntity[size];
+            }
+        };
     }
 
     @Override
@@ -301,4 +331,45 @@ public class QuestionEntity implements Parcelable {
             return new QuestionEntity[size];
         }
     };
+
+    public class AnswerDetail{
+        public String getAnswer() {
+            return answer;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        public long getAnswerTime() {
+            return answerTime;
+        }
+
+        public void setAnswerTime(long answerTime) {
+            this.answerTime = answerTime;
+        }
+
+        private String answer;
+        private long answerTime;
+
+        private String ask;
+
+        public String getAsk() {
+            return ask;
+        }
+
+        public void setAsk(String ask) {
+            this.ask = ask;
+        }
+
+        public long getAskTime() {
+            return askTime;
+        }
+
+        public void setAskTime(long askTime) {
+            this.askTime = askTime;
+        }
+
+        private long askTime;
+    }
 }

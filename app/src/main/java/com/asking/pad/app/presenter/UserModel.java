@@ -8,6 +8,7 @@ import com.asking.pad.app.mvp.RxSchedulers;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -138,6 +139,36 @@ public class UserModel extends BaseModel {
     public Observable<ResponseBody> getQuestionDetail(String id) {
         return Networks.getInstance().getUserApi()
                 .getQuestionDetail(id).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> getMyQuestionAskList(int start,int limit,String type) {
+        return Networks.getInstance().getUserApi()
+                .getMyQuestionAskList(start,limit,type).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> sendSubmitPic(MultipartBody.Part part) {
+        return Networks.getInstance().getUserApi()
+                .sendQASubmitPic(part).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> sendQAAnswer(String id,String content) {
+        return Networks.getInstance().getUserApi()
+                .sendQAAnswer(id,content).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> sendQaAgainAnswer(String id, String anserId, String html){
+        return Networks.getInstance().getUserApi().sendQaAgainAnswer(id, anserId, html)
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> sendQaAgainAsk(String id, String anserId, String html){
+        return Networks.getInstance().getUserApi().sendQaAgainAsk(id, anserId, html)
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> qaAdoptAnswer(String id, String anserId){
+        return Networks.getInstance().getUserApi().qaAdoptAnswer(id, anserId)
+                .compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> topicmsg(RequestBody body) {

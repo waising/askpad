@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.asking.pad.app.AppContext;
@@ -18,12 +20,14 @@ import com.asking.pad.app.ui.mine.UserInfoActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
@@ -194,6 +198,49 @@ public class CommonUtil {
         return content;
     }
 
+    /**
+     * 获取上传文件body
+     * @param context
+     * @param bitmap            需要上传的bitmap图片
+     * @param filePathAndName   bitmap缓存的路径和文件名
+     * @return
+     * 上传参数默认file
+     */
+    public static MultipartBody.Part getMultipartBodyPart(Context context, Bitmap bitmap, String filePathAndName){
+        return getMultipartBodyPart(context, bitmap, filePathAndName, null);
+    }
+
+    /**
+     * 获取上传文件body
+     * {@link #getMultipartBodyPart(Context, Bitmap, String)}
+     * @param fileParameter     上传文件对应参数
+     * @return
+     *
+     */
+    public static MultipartBody.Part getMultipartBodyPart(Context context, Bitmap bitmap, String filePathAndName, String fileParameter){
+//        try {
+//            //保存切图图片到本地
+//            ImageUtils.saveToFile(mContext, com.devtf.belial.camera.util.FileUtils.getInstance(mContext).getCacheDir(mContext) + "/croppedcache.jpg",
+//                    false, bitmap);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        File f = new File(filePathAndName);
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), f);
+        //监听上传进度
+        CountingRequestBody countingRequestBody = new CountingRequestBody(requestFile, new CountingRequestBody.Listener() {
+            @Override
+            public void onRequestProgress(long bytesWritten, long contentLength) {
+                Log.i("CommonUtil", "上传进度:" + contentLength + ":" + bytesWritten);
+            }
+        });
+        if(fileParameter==null){
+            return MultipartBody.Part.createFormData("file", f.getName(),countingRequestBody);
+        }else {
+            return MultipartBody.Part.createFormData(fileParameter, f.getName(), countingRequestBody);
+        }
+    }
 
     /**
      * 获取app版本号

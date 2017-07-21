@@ -70,8 +70,8 @@ public class MineSpaceFragment extends BaseFragment {
         @Override
         public Fragment getItem(int position) {
             Fragment f;
-            if (position == 0) {
-                f = MineAttentionFragment.newInstance();
+            if (position == 0 || position == 1) {
+                f = MyQuestionsFragment.newInstance(position == 0 ?"13":"");
             } else {
                 f = MineAttentionFragment.newInstance();
             }

@@ -156,80 +156,10 @@
         android:layout_height="match_parent"
         android:layout_weight="5"
         android:orientation="vertical">
-
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_50"
-            android:background="@color/bisque"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"/>
 
-            <TextView
-                android:id="@+id/answer_size"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_20"
-                android:layout_weight="1"
-                android:text="1人回答"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize_18"/>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_comment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"
-                android:overScrollMode="never"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:orientation="vertical">
-
-                <include layout="@layout/layout_line"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/space_10"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_photo_view"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:src="@mipmap/ic_photo_orange"/>
-
-                    <EditText
-                        android:id="@+id/edt_note_content"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/space_10"
-                        android:layout_marginRight="@dimen/space_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_edit"
-                        android:gravity="top"
-                        android:padding="@dimen/space_10"
-                        android:textSize="@dimen/textSize_20"/>
-
-                    <Button
-                        android:id="@+id/btn_submit"
-                        style="@style/btn_comm_styles"
-                        android:layout_width="wrap_content"
-                        android:paddingLeft="@dimen/space_10"
-                        android:paddingRight="@dimen/space_10"
-                        android:text="提交"/>
-                </LinearLayout>
-            </LinearLayout>
-        </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>
