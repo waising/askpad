@@ -44,7 +44,7 @@ public class SpecialFragment extends BaseFrameFragment<UserPresenter, UserModel>
     @Override
     public void initView() {
         super.initView();
-        fragment = SpecialItemFragment.newInstance("","","");
+        fragment = SpecialItemFragment.newInstance("","","","");
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragment,fragment).commit();
     }

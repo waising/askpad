@@ -221,8 +221,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.studentinfo(AppContext.getInstance().getUserEntity().getUserName()), "content", mListener);
     }
 
-    public void communionapi(String teacherId,String grade,String subject,int start,int limit,ApiRequestListener mListener) {
-        baseReq(mModel.communionapi(teacherId,grade,subject,start,limit), "content", mListener);
+    public void communionapi(String mine,String teacherId,String grade,String subject,int start,int limit,ApiRequestListener mListener) {
+        baseReq(mModel.communionapi(mine,teacherId,grade,subject,start,limit), "content", mListener);
     }
 
     public void getQuestionList(String type,String query,String km,

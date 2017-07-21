@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.base.BaseFragment;
+import com.asking.pad.app.ui.sharespace.special.SpecialItemFragment;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -72,7 +73,9 @@ public class MineSpaceFragment extends BaseFragment {
             Fragment f;
             if (position == 0 || position == 1) {
                 f = MyQuestionsFragment.newInstance(position == 0 ?"13":"");
-            } else {
+            } else  if (position == 3) {
+                f =  SpecialItemFragment.newInstance("1","","","");
+            }else {
                 f = MineAttentionFragment.newInstance();
             }
             return f;

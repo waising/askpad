@@ -109,7 +109,7 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
             isSelected = bundle.getBoolean("isSelected");
             ivAttention.setSelected(isSelected);
         }
-        fragment = SpecialItemFragment.newInstance(teacherId, "", "");
+        fragment = SpecialItemFragment.newInstance("",teacherId, "", "");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment, fragment).commit();
 
