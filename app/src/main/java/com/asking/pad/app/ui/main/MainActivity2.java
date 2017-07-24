@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
@@ -137,6 +139,22 @@ public class MainActivity2 extends BaseEvenAppCompatActivity<UserPresenter, User
         });
     }
 
+    private void refreshUser() {
+        mPresenter.studentinfo(new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String res) {
+                JSONObject resObject = JSON.parseObject(res);
+                double integral = resObject.getDouble("integral");
+
+                if (integral != AppContext.getInstance().getUserEntity().getIntegral()) {
+                    AppContext.getInstance().getUserEntity().setIntegral(integral);
+                    AppContext.getInstance().saveUserData(AppContext.getInstance().getUserEntity());
+                }
+            }
+        });
+    }
+
+
 
     private void clearUser() {
         tv_user_name.setText("");
@@ -162,8 +180,10 @@ public class MainActivity2 extends BaseEvenAppCompatActivity<UserPresenter, User
         switch (event.type) {
             case AppEventType.RE_USER_INFO_REQUEST:
                 initUser();
+                refreshUser();
                 break;
             case AppEventType.PAY_SUCCESSS_REQUEST:
+                refreshUser();
                 findTreeListWithAllCourse();
                 break;
         }
