@@ -332,6 +332,10 @@ public interface UserApi {
     @GET("userreact/userCourse/findByPage")
     Observable<ResponseBody> userreact(@Query("start") String start, @Query("limit") String limit);
 
+
+    @GET("communionapi/zhuikeimage/list")
+    Observable<ResponseBody> zhuikeimage();
+
     /**
      * 我的课程（提交进度）
      *

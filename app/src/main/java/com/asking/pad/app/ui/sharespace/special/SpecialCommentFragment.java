@@ -80,7 +80,7 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
             public void OnItemComment(SpecialComment e) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(communionTopicId,""))
+                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(communionTopicId,e.getUserId()))
                         .commit();
             }
         });

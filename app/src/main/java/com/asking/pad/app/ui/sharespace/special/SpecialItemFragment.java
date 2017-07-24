@@ -210,7 +210,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
             holder.tv_time.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(e.startTime)
                     , DateUtil.getHHMM(e.endTime)));
 
-            switch (e.getTimeState()) {
+            switch (e.state) {
                 case 0:
                     holder.tv_state.setTextColor(Color.parseColor("#fd3a0d"));
                     holder.tv_state.setText("未开始");
@@ -219,7 +219,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
                     holder.tv_state.setTextColor(Color.parseColor("#38c1ff"));
                     holder.tv_state.setText("进行中");
                     break;
-                case -1:
+                case 2:
                     holder.tv_state.setTextColor(Color.parseColor("#aeaeae"));
                     holder.tv_state.setText("已结束");
                     break;

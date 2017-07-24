@@ -612,11 +612,13 @@
         <item name="android:textSize">@dimen/textSize_16</item>
     </style>
 
-    <style name="iv_first_main_foot_style">
-        <item name="android:layout_width">0dp</item>
+    <style name="tv_class_main_style">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:scaleType">fitXY</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+        <item name="android:drawablePadding">@dimen/space_10</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="view_size_left_right_style">

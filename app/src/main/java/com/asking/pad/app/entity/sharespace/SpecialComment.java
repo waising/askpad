@@ -16,10 +16,21 @@ public class SpecialComment {
 
     public class CommentUser {
 
+        public String id;
+
         public String nickName;
 
         public String avatar;
 
+    }
+
+    public String getUserId(){
+        try {
+            return user.id;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public String getNickName(){

@@ -24,6 +24,8 @@ public class ShareSpecial {
 
     public int grade;
 
+    public int state;
+
     public String subject;
 
     public String seenCount;
