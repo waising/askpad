@@ -89,8 +89,8 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             holder.questionTitleTv.setText(questionEntity.getTitle());
             //holder.questionImgIv.setImageURI();
             holder.mathView.setText(questionEntity.getDescription());
-            int level = TextUtils.isEmpty(questionEntity.getLevelId()) ? 0 : Integer.parseInt(questionEntity.getLevelId());
-            holder.kmTv.setText(getSubjectName(questionEntity.getKm())+" - "+getGradeName(level));
+
+            holder.kmTv.setText(getSubjectName(questionEntity.getKm())+" - "+ getGradleName(questionEntity.getLevelId()));
 
             BitmapUtil.displayUserImage(mContext,AVATOR_URL + questionEntity.getUserId(), holder.userImgIv);
 
@@ -154,19 +154,29 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
     }
 
-    @Override
-    public int getItemCount() {
-        return questionEntities.size();
 
-    }
-
-    public String getGradeName(int grade){
+    String getGradleName(String levelId){
         try{
-            return Constants.versionTv[grade-7];
+            if(!TextUtils.isEmpty(levelId)){
+                int integerId = Integer.valueOf(levelId); // 包装类 Integer 不能直接运算(下面的减1)，会报错，得转成基本数据类型 int
+                if (integerId > 0) { //要再判断下
+                    String gradeVersionValue = Constants.gradeVersionValues[integerId - 1];
+                    if (!TextUtils.isEmpty(gradeVersionValue)) {
+                        return gradeVersionValue;
+                    }
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
         return "";
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return questionEntities.size();
+
     }
 
     public String getSubjectName(String subject){
@@ -229,8 +239,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                     QuestionEntity q = questionEntities.get(getAdapterPosition());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("questionEntity",q);
-                    int level = TextUtils.isEmpty(q.getLevelId()) ? 0 : Integer.parseInt(q.getLevelId());
-                    bundle.putString("km",getSubjectName(q.getKm())+" - "+getGradeName(level));
+                    bundle.putString("km",getSubjectName(q.getKm())+" - "+ getGradleName(q.getLevelId()));
                     Intent intent = new Intent(AppContext.getInstance().getApplicationContext(), QuestionAnwserActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtras(bundle);
