@@ -101,14 +101,14 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
     public void initData(){
         super.initData();
 
-        gradeList.add(new LabelEntity("7", "七年级", false));
+        gradeList.add(new LabelEntity("7", "七年级", true));
         gradeList.add(new LabelEntity("8", "八年级", false));
         gradeList.add(new LabelEntity("9", "九年级", false));
         gradeList.add(new LabelEntity("10", "高一", false));
         gradeList.add(new LabelEntity("11", "高二", false));
         gradeList.add(new LabelEntity("12", "高三", false));
 
-        subjectList.add(new LabelEntity("M", "数学", false));
+        subjectList.add(new LabelEntity("M", "数学", true));
         subjectList.add(new LabelEntity("P", "物理", false));
     }
 
@@ -126,7 +126,7 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
         rv_grade.setAdapter(new CommAdapter(mActivity, gradeList, new OnItemListener() {
             @Override
             public void OnItem(LabelEntity e) {
-                km = e.getId();
+                levelId = e.getId();
             }
         }));
 
@@ -134,7 +134,7 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
         rv_subject.setAdapter(new CommAdapter(mActivity, subjectList, new OnItemListener() {
             @Override
             public void OnItem(LabelEntity e) {
-                levelId = e.getId();
+                km = e.getId();
             }
         }));
 
@@ -185,6 +185,9 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
                     mLoadDialog.dismiss();
                     //刷新列表
                     EventBus.getDefault().post(new AppEventType(AppEventType.QUESTION_ASK,caifu));
+                    //刷新本地信息 ask币
+                    EventBus.getDefault().post(new AppEventType(AppEventType.RE_USER_INFO_REQUEST));
+
                     QuestionAskActivity.this.finish();
                     Log.i(QuestionAskActivity.class.getSimpleName(),"提交成功");
                 }
@@ -244,10 +247,8 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
         }
 
         @Override
-        public void onBindViewHolder(CommAdapter.CommViewHolder holder, final int position) {
+        public void onBindViewHolder(final CommAdapter.CommViewHolder holder, final int position) {
             final LabelEntity e = dataList.get(position);
-            if(position==0)
-                e.setSelect(true);
             holder.item_name.setSelected(e.getSelect());
             holder.item_name.setText(e.getName());
             holder.item_name.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +257,7 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
                     for (LabelEntity ii : dataList) {
                         ii.setSelect(false);
                     }
+
                     e.setSelect(true);
                     notifyDataSetChanged();
 
