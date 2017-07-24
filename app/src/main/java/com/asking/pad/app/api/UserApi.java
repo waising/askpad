@@ -763,11 +763,14 @@ public interface UserApi {
      * 我的提问/回答
      * @param start
      * @param limit
-     * @param type 12：我的问题   null 我的回答
+     * @param type 12：我的问题
      * @return
      */
     @POST("QA/V1/space/myAsk/list")
-    Observable<ResponseBody> getMyQuestionAskList(@Query("start") int start, @Query("limit") int limit, @Query("type") String type);
+    Observable<ResponseBody> getMyQuestionAskList(@Query("start") int start, @Query("limit") int limit);
+
+    @POST("QA/V1/space/myAnswer/list")
+    Observable<ResponseBody> getMyQuestionAnswerList(@Query("start") int start, @Query("limit") int limit,@Query("type") String type);
 
     /**采纳问题*/
     @POST("QA/space/adopt")

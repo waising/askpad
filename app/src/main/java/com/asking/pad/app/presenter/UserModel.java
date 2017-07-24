@@ -141,9 +141,14 @@ public class UserModel extends BaseModel {
                 .getQuestionDetail(id).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> getMyQuestionAskList(int start,int limit,String type) {
+    public Observable<ResponseBody> getMyQuestionAskList(int start,int limit) {
         return Networks.getInstance().getUserApi()
-                .getMyQuestionAskList(start,limit,type).compose(RxSchedulers.<ResponseBody>io_main());
+                .getMyQuestionAskList(start,limit).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    public Observable<ResponseBody> getMyQuestionAnswerList(int start,int limit,String type) {
+        return Networks.getInstance().getUserApi()
+                .getMyQuestionAnswerList(start,limit,type).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> sendSubmitPic(MultipartBody.Part part) {

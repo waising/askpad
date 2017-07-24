@@ -234,8 +234,12 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.getQuestionDetail(id), "userQA", mListener);
     }
 
-    public void getMyQuestionAskList(int start,int limit,String type,ApiRequestListener mListener) {
-        baseReq(mModel.getMyQuestionAskList(start,limit,type), "content", mListener);
+    public void getMyQuestionAskList(int start,int limit,ApiRequestListener mListener) {
+        baseReq(mModel.getMyQuestionAskList(start,limit), "content", mListener);
+    }
+
+    public void getMyQuestionAnswerList(int start,int limit,String type,ApiRequestListener mListener) {
+        baseReq(mModel.getMyQuestionAnswerList(start,limit,type), "content", mListener);
     }
 
     public void sendSubmitPic(MultipartBody.Part part, ApiRequestListener mListener) {

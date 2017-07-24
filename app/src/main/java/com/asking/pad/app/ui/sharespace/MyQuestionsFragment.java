@@ -42,7 +42,7 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
     MultiStateView multiStateView;
 
     private int start = 0, limit = 6;
-    String type = "13";
+    String type = "";
 
     private QuestionsAdapter mQustionsAdapter;
     private List<QuestionEntity> questionList = new ArrayList<>();
@@ -114,7 +114,7 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
         if (mQustionsAdapter == null) {
             mQustionsAdapter = new QuestionsAdapter(getContext(), entityComment);
             recyclerView.setAdapter(mQustionsAdapter);
-            mQustionsAdapter.setMine(type=="13");
+            mQustionsAdapter.setMine(type!="13");
         } else {
             if (start > 0) {
                 // 加载更多
@@ -127,50 +127,60 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
     }
 
     private void getDataNow() {
-        mPresenter.getMyQuestionAskList(start, limit,type, new ApiRequestListener<String>() {//题目的id和类型请求
-            @Override
-            public void onResultSuccess(String resStr) {//数据返回成功
-                swipeLayout.refreshComplete();
-                if (!TextUtils.isEmpty(resStr)) {
-                    JSONObject resobj = JSON.parseObject(resStr);
-                    String resList = resobj.getString("list");
-                    List<QuestionEntity> listPaper = JSON.parseArray(resList, QuestionEntity.class);
-                    if (listPaper != null && listPaper.size() > 0) {
-                        questionList.addAll(listPaper);
-                        multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                    } else {
 
-                        if (start > 0) {
-                            swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
-                            showShortToast(getResources().getString(R.string.no_more_data));
-                        } else {
-                            multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-                        }
-                    }
-                    refshAdapt(questionList);
-                }
+        //我的提问
+        if(TextUtils.isEmpty(type)){
+            mPresenter.getMyQuestionAskList(start, limit, apiRequestListener);
+        }else if(type == "13"){//我的回答
+            mPresenter.getMyQuestionAnswerList(start, limit,type,apiRequestListener);
+        }
 
-            }
-
-            @Override
-            public void onResultFail() {
-                super.onResultFail();
-
-                if (swipeLayout != null) {
-                    swipeLayout.refreshComplete();
-                }
-                swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
-
-                mQustionsAdapter = null;
-                recyclerView.setAdapter(null);
-
-                multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-            }
-        });
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
+
+    ApiRequestListener<String> apiRequestListener = new ApiRequestListener<String>(){
+        @Override
+        public void onResultSuccess(String resStr) {//数据返回成功
+            swipeLayout.refreshComplete();
+            if (!TextUtils.isEmpty(resStr)) {
+                JSONObject resobj = JSON.parseObject(resStr);
+                String resList = resobj.getString("list");
+                List<QuestionEntity> listPaper = JSON.parseArray(resList, QuestionEntity.class);
+                if (listPaper != null && listPaper.size() > 0) {
+                    questionList.addAll(listPaper);
+                    multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                } else {
+
+                    if (start > 0) {
+                        swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
+                        showShortToast(getResources().getString(R.string.no_more_data));
+                    } else {
+                        multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                    }
+                }
+                refshAdapt(questionList);
+            }
+
+        }
+
+        @Override
+        public void onResultFail() {
+            super.onResultFail();
+
+            if (swipeLayout != null) {
+                swipeLayout.refreshComplete();
+            }
+            swipeLayout.setMode(PtrFrameLayout.Mode.REFRESH);
+
+            mQustionsAdapter = null;
+            recyclerView.setAdapter(null);
+
+            multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+        }
+    };
 }
