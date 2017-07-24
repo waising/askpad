@@ -72,7 +72,7 @@ public class MineSpaceFragment extends BaseFragment {
         public Fragment getItem(int position) {
             Fragment f;
             if (position == 0 || position == 1) {
-                f = MyQuestionsFragment.newInstance(position == 0 ?"13":"");
+                f = MyQuestionsFragment.newInstance(position == 1 ?"13":"");
             } else  if (position == 3) {
                 f =  SpecialItemFragment.newInstance("1","","","");
             }else {
