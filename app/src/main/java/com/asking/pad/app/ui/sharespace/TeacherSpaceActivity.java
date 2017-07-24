@@ -64,6 +64,8 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
      */
     private boolean isSelected;
 
+    private int fansNum;
+
 
     @BindView(R.id.iv_attention)
     ImageView ivAttention;
@@ -101,10 +103,11 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
         super.initData();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            fansNum = bundle.getInt("fansNum");
             adAvatar.setImageUrl(bundle.getString("teacherAvatar"));
             tvClass.setText("【" + bundle.getString("className") + "】");
             tvTeacherName.setText(bundle.getString("teacherName") + "老师");
-            tvFansNum.setText(getString(R.string.fans_num, bundle.getInt("fansNum") + ""));
+            tvFansNum.setText(getString(R.string.fans_num, fansNum + ""));
             teacherId = bundle.getString("teacherId");
             isSelected = bundle.getBoolean("isSelected");
             ivAttention.setSelected(isSelected);
@@ -149,6 +152,9 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
             public void onResultSuccess(String resStr) {//数据返回成功
                 mDialog.dismiss();
                 ToastUtil.showMessage("关注成功");
+
+                fansNum = fansNum + 1;
+                tvFansNum.setText(getString(R.string.fans_num, fansNum+ ""));
             }
 
             @Override
@@ -174,6 +180,9 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
             public void onResultSuccess(String resStr) {//数据返回成功
                 mDialog.dismiss();
                 ToastUtil.showMessage("取消关注成功");
+
+                fansNum = fansNum - 1;
+                tvFansNum.setText(getString(R.string.fans_num, fansNum+ ""));
             }
 
             @Override

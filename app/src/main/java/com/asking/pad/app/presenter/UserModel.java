@@ -256,6 +256,11 @@ public class UserModel extends BaseModel {
                 .userreact(start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> zhuikeimage() {
+        return Networks.getInstance().getUserApi()
+                .zhuikeimage().compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> findByCommodityId(String commodityId) {
         return Networks.getInstance().getUserApi()
                 .findByCommodityId(commodityId).compose(RxSchedulers.<ResponseBody>io_main());

@@ -98,4 +98,7 @@
     <dimen name="textSize_30">30sp</dimen>
     <dimen name="textSize_50">50sp</dimen>
 
+    <dimen name="banner_min_height">124.0dip</dimen>
+    <dimen name="banner_indicator_margin">1.0dip</dimen>
+
 </resources>

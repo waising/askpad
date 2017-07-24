@@ -207,6 +207,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.userreact(start, limit), "content", mListener);
     }
 
+    public void zhuikeimage(ApiRequestListener mListener) {
+        baseReq(mModel.zhuikeimage(), "content", mListener);
+    }
+
     public void findByCommodityId(String commodityId, ApiRequestListener mListener) {
         baseReq(mModel.findByCommodityId(commodityId), "content", mListener);
     }
