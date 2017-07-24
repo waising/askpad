@@ -161,6 +161,11 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
         }else if(TextUtils.isEmpty(titleEt.getText())){
             showShortToast("请输入问题标题");
             return;
+        }else if(!TextUtils.isEmpty(caifuEt.getText())){
+            caifu = caifuEt.getText().toString();
+            if(AppContext.getInstance().getUserEntity().getIntegral() < Double.parseDouble(caifu))
+                showShortToast("悬赏不能大于可用阿思币");
+            return;
         }
 
         //上传图片
@@ -170,9 +175,6 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
     private void submit(String content){
         try {
 
-            if(!TextUtils.isEmpty(caifuEt.getText())){
-                caifu = caifuEt.getText().toString();
-            }
             String c = "";
             if(!TextUtils.isEmpty(contentEt.getText()))
                 c = contentEt.getText().toString();
@@ -180,7 +182,6 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
             mPresenter.submitQuestion(km,levelId,caifu,titleEt.getText().toString(),c + "</br>"+content,new ApiRequestListener<String>(){
                 @Override
                 public void onResultSuccess(String resStr) {//数据返回成功
-                    //mLoadDialog.dismiss();
                     showShortToast("提交成功！");
                     mLoadDialog.dismiss();
                     //刷新列表
