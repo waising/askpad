@@ -58,6 +58,7 @@
         </com.asking.pad.app.widget.MultiStateView>
 
         <LinearLayout
+            android:id="@+id/ll_input_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
