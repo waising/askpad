@@ -8,9 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
@@ -64,6 +61,7 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
     public void initView() {
         super.initView();
 
+        tabList.clear();
         tabList.add(getString(R.string.aq_no_quest));
         tabList.add(getString(R.string.aq_askmoney_quest));
         tabList.add(getString(R.string.aq_quested));
