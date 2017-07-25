@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="@dimen/space_20">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:text="首单20分钟免费"/>
+
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:drawableLeft="@mipmap/ic_share_score"
+                    android:drawablePadding="@dimen/space_10"
+                    android:text="初中："/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="6个阿思币/分钟，2分钟起算"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="30秒以内算3个阿思币"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="30秒以内算6个阿思币"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:drawableLeft="@mipmap/ic_share_score"
+                    android:drawablePadding="@dimen/space_10"
+                    android:text="高中："/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="8个阿思币/分钟，2分钟起算"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="30秒以内算4个阿思币"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="30秒以内算8个阿思币"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:drawableLeft="@mipmap/ic_share_score"
+                    android:drawablePadding="@dimen/space_10"
+                    android:text="答疑时间："/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="周一到周五：19:00-22:00"/>
+
+                <TextView
+                    style="@style/tv_explain_styles"
+                    android:layout_marginLeft="@dimen/space_60"
+                    android:text="周末：9:00-21:00"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
