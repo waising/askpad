@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/action_info"
-        android:icon="@mipmap/mine_sign"
+        android:icon="@mipmap/ic_meun_down"
         app:showAsAction="ifRoom|withText"
-        android:title="@string/sign"/>
+        android:title="  下载课程"/>
 
     <item
-        android:id="@+id/action_info1"
-        android:icon="@mipmap/mine_msg"
+        android:id="@+id/action_info"
+        android:icon="@mipmap/ic_meun_down"
         app:showAsAction="ifRoom|withText"
-        android:title="@string/home_menu_message"/>
+        android:title="  下载课程"/>
 
 </menu>

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.classmedia.ClassMediaActivity;
 import com.asking.pad.app.ui.mine.MineStudyRecordActivity;
+import com.asking.pad.app.ui.mine.SignInActivity;
 import com.asking.pad.app.ui.mine.WrongTopicActivity;
 import com.asking.pad.app.ui.oto.OtoAskActivity;
 import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
@@ -40,6 +43,10 @@ import static com.asking.pad.app.commom.Constants.APP_CAMERA_PATH_KEY;
  */
 
 public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserModel> {
+
+    @BindView(R.id.toolBar)
+    Toolbar mToolbar;
+
     @BindView(R.id.rv_main)
     RecyclerView rv_main;
 
@@ -66,6 +73,21 @@ public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
     @Override
     public void initView() {
         super.initView();
+
+        mToolbar.setNavigationIcon(R.mipmap.ic_class_main_tit);
+        mToolbar.setTitle("追课");
+        mToolbar.inflateMenu(R.menu.menu_down_class_media);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.action_info){
+                    CommonUtil.openAuthActivity(SignInActivity.class);
+                }else{
+
+                }
+                return false;
+            }
+        });
 
         mDatas.clear();
         mDatas.add(new LabelEntity(R.mipmap.backpacket_czsx,"XK01", getString(R.string.ask_czsx)));

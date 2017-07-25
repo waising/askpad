@@ -92,7 +92,7 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
         tv_favor_num.setSelected(mShareSpecial.followed);
         tv_favor_num.setText(mShareSpecial.followCount + "");
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment, SpecialCommentFragment.newInstance(mShareSpecial.id)).commit();
+                .replace(R.id.fragment, SpecialCommentFragment.newInstance(mShareSpecial.id,mShareSpecial.state)).commit();
     }
 
     @OnClick({R.id.tv_favor_num,R.id.iv_avatar})

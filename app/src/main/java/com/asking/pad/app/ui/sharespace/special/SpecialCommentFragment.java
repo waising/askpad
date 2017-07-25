@@ -43,17 +43,22 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
     @BindView(R.id.edt_note_content)
     EditText edt_note_content;
 
+    @BindView(R.id.ll_input_comment)
+    View ll_input_comment;
+
     ArrayList<SpecialComment> commentList = new ArrayList<>();
     CommentAdapter mAdapter;
 
     private MaterialDialog mLoadDialog;
 
     String communionTopicId;
+    int state;
 
-    public static SpecialCommentFragment newInstance(String communionTopicId) {
+    public static SpecialCommentFragment newInstance(String communionTopicId,int state) {
         SpecialCommentFragment fragment = new SpecialCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("communionTopicId", communionTopicId);
+        bundle.putInt("state", state);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,6 +70,7 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
         Bundle bundle = getArguments();
         if (bundle != null) {
             communionTopicId = bundle.getString("communionTopicId");
+            state = bundle.getInt("state");
         }
     }
 
@@ -94,6 +100,12 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
         initComment();
+
+        if(state == 2){
+            ll_input_comment.setVisibility(View.GONE);
+        }else{
+            ll_input_comment.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onEventMainThread(AppEventType event) {
