@@ -48,6 +48,7 @@
                 android:visibility="invisible"
                 android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
+                android:layout_marginLeft="@dimen/space_5"
                 android:src="@mipmap/question_sure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -76,6 +77,7 @@
             android:layout_alignParentRight="true"
             android:id="@+id/adopt_btn"
             android:visibility="gone"
+            android:text="采纳"
             style="@style/btn_comm_styles"
             android:layout_marginBottom="@dimen/space_6"
             android:layout_marginRight="@dimen/space_10"

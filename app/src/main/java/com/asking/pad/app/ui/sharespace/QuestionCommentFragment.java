@@ -65,9 +65,10 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     private MaterialDialog mLoadDialog;
 
     String questionId,askUserId;
-
+    static QuestionCommentFragment fragment;
     public static QuestionCommentFragment newInstance(String questionId,String askUserId) {
-        QuestionCommentFragment fragment = new QuestionCommentFragment();
+        if(fragment==null)
+            fragment = new QuestionCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("questionId", questionId);
         bundle.putString("askUserId", askUserId);
@@ -121,7 +122,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         });
 
         //是否登录用户
-        mAdapter.setLoginUser(AppContext.getInstance().getUserId() == askUserId);
+        mAdapter.setLoginUser(AppContext.getInstance().getUserId().equals(askUserId));
         recycler.setAdapter(mAdapter);
 
         load_comment.setErrorRefBtnTxt2(new View.OnClickListener() {
