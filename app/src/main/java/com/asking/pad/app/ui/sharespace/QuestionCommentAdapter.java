@@ -58,6 +58,7 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
 
     public void setVisBtn(){
         mItemView.findViewById(R.id.adopt_btn).setVisibility(View.GONE);
+        mItemView.findViewById(R.id.question_sure).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                     holder.reAnswersizeTv.setVisibility(View.GONE);
                 }
 
-                if(isLoginUser){
+                if(isLoginUser && !e.isAdopt()){
                     holder.adoptBtn.setVisibility(View.VISIBLE);
 
                     holder.adoptBtn.setOnClickListener(new View.OnClickListener() {
