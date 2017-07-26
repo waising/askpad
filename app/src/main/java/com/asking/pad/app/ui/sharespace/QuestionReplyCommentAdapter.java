@@ -38,7 +38,7 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
         this.questionEntity = questionEntity;
     }
 
-    QuestionEntity questionEntity ;
+    QuestionEntity questionEntity;
     QuestionEntity.AnwserMoreEntity anwserMoreEntity;
 
     Context mContext;
@@ -55,33 +55,26 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
 
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
-        final QuestionEntity.AnswerDetail e = dataList.get(position);
-
-        try{
-            if(e!=null&&anwserMoreEntity!=null&&questionEntity!=null){
-
+        QuestionEntity.AnswerDetail e = dataList.get(position);
+        try {
+            if (e != null && anwserMoreEntity != null && questionEntity != null) {
                 //如果回答者为空则取最上面用户名
-                if(TextUtils.isEmpty(e.getAnswer())){
-                    BitmapUtil.displayUserImage(mContext,AVATOR_URL + questionEntity.getUserId(), holder.iv_avatar);
+                if (TextUtils.isEmpty(e.getAnswer())) {
+                    BitmapUtil.displayUserImage(mContext, AVATOR_URL + questionEntity.getUserId(), holder.iv_avatar);
                     holder.tv_name.setText(questionEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAskTime()));
 
                     holder.content_mathview.setText(e.getAsk());
-                }else{
-                    BitmapUtil.displayUserImage(mContext,AVATOR_URL + anwserMoreEntity.getUserId(), holder.iv_avatar);
+                } else {
+                    BitmapUtil.displayUserImage(mContext, AVATOR_URL + anwserMoreEntity.getUserId(), holder.iv_avatar);
                     holder.tv_name.setText(anwserMoreEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAnswerTime()));
                     holder.content_mathview.setText(e.getAnswer());
                 }
-
-                //采纳
-//                if(anwserMoreEntity.isAdopt()){
-//                    holder.sureIv.setVisibility(View.VISIBLE);
-//                }
             }
 
-        }catch (Exception ex){
-
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

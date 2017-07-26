@@ -66,10 +66,11 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     QuestionEntity.AnwserMoreEntity anwserMoreEntity;
     String questionId;
 
-    public static QuestionReplyFragment newInstance(QuestionEntity.AnwserMoreEntity e, String questionId,boolean isLoginuUser) {
+    public static QuestionReplyFragment newInstance(QuestionEntity.AnwserMoreEntity e
+            , String questionId, boolean isLoginuUser) {
         QuestionReplyFragment fragment = new QuestionReplyFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("anwserMoreEntity",e);
+        bundle.putParcelable("anwserMoreEntity", e);
         bundle.putString("questionId", questionId);
         bundle.putBoolean("isLoginuUser", isLoginuUser);
         fragment.setArguments(bundle);
@@ -102,7 +103,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         mLoadDialog = getLoadingDialog().build();
 
         rv_comment.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new QuestionReplyCommentAdapter(getActivity(),dataDetailList);
+        mAdapter = new QuestionReplyCommentAdapter(getActivity(), dataDetailList);
 //        mAdapter.setLoginuUser(isLoginuUser);
         rv_comment.setAdapter(mAdapter);
 
@@ -114,18 +115,17 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
         //是登录用户的则显示评论框
-        if(!TextUtils.isEmpty(anwserMoreEntity.getUserId()) && anwserMoreEntity.getUserId().equals(AppContext.getInstance().getUserId())){
+        if (!TextUtils.isEmpty(anwserMoreEntity.getUserId()) && anwserMoreEntity.getUserId().equals(AppContext.getInstance().getUserId())) {
             commentLL.setVisibility(View.VISIBLE);
         }
 
-        if(isLoginuUser)
+        if (isLoginuUser)
             submitBtn.setText("追问");
         initComment();
     }
 
     /**
      * 加载拍照后图片存储路径
-     *
      */
     public void loadImage(String filePath) {
         mLoadDialog.show();
@@ -138,55 +138,53 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Bitmap bitmap= BitmapFactory.decodeStream(fis);
+        Bitmap bitmap = BitmapFactory.decodeStream(fis);
         MultipartBody.Part body = CommonUtil.getMultipartBodyPart(getActivity(), bitmap, filePath);
-        mPresenter.sendSubmitPic(body, new ApiRequestListener<String>(){
+        mPresenter.sendSubmitPic(body, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 //mLoadDialog.dismiss();
-                Log.i(QuestionAnwserActivity.class.getSimpleName(),"上传成功");
+                Log.i(QuestionAnwserActivity.class.getSimpleName(), "上传成功");
                 sendContent(resStr);
             }
 
             @Override
-            public void onResultFail(){
+            public void onResultFail() {
                 mLoadDialog.dismiss();
             }
         });//提交图片，获取地址，在上传问题
     }
 
     private void initComment() {
-        mPresenter.getQuestionDetail(questionId,new ApiRequestListener<String>(){
+        mPresenter.getQuestionDetail(questionId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 QuestionEntity qe = new Gson().fromJson(resStr, QuestionEntity.class);
                 dataList.clear();
                 dataDetailList.clear();
-                if(qe!=null){
+                QuestionEntity.AnswerDetail f = new QuestionEntity.AnswerDetail();
+                f.setAnswerTime(anwserMoreEntity.getCreateDate());
+                f.setAnswer(anwserMoreEntity.getContent());
+                dataDetailList.add(f);
+                if (qe != null) {
                     if (qe.getList().size() == 0) {
                         load_comment.setViewState(MultiStateView.VIEW_STATE_EMPTY);
                     } else {
-
-                        for (QuestionEntity.AnwserMoreEntity e : qe.getList()){
-                            if(e !=null && e.getId() == anwserMoreEntity.getId()){
+                        for (QuestionEntity.AnwserMoreEntity e : qe.getList()) {
+                            if (e != null && e.getId() == anwserMoreEntity.getId()) {
                                 anwserMoreEntity = e;
                                 break;
                             }
                         }
-
-                        if(anwserMoreEntity.getList()!=null && anwserMoreEntity.getList().size()>0) {
+                        if (anwserMoreEntity.getList() != null && anwserMoreEntity.getList().size() > 0) {
                             dataDetailList.addAll(anwserMoreEntity.getList());
-
-                            mAdapter.setAnwserMoreEntity(anwserMoreEntity);
-                            mAdapter.setQuestionEntity(qe);
-                            mAdapter.notifyDataSetChanged();
-                            load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                        }else{
-                            load_comment.setViewState(MultiStateView.VIEW_STATE_EMPTY);
                         }
                     }
-
                 }
+                mAdapter.setAnwserMoreEntity(anwserMoreEntity);
+                mAdapter.setQuestionEntity(qe);
+                mAdapter.notifyDataSetChanged();
+                load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
             }
 
             @Override
@@ -196,7 +194,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         });
     }
 
-    @OnClick({R.id.iv_photo_view,R.id.btn_submit,R.id.tv_back})
+    @OnClick({R.id.iv_photo_view, R.id.btn_submit, R.id.tv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_back:
@@ -207,8 +205,8 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
                 break;
             case R.id.btn_submit:
                 String content = edt_note_content.getText().toString();
-                if(TextUtils.isEmpty(content)){
-                    Toast.makeText(getActivity(),"回复不能为空！",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(content)) {
+                    Toast.makeText(getActivity(), "回复不能为空！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 edt_note_content.setText("");
@@ -218,34 +216,34 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         }
     }
 
-    private void sendContent(String content){
+    private void sendContent(String content) {
 
         //追问
-        if(isLoginuUser){
-            mPresenter.sendQaAgainAsk(questionId,anwserMoreEntity.getId(),content, new ApiRequestListener<String>(){
+        if (isLoginuUser) {
+            mPresenter.sendQaAgainAsk(questionId, anwserMoreEntity.getId(), content, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String resStr) {
                     mLoadDialog.dismiss();
                     initComment();
-                    Log.i(QuestionAnwserActivity.class.getSimpleName(),"追问成功");
+                    Log.i(QuestionAnwserActivity.class.getSimpleName(), "追问成功");
                 }
 
                 @Override
-                public void onResultFail(){
+                public void onResultFail() {
                     mLoadDialog.dismiss();
                 }
             });
-        }else{
-            mPresenter.sendQaAgainAnswer(questionId,anwserMoreEntity.getId(),content, new ApiRequestListener<String>(){
+        } else {
+            mPresenter.sendQaAgainAnswer(questionId, anwserMoreEntity.getId(), content, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String resStr) {
                     mLoadDialog.dismiss();
                     initComment();
-                    Log.i(QuestionAnwserActivity.class.getSimpleName(),"追答成功");
+                    Log.i(QuestionAnwserActivity.class.getSimpleName(), "追答成功");
                 }
 
                 @Override
-                public void onResultFail(){
+                public void onResultFail() {
                     mLoadDialog.dismiss();
                 }
             });
