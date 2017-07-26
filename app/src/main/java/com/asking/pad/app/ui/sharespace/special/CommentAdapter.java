@@ -52,6 +52,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommView
         BitmapUtil.displayUserImage(mActivity,e.getAvatarUrl(), holder.iv_avatar);
         holder.tv_time.setText(DateUtil.friendly_time(DateUtil.getDateToString(e.createDate)));
         holder.tv_name.setText(e.getNickName());
+
+        holder.content_mathview.formatMath();
         holder.content_mathview.setText(e.message);
 
         holder.tv_reply.setText(e.answerCount > 0 ? String.format("%s  回复", e.answerCount) : "");

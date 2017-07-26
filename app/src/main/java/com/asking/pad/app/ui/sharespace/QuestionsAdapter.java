@@ -14,13 +14,11 @@ import android.widget.TextView;
 
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
-import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 
 import java.util.List;
@@ -48,10 +46,18 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
     private Context mContext;
 
+    int dataType;
+
     List<QuestionEntity> questionEntities;
 
     public QuestionsAdapter(Context context, List<QuestionEntity> questionEntities) {
         this.mContext = context;
+        this.questionEntities = questionEntities;
+    }
+
+    public QuestionsAdapter(Context context,int dataType, List<QuestionEntity> questionEntities) {
+        this.mContext = context;
+        this.dataType = dataType;
         this.questionEntities = questionEntities;
     }
 
@@ -239,6 +245,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                     QuestionEntity q = questionEntities.get(getAdapterPosition());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("questionEntity",q);
+                    bundle.putInt("dataType",dataType);
                     bundle.putString("km",getSubjectName(q.getKm())+" - "+ getGradleName(q.getLevelId()));
                     Intent intent = new Intent(AppContext.getInstance().getApplicationContext(), QuestionAnwserActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);

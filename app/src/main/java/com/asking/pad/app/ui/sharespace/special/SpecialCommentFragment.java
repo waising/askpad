@@ -86,7 +86,7 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
             public void OnItemComment(SpecialComment e) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(communionTopicId,e.getUserId()))
+                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(state,communionTopicId,e.getUserId()))
                         .commit();
             }
         });
@@ -196,7 +196,7 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
             case R.id.tv_myself:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(communionTopicId, AppContext.getInstance().getUserId()))
+                        .replace(R.id.fragment, SpeciaReplyFragment.newInstance(state,communionTopicId, AppContext.getInstance().getUserId()))
                         .commit();
                 break;
         }
