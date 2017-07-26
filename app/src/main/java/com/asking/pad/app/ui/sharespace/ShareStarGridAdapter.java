@@ -15,8 +15,6 @@ import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 
 import java.util.List;
 
-import static com.asking.pad.app.R.id.iv_rank;
-
 
 public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdapter.ViewHolder> {
 
@@ -56,7 +54,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ivRank = (ImageView) itemView.findViewById(iv_rank);
+            ivRank = (ImageView) itemView.findViewById(R.id.iv_rank);
             tvRankNum = (TextView) itemView.findViewById(R.id.tv_rank_num);
             rankAvator = (ImageView) itemView.findViewById(R.id.rank_avatar);
             tvNickName = (TextView) itemView.findViewById(R.id.tv_nick_name);
@@ -82,7 +80,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
             } else {
                 holder.ivRank.setImageResource(R.mipmap.ic_share_nums);
                 holder.tvRankNum.setVisibility(View.VISIBLE);
-                holder.tvRankNum.setText(position + 1);
+                holder.tvRankNum.setText((position + 1)+"");
             }
             holder.tvAcceptNum.setText(mContext.getString(R.string.accept_num, shareStarRank.getAdoptNum() + ""));
             BitmapUtil.displayUserImage(mContext,ShareStarFragement.AVATOR_URL + shareStarRank.getUserId(), holder.rankAvator);

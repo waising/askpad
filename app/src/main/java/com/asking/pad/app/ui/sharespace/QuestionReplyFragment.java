@@ -14,22 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.internal.MDAdapter;
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
-import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.entity.QuestionEntity;
-import com.asking.pad.app.entity.sharespace.SpecialComment;
-import com.asking.pad.app.mvp.OnCountDownListener;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.ui.CameraActivity;
-import com.asking.pad.app.ui.sharespace.special.CommentAdapter;
 import com.asking.pad.app.widget.MultiStateView;
 import com.google.gson.Gson;
 
@@ -180,7 +174,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
                             }
                         }
 
-                        if(anwserMoreEntity.getList()!=null || anwserMoreEntity.getList().size()>0) {
+                        if(anwserMoreEntity.getList()!=null && anwserMoreEntity.getList().size()>0) {
                             dataDetailList.addAll(anwserMoreEntity.getList());
 
                             mAdapter.setAnwserMoreEntity(anwserMoreEntity);

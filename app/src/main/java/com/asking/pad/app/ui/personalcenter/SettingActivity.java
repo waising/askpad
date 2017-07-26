@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,10 +45,10 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
     TextView tvEditPassword;
     @BindView(R.id.tv_about_us)
     TextView tvAboutUs;
-    @BindView(R.id.tv_close_shutter)
-    ImageView tvCloseShutter;
+
     @BindView(R.id.ll_check_update)
     LinearLayout llCheckUpdate;
+
     @BindView(R.id.tv_version_update)
     TextView tvVersionUpdate;
 
@@ -77,7 +76,7 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
         tvVersionUpdate.setText("当前版本：v" + SystemUtil.getVersionName(this));
     }
 
-    @OnClick({R.id.tv_edit_password, R.id.tv_about_us, R.id.tv_log_out, R.id.tv_log_in, R.id.tv_close_shutter, R.id.ll_check_update})
+    @OnClick({R.id.tv_edit_password, R.id.tv_about_us, R.id.tv_log_out, R.id.tv_log_in, R.id.ll_check_update})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_edit_password://修改密码弹窗
@@ -105,10 +104,6 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
                 break;
             case R.id.tv_about_us://关于我们
                 CommonUtil.openActivity(AboutUsActivity.class);
-                break;
-            case R.id.tv_close_shutter://关闭快门
-                view.setSelected(!view.isSelected());
-                openOrCloseShutter(false);
                 break;
             case R.id.ll_check_update://系统更新
                 requestAlertWindow();

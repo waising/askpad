@@ -12,7 +12,6 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
-import com.asking.pad.app.commom.ShopCartEvent;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.entity.QuestionSubjectEntity;
 import com.asking.pad.app.presenter.UserModel;
@@ -53,11 +52,19 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     String levelId="";
     String state="";
 
+    /**
+     * 2-已采纳
+     */
+    int dataType;
+
     private QuestionsAdapter mQustionsAdapter;
     private List<QuestionEntity> questionList = new ArrayList<>();
 
-    public static QuestionsDetailFragment newInstance() {
+    public static QuestionsDetailFragment newInstance(int dataType) {
         QuestionsDetailFragment fragment = new QuestionsDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("dataType", dataType);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -100,6 +107,11 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
         EventBus.getDefault().register(this);
         setContentView(R.layout.fragment_questions_detail);
         ButterKnife.bind(this, getContentView());
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            dataType = bundle.getInt("dataType");
+        }
     }
 
     @Override
@@ -157,7 +169,7 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
 
     public void refshAdapt(List<QuestionEntity> entityComment) {
         if (mQustionsAdapter == null) {
-            mQustionsAdapter = new QuestionsAdapter(getContext(), entityComment);
+            mQustionsAdapter = new QuestionsAdapter(getContext(), dataType,entityComment);
             recyclerView.setAdapter(mQustionsAdapter);
         } else {
             if (start > 0) {

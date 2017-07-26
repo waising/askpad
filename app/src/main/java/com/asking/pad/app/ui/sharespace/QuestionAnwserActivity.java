@@ -2,9 +2,7 @@ package com.asking.pad.app.ui.sharespace;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +45,11 @@ public class QuestionAnwserActivity extends AppCompatActivity {
 
     String id = "",km = "";
 
+    /**
+     *  2-已采纳
+     */
+    int dataType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class QuestionAnwserActivity extends AppCompatActivity {
         questionEntity = getIntent().getParcelableExtra("questionEntity");
         id = questionEntity.getId();
         km = getIntent().getStringExtra("km");
+        dataType = getIntent().getIntExtra("dataType",0);
 
         mathView.showWebImage(this).formatMath();
 
@@ -76,6 +80,6 @@ public class QuestionAnwserActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment, QuestionCommentFragment.newInstance(id,questionEntity.getUserId())).commit();
+                .replace(R.id.fragment, QuestionCommentFragment.newInstance(dataType,id,questionEntity.getUserId())).commit();
     }
 }

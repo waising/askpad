@@ -13,26 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
-import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
-import com.asking.pad.app.entity.sharespace.SpecialComment;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.camera.ui.CameraActivity;
-import com.asking.pad.app.ui.sharespace.special.CommentAdapter;
-import com.asking.pad.app.ui.sharespace.special.SpeciaReplyFragment;
 import com.asking.pad.app.widget.MultiStateView;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -59,19 +52,26 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     @BindView(R.id.answer_size)
     TextView answerSizeTv;
 
+    @BindView(R.id.ll_input_comment)
+    View ll_input_comment;
+
     ArrayList<QuestionEntity.AnwserMoreEntity> dataList = new ArrayList<>();
     QuestionCommentAdapter mAdapter;
 
     private MaterialDialog mLoadDialog;
 
+    /**
+     *  2-已采纳
+     */
+    int dataType;
+
     String questionId,askUserId;
-    static QuestionCommentFragment fragment;
-    public static QuestionCommentFragment newInstance(String questionId,String askUserId) {
-        if(fragment==null)
-            fragment = new QuestionCommentFragment();
+    public static QuestionCommentFragment newInstance(int dataType,String questionId,String askUserId) {
+        QuestionCommentFragment fragment = new QuestionCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("questionId", questionId);
         bundle.putString("askUserId", askUserId);
+        bundle.putInt("dataType", dataType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -84,6 +84,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         if (bundle != null) {
             questionId = bundle.getString("questionId");
             askUserId = bundle.getString("askUserId");
+            dataType = bundle.getInt("dataType");
         }
     }
 
@@ -133,6 +134,12 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
+        if(dataType == 2){
+            ll_input_comment.setVisibility(View.GONE);
+        }else {
+            ll_input_comment.setVisibility(View.VISIBLE);
+        }
+
         initComment();
     }
 
@@ -159,7 +166,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                         mAdapter.notifyDataSetChanged();
                         load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
 
-                        answerSizeTv.setText(String.valueOf(dataList.size())+"人回答");
+                        answerSizeTv.setText(String.format("当前%s人回答",dataList.size()));
                     }
 
                 }

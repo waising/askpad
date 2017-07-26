@@ -2,8 +2,8 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@mipmap/ic_favor" android:state_selected="true"/>
-    <item android:drawable="@mipmap/ic_favor" android:state_pressed="true"/>
-    <item android:drawable="@mipmap/ic_favor_no" />
+    <item android:drawable="@mipmap/ic_favor_spe" android:state_selected="true"/>
+    <item android:drawable="@mipmap/ic_favor_spe" android:state_pressed="true"/>
+    <item android:drawable="@mipmap/ic_share_ques_f" />
 
 </selector>

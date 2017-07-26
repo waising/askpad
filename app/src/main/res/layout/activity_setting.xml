@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorTest_f8"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorTest_f8"
+              android:orientation="vertical">
 
-    <include layout="@layout/common_toolbar" />
+    <include layout="@layout/common_toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:gravity="center_vertical"
                 android:text="登录密码"
                 android:textColor="@color/colorText_56"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
             <TextView
                 android:id="@+id/tv_edit_password"
@@ -48,44 +48,44 @@
                 android:paddingTop="@dimen/space_10"
                 android:text="修改"
                 android:textColor="@color/white"
-                android:textSize="@dimen/textSize_16" />
+                android:textSize="@dimen/textSize_16"/>
 
         </LinearLayout>
 
 
-        <View style="@style/view_horizontal_line" />
+        <!--<View style="@style/view_horizontal_line" />-->
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_22"
-            android:layout_marginTop="@dimen/space_34"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="@dimen/space_22"-->
+        <!--android:layout_marginTop="@dimen/space_34"-->
+        <!--android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_40"
-                android:layout_weight="1"
-                android:drawableLeft="@mipmap/ic_photo"
-                android:drawablePadding="@dimen/space_16"
-                android:gravity="center_vertical"
-                android:text="快门声音"
-                android:textColor="@color/colorText_56"
-                android:textSize="@dimen/textSize_18" />
+        <!--<TextView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/space_40"-->
+        <!--android:layout_weight="1"-->
+        <!--android:drawableLeft="@mipmap/ic_photo"-->
+        <!--android:drawablePadding="@dimen/space_16"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="快门声音"-->
+        <!--android:textColor="@color/colorText_56"-->
+        <!--android:textSize="@dimen/textSize_18" />-->
 
-            <ImageView
-                android:id="@+id/tv_close_shutter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/space_40"
-                android:background="@drawable/shutter_sound" />
+        <!--<ImageView-->
+        <!--android:id="@+id/tv_close_shutter"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="@dimen/space_40"-->
+        <!--android:background="@drawable/shutter_sound" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
 
-        <View style="@style/view_horizontal_line" />
+        <View style="@style/view_horizontal_line"/>
 
 
         <LinearLayout
@@ -106,7 +106,7 @@
                 android:gravity="center_vertical"
                 android:text="检查更新"
                 android:textColor="@color/colorText_56"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
             <TextView
                 android:id="@+id/tv_version_update"
@@ -115,34 +115,48 @@
                 android:layout_marginRight="@dimen/space_40"
                 android:text="当前为最新版本"
                 android:textColor="@color/colorText_c7"
-                android:textSize="@dimen/textSize_16" />
+                android:textSize="@dimen/textSize_16"/>
 
         </LinearLayout>
 
 
-        <View style="@style/view_horizontal_line" />
+        <View style="@style/view_horizontal_line"/>
 
-        <TextView
-            android:id="@+id/tv_about_us"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_40"
-            android:drawableLeft="@mipmap/ic_about_us"
-            android:drawablePadding="@dimen/space_8"
-            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/space_30"
-            android:paddingTop="@dimen/space_30"
-            android:text="关于我们"
-            android:textColor="@color/colorText_56"
-            android:textSize="@dimen/textSize_18" />
+            android:paddingTop="@dimen/space_30">
 
+            <TextView
+                android:id="@+id/tv_about_us"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_40"
+                android:drawableLeft="@mipmap/ic_about_us"
+                android:drawablePadding="@dimen/space_8"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="联系客服"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_18"/>
 
-        <View style="@style/view_horizontal_line" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_40"
+                android:text="400 - 918 - 1915"
+                android:textColor="@color/colorText_56"
+                android:textSize="@dimen/textSize_16"/>
+        </LinearLayout>
+
+        <View style="@style/view_horizontal_line"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_log_out"
@@ -157,7 +171,7 @@
             android:paddingTop="@dimen/space_14"
             android:text="退出登录"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize_16" />
+            android:textSize="@dimen/textSize_16"/>
 
         <TextView
             android:id="@+id/tv_log_in"
@@ -173,7 +187,7 @@
             android:text="登录"
             android:textColor="@color/white"
             android:textSize="@dimen/textSize_16"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 

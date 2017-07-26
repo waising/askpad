@@ -93,7 +93,7 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
 
         @Override
         public Fragment getItem(int position) {
-            QuestionsDetailFragment qd = QuestionsDetailFragment.newInstance();
+            QuestionsDetailFragment qd = QuestionsDetailFragment.newInstance(position);
             qd.position = position;
             return qd;
         }
