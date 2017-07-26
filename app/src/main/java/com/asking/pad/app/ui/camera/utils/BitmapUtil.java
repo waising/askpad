@@ -19,7 +19,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.asking.pad.app.AppContext;
@@ -28,12 +27,10 @@ import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.FileUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -344,27 +341,7 @@ public class BitmapUtil {
                 .cacheInMemory(true)
                 .cacheOnDisk(true).displayer(
                         new RoundedBitmapDisplayer(context.getResources().getDimensionPixelSize(R.dimen.space_102))).build();
-        imageLoader.displayImage(url, askSimpleDraweeView, itemUserOptions, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                super.onLoadingStarted(imageUri, view);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                super.onLoadingFailed(imageUri, view, failReason);
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                super.onLoadingComplete(imageUri, view, loadedImage);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                super.onLoadingCancelled(imageUri, view);
-            }
-        });
+        imageLoader.displayImage(url, askSimpleDraweeView, itemUserOptions);
     }
 
     public static String getGreyPath() {
