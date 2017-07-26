@@ -332,7 +332,7 @@ public class QuestionEntity implements Parcelable {
         }
     };
 
-    public class AnswerDetail{
+    public static class AnswerDetail{
         public String getAnswer() {
             return answer;
         }
