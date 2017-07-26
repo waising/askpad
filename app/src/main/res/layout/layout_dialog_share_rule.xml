@@ -35,6 +35,15 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_marginTop="@dimen/space_42"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_68"
+            android:layout_marginRight="@dimen/space_68"
+            android:text="依据用户在共享空间的活跃度，每周进行一期共享之星的评选。"
+            android:textColor="#444444"
+            android:textSize="@dimen/textSize_18" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -56,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_8"
                 android:drawableLeft="@drawable/black_circle"
-                android:text="每周为一期"
+                android:text="选取被采纳数最多的用户；"
                 android:textColor="#444444"
                 android:textSize="@dimen/textSize_18" />
 
@@ -80,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_8"
-                android:text="共享之星可以获得200个阿思币+纪念品一份"
+                android:text="每周评选一期，周日24点公布本周的共享之星；"
                 android:textColor="#444444"
                 android:textSize="@dimen/textSize_18" />
 
@@ -104,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_8"
-                android:text="纪念品将由工作人员联系并确认收货地址"
+                android:text="荣获共享之星的用户，可以获得精美礼品一份，以及 200个阿思币；"
                 android:textColor="#444444"
                 android:textSize="@dimen/textSize_18" />
         </LinearLayout>
@@ -125,10 +134,11 @@
                 android:background="@drawable/black_circle" />
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_8"
-                android:text="每周六24点选出本周共享之星"
+                android:text="礼品将由阿思可公司客服联系到你并确认收货地址后寄出。"
                 android:textColor="#444444"
                 android:textSize="@dimen/textSize_18" />
         </LinearLayout>
