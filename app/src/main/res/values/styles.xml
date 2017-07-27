@@ -467,7 +467,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSize_16</item>
-        <item name="android:textColor">@color/login_line</item>
+        <item name="android:textColor">@color/colorText_88</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>
     </style>
@@ -698,6 +698,46 @@
         <item name="android:layout_marginTop">@dimen/space_10</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
+    <style name="ll_mine_set_styles">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">@dimen/space_20</item>
+    </style>
+
+    <style name="tv_mine_set_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/space_20</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
+    <style name="btn_red_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/space_10</item>
+        <item name="android:paddingBottom">@dimen/space_10</item>
+        <item name="android:paddingLeft">@dimen/space_20</item>
+        <item name="android:paddingRight">@dimen/space_20</item>
+        <item name="android:background">@drawable/bg_corners_red</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
+    <style name="tit_tip_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/space_5</item>
+        <item name="android:drawableLeft">@mipmap/ic_specical_tit_flag</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/textSize_18</item>
     </style>
 

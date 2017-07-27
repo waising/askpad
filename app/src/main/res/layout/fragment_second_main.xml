@@ -2,28 +2,120 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="horizontal">
+              android:background="@color/white"
+              android:orientation="vertical">
 
-    <View
-        style="@style/view_size_left_right_style"/>
+    <include layout="@layout/common_toolbar"/>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
-        android:gravity="center"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mine_rv"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/space_20"
+            android:paddingRight="@dimen/space_20">
 
-    <View
-        style="@style/view_size_left_right_style"/>
+            <include layout="@layout/layout_user_info"/>
 
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_pay_book"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:drawableLeft="@mipmap/mine_pay"
+                    android:text="课程购买"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_cache"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:drawableLeft="@mipmap/mine_class_media_cache"
+                    android:text="@string/app_class_media_cache"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_note"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:drawableLeft="@mipmap/mine_note"
+                    android:text="@string/my_note"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_mine_askcoin"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/mine_askcoin"
+                    android:text="我的阿思可币"/>
+
+                <com.asking.pad.app.widget.NumberAnimTextView
+                    android:id="@+id/tv_monny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:drawablePadding="@dimen/space_5"
+                    android:drawableRight="@mipmap/mine_ask_money"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/textSize_16"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_app_down"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/mine_app_down"
+                    android:text="APP下载"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_app_down"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+
+            <LinearLayout
+                android:id="@+id/ll_about_me"
+                style="@style/ll_mine_set_styles">
+
+                <TextView
+                    style="@style/tv_mine_set_styles"
+                    android:drawableLeft="@mipmap/mine_about_me"
+                    android:text="关于我们"/>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line"/>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

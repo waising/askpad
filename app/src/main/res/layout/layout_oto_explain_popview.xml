@@ -39,17 +39,17 @@
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="6个阿思币/分钟，2分钟起算"/>
+                    android:text="每分钟收费6个阿思币，时长2分钟起算"/>
 
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="30秒以内算3个阿思币"/>
+                    android:text="时长2分钟内，收取12个阿思币"/>
 
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="30秒以内算6个阿思币"/>
+                    android:text="时长2分钟外，秒数部分不满30秒收取3个阿思币， 满30秒收取6个阿思币"/>
 
                 <TextView
                     style="@style/tv_explain_styles"
@@ -60,17 +60,17 @@
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="8个阿思币/分钟，2分钟起算"/>
+                    android:text="每分钟收费8个阿思币，时长2分钟起算"/>
 
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="30秒以内算4个阿思币"/>
+                    android:text="时长2分钟内，收取16个阿思币"/>
 
                 <TextView
                     style="@style/tv_explain_styles"
                     android:layout_marginLeft="@dimen/space_60"
-                    android:text="30秒以内算8个阿思币"/>
+                    android:text="时长2分钟外，秒数部分不满30秒收取4个阿思币， 满30秒收取8个阿思币"/>
 
                 <TextView
                     style="@style/tv_explain_styles"

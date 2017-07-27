@@ -63,11 +63,6 @@ public class OtoMainFragment extends BaseFragment {
     }
 
     public void showPopupWindowView() {
-        if (popupwindow != null && popupwindow.isShowing()) {
-            popupwindow.dismiss();
-            popupwindow = null;
-            return;
-        }
         View customView = getActivity().getLayoutInflater().inflate(R.layout.layout_oto_explain_popview, null, false);
 
         popupwindow = new PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT,
