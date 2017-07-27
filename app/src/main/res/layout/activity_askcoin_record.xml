@@ -3,35 +3,82 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/white"
               android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/theme_blue_theme"
-        android:gravity="center_vertical"
-        android:padding="@dimen/space_10">
+    <include layout="@layout/common_toolbar"/>
 
-        <include layout="@layout/layout_user_info"/>
-
-        <TextView
-            android:id="@+id/tv_recharge"
-            style="@style/tv_main_styles"
-            android:layout_gravity="right|center_vertical"
-            android:drawableLeft="@mipmap/mine_recharge"
-            android:textColor="@color/white"
-            android:text="@string/pay"/>
-    </FrameLayout>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/space_30"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="@dimen/space_5"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical"
+        android:padding="@dimen/space_20">
+
+        <TextView
+            style="@style/tit_tip_styles"
+            android:text="我的阿思可币"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/space_20"
+            android:paddingLeft="@dimen/space_10"
+            android:paddingRight="@dimen/space_10"
+            android:paddingTop="@dimen/space_20">
+
+            <com.asking.pad.app.widget.AskSimpleDraweeView
+                android:id="@+id/ad_avatar"
+                android:layout_width="@dimen/space_60"
+                android:layout_height="@dimen/space_60"
+                android:layout_marginRight="@dimen/space_10"
+                app:backgroundImage="@color/main_bg"
+                app:roundAsCircle="true"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/space_5"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorText_44"
+                android:textSize="@dimen/textSize_20"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="余额："
+                android:textColor="@color/colorText_88"
+                android:textSize="@dimen/textSize_16"/>
+
+            <com.asking.pad.app.widget.NumberAnimTextView
+                android:id="@+id/tv_monny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10"
+                android:drawablePadding="@dimen/space_5"
+                android:drawableRight="@mipmap/mine_ask_money"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:textSize="@dimen/textSize_16"/>
+
+            <TextView
+                android:id="@+id/tv_recharge"
+                style="@style/btn_red_styles"
+                android:layout_marginLeft="@dimen/space_30"
+                android:text="立即充值"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line"/>
+
+        <TextView
+            style="@style/tit_tip_styles"
+            android:layout_marginTop="@dimen/space_20"
+            android:drawableLeft="@mipmap/ic_specical_tit_flag1"
+            android:text="使用明细"/>
 
         <com.asking.pad.app.widget.MultiStateView
             android:id="@+id/load_view"
@@ -57,7 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="@dimen/space_25"
+                        android:paddingBottom="@dimen/space_10"
                         android:paddingTop="@dimen/space_25">
 
                         <TextView
@@ -98,6 +145,6 @@
 
         </com.asking.pad.app.widget.MultiStateView>
 
-    </android.support.v7.widget.CardView>
 
+    </LinearLayout>
 </LinearLayout>

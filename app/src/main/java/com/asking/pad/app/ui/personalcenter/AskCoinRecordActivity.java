@@ -3,6 +3,7 @@ package com.asking.pad.app.ui.personalcenter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,9 +12,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameActivity;
-import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.base.BaseEvenActivity;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.entity.IntegralLog;
 import com.asking.pad.app.entity.UserEntity;
 import com.asking.pad.app.presenter.UserModel;
@@ -36,18 +36,15 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Created by jswang on 2017/5/31.
  */
 
-public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, UserModel> {
+public class AskCoinRecordActivity extends BaseEvenActivity<UserPresenter, UserModel> {
+    @BindView(R.id.toolBar)
+    Toolbar mToolbar;
+
     @BindView(R.id.ad_avatar)
     AskSimpleDraweeView ad_avatar;
 
     @BindView(R.id.tv_name)
     TextView tv_name;
-
-    @BindView(R.id.tv_shcool)
-    TextView tv_shcool;
-
-    @BindView(R.id.tv_grade)
-    TextView tv_grade;
 
     @BindView(R.id.tv_monny)
     TextView tv_monny;
@@ -76,6 +73,14 @@ public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, User
     @Override
     public void initView() {
         super.initView();
+
+        mToolbar.setTitle("");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mAdapter = new AskCoinRecordAdapter(dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -106,12 +111,33 @@ public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, User
         if(mUser != null){
             ad_avatar.setImageUrl(mUser.getAvatar());
             tv_name.setText(mUser.getNickName());
-            tv_shcool.setText(mUser.getSchoolName());
             tv_monny.setText(String.valueOf(mUser.getIntegral()));
 
             tv_name.setSelected(mUser.getSex() == 0 ? false : true);
+        }
+    }
 
-            tv_grade.setText(Constants.getUserGradeName()); // 年级
+    private void refreshUser() {
+        mPresenter.studentinfo(new ApiRequestListener<String>() {
+            @Override
+            public void onResultSuccess(String res) {
+                JSONObject resObject = JSON.parseObject(res);
+                double integral = resObject.getDouble("integral");
+
+                if (integral != AppContext.getInstance().getUserEntity().getIntegral()) {
+                    AppContext.getInstance().getUserEntity().setIntegral(integral);
+                    AppContext.getInstance().saveUserData(AppContext.getInstance().getUserEntity());
+                }
+                tv_monny.setText(String.valueOf(integral));
+            }
+        });
+    }
+
+    public void onEventMainThread(AppEventType event) {
+        switch (event.type) {
+            case AppEventType.PAY_SUCCESSS_REQUEST:
+                refreshUser();
+                break;
         }
     }
 
@@ -139,8 +165,7 @@ public class AskCoinRecordActivity extends BaseFrameActivity<UserPresenter, User
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_recharge:
-                CommonUtil.openAuthActivity(PayAskActivity.class);
-                finish();
+                PayAskActivity.openActivity(1);
                 break;
         }
     }

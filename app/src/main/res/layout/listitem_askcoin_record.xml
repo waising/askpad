@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:padding="@dimen/space_20">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/space_20">
 
         <TextView
             android:id="@+id/tv_date"
             style="@style/tv_askcoin_record_head_style"
-            android:textColor="@color/colorText_33"
+            android:textColor="@color/colorText_88"
             android:textSize="@dimen/textSize_20"/>
 
         <TextView
             android:id="@+id/tv_state"
             style="@style/tv_askcoin_record_head_style"
-            android:textColor="@color/colorText_33"
+            android:textColor="@color/colorText_88"
             android:textSize="@dimen/textSize_20"/>
 
         <TextView
             android:id="@+id/tv_integral"
             style="@style/tv_askcoin_record_head_style"
-            android:textColor="@color/colorText_33"
+            android:textColor="@color/colorText_88"
             android:textSize="@dimen/textSize_20"/>
 
         <TextView
             android:id="@+id/tv_remark"
             style="@style/tv_askcoin_record_head_style"
-            android:textColor="@color/colorText_33"
+            android:textColor="@color/colorText_88"
             android:textSize="@dimen/textSize_20"/>
 
     </LinearLayout>

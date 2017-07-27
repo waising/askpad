@@ -2,25 +2,28 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_user_info"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/space_20"
+    android:paddingLeft="@dimen/space_10"
+    android:paddingRight="@dimen/space_10"
+    android:paddingTop="@dimen/space_20">
 
     <com.asking.pad.app.widget.AskSimpleDraweeView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ad_avatar"
-        android:layout_width="@dimen/space_50"
-        android:layout_height="@dimen/space_50"
+        android:layout_width="@dimen/space_120"
+        android:layout_height="@dimen/space_120"
         android:layout_marginRight="@dimen/space_10"
         app:backgroundImage="@color/main_bg"
         app:roundAsCircle="true"/>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/space_10"
-        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -28,10 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/space_5"
-            android:drawableRight="@drawable/ic_user_sex"
             android:gravity="center"
-            android:textColor="@color/colorText_56"
-            android:textSize="@dimen/textSize_16"/>
+            android:textColor="@color/colorText_44"
+            android:textSize="@dimen/textSize_20"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/colorText_88"
+                android:textColor="@color/colorText_ae"
                 android:textSize="@dimen/textSize_16"/>
 
 
@@ -55,19 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
                 android:gravity="center"
-                android:textColor="@color/colorText_88"
-                android:textSize="@dimen/textSize_16"/>
-
-
-            <com.asking.pad.app.widget.NumberAnimTextView
-                android:id="@+id/tv_monny"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_10"
-                android:drawableLeft="@mipmap/mine_ask_money"
-                android:drawablePadding="@dimen/space_5"
-                android:gravity="center"
-                android:textColor="#fcd551"
+                android:textColor="@color/colorText_ae"
                 android:textSize="@dimen/textSize_16"/>
         </LinearLayout>
     </LinearLayout>

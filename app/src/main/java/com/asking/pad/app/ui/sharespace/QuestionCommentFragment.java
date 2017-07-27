@@ -152,7 +152,6 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     }
 
     private void initComment() {
-
         mPresenter.getQuestionDetail(questionId,new ApiRequestListener<String>(){
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
@@ -168,7 +167,6 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
 
                         answerSizeTv.setText(String.format("当前%s人回答",dataList.size()));
                     }
-
                 }
             }
 
