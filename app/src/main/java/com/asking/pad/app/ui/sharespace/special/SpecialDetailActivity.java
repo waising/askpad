@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.commom.ParamHelper;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by jswang on 2017/7/17.
@@ -114,6 +116,8 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+                        EventBus.getDefault().post(new AppEventType(AppEventType.RE_SHARESPACE_SPECIALFAVOR_REQUEST));
                     }
                 });
                 break;

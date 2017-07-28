@@ -63,7 +63,6 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
                     BitmapUtil.displayUserImage(mContext, AVATOR_URL + questionEntity.getUserId(), holder.iv_avatar);
                     holder.tv_name.setText(questionEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAskTime()));
-
                     holder.content_mathview.setText(e.getAsk());
                 } else {
                     BitmapUtil.displayUserImage(mContext, AVATOR_URL + anwserMoreEntity.getUserId(), holder.iv_avatar);
@@ -72,7 +71,6 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
                     holder.content_mathview.setText(e.getAnswer());
                 }
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

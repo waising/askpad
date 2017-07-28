@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
@@ -56,6 +57,10 @@ public class MultiStateView extends FrameLayout {
     private TextView network_tv2;
     private Button mErrorRefBtn;
 
+    private ImageView iv_empty;
+    private TextView empty_tv;
+    private TextView empty_tv1;
+    private TextView empty_tv2;
     private Button mEmptyRefBtn;
 
     @ViewState
@@ -90,6 +95,10 @@ public class MultiStateView extends FrameLayout {
             mEmptyView = mInflater.inflate(emptyViewResId, this, false);
             addView(mEmptyView, mEmptyView.getLayoutParams());
 
+            iv_empty = (ImageView) mEmptyView.findViewById(R.id.iv_empty);
+            empty_tv = (TextView) mEmptyView.findViewById(R.id.network_tv);
+            empty_tv1 = (TextView) mEmptyView.findViewById(R.id.network_tv1);
+            empty_tv2 = (TextView) mEmptyView.findViewById(R.id.network_tv2);
             mEmptyRefBtn = (Button) mEmptyView.findViewById(R.id.empty_backhome_btn);
         }
 
@@ -343,6 +352,13 @@ public class MultiStateView extends FrameLayout {
 
     public void setEmptyOnClickLinstener(View.OnClickListener clickLinstener){
         mEmptyRefBtn.setOnClickListener(clickLinstener);
+    }
+
+    public void setEmptyStyle(int resImgId,String title,String title1,String title2){
+        iv_empty.setImageResource(resImgId);
+        empty_tv.setText(title);
+        empty_tv1.setText(title1);
+        empty_tv2.setText(title2);
     }
 
     public void setErrorRefBtnTxt(String btnStr,String contentStr,int leftImg,View.OnClickListener mListener){

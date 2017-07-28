@@ -26,6 +26,10 @@ public class AppEventType {
     public static final int QUESTION_REF = 0X28;
     public static final int QUESTION_ASK = 0X29;
 
+    public static final int RE_SHARESPACE_TEAATTEN_REQUEST = 0X30;
+
+    public static final int RE_SHARESPACE_SPECIALFAVOR_REQUEST = 0X31;
+
     public int  type;
     public Object[]  values;
 

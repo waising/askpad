@@ -33,6 +33,9 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
 
     int mPosition = 0;
     View mItemView;
+
+    public  boolean isShowAdopt = true;
+
     public void setAdoptCallBack(QuestionCommentFragment.AdoptCallBack adoptCallBack) {
         this.adoptCallBack = adoptCallBack;
     }
@@ -76,7 +79,6 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                 holder.tv_name.setText(e.getUserName());
                 holder.tv_time.setText(e.getCreateDate_fmt());
                 if(e.getList()!=null && e.getList().size()>0) {
-                    //holder.content_mathview.setText(e.getList().get(0).getAnswer());
                     holder.reAnswersizeTv.setText(String.valueOf(e.getList().size())+"人回复");
                     holder.reAnswersizeTv.setVisibility(View.VISIBLE);
                 }
@@ -84,9 +86,9 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                     holder.reAnswersizeTv.setVisibility(View.GONE);
                 }
 
+                holder.adoptBtn.setVisibility(View.GONE);
                 if(isLoginUser && !e.isAdopt()){
                     holder.adoptBtn.setVisibility(View.VISIBLE);
-
                     holder.adoptBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -97,18 +99,21 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                     });
                 }
 
+                if(!isShowAdopt){
+                    holder.adoptBtn.setVisibility(View.GONE);
+                }
 
                 holder.content_mathview.setText(e.getContent());
-                if(e.isAdopt())
+                if(e.isAdopt()){
                     holder.sureIv.setVisibility(View.VISIBLE);
-
+                }else{
+                    holder.sureIv.setVisibility(View.GONE);
+                }
             }
 
         }catch (Exception ex){
-
+            ex.printStackTrace();
         }
-
-        //BitmapUtil.displayCirImage(e.getTeacherImgUrl(), holder.tea_avatar);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

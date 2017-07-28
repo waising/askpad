@@ -97,10 +97,10 @@ public class SpeciaReplyFragment extends BaseFrameFragment<UserPresenter, UserMo
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
         initComment();
 
-        if (state != 2 && userId == AppContext.getInstance().getUserId()) {
-            ll_input_comment.setVisibility(View.VISIBLE);
-        } else {
+        if (state == 2 || userId == AppContext.getInstance().getUserId()) {
             ll_input_comment.setVisibility(View.GONE);
+        } else {
+            ll_input_comment.setVisibility(View.VISIBLE);
         }
     }
 
@@ -147,6 +147,8 @@ public class SpeciaReplyFragment extends BaseFrameFragment<UserPresenter, UserMo
             public void onResultSuccess(String res) {
                 mLoadDialog.dismiss();
                 initComment();
+
+                edt_note_content.setText("");
             }
 
             @Override

@@ -332,7 +332,7 @@ public class QuestionEntity implements Parcelable {
         }
     };
 
-    public static class AnswerDetail{
+    public static class AnswerDetail implements Parcelable{
         public String getAnswer() {
             return answer;
         }
@@ -371,5 +371,41 @@ public class QuestionEntity implements Parcelable {
         }
 
         private long askTime;
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.answer);
+            dest.writeLong(this.answerTime);
+            dest.writeString(this.ask);
+            dest.writeLong(this.askTime);
+        }
+
+        public AnswerDetail() {
+        }
+
+        protected AnswerDetail(Parcel in) {
+            this.answer = in.readString();
+            this.answerTime = in.readLong();
+            this.ask = in.readString();
+            this.askTime = in.readLong();
+        }
+
+        public static final Creator<AnswerDetail> CREATOR = new Creator<AnswerDetail>() {
+            @Override
+            public AnswerDetail createFromParcel(Parcel source) {
+                return new AnswerDetail(source);
+            }
+
+            @Override
+            public AnswerDetail[] newArray(int size) {
+                return new AnswerDetail[size];
+            }
+        };
     }
 }

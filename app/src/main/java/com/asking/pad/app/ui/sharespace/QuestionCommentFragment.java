@@ -61,12 +61,13 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     private MaterialDialog mLoadDialog;
 
     /**
-     *  2-已采纳
+     * 2-已采纳
      */
     int dataType;
 
-    String questionId,askUserId;
-    public static QuestionCommentFragment newInstance(int dataType,String questionId,String askUserId) {
+    String questionId, askUserId;
+
+    public static QuestionCommentFragment newInstance(int dataType, String questionId, String askUserId) {
         QuestionCommentFragment fragment = new QuestionCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("questionId", questionId);
@@ -100,14 +101,14 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
             public void OnItemComment(QuestionEntity.AnwserMoreEntity e) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(e,questionId,AppContext.getInstance().getUserId() == askUserId))
+                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(dataType, e, questionId, AppContext.getInstance().getUserId() == askUserId))
                         .commit();
             }
         });
         mAdapter.setAdoptCallBack(new AdoptCallBack() {
             @Override
             public void adopt(String askId) {
-                mPresenter.qaAdoptAnswer(questionId,askId,new ApiRequestListener<String>(){
+                mPresenter.qaAdoptAnswer(questionId, askId, new ApiRequestListener<String>() {
                     @Override
                     public void onResultSuccess(String resStr) {//数据返回成功
                         showShortToast("采纳成功");
@@ -132,12 +133,11 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                 initComment();
             }
         });
+        load_comment.setEmptyStyle(R.mipmap.ic_no_data1,"还没有人回答呀","","");
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
-        if(dataType == 2){
+        if (dataType == 2 || TextUtils.equals(askUserId, AppContext.getInstance().getUserId())) {
             ll_input_comment.setVisibility(View.GONE);
-        }else {
-            ll_input_comment.setVisibility(View.VISIBLE);
         }
 
         initComment();
@@ -152,22 +152,30 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     }
 
     private void initComment() {
-        mPresenter.getQuestionDetail(questionId,new ApiRequestListener<String>(){
+        mPresenter.getQuestionDetail(questionId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 QuestionEntity qe = new Gson().fromJson(resStr, QuestionEntity.class);
                 dataList.clear();
-                if(qe!=null){
-                    if (qe.getList()==null || qe.getList().size() == 0) {
+                if (qe != null) {
+                    if (qe.getList() == null || qe.getList().size() == 0) {
                         load_comment.setViewState(MultiStateView.VIEW_STATE_EMPTY);
                     } else {
                         dataList.addAll(qe.getList());
-                        mAdapter.notifyDataSetChanged();
                         load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-
-                        answerSizeTv.setText(String.format("当前%s人回答",dataList.size()));
+                        answerSizeTv.setText(String.format("当前%s人回答", dataList.size()));
                     }
                 }
+
+                for(QuestionEntity.AnwserMoreEntity e: dataList){
+                    if(e.isAdopt()){
+                        mAdapter.isShowAdopt = false;
+                        ll_input_comment.setVisibility(View.GONE);
+                        break;
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -180,7 +188,6 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
 
     /**
      * 加载拍照后图片存储路径
-     *
      */
     public void loadImage(String filePath) {
         mLoadDialog.show();
@@ -193,25 +200,25 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Bitmap bitmap= BitmapFactory.decodeStream(fis);
+        Bitmap bitmap = BitmapFactory.decodeStream(fis);
         MultipartBody.Part body = CommonUtil.getMultipartBodyPart(getActivity(), bitmap, filePath);
-        mPresenter.sendSubmitPic(body, new ApiRequestListener<String>(){
+        mPresenter.sendSubmitPic(body, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 //mLoadDialog.dismiss();
-                Log.i(QuestionAnwserActivity.class.getSimpleName(),"上传成功");
+                Log.i(QuestionAnwserActivity.class.getSimpleName(), "上传成功");
                 sendContent(resStr);
             }
 
             @Override
-            public void onResultFail(){
+            public void onResultFail() {
                 mLoadDialog.dismiss();
             }
         });//提交图片，获取地址，在上传问题
     }
 
 
-    @OnClick({R.id.iv_photo_view,R.id.btn_submit})
+    @OnClick({R.id.iv_photo_view, R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_photo_view:
@@ -219,8 +226,8 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                 break;
             case R.id.btn_submit:
                 String content = edt_note_content.getText().toString();
-                if(TextUtils.isEmpty(content)){
-                    Toast.makeText(getActivity(),"回复不能为空！",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(content)) {
+                    Toast.makeText(getActivity(), "回复不能为空！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mLoadDialog.show();
@@ -230,17 +237,17 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         }
     }
 
-    private void sendContent(String content){
-        mPresenter.sendQAAnswer(questionId,content, new ApiRequestListener<String>(){
+    private void sendContent(String content) {
+        mPresenter.sendQAAnswer(questionId, content, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 mLoadDialog.dismiss();
                 initComment();
-                Log.i(QuestionAnwserActivity.class.getSimpleName(),"回答成功");
+                Log.i(QuestionAnwserActivity.class.getSimpleName(), "回答成功");
             }
 
             @Override
-            public void onResultFail(){
+            public void onResultFail() {
                 mLoadDialog.dismiss();
             }
         });

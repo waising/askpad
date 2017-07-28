@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,14 +46,14 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     @BindView(R.id.rv_comment)
     RecyclerView rv_comment;
 
-    @BindView(R.id.comment_content_ll)
-    LinearLayout commentLL;
-
     @BindView(R.id.edt_note_content)
     EditText edt_note_content;
 
     @BindView(R.id.btn_submit)
     Button submitBtn;
+
+    @BindView(R.id.ll_input_comment)
+    View ll_input_comment;
 
     ArrayList<QuestionEntity.AnswerDetail> dataDetailList = new ArrayList<>();
     ArrayList<QuestionEntity.AnwserMoreEntity> dataList = new ArrayList<>();
@@ -66,13 +65,19 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     QuestionEntity.AnwserMoreEntity anwserMoreEntity;
     String questionId;
 
-    public static QuestionReplyFragment newInstance(QuestionEntity.AnwserMoreEntity e
+    /**
+     * 2-已采纳
+     */
+    int dataType;
+
+    public static QuestionReplyFragment newInstance(int dataType, QuestionEntity.AnwserMoreEntity e
             , String questionId, boolean isLoginuUser) {
         QuestionReplyFragment fragment = new QuestionReplyFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("anwserMoreEntity", e);
         bundle.putString("questionId", questionId);
         bundle.putBoolean("isLoginuUser", isLoginuUser);
+        bundle.putInt("dataType", dataType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -86,6 +91,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
             anwserMoreEntity = bundle.getParcelable("anwserMoreEntity");
             questionId = bundle.getString("questionId");
             isLoginuUser = bundle.getBoolean("isLoginuUser");
+            dataType = bundle.getInt("dataType");
         }
     }
 
@@ -104,7 +110,6 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
 
         rv_comment.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new QuestionReplyCommentAdapter(getActivity(), dataDetailList);
-//        mAdapter.setLoginuUser(isLoginuUser);
         rv_comment.setAdapter(mAdapter);
 
         load_comment.setErrorRefBtnTxt2(new View.OnClickListener() {
@@ -114,13 +119,15 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
             }
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
-        //是登录用户的则显示评论框
-        if (!TextUtils.isEmpty(anwserMoreEntity.getUserId()) && anwserMoreEntity.getUserId().equals(AppContext.getInstance().getUserId())) {
-            commentLL.setVisibility(View.VISIBLE);
-        }
 
         if (isLoginuUser)
             submitBtn.setText("追问");
+
+        if (dataType == 2 || TextUtils.equals(anwserMoreEntity.getUserId(), AppContext.getInstance().getUserId())
+                || anwserMoreEntity.isAdopt()) {
+            ll_input_comment.setVisibility(View.GONE);
+        }
+
         initComment();
     }
 
@@ -129,9 +136,6 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
      */
     public void loadImage(String filePath) {
         mLoadDialog.show();
-        //将本地图片转成bitmap上传
-        //File file = new File(filePath);
-
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(filePath);

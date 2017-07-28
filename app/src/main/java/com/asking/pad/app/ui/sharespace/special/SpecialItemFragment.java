@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.sharespace.ShareSpecial;
 import com.asking.pad.app.presenter.UserModel;
@@ -36,7 +38,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  *
  */
 
-public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, UserModel> {
     @BindView(R.id.load_view)
     MultiStateView load_view;
 
@@ -98,9 +100,7 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
 
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {//下拉刷新
-                start = 0;
-                dataList.clear();
-                loadData();
+                onRefreshData();
             }
         });
         load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
@@ -110,7 +110,23 @@ public class SpecialItemFragment extends BaseFrameFragment<UserPresenter, UserMo
             }
         });
         load_view.setViewState(load_view.VIEW_STATE_LOADING);
+        onRefreshData();
+    }
+
+    private void onRefreshData(){
+        start = 0;
+        dataList.clear();
         loadData();
+    }
+
+    public void onEventMainThread(AppEventType event) {
+        switch (event.type) {
+            case AppEventType.RE_SHARESPACE_SPECIALFAVOR_REQUEST:
+                if(TextUtils.equals(mine,"1")){
+                    onRefreshData();
+                }
+                break;
+        }
     }
 
     public void reLoadData(String teacherId, String gradeId, String subjectId) {

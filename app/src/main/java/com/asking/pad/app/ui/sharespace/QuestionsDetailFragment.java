@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.entity.QuestionSubjectEntity;
@@ -24,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -32,7 +31,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 问答广场
  */
 
-public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class QuestionsDetailFragment extends BaseEvenFrameFragment<UserPresenter, UserModel> {
 
 
     @BindView(R.id.swipe_layout)
@@ -53,7 +52,7 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
     String state="";
 
     /**
-     * 2-已采纳
+     * 0-待答问题，1-悬赏问题，2-已采纳问题
      */
     int dataType;
 
@@ -72,13 +71,21 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
         switch (event.type) {
             case AppEventType.QUESTION_REF:
                 //刷新数据
-                QuestionSubjectEntity qs = (QuestionSubjectEntity) event.values[0];
-                km = qs.getKm();
-                levelId = qs.getLevelId();
+                try{
+                    QuestionSubjectEntity qs = (QuestionSubjectEntity) event.values[0];
+                    km = qs.getKm();
+                    levelId = qs.getLevelId();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 swipeLayout.autoRefresh();
                 break;
             case AppEventType.QUESTION_ASK:
-                refData((String) event.values[0]);
+                try{
+                    refData((String) event.values[0]);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -104,7 +111,6 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.fragment_questions_detail);
         ButterKnife.bind(this, getContentView());
 
@@ -223,12 +229,5 @@ public class QuestionsDetailFragment extends BaseFrameFragment<UserPresenter, Us
                 multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
     }
 }
