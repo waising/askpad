@@ -144,6 +144,8 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
             public void onResultSuccess(String res) {
                 mLoadDialog.dismiss();
                 initComment();
+
+                edt_note_content.setText("");
             }
 
             @Override

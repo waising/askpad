@@ -26,18 +26,22 @@ public class QuestionAnwserActivity extends AppCompatActivity {
 
     @BindView(R.id.km_tv)
     TextView kmTv;
+
     @BindView(R.id.time_tv)
     TextView timeTv;
 
     @BindView(R.id.ask_ic)
     ImageView askIc;
+
     @BindView(R.id.ask_money_tv)
     TextView askMoneyTv;
+
     @BindView(R.id.user_img_iv)
     ImageView userImgIv;
 
     @BindView(R.id.mathView)
     AskMathView mathView;
+
     @BindView(R.id.question_title_tv)
     TextView questionTitleTv;
 

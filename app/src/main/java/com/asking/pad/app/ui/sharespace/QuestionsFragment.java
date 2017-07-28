@@ -44,10 +44,8 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
     String gradeId = "";
     String subjectId = "";
 
-    static QuestionsFragment fragment;
     public static QuestionsFragment newInstance() {
-        if(fragment==null)
-            fragment = new QuestionsFragment();
+        QuestionsFragment fragment = new QuestionsFragment();
         return fragment;
     }
 

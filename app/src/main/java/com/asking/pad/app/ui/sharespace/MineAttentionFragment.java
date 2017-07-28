@@ -12,7 +12,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.ToastUtil;
 import com.asking.pad.app.entity.sharespace.MyAttention;
 import com.asking.pad.app.presenter.ShareModel;
@@ -33,7 +34,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Created by jswang on 2017/4/20.
  */
 
-public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, ShareModel> implements MineAttentionGridAdapter.OnClickListener {
+public class MineAttentionFragment extends BaseEvenFrameFragment<SharePresenter, ShareModel> implements MineAttentionGridAdapter.OnClickListener {
     @BindView(R.id.load_view)
     MultiStateView load_view;
     MineAttentionGridAdapter mineAttentionGridAdapter;
@@ -75,11 +76,21 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
         mDialog = getLoadingDialog().build();
         GridLayoutManager mgr = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mgr);
-    }
 
-    @Override
-    public void initLoad() {
-        super.initLoad();
+        swipeLayout.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout ptrFrameLayout) {//加载更多
+                start += limit;
+                requestList();
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {//下拉刷新
+                onRefreshData();
+            }
+        });
+
+
         load_view.setErrorRefBtnTxt2(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,25 +101,18 @@ public class MineAttentionFragment extends BaseFrameFragment<SharePresenter, Sha
         requestList();
     }
 
+    private void onRefreshData(){
+        start = 0;
+        dataList.clear();
+        requestList();
+    }
 
-    @Override
-    public void initListener() {
-        super.initListener();
-        swipeLayout.setPtrHandler(new PtrDefaultHandler2() {
-            @Override
-            public void onLoadMoreBegin(PtrFrameLayout ptrFrameLayout) {//加载更多
-                start += limit;
-                requestList();
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {//下拉刷新
-                start = 0;
-                dataList.clear();
-                swipeLayout.setMode(PtrFrameLayout.Mode.BOTH);
-                requestList();
-            }
-        });
+    public void onEventMainThread(AppEventType event) {
+        switch (event.type) {
+            case AppEventType.RE_SHARESPACE_TEAATTEN_REQUEST:
+                onRefreshData();
+                break;
+        }
     }
 
     private void requestList() {

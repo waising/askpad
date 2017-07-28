@@ -163,10 +163,6 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
             return;
         }else if(!TextUtils.isEmpty(caifuEt.getText())){
             caifu = caifuEt.getText().toString();
-            if(AppContext.getInstance().getUserEntity().getIntegral() < Double.parseDouble(caifu)) {
-                showShortToast("悬赏不能大于可用阿思币");
-                return;
-            }
         }
 
         //上传图片

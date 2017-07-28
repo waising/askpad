@@ -11,6 +11,7 @@ import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.ToastUtil;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -20,6 +21,7 @@ import com.asking.pad.app.widget.AskSimpleDraweeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * 老师空间
@@ -73,7 +75,6 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
     @BindView(R.id.user_name_tv)
     TextView titleName;
     SpecialItemFragment fragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +156,8 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
 
                 fansNum = fansNum + 1;
                 tvFansNum.setText(getString(R.string.fans_num, fansNum+ ""));
+
+                EventBus.getDefault().post(new AppEventType(AppEventType.RE_SHARESPACE_TEAATTEN_REQUEST));
             }
 
             @Override
@@ -183,6 +186,8 @@ public class TeacherSpaceActivity extends BaseFrameActivity<UserPresenter, UserM
 
                 fansNum = fansNum - 1;
                 tvFansNum.setText(getString(R.string.fans_num, fansNum+ ""));
+
+                EventBus.getDefault().post(new AppEventType(AppEventType.RE_SHARESPACE_TEAATTEN_REQUEST));
             }
 
             @Override

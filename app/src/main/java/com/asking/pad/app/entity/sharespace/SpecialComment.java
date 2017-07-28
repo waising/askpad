@@ -14,6 +14,8 @@ public class SpecialComment {
 
     public CommentUser user;
 
+    public ShareTeacher teacher;
+
     public class CommentUser {
 
         public String id;
@@ -44,7 +46,11 @@ public class SpecialComment {
 
     public String getAvatarUrl(){
         try {
-            return user.avatar;
+            if(user !=null){
+                return user.avatar;
+            }else if(teacher !=null){
+                return teacher.askInfo.avatar;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

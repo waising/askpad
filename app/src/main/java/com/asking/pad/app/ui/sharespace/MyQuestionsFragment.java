@@ -10,7 +10,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -29,7 +30,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 问答广场
  */
 
-public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserModel> {
+public class MyQuestionsFragment extends BaseEvenFrameFragment<UserPresenter, UserModel> {
 
 
     @BindView(R.id.swipe_layout)
@@ -59,6 +60,8 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_questions_detail);
         ButterKnife.bind(this, getContentView());
+
+        type = getArguments().getString("type");
     }
 
     @Override
@@ -66,26 +69,7 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
         super.initView();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         recyclerView.setHasFixedSize(true);// 如果Item够简单，高度是确定的，打开FixSize将提高性能。
-    }
 
-    @Override
-    public void initData() {
-        super.initData();
-
-        type = getArguments().getString("type");
-        multiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-        getDataNow();
-//        swipeLayout.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                swipeLayout.autoRefresh();
-//            }
-//        });
-    }
-
-    @Override
-    public void initListener() {
-        super.initListener();
         swipeLayout.setViewPager(recyclerView);
         swipeLayout.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -102,12 +86,23 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
                 getDataNow();
             }
         });
+
+        multiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
         multiStateView.setErrorRefBtnTxt2(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDataNow();
             }
         });
+        getDataNow();
+    }
+
+    public void onEventMainThread(AppEventType event) {
+        switch (event.type) {
+            case AppEventType.QUESTION_ASK:
+                getDataNow();
+                break;
+        }
     }
 
     public void refshAdapt(List<QuestionEntity> entityComment) {
@@ -127,7 +122,6 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
     }
 
     private void getDataNow() {
-
         //我的提问
         if(TextUtils.isEmpty(type)){
             mPresenter.getMyQuestionAskList(start, limit, apiRequestListener);
@@ -136,12 +130,6 @@ public class MyQuestionsFragment extends BaseFrameFragment<UserPresenter, UserMo
         }
 
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
     ApiRequestListener<String> apiRequestListener = new ApiRequestListener<String>(){
         @Override

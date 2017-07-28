@@ -55,7 +55,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
         this.questionEntities = questionEntities;
     }
 
-    public QuestionsAdapter(Context context,int dataType, List<QuestionEntity> questionEntities) {
+    public QuestionsAdapter(Context context, int dataType, List<QuestionEntity> questionEntities) {
         this.mContext = context;
         this.dataType = dataType;
         this.questionEntities = questionEntities;
@@ -88,47 +88,39 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
         QuestionEntity questionEntity = questionEntities.get(position);
-        if(questionEntity!=null){
+        if (questionEntity != null) {
             holder.userNameTv.setText(questionEntity.getUserName());
             holder.questionTitleTv.setText(questionEntity.getTitle());
-            //holder.questionImgIv.setImageURI();
             holder.mathView.setText(questionEntity.getDescription());
-
-            holder.kmTv.setText(getSubjectName(questionEntity.getKm())+" - "+ getGradleName(questionEntity.getLevelId()));
-
-            BitmapUtil.displayUserImage(mContext,AVATOR_URL + questionEntity.getUserId(), holder.userImgIv);
-
-            int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(),DateUtil.currentDatetime());
+            holder.kmTv.setText(getSubjectName(questionEntity.getKm()) + " - " + getGradleName(questionEntity.getLevelId()));
+            BitmapUtil.displayUserImage(mContext, AVATOR_URL + questionEntity.getUserId(), holder.userImgIv);
+            int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(), DateUtil.currentDatetime());
             String time = questionEntity.getCreateDate_Fmt();
-            if(0< m &&m <10){
+            if (0 < m && m < 10) {
                 time = "刚刚";
-            }else if(10< m && m <120){
+            } else if (10 < m && m < 120) {
                 time = "10分钟前";
-            }
-            else if(120< m && m <150){
+            } else if (120 < m && m < 150) {
                 time = "2小时前";
-            }else if(20*60<m && m<24*60)
+            } else if (20 * 60 < m && m < 24 * 60)
                 time = "20小时前";
 
             holder.timeTv.setText(time);
-            holder.askQuestionCountTv.setText(questionEntity.getAnswer_size()+" 人回答");
-
-            if(questionEntity.getCaifu()>0) {
-
+            holder.askQuestionCountTv.setText(questionEntity.getAnswer_size() + " 人回答");
+            if (questionEntity.getCaifu() > 0) {
                 holder.askMoneyTv.setVisibility(View.VISIBLE);
                 holder.askIc.setVisibility(View.VISIBLE);
                 holder.askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
+            } else {
+                holder.askMoneyTv.setVisibility(View.GONE);
             }
-
             //已采纳
-            if(questionEntity.getState()=="2"){
+            if (questionEntity.getState() == "2") {
                 holder.questionsure.setVisibility(View.VISIBLE);
             }
-
             //显示状态
-            if(isMine){
+            if (isMine) {
                 holder.userNameTv.setVisibility(View.GONE);
                 holder.userImgIv.setVisibility(View.GONE);
                 holder.questionStatusTv.setVisibility(View.VISIBLE);
@@ -136,34 +128,26 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 //
                 int color = R.color.black;
                 String status = "";
-                if(questionEntity.getAnswer_size()<=0){
+                if (questionEntity.getAnswer_size() <= 0) {
                     status = "待回答";
                     color = R.color.green;
-                }else if(questionEntity.getState()!="2"){
-                    status ="待采纳";
+                } else if (questionEntity.getState() != "2") {
+                    status = "待采纳";
                     color = R.color.theme_blue_theme;
-                }else if(questionEntity.getState()=="2"){
+                } else if (questionEntity.getState() == "2") {
                     status = "已采纳";
                     color = R.color.orange;
                 }
-
                 holder.questionStatusTv.setText(status);
-                holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext,color));
+                holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext, color));
             }
-//            holder.mathView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
         }
 
     }
 
-
-    String getGradleName(String levelId){
-        try{
-            if(!TextUtils.isEmpty(levelId)){
+    String getGradleName(String levelId) {
+        try {
+            if (!TextUtils.isEmpty(levelId)) {
                 int integerId = Integer.valueOf(levelId); // 包装类 Integer 不能直接运算(下面的减1)，会报错，得转成基本数据类型 int
                 if (integerId > 0) { //要再判断下
                     String gradeVersionValue = Constants.gradeVersionValues[integerId - 1];
@@ -172,21 +156,20 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
     }
-
-
+    
     @Override
     public int getItemCount() {
         return questionEntities.size();
 
     }
 
-    public String getSubjectName(String subject){
-        return TextUtils.equals(subject,"M")?"数学":"物理";
+    public String getSubjectName(String subject) {
+        return TextUtils.equals(subject, "M") ? "数学" : "物理";
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -217,14 +200,9 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
         @BindView(R.id.question_sure)
         ImageView questionsure;
-//        @BindView(R.id.question_img_iv)
-//        ImageView questionImgIv;
 
         @BindView(R.id.user_img_iv)
         ImageView userImgIv;
-
-//        @BindView(R.id.multiStateView)
-//        MultiStateView multiStateView;
 
         @BindView(R.id.mathView)
         AskMathView mathView;
@@ -235,23 +213,20 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             mathView.showWebImage(mContext).formatMath();
         }
 
-        @OnClick({R.id.question_title_tv,R.id.question_ll})
+        @OnClick({R.id.question_title_tv, R.id.question_ll})
         public void onClick(View v) {
             switch (v.getId()) {
-
                 case R.id.question_title_tv:
                 case R.id.question_ll:
-
                     QuestionEntity q = questionEntities.get(getAdapterPosition());
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("questionEntity",q);
-                    bundle.putInt("dataType",dataType);
-                    bundle.putString("km",getSubjectName(q.getKm())+" - "+ getGradleName(q.getLevelId()));
+                    bundle.putParcelable("questionEntity", q);
+                    bundle.putInt("dataType", dataType);
+                    bundle.putString("km", getSubjectName(q.getKm()) + " - " + getGradleName(q.getLevelId()));
                     Intent intent = new Intent(AppContext.getInstance().getApplicationContext(), QuestionAnwserActivity.class);
                     intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtras(bundle);
                     AppContext.getInstance().startActivity(intent);
-                    //跳转
                     break;
 
             }
