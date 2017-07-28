@@ -34,23 +34,23 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
     int mPosition = 0;
     View mItemView;
 
-    public  boolean isShowAdopt = true;
+    public boolean isShowAdopt = true;
+    public boolean isLoginUser;
+
+    QuestionCommentFragment.AdoptCallBack adoptCallBack;
 
     public void setAdoptCallBack(QuestionCommentFragment.AdoptCallBack adoptCallBack) {
         this.adoptCallBack = adoptCallBack;
     }
 
-    QuestionCommentFragment.AdoptCallBack adoptCallBack;
-
-    public void setLoginUser(boolean loginUser) {
-        isLoginUser = loginUser;
-    }
-
-    private boolean isLoginUser;
     OnItemCommentListener mListener;
 
     public interface OnItemCommentListener {
         void OnItemComment(QuestionEntity.AnwserMoreEntity e);
+    }
+
+    public void setLoginUser(boolean loginUser) {
+        isLoginUser = loginUser;
     }
 
     public QuestionCommentAdapter(Activity mActivity, ArrayList<QuestionEntity.AnwserMoreEntity> dataList, QuestionCommentAdapter.OnItemCommentListener mListener) {
@@ -59,7 +59,7 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
         this.mListener = mListener;
     }
 
-    public void setVisBtn(){
+    public void setVisBtn() {
         mItemView.findViewById(R.id.adopt_btn).setVisibility(View.GONE);
         mItemView.findViewById(R.id.question_sure).setVisibility(View.VISIBLE);
     }
@@ -73,21 +73,20 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
         final QuestionEntity.AnwserMoreEntity e = dataList.get(position);
 
-        try{
-            if(e!=null){
-                BitmapUtil.displayUserImage(mContext,AVATOR_URL + e.getUserId(), holder.iv_avatar);
+        try {
+            if (e != null) {
+                BitmapUtil.displayUserImage(mContext, AVATOR_URL + e.getUserId(), holder.iv_avatar);
                 holder.tv_name.setText(e.getUserName());
                 holder.tv_time.setText(e.getCreateDate_fmt());
-                if(e.getList()!=null && e.getList().size()>0) {
-                    holder.reAnswersizeTv.setText(String.valueOf(e.getList().size())+"人回复");
+                if (e.getList() != null && e.getList().size() > 0) {
+                    holder.reAnswersizeTv.setText(String.valueOf(e.getList().size()) + "人回复");
                     holder.reAnswersizeTv.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     holder.reAnswersizeTv.setVisibility(View.GONE);
                 }
 
                 holder.adoptBtn.setVisibility(View.GONE);
-                if(isLoginUser && !e.isAdopt()){
+                if (isLoginUser && !e.isAdopt()) {
                     holder.adoptBtn.setVisibility(View.VISIBLE);
                     holder.adoptBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -99,19 +98,19 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                     });
                 }
 
-                if(!isShowAdopt){
+                if (!isShowAdopt) {
                     holder.adoptBtn.setVisibility(View.GONE);
                 }
 
                 holder.content_mathview.setText(e.getContent());
-                if(e.isAdopt()){
+                if (e.isAdopt()) {
                     holder.sureIv.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     holder.sureIv.setVisibility(View.GONE);
                 }
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 

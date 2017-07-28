@@ -5,9 +5,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
@@ -34,7 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -53,9 +52,6 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
-    @BindView(R.id.tv_right)
-    TextView tvRight;//新增笔记按钮
 
     @BindView(R.id.load_view)
     MultiStateView load_view;
@@ -84,11 +80,22 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
         ButterKnife.bind(this);
     }
 
-
     @Override
     public void initView() {
         super.initView();
         setToolbar(mToolbar, getResources().getString(R.string.my_note));//标题栏
+        mToolbar.inflateMenu(R.menu.menu_mine_note);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                qiNiuImgName = "";
+                mNoteAddEditDialog = new NoteAddEditDialog();
+                mNoteAddEditDialog.setFromWhere(NoteAddEditDialog.ADD_NEW_NOTE);
+                mNoteAddEditDialog.setNoteListner(NoteActivity.this);
+                mNoteAddEditDialog.show(getSupportFragmentManager(), "");
+                return false;
+            }
+        });
 
         mLoadDialog = getLoadingDialog().build();
 
@@ -172,19 +179,6 @@ public class NoteActivity extends BaseFrameActivity<NotePresenter, NoteModel> im
                 }
             }
         });
-    }
-
-    @OnClick({R.id.tv_right})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_right://右边新增笔记编辑按钮
-                qiNiuImgName = "";
-                mNoteAddEditDialog = new NoteAddEditDialog();
-                mNoteAddEditDialog.setFromWhere(NoteAddEditDialog.ADD_NEW_NOTE);
-                mNoteAddEditDialog.setNoteListner(this);
-                mNoteAddEditDialog.show(this.getSupportFragmentManager(), "");
-                break;
-        }
     }
 
     /**

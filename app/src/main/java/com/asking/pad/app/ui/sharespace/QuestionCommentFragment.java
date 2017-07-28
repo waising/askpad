@@ -101,7 +101,8 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
             public void OnItemComment(QuestionEntity.AnwserMoreEntity e) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(dataType, e, questionId, AppContext.getInstance().getUserId() == askUserId))
+                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(dataType, e, questionId
+                                , mAdapter.isLoginUser,mAdapter.isShowAdopt))
                         .commit();
             }
         });
@@ -113,6 +114,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                     public void onResultSuccess(String resStr) {//数据返回成功
                         showShortToast("采纳成功");
                         mAdapter.setVisBtn();
+                        initComment();
                     }
 
                     @Override
@@ -124,7 +126,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
         });
 
         //是否登录用户
-        mAdapter.setLoginUser(AppContext.getInstance().getUserId().equals(askUserId));
+        mAdapter.setLoginUser(TextUtils.equals(AppContext.getInstance().getUserId(),askUserId));
         recycler.setAdapter(mAdapter);
 
         load_comment.setErrorRefBtnTxt2(new View.OnClickListener() {

@@ -68,7 +68,6 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
     @Override
     public void initView() {
         super.initView();
-        toolBar.setNavigationIcon(null);
         setToolbar(toolBar, "设置");
         loginState(AppContext.getInstance().isLogin());
         loadDialog = getLoadingDialog().build();
