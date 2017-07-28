@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -49,6 +50,9 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     @BindView(R.id.edt_note_content)
     EditText edt_note_content;
 
+    @BindView(R.id.tv_adopt)
+    TextView tv_adopt;
+
     @BindView(R.id.btn_submit)
     Button submitBtn;
 
@@ -61,7 +65,8 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     QuestionReplyCommentAdapter mAdapter;
 
     private MaterialDialog mLoadDialog;
-    boolean isLoginuUser;
+    boolean isLoginUser;
+    boolean isShowAdopt;
     QuestionEntity.AnwserMoreEntity anwserMoreEntity;
     String questionId;
 
@@ -71,12 +76,13 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     int dataType;
 
     public static QuestionReplyFragment newInstance(int dataType, QuestionEntity.AnwserMoreEntity e
-            , String questionId, boolean isLoginuUser) {
+            , String questionId, boolean isLoginUser, boolean isShowAdopt) {
         QuestionReplyFragment fragment = new QuestionReplyFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("anwserMoreEntity", e);
         bundle.putString("questionId", questionId);
-        bundle.putBoolean("isLoginuUser", isLoginuUser);
+        bundle.putBoolean("isLoginUser", isLoginUser);
+        bundle.putBoolean("isShowAdopt", isShowAdopt);
         bundle.putInt("dataType", dataType);
         fragment.setArguments(bundle);
         return fragment;
@@ -90,7 +96,8 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         if (bundle != null) {
             anwserMoreEntity = bundle.getParcelable("anwserMoreEntity");
             questionId = bundle.getString("questionId");
-            isLoginuUser = bundle.getBoolean("isLoginuUser");
+            isLoginUser = bundle.getBoolean("isLoginUser");
+            isShowAdopt = bundle.getBoolean("isShowAdopt");
             dataType = bundle.getInt("dataType");
         }
     }
@@ -120,12 +127,21 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
-        if (isLoginuUser)
+        if (isLoginUser){
             submitBtn.setText("追问");
+        }
 
-        if (dataType == 2 || TextUtils.equals(anwserMoreEntity.getUserId(), AppContext.getInstance().getUserId())
+        if (dataType == 2 || !TextUtils.equals(anwserMoreEntity.getUserId(), AppContext.getInstance().getUserId())
                 || anwserMoreEntity.isAdopt()) {
             ll_input_comment.setVisibility(View.GONE);
+        }
+
+        tv_adopt.setVisibility(View.GONE);
+        if (isLoginUser && !anwserMoreEntity.isAdopt()) {
+            tv_adopt.setVisibility(View.VISIBLE);
+        }
+        if (!isShowAdopt) {
+            tv_adopt.setVisibility(View.GONE);
         }
 
         initComment();
@@ -147,7 +163,6 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         mPresenter.sendSubmitPic(body, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
-                //mLoadDialog.dismiss();
                 Log.i(QuestionAnwserActivity.class.getSimpleName(), "上传成功");
                 sendContent(resStr);
             }
@@ -198,7 +213,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         });
     }
 
-    @OnClick({R.id.iv_photo_view, R.id.btn_submit, R.id.tv_back})
+    @OnClick({R.id.iv_photo_view, R.id.btn_submit, R.id.tv_back, R.id.tv_adopt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_back:
@@ -217,13 +232,31 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
                 mLoadDialog.show();
                 sendContent(content);
                 break;
+            case R.id.tv_adopt:
+                mPresenter.qaAdoptAnswer(questionId, anwserMoreEntity.getId(), new ApiRequestListener<String>() {
+                    @Override
+                    public void onResultSuccess(String resStr) {//数据返回成功
+                        showShortToast("采纳成功");
+                        tv_adopt.setVisibility(View.GONE);
+
+                        ll_input_comment.setVisibility(View.GONE);
+
+                        initComment();
+                    }
+
+                    @Override
+                    public void onResultFail() {
+                        showShortToast("采纳失败");
+                    }
+                });
+                break;
         }
     }
 
     private void sendContent(String content) {
 
         //追问
-        if (isLoginuUser) {
+        if (isLoginUser) {
             mPresenter.sendQaAgainAsk(questionId, anwserMoreEntity.getId(), content, new ApiRequestListener<String>() {
                 @Override
                 public void onResultSuccess(String resStr) {

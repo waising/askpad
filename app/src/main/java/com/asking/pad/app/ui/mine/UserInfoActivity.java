@@ -1,6 +1,7 @@
 package com.asking.pad.app.ui.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -41,6 +42,9 @@ import de.greenrobot.event.EventBus;
  */
 
 public class UserInfoActivity extends BaseEvenAppCompatActivity<UserPresenter, UserModel> {
+    @BindView(R.id.toolBar)
+    Toolbar mToolbar;
+
     @BindView(R.id.ad_avatar)
     AskSimpleDraweeView ad_avatar;
 
@@ -96,6 +100,9 @@ public class UserInfoActivity extends BaseEvenAppCompatActivity<UserPresenter, U
     @Override
     public void initView() {
         super.initView();
+
+        setToolbar(mToolbar, "");
+
         mLoadDialog = getLoadingDialog().build();
 
         userEntity = AppContext.getInstance().getUserEntity();

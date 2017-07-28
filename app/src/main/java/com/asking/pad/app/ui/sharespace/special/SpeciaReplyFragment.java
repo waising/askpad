@@ -97,7 +97,7 @@ public class SpeciaReplyFragment extends BaseFrameFragment<UserPresenter, UserMo
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
         initComment();
 
-        if (state == 2 || userId == AppContext.getInstance().getUserId()) {
+        if (state == 2 || !TextUtils.equals(userId, AppContext.getInstance().getUserId())) {
             ll_input_comment.setVisibility(View.GONE);
         } else {
             ll_input_comment.setVisibility(View.VISIBLE);

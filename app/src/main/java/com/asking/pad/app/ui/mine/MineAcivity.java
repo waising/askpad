@@ -72,7 +72,7 @@ public class MineAcivity extends BaseEvenActivity<UserPresenter, UserModel> {
     public void initView() {
         super.initView();
 
-        mToolbar.setTitle("个人中心");
+        setToolbar(mToolbar, "个人中心");
         mToolbar.inflateMenu(R.menu.menu_mine_set);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override

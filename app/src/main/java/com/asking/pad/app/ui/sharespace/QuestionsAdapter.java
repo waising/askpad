@@ -161,7 +161,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
         }
         return "";
     }
-    
+
     @Override
     public int getItemCount() {
         return questionEntities.size();

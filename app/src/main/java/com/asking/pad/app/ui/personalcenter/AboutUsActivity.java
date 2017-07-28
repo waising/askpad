@@ -17,14 +17,11 @@ import butterknife.ButterKnife;
  */
 
 public class AboutUsActivity extends BaseActivity {
-
-
     @BindView(R.id.toolBar)
     Toolbar toolBar;
+
     @BindView(R.id.vesion_number)
     TextView vesionNumber;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +34,6 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        toolBar.setNavigationIcon(null);
         setToolbar(toolBar, "关于我们");
         vesionNumber.setText(CommonUtil.getVersionName(this));
     }
