@@ -205,7 +205,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.MainActivity2"
+            android:name=".ui.main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:theme="@style/Custom_Theme"

@@ -113,7 +113,7 @@ public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, Us
         onRefreshData();
     }
 
-    private void onRefreshData(){
+    private void onRefreshData() {
         start = 0;
         dataList.clear();
         loadData();
@@ -122,7 +122,7 @@ public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, Us
     public void onEventMainThread(AppEventType event) {
         switch (event.type) {
             case AppEventType.RE_SHARESPACE_SPECIALFAVOR_REQUEST:
-                if(TextUtils.equals(mine,"1")){
+                if (TextUtils.equals(mine, "1")) {
                     onRefreshData();
                 }
                 break;
@@ -226,14 +226,19 @@ public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, Us
             holder.tv_time.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(e.startTime)
                     , DateUtil.getHHMM(e.endTime)));
 
+            holder.tv_state.setText("");
             switch (e.state) {
-                case 0:
-                    holder.tv_state.setTextColor(Color.parseColor("#fd3a0d"));
-                    holder.tv_state.setText("未开始");
-                    break;
                 case 1:
-                    holder.tv_state.setTextColor(Color.parseColor("#38c1ff"));
-                    holder.tv_state.setText("进行中");
+                    switch (e.getTimeState()) {
+                        case 0:
+                            holder.tv_state.setTextColor(Color.parseColor("#fd3a0d"));
+                            holder.tv_state.setText("未开始");
+                            break;
+                        default:
+                            holder.tv_state.setTextColor(Color.parseColor("#38c1ff"));
+                            holder.tv_state.setText("进行中");
+                            break;
+                    }
                     break;
                 case 2:
                     holder.tv_state.setTextColor(Color.parseColor("#aeaeae"));

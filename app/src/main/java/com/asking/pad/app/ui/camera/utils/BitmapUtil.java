@@ -275,6 +275,25 @@ public class BitmapUtil {
             .cacheOnDisk(true)
             .displayer(new RoundedBitmapDisplayer(AppContext.getImagesPixels(R.dimen.space_40))).build();
 
+    public final static DisplayImageOptions itemBOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.mipmap.no_pic)
+            .showImageForEmptyUri(R.mipmap.no_pic)
+            .showImageOnFail(R.mipmap.no_pic)
+            .resetViewBeforeLoading(true)
+            .imageScaleType(ImageScaleType.NONE)
+            .bitmapConfig(Config.RGB_565)
+            .considerExifParams(true)
+            .cacheInMemory(true)
+            .cacheOnDisk(true).build();
+
+    public static void displayBanaImage(String url, ImageView item_icon) {
+        String path = url;
+        if (!TextUtils.isEmpty(path) && !(path.contains("http") || path.contains("https"))) {
+            path = ImageDownloader.Scheme.FILE.wrap(url);
+        }
+        imageLoader.displayImage(path, item_icon, itemBOptions);
+    }
+
     public static void displayCirImage(String url, ImageView item_icon) {
         imageLoader.displayImage(url, item_icon, item40Options);
     }

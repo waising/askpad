@@ -1,11 +1,12 @@
 package com.asking.pad.app.ui.main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -16,20 +17,14 @@ import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenAppCompatActivity;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.AppLoginEvent;
-import com.asking.pad.app.commom.CommonUtil;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.UserEntity;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.downbook.db.DbHelper;
-import com.asking.pad.app.ui.mine.SignInActivity;
-import com.asking.pad.app.ui.mine.UserInfoActivity;
-import com.asking.pad.app.ui.mine.WrongTopicActivity;
-import com.asking.pad.app.ui.personalcenter.AskCoinRecordActivity;
+import com.asking.pad.app.ui.mine.MineAcivity;
 import com.asking.pad.app.ui.update.CheckUpdateManager;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
-import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-
-import static com.asking.pad.app.R.id.tv_error_note;
 
 /**
  * Created by jswang on 2017/4/10.
@@ -50,25 +43,19 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
     @BindView(R.id.ad_avatar)
     AskSimpleDraweeView ad_avatar;
 
-    @BindView(R.id.tv_name)
-    TextView tv_name;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
 
-    @BindView(R.id.tv_shcool)
-    TextView tv_shcool;
+    @BindView(R.id.radio_group)
+    RadioGroup radio_group;
 
-    @BindView(R.id.tv_grade)
-    TextView tv_grade;
+    private int mCurTabIndex = 0;
+    List<Fragment> fragments = new ArrayList<>();
 
-    @BindView(R.id.tv_monny)
-    TextView tv_monny;
-
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-
-    @BindView(R.id.indicator)
-    TabPageIndicator indicator;
-
-    List<Fragment> listFragments = new ArrayList<>();
+    public static void openActivity(Activity activity){
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,35 +69,55 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
 
     @Override
     public void initView() {
-        listFragments.add(new ClassMainFragment());
+        fragments.add(ClassMainFragment.newInstance());
+        fragments.add(OtoMainFragment.newInstance());
+        fragments.add(ShareMainFragment.newInstance());
 
-        CommAdapter mAdapter = new CommAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(mAdapter);
-        viewPager.setOffscreenPageLimit(2);
-        indicator.setLayoutResource(R.layout.layout_indicator_tab_view6);
-        indicator.setViewPager(viewPager);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment,fragments.get(0))
+                .add(R.id.fragment,fragments.get(1))
+                .add(R.id.fragment,fragments.get(2))
+                .hide(fragments.get(1))
+                .hide(fragments.get(2))
+                .show(fragments.get(0)).commit();
+
+        radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_tab1:
+                        setFragmentPage(0);
+                        break;
+                    case R.id.rb_tab2:
+                        setFragmentPage(1);
+                        break;
+                    case R.id.rb_tab3:
+                        setFragmentPage(2);
+                        break;
+                }
+            }
+        });
 
         initUser();
         findTreeListWithAllCourse();
     }
 
-    @OnClick({R.id.ll_user_info, R.id.tv_sign, tv_error_note, R.id.tv_msg, R.id.tv_monny})
+    private void setFragmentPage(int index) {
+        FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+        trx.hide(fragments.get(mCurTabIndex));
+        if (!fragments.get(index).isAdded()) {
+            trx.add(R.id.fragment, fragments.get(index));
+        }
+        trx.show(fragments.get(index)).commit();
+
+        mCurTabIndex = index;
+    }
+
+    @OnClick({R.id.ll_user_info})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_sign:
-                CommonUtil.openAuthActivity(SignInActivity.class);
-                break;
-            case tv_error_note:
-                CommonUtil.openAuthActivity(WrongTopicActivity.class);
-                break;
-            case R.id.tv_msg:
-
-                break;
             case R.id.ll_user_info:
-                CommonUtil.openAuthActivity(UserInfoActivity.class);
-                break;
-            case R.id.tv_monny:
-                CommonUtil.openAuthActivity(AskCoinRecordActivity.class);
+                MineAcivity.openActivity(this);
                 break;
         }
     }
@@ -119,14 +126,17 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
         UserEntity mUser = AppContext.getInstance().getUserEntity();
         if (mUser != null) {
             ad_avatar.setImageUrl(mUser.getAvatar());
-            tv_name.setText(mUser.getNickName());
-            tv_shcool.setText(mUser.getSchoolName());
-            tv_monny.setText(String.valueOf(mUser.getIntegral()));
-
-            tv_name.setSelected(mUser.getSex() == 0 ? false : true);
-
-            tv_grade.setText(Constants.getUserGradeName()); // 年级
+            tv_user_name.setText(mUser.getNickName());
         }
+    }
+
+    private void findTreeListWithAllCourse(){
+        mPresenter.findTreeListWithAllCourse("KC03",new ApiRequestListener<String>(){
+            @Override
+            public void onResultSuccess(String res) {
+                EventBus.getDefault().post(new AppEventType(AppEventType.RE_CLASSIFY_REQUEST));
+            }
+        });
     }
 
     private void refreshUser() {
@@ -140,26 +150,14 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
                     AppContext.getInstance().getUserEntity().setIntegral(integral);
                     AppContext.getInstance().saveUserData(AppContext.getInstance().getUserEntity());
                 }
-                tv_monny.setText(String.valueOf(integral));
             }
         });
     }
 
-    private void findTreeListWithAllCourse(){
-        mPresenter.findTreeListWithAllCourse("KC03",new ApiRequestListener<String>(){
-            @Override
-            public void onResultSuccess(String res) {
-                EventBus.getDefault().post(new AppEventType(AppEventType.RE_CLASSIFY_REQUEST));
-            }
-        });
-    }
 
 
     private void clearUser() {
-        tv_name.setText("");
-        tv_shcool.setText("");
-        tv_monny.setText("");
-        tv_grade.setText("");
+        tv_user_name.setText("");
     }
 
 
@@ -182,6 +180,7 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
         switch (event.type) {
             case AppEventType.RE_USER_INFO_REQUEST:
                 initUser();
+                refreshUser();
                 break;
             case AppEventType.PAY_SUCCESSS_REQUEST:
                 refreshUser();
@@ -199,25 +198,4 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
         });
     }
 
-    class CommAdapter extends FragmentStatePagerAdapter {
-
-        public CommAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return listFragments.get(position);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "";
-        }
-
-        @Override
-        public int getCount() {
-            return listFragments.size();
-        }
-    }
 }

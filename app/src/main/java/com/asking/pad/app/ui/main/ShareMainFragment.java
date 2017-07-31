@@ -62,7 +62,7 @@ public class ShareMainFragment extends BaseFragment {
         dataList.add(new LabelEntity(R.mipmap.ic_share_ques_head,"问答广场",true));
         dataList.add(new LabelEntity(R.mipmap.ic_share_special_head,"共享专题",false));
         dataList.add(new LabelEntity(R.mipmap.ic_share_star_head,"共享之星",false));
-        dataList.add(new LabelEntity(R.mipmap.ic_share_ques_head,"我的空间",false));
+        dataList.add(new LabelEntity(R.mipmap.ic_share_mine_space,"我的空间",false));
 
         mAdapter = new CommAdapter();
         rv_version.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -72,23 +72,16 @@ public class ShareMainFragment extends BaseFragment {
         fragments.add(SpecialFragment.newInstance());
         fragments.add(ShareStarFragement.newInstance());
         fragments.add(MineSpaceFragment.newInstance());
-//        fragments.add(QuestionsAskFragment.newInstance());
 
         getChildFragmentManager().beginTransaction()
                 .add(R.id.fragment,fragments.get(0))
                 .add(R.id.fragment,fragments.get(1))
                 .add(R.id.fragment,fragments.get(2))
                 .add(R.id.fragment,fragments.get(3))
-//                .add(R.id.fragment,fragments.get(4))
                 .hide(fragments.get(1))
                 .hide(fragments.get(2))
                 .hide(fragments.get(3))
-//                .hide(fragments.get(4))
                 .show(fragments.get(0)).commit();
-    }
-
-    public void showAskFragment(){
-        //getChildFragmentManager().beginTransaction().show(fragments.get(4)).hide(fragments.get(0)).commit();
     }
 
     public void setToolbarStyle(String title,int resId){
@@ -136,11 +129,8 @@ public class ShareMainFragment extends BaseFragment {
                     }
                     e.setSelect(true);
                     notifyDataSetChanged();
-
                     setToolbarStyle(e.getName(),e.getIcon());
-                    //
                     mToolbar.getMenu().getItem(0).setVisible(position==0);
-
                     onCommItem(position);
                 }
             });

@@ -268,9 +268,6 @@ public class TeaWaitingActivity  extends BaseFrameActivity<UserPresenter,UserMod
                     openActivity(OtoLearningActivity.class);
 
                     AppManager.getAppManager().finishActivity(OtoAskActivity.class);
-
-                    //RTSActivity.incomingSession(TeaWaitingActivity.this,rtsData);
-
                     finish();
                 }
                 try {

@@ -1,5 +1,6 @@
 package com.asking.pad.app.presenter;
 
+import com.asking.pad.app.AppContext;
 import com.asking.pad.app.api.Networks;
 import com.asking.pad.app.entity.PayEntity;
 import com.asking.pad.app.entity.ShopCartPayEntity;
@@ -126,8 +127,9 @@ public class UserModel extends BaseModel {
     }
 
     public Observable<ResponseBody> communionapi(String mine,String teacherId,String grade,String subject,int start,int limit) {
+        String userName = AppContext.getInstance().getUserName();
         return Networks.getInstance().getUserApi()
-                .communionapi(mine,teacherId,grade,subject,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
+                .communionapi(userName,mine,teacherId,grade,subject,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     public Observable<ResponseBody> getQuestionList(String type,String query,String km,

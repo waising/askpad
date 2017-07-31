@@ -56,6 +56,8 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
     @Override
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
         QuestionEntity.AnswerDetail e = dataList.get(position);
+
+        holder.sureIv.setVisibility(View.GONE);
         try {
             if (e != null && anwserMoreEntity != null && questionEntity != null) {
                 //如果回答者为空则取最上面用户名
@@ -69,6 +71,10 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
                     holder.tv_name.setText(anwserMoreEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAnswerTime()));
                     holder.content_mathview.setText(e.getAnswer());
+
+                    if (anwserMoreEntity.isAdopt()) {
+                        holder.sureIv.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         } catch (Exception ex) {

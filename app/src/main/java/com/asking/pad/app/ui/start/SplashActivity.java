@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 
 import com.asking.pad.app.mvp.OnCountDownListener;
 import com.asking.pad.app.mvp.RxManager;
-import com.asking.pad.app.ui.main.MainActivity2;
+import com.asking.pad.app.ui.main.MainActivity;
 import com.bugtags.library.Bugtags;
 
 /**
@@ -23,7 +23,7 @@ public class SplashActivity extends Activity {
         mRxManager.countDownPresenter(3, new OnCountDownListener() {
             @Override
             public void onComplete() {
-                MainActivity2.openActivity(SplashActivity.this);
+                MainActivity.openActivity(SplashActivity.this);
                 finish();
             }
         });

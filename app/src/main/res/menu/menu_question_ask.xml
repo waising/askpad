@@ -4,7 +4,7 @@
     <item
         android:icon="@mipmap/question_ask"
         android:id="@+id/main_action_ask_title"
-        android:title="我要提问"
+        android:title="   我要提问"
         app:showAsAction="ifRoom|withText"/>
 
 </menu>

@@ -75,9 +75,7 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
         ((ShareMainFragment)(getParentFragment())).setToolbarRight(R.menu.menu_question_ask, new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 openActivity(QuestionAskActivity.class);
-                //((ShareMainFragment)(getParentFragment())).showAskFragment();
                 return false;
             }
         });

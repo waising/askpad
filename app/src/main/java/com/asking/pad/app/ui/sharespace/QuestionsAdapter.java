@@ -114,6 +114,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 holder.askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
             } else {
                 holder.askMoneyTv.setVisibility(View.GONE);
+                holder.askIc.setVisibility(View.GONE);
             }
             //已采纳
             if (questionEntity.getState() == "2") {

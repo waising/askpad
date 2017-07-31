@@ -44,7 +44,6 @@
                 android:layout_marginBottom="15.3dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginTop="15.3dp"
-
                 android:layout_toRightOf="@+id/user_img_iv"
                 android:text="用户名"
                 android:textColor="@color/colorText_89"
@@ -101,13 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="5"
-                android:textColor="@color/orange"
+                android:textColor="@color/colorText_88"
                 android:textSize="@dimen/textSize_16"/>
-
-            <!--<ImageView-->
-            <!--android:id="@+id/question_img_iv"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
 
             <include
                 android:id="@+id/mathView"

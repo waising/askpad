@@ -1,66 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_main"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="horizontal">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E9FBFF"
-        android:gravity="center_vertical"
-        android:padding="@dimen/space_10">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorTest_f8"
+        android:orientation="vertical">
 
-        <include layout="@layout/layout_user_info"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_50"
+            android:background="@color/login_gomain"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:id="@+id/ll_user_info"
+            style="@style/tab_main"
+            android:checked="true">
+
+            <com.asking.pad.app.widget.AskSimpleDraweeView
+                android:id="@+id/ad_avatar"
+                android:layout_width="@dimen/space_50"
+                android:layout_height="@dimen/space_50"
+                app:backgroundImage="@color/main_bg"
+                app:roundAsCircle="true"/>
 
             <TextView
-                android:id="@+id/tv_sign"
-                style="@style/tv_main_styles"
-                android:drawableLeft="@mipmap/mine_sign"
-                android:text="@string/sign"/>
-
-            <ImageView
-                style="@style/iv_vertical_line"/>
-
-            <TextView
-                android:id="@+id/tv_error_note"
-                style="@style/tv_main_styles"
-                android:drawableLeft="@mipmap/mine_error_note"
-                android:text="@string/err_note"/>
-
-            <ImageView
-                style="@style/iv_vertical_line"/>
-
-            <TextView
-                android:id="@+id/tv_msg"
-                style="@style/tv_main_styles"
-                android:layout_marginRight="@dimen/space_10"
-                android:drawableLeft="@mipmap/mine_msg"
-                android:text="@string/home_menu_message"/>
+                android:id="@+id/tv_user_name"
+                style="@style/tab_main_tv"/>
         </LinearLayout>
-    </FrameLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_margin="@dimen/space_10"
+            android:background="@color/login_line"/>
 
-    <com.asking.pad.app.widget.indicator.TabPageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/space_10"/>
 
+        <RadioGroup
+            android:id="@+id/radio_group"
+            style="@style/radio_group_main">
+
+
+            <RadioButton
+                android:id="@+id/rb_tab1"
+                style="@style/radio_main_styles"
+                android:checked="true"
+                android:drawableTop="@drawable/tab_main_class_selector"
+                android:text="追课"/>
+
+
+            <RadioButton
+                android:id="@+id/rb_tab2"
+                style="@style/radio_main_styles"
+                android:drawableTop="@drawable/tab_main_oto_selector"
+                android:text="1 对 1"/>
+
+
+            <RadioButton
+                android:id="@+id/rb_tab3"
+                style="@style/radio_main_styles"
+                android:drawableTop="@drawable/tab_main_share_selector"
+                android:text="共享空间"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/space_0.3"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_50"
+            android:background="@color/login_gomain"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/online_item_line"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="12"/>
 
 </LinearLayout>

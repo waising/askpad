@@ -43,14 +43,14 @@
             <TextView
                 android:id="@+id/tv_mine_study_record"
                 style="@style/tv_class_main_style"
-                android:layout_marginLeft="@dimen/space_20"
+                android:layout_marginLeft="@dimen/space_30"
                 android:drawableTop="@mipmap/mine_shopping_record"
                 android:text="我的课程"/>
 
             <TextView
                 android:id="@+id/tv_error_note"
                 style="@style/tv_class_main_style"
-                android:layout_marginLeft="@dimen/space_20"
+                android:layout_marginLeft="@dimen/space_30"
                 android:drawableTop="@mipmap/mine_error_note"
                 android:text="错题本"/>
 

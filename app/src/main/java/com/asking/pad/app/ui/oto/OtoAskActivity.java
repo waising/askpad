@@ -211,7 +211,10 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
                 loadDialog.dismiss();
 
                 JSONObject resObject = JSON.parseObject(resStr);
-                int askTimes = resObject.getInteger("askTimes");
+                Integer askTimes = resObject.getInteger("askTimes");
+                if(askTimes == null){
+                    askTimes = -1;
+                }
                 String userAvatar = resObject.getString("avatar");
                 double integral = resObject.getDouble("integral");
                 String qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
