@@ -234,6 +234,7 @@ public class OtoEndActivity extends BaseFrameActivity<UserPresenter, UserModel> 
                 EventBus.getDefault().post(new AppEventType(AppEventType.RE_USER_INFO_REQUEST));
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

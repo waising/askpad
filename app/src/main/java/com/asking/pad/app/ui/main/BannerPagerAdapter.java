@@ -19,6 +19,6 @@ public class BannerPagerAdapter extends AutoPagerAdapter {
     @Override
     public void getView(ImageView target, BannerInfo aVar) {
         target.setScaleType(ImageView.ScaleType.FIT_XY);
-        BitmapUtil.displayImage(aVar.imageUrl, target);
+        BitmapUtil.displayBanaImage(aVar.imageUrl, target);
     }
 }

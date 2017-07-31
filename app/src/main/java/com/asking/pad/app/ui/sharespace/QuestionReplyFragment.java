@@ -127,12 +127,13 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         });
         load_comment.setViewState(MultiStateView.VIEW_STATE_LOADING);
 
-        if (isLoginUser){
+        if (isLoginUser) {
             submitBtn.setText("追问");
         }
 
-        if (dataType == 2 || !TextUtils.equals(anwserMoreEntity.getUserId(), AppContext.getInstance().getUserId())
-                || anwserMoreEntity.isAdopt()) {
+        boolean isUserAnwser = TextUtils.equals(anwserMoreEntity.getUserId(), AppContext.getInstance().getUserId());
+
+        if (dataType == 2 || (!isLoginUser && !isUserAnwser) || anwserMoreEntity.isAdopt()) {
             ll_input_comment.setVisibility(View.GONE);
         }
 
@@ -179,6 +180,16 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 QuestionEntity qe = new Gson().fromJson(resStr, QuestionEntity.class);
+                try {
+                    for (QuestionEntity.AnwserMoreEntity e : qe.getList()) {
+                        if (TextUtils.equals(e.getId(), anwserMoreEntity.getId())) {
+                            anwserMoreEntity = e;
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 dataList.clear();
                 dataDetailList.clear();
                 QuestionEntity.AnswerDetail f = new QuestionEntity.AnswerDetail();
@@ -254,7 +265,6 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     }
 
     private void sendContent(String content) {
-
         //追问
         if (isLoginUser) {
             mPresenter.sendQaAgainAsk(questionId, anwserMoreEntity.getId(), content, new ApiRequestListener<String>() {

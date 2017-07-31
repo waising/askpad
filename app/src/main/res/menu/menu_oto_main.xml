@@ -6,6 +6,6 @@
         android:id="@+id/action_info"
         android:icon="@mipmap/mine_oto_record"
         app:showAsAction="ifRoom|withText"
-        android:title="@string/myOtoRecord"/>
+        android:title="   答疑记录"/>
 
 </menu>
