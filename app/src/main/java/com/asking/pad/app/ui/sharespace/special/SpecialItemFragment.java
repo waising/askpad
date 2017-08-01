@@ -126,6 +126,9 @@ public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, Us
                     onRefreshData();
                 }
                 break;
+            case AppEventType.RE_SHARESPACE_TEAATTEN_REQUEST:
+                onRefreshData();
+                break;
         }
     }
 
