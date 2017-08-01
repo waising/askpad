@@ -4,14 +4,8 @@
 
     <item
         android:id="@+id/action_info"
-        android:icon="@mipmap/mine_sign"
+        android:icon="@mipmap/ic_meun_down"
         app:showAsAction="ifRoom|withText"
-        android:title="   签到"/>
-
-    <item
-        android:id="@+id/action_info1"
-        android:icon="@mipmap/mine_msg"
-        app:showAsAction="ifRoom|withText"
-        android:title="   消息"/>
+        android:title="  下载课程"/>
 
 </menu>

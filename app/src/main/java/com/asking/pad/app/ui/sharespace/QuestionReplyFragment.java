@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import okhttp3.MultipartBody;
 
 /**
@@ -249,10 +250,9 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
                     public void onResultSuccess(String resStr) {//数据返回成功
                         showShortToast("采纳成功");
                         tv_adopt.setVisibility(View.GONE);
-
                         ll_input_comment.setVisibility(View.GONE);
-
                         initComment();
+                        EventBus.getDefault().post(new AppEventType(AppEventType.RE_USER_INFO_REQUEST));
                     }
 
                     @Override

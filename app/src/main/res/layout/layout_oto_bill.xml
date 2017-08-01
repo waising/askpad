@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,68 +24,78 @@
             android:layout_weight="2"
             android:src="@mipmap/bg_oto_end_pager_foot"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/space_10"
-            android:layout_marginLeft="@dimen/space_10"
-            android:layout_marginRight="@dimen/space_10"
-            android:layout_weight="1"
-            android:background="@mipmap/bg_oto_end_pager_head"
-            android:orientation="vertical"
-            android:padding="@dimen/space_20">
+            android:layout_weight="1">
 
-            <RelativeLayout
-                style="@style/rl_oto_end_styles">
-
-                <TextView
-                    style="@style/tv_oto_end_styles"
-                    android:text="答疑时间："/>
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    style="@style/tv_oto_end_styles"
-                    android:layout_alignParentRight="true"
-                    android:text="00:00"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/rl_oto_end_styles">
-
-                <TextView
-                    style="@style/tv_oto_end_styles"
-                    android:text="花费阿思币："/>
-
-                <TextView
-                    android:id="@+id/tv_take_coin"
-                    style="@style/tv_oto_end_styles"
-                    android:layout_alignParentRight="true"
-                    android:drawableRight="@mipmap/mine_ask_money"/>
-
-            </RelativeLayout>
-
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/space_1"
-                android:background="#FCB749"/>
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginRight="@dimen/space_10"
+                android:background="@mipmap/bg_oto_end_pager_head"
+                android:orientation="vertical"
+                android:padding="@dimen/space_20">
 
-            <RelativeLayout
-                style="@style/rl_oto_end_styles">
+                <RelativeLayout
+                    style="@style/rl_oto_end_styles">
 
-                <TextView
-                    style="@style/tv_oto_end_styles"
-                    android:text="余额："/>
+                    <TextView
+                        style="@style/tv_oto_end_styles"
+                        android:text="答疑时间："/>
 
-                <TextView
-                    android:id="@+id/tv_user_coin"
-                    style="@style/tv_oto_end_styles"
-                    android:layout_alignParentRight="true"
-                    android:drawableRight="@mipmap/mine_ask_money"/>
+                    <TextView
+                        android:id="@+id/tv_time"
+                        style="@style/tv_oto_end_styles"
+                        android:layout_alignParentRight="true"
+                        android:text="00:00"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
+                <RelativeLayout
+                    style="@style/rl_oto_end_styles">
 
-        </LinearLayout>
+                    <TextView
+                        style="@style/tv_oto_end_styles"
+                        android:text="花费阿思币："/>
+
+                    <TextView
+                        android:id="@+id/tv_take_coin"
+                        style="@style/tv_oto_end_styles"
+                        android:layout_alignParentRight="true"
+                        android:drawableRight="@mipmap/mine_ask_money"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/space_1"
+                    android:background="#FCB749"/>
+
+                <RelativeLayout
+                    style="@style/rl_oto_end_styles">
+
+                    <TextView
+                        style="@style/tv_oto_end_styles"
+                        android:text="余额："/>
+
+                    <TextView
+                        android:id="@+id/tv_user_coin"
+                        style="@style/tv_oto_end_styles"
+                        android:layout_alignParentRight="true"
+                        android:drawableRight="@mipmap/mine_ask_money"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_firstorder_flag"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_firstorder_flag"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

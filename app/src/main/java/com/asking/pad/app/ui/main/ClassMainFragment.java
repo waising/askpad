@@ -76,7 +76,7 @@ public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
 
         mToolbar.setNavigationIcon(R.mipmap.ic_class_main_tit);
         mToolbar.setTitle("追课");
-        mToolbar.inflateMenu(R.menu.menu_down_class_media);
+        mToolbar.inflateMenu(R.menu.menu_class_main);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
             public boolean onMenuItemClick(MenuItem item) {

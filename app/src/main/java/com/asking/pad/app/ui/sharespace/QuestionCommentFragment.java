@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import okhttp3.MultipartBody;
 
 /**
@@ -115,6 +116,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                         showShortToast("采纳成功");
                         mAdapter.setVisBtn();
                         initComment();
+                        EventBus.getDefault().post(new AppEventType(AppEventType.RE_USER_INFO_REQUEST));
                     }
 
                     @Override
