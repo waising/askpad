@@ -88,6 +88,14 @@
             android:layout_marginRight="@dimen/space_80"
             android:background="@color/line_color"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_10"
+            android:text="每天十分钟，轻松掌握课堂知识"
+            android:textColor="@color/colorText_88"
+            android:textSize="@dimen/textSize_14"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_main"
             android:layout_width="wrap_content"

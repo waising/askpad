@@ -183,7 +183,7 @@ public class SpeciaReplyFragment extends BaseFrameFragment<UserPresenter, UserMo
         });
     }
 
-    @OnClick({R.id.tv_back})
+    @OnClick({R.id.iv_photo_view, R.id.tv_back,R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_back:

@@ -189,15 +189,6 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@mipmap/ic_tea_img"/>
-
-            <ImageView
-                android:id="@+id/iv_firstorder_flag"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/space_30"
-                android:src="@mipmap/ic_firstorder_flag"/>
-
         </FrameLayout>
     </LinearLayout>
 

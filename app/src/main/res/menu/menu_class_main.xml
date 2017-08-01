@@ -2,16 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_info"
-        android:icon="@mipmap/ic_meun_down"
-        app:showAsAction="ifRoom|withText"
-        android:title="  下载课程"/>
 
     <item
         android:id="@+id/action_info"
-        android:icon="@mipmap/ic_meun_down"
+        android:icon="@mipmap/mine_sign"
         app:showAsAction="ifRoom|withText"
-        android:title="  下载课程"/>
+        android:title="   签到"/>
+
+    <item
+        android:id="@+id/action_info1"
+        android:icon="@mipmap/mine_msg"
+        app:showAsAction="ifRoom|withText"
+        android:title="   消息"/>
 
 </menu>

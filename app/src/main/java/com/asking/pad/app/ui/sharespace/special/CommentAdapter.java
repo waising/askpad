@@ -13,6 +13,7 @@ import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.sharespace.SpecialComment;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
+import com.asking.pad.app.widget.MultiStateView;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommView
         holder.tv_time.setText(DateUtil.friendly_time(DateUtil.getDateToString(e.createDate)));
         holder.tv_name.setText(e.getNickName());
 
-        holder.content_mathview.formatMath();
+        holder.content_mathview.formatMath().showWebImage(holder.load_View);
         holder.content_mathview.setText(e.message);
 
         holder.tv_reply.setText(e.answerCount > 0 ? String.format("%s  回复", e.answerCount) : "");
@@ -93,6 +94,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommView
 
         @BindView(R.id.tv_reply)
         TextView tv_reply;
+
+        @BindView(R.id.load_View)
+        MultiStateView load_View;
 
         @BindView(R.id.content_mathview)
         AskMathView content_mathview;

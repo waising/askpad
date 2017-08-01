@@ -117,6 +117,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 holder.askIc.setVisibility(View.GONE);
             }
             //已采纳
+            holder.questionsure.setVisibility(View.GONE);
             if (questionEntity.getState() == "2") {
                 holder.questionsure.setVisibility(View.VISIBLE);
             }
@@ -125,8 +126,6 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 holder.userNameTv.setVisibility(View.GONE);
                 holder.userImgIv.setVisibility(View.GONE);
                 holder.questionStatusTv.setVisibility(View.VISIBLE);
-                holder.questionsure.setVisibility(View.GONE);
-                //
                 int color = R.color.black;
                 String status = "";
                 if (questionEntity.getAnswer_size() <= 0) {
@@ -138,6 +137,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 } else if (questionEntity.getState() == "2") {
                     status = "已采纳";
                     color = R.color.orange;
+                    holder.questionsure.setVisibility(View.VISIBLE);
                 }
                 holder.questionStatusTv.setText(status);
                 holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext, color));
