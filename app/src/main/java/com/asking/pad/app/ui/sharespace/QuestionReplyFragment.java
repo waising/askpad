@@ -70,18 +70,19 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
     boolean isShowAdopt;
     QuestionEntity.AnwserMoreEntity anwserMoreEntity;
     String questionId;
-
+    String quesAvatar;
     /**
      * 2-已采纳
      */
     int dataType;
 
     public static QuestionReplyFragment newInstance(int dataType, QuestionEntity.AnwserMoreEntity e
-            , String questionId, boolean isLoginUser, boolean isShowAdopt) {
+            , String questionId,String quesAvatar, boolean isLoginUser, boolean isShowAdopt) {
         QuestionReplyFragment fragment = new QuestionReplyFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("anwserMoreEntity", e);
         bundle.putString("questionId", questionId);
+        bundle.putString("quesAvatar", quesAvatar);
         bundle.putBoolean("isLoginUser", isLoginUser);
         bundle.putBoolean("isShowAdopt", isShowAdopt);
         bundle.putInt("dataType", dataType);
@@ -97,6 +98,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
         if (bundle != null) {
             anwserMoreEntity = bundle.getParcelable("anwserMoreEntity");
             questionId = bundle.getString("questionId");
+            quesAvatar = bundle.getString("quesAvatar");
             isLoginUser = bundle.getBoolean("isLoginUser");
             isShowAdopt = bundle.getBoolean("isShowAdopt");
             dataType = bundle.getInt("dataType");
@@ -181,6 +183,7 @@ public class QuestionReplyFragment extends BaseEvenFrameFragment<UserPresenter, 
             @Override
             public void onResultSuccess(String resStr) {//数据返回成功
                 QuestionEntity qe = new Gson().fromJson(resStr, QuestionEntity.class);
+                qe.setUserAvatar(quesAvatar);
                 try {
                     for (QuestionEntity.AnwserMoreEntity e : qe.getList()) {
                         if (TextUtils.equals(e.getId(), anwserMoreEntity.getId())) {

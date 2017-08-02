@@ -80,6 +80,7 @@
     <dimen name="space_120">120dp</dimen>
     <dimen name="space_130">130dp</dimen>
     <dimen name="space_150">150dp</dimen>
+    <dimen name="space_160">160dp</dimen>
     <dimen name="space_170">170dp</dimen>
     <dimen name="space_180">180dp</dimen>
     <dimen name="space_195">195dp</dimen>

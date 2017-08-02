@@ -21,6 +21,16 @@ public class ShareStarRank {
     private String userId;
     private int adoptNum;
 
+    private String userAvatar;
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
     public String getNickName() {
         return nickName;
     }

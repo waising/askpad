@@ -66,14 +66,17 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
      */
     int dataType;
 
-    String questionId, askUserId;
+    String questionId;
+    String askUserId;
+    String quesAvatar;
 
-    public static QuestionCommentFragment newInstance(int dataType, String questionId, String askUserId) {
+    public static QuestionCommentFragment newInstance(int dataType, String questionId, String askUserId, String quesAvatar) {
         QuestionCommentFragment fragment = new QuestionCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("questionId", questionId);
         bundle.putString("askUserId", askUserId);
         bundle.putInt("dataType", dataType);
+        bundle.putString("quesAvatar", quesAvatar);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -87,6 +90,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
             questionId = bundle.getString("questionId");
             askUserId = bundle.getString("askUserId");
             dataType = bundle.getInt("dataType");
+            quesAvatar = bundle.getString("quesAvatar");
         }
     }
 
@@ -102,7 +106,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
             public void OnItemComment(QuestionEntity.AnwserMoreEntity e) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .addToBackStack(null)
-                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(dataType, e, questionId
+                        .replace(R.id.fragment, QuestionReplyFragment.newInstance(dataType, e, questionId,quesAvatar
                                 , mAdapter.isLoginUser,mAdapter.isShowAdopt))
                         .commit();
             }

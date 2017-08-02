@@ -51,11 +51,6 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
     @BindView(R.id.tv_accept_num)
     TextView tvAcceptNum;
 
-    /**
-     * 头像url
-     */
-    public static final String AVATOR_URL = "https://ssos.91asking.com/znSSO/user/avatar/";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +107,7 @@ public class ShareStarFragement extends BaseFrameFragment<SharePresenter, ShareM
 
                         ShareStarHistory shareStarHistory = entity.get(0);
                         if (shareStarHistory != null) {
-                            BitmapUtil.displayUserImage(getActivity(),AVATOR_URL + shareStarHistory.getUserId(), ad_avatar);
+                            BitmapUtil.displayCirImage(shareStarHistory.getUserAvatar(),R.dimen.space_160, ad_avatar);
                             if (!TextUtils.isEmpty(shareStarHistory.getNickName())) {//昵称为空，显示手机号
                                 tvName.setText(shareStarHistory.getNickName());
                             } else {

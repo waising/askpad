@@ -3,7 +3,6 @@ package com.asking.pad.app.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +15,7 @@ public class QuestionEntity implements Parcelable {
     private String userId;
     private String userName;
     private String title;
+    private String userAvatar;
     private String description;
     private String km;
 
@@ -25,6 +25,14 @@ public class QuestionEntity implements Parcelable {
 
     public void setList(List<AnwserMoreEntity> list) {
         this.list = list;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
     private List<AnwserMoreEntity> list;
@@ -131,9 +139,18 @@ public class QuestionEntity implements Parcelable {
 
 
     public static class AnwserMoreEntity implements Parcelable {
-        private String createDate_fmt;
+        private String userAvatar;
         private long createDate;
         private int lousySize;
+        private String createDate_fmt;
+
+        public String getUserAvatar() {
+            return userAvatar;
+        }
+
+        public void setUserAvatar(String userAvatar) {
+            this.userAvatar = userAvatar;
+        }
 
         public String getCreateDate_fmt() {
             return createDate_fmt;
@@ -232,6 +249,9 @@ public class QuestionEntity implements Parcelable {
         private int goodSize;
         private int type;
 
+        public AnwserMoreEntity() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -239,10 +259,11 @@ public class QuestionEntity implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.createDate_fmt);
+            dest.writeString(this.userAvatar);
             dest.writeLong(this.createDate);
             dest.writeInt(this.lousySize);
-            dest.writeList(this.list);
+            dest.writeString(this.createDate_fmt);
+            dest.writeTypedList(this.list);
             dest.writeString(this.userId);
             dest.writeString(this.id);
             dest.writeByte(this.adopt ? (byte) 1 : (byte) 0);
@@ -252,15 +273,12 @@ public class QuestionEntity implements Parcelable {
             dest.writeInt(this.type);
         }
 
-        public AnwserMoreEntity() {
-        }
-
         protected AnwserMoreEntity(Parcel in) {
-            this.createDate_fmt = in.readString();
+            this.userAvatar = in.readString();
             this.createDate = in.readLong();
             this.lousySize = in.readInt();
-            this.list = new ArrayList<AnswerDetail>();
-            in.readList(this.list, AnswerDetail.class.getClassLoader());
+            this.createDate_fmt = in.readString();
+            this.list = in.createTypedArrayList(AnswerDetail.CREATOR);
             this.userId = in.readString();
             this.id = in.readString();
             this.adopt = in.readByte() != 0;
@@ -282,55 +300,6 @@ public class QuestionEntity implements Parcelable {
             }
         };
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.userId);
-        dest.writeString(this.userName);
-        dest.writeString(this.title);
-        dest.writeString(this.description);
-        dest.writeString(this.km);
-        dest.writeList(this.list);
-        dest.writeString(this.levelId);
-        dest.writeString(this.createDate_Fmt);
-        dest.writeString(this.state);
-        dest.writeInt(this.caifu);
-        dest.writeInt(this.answer_size);
-    }
-
-    protected QuestionEntity(Parcel in) {
-        this.id = in.readString();
-        this.userId = in.readString();
-        this.userName = in.readString();
-        this.title = in.readString();
-        this.description = in.readString();
-        this.km = in.readString();
-        this.list = new ArrayList<AnwserMoreEntity>();
-        in.readList(this.list, AnwserMoreEntity.class.getClassLoader());
-        this.levelId = in.readString();
-        this.createDate_Fmt = in.readString();
-        this.state = in.readString();
-        this.caifu = in.readInt();
-        this.answer_size = in.readInt();
-    }
-
-    public static final Creator<QuestionEntity> CREATOR = new Creator<QuestionEntity>() {
-        @Override
-        public QuestionEntity createFromParcel(Parcel source) {
-            return new QuestionEntity(source);
-        }
-
-        @Override
-        public QuestionEntity[] newArray(int size) {
-            return new QuestionEntity[size];
-        }
-    };
 
     public static class AnswerDetail implements Parcelable{
         public String getAnswer() {
@@ -408,4 +377,54 @@ public class QuestionEntity implements Parcelable {
             }
         };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.userId);
+        dest.writeString(this.userName);
+        dest.writeString(this.title);
+        dest.writeString(this.userAvatar);
+        dest.writeString(this.description);
+        dest.writeString(this.km);
+        dest.writeTypedList(this.list);
+        dest.writeString(this.levelId);
+        dest.writeString(this.createDate_Fmt);
+        dest.writeString(this.state);
+        dest.writeInt(this.caifu);
+        dest.writeInt(this.answer_size);
+    }
+
+    protected QuestionEntity(Parcel in) {
+        this.id = in.readString();
+        this.userId = in.readString();
+        this.userName = in.readString();
+        this.title = in.readString();
+        this.userAvatar = in.readString();
+        this.description = in.readString();
+        this.km = in.readString();
+        this.list = in.createTypedArrayList(AnwserMoreEntity.CREATOR);
+        this.levelId = in.readString();
+        this.createDate_Fmt = in.readString();
+        this.state = in.readString();
+        this.caifu = in.readInt();
+        this.answer_size = in.readInt();
+    }
+
+    public static final Creator<QuestionEntity> CREATOR = new Creator<QuestionEntity>() {
+        @Override
+        public QuestionEntity createFromParcel(Parcel source) {
+            return new QuestionEntity(source);
+        }
+
+        @Override
+        public QuestionEntity[] newArray(int size) {
+            return new QuestionEntity[size];
+        }
+    };
 }
