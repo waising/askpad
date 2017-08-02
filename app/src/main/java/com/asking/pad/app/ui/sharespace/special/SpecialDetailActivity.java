@@ -1,6 +1,7 @@
 package com.asking.pad.app.ui.sharespace.special;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ import de.greenrobot.event.EventBus;
  */
 
 public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, UserModel> {
+    @BindView(R.id.toolBar)
+    Toolbar toolBar;
+
     @BindView(R.id.tv_favor_num)
     TextView tv_favor_num;
 
@@ -80,6 +84,9 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
     @Override
     public void initView() {
         super.initView();
+
+        setToolbar(toolBar, "");
+
         content_mathview.formatMath().showWebImage(load_View);
         content_mathview.setText(mShareSpecial.contentHtml);
 

@@ -93,7 +93,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             holder.questionTitleTv.setText(questionEntity.getTitle());
             holder.mathView.setText(questionEntity.getDescription());
             holder.kmTv.setText(getSubjectName(questionEntity.getKm()) + " - " + getGradleName(questionEntity.getLevelId()));
-            BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_40, holder.userImgIv);
+            BitmapUtil.displayCirImage(questionEntity.getUserAvatar(), R.dimen.space_40, holder.userImgIv);
             int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(), DateUtil.currentDatetime());
             String time = questionEntity.getCreateDate_Fmt();
             if (0 < m && m < 10) {
@@ -106,40 +106,39 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 time = "20小时前";
 
             holder.timeTv.setText(time);
-            holder.askQuestionCountTv.setText(questionEntity.getAnswer_size() + " 人回答");
+            holder.askQuestionCountTv.setText(questionEntity.getAnswer_size()+"");
             if (questionEntity.getCaifu() > 0) {
                 holder.askMoneyTv.setVisibility(View.VISIBLE);
                 holder.askIc.setVisibility(View.VISIBLE);
                 holder.askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
             } else {
-                holder.askMoneyTv.setVisibility(View.GONE);
-                holder.askIc.setVisibility(View.GONE);
+                holder.askMoneyTv.setVisibility(View.INVISIBLE);
+                holder.askIc.setVisibility(View.INVISIBLE);
             }
-            //已采纳
-            holder.questionsure.setVisibility(View.GONE);
-            if (questionEntity.getState() == "2") {
-                holder.questionsure.setVisibility(View.VISIBLE);
-            }
-            //显示状态
-            if (isMine) {
-                holder.userNameTv.setVisibility(View.GONE);
-                holder.userImgIv.setVisibility(View.GONE);
+            try {
                 holder.questionStatusTv.setVisibility(View.VISIBLE);
+                holder.questionsure.setVisibility(View.GONE);
                 int color = R.color.black;
                 String status = "";
                 if (questionEntity.getAnswer_size() <= 0) {
                     status = "待回答";
                     color = R.color.green;
-                } else if (questionEntity.getState() != "2") {
+                } else if (!TextUtils.equals(questionEntity.getState(), "2")) {
                     status = "待采纳";
                     color = R.color.theme_blue_theme;
-                } else if (questionEntity.getState() == "2") {
+                } else if (TextUtils.equals(questionEntity.getState(), "2")) {
                     status = "已采纳";
                     color = R.color.orange;
                     holder.questionsure.setVisibility(View.VISIBLE);
                 }
-                holder.questionStatusTv.setText(status);
-                holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext, color));
+                if (isMine) {
+                    holder.userNameTv.setVisibility(View.GONE);
+                    holder.userImgIv.setVisibility(View.GONE);
+                    holder.questionStatusTv.setText(status);
+                    holder.questionStatusTv.setTextColor(ContextCompat.getColor(mContext, color));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

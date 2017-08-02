@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="28dp"
-    android:paddingLeft="@dimen/space_8"
-    android:paddingRight="@dimen/space_8"
-    android:background="@color/white"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/ll_main"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/space_8"
+              android:paddingRight="@dimen/space_8">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,13 +27,13 @@
             android:layout_marginLeft="@dimen/space_25"
             android:layout_marginRight="@dimen/space_34"
             app:backgroundImage="@color/main_bg"
-            app:roundAsCircle="true" />
+            app:roundAsCircle="true"/>
 
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_class"
@@ -42,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="初中数学"
                 android:textColor="#fd8767"
-                android:textSize="@dimen/textSize_20" />
+                android:textSize="@dimen/textSize_20"/>
 
             <TextView
                 android:id="@+id/tv_teacher_name"
@@ -51,7 +50,7 @@
                 android:layout_toRightOf="@+id/tv_class"
                 android:text="萌酱老师"
                 android:textColor="#888888"
-                android:textSize="@dimen/textSize_20" />
+                android:textSize="@dimen/textSize_20"/>
 
             <TextView
                 android:id="@+id/tv_subject"
@@ -62,19 +61,19 @@
                 android:layout_marginTop="@dimen/space_32"
                 android:text="发布专题数："
                 android:textColor="#888888"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
             <TextView
                 android:id="@+id/tv_subject_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_15"
-                android:layout_toRightOf="@+id/tv_subject"
                 android:layout_below="@+id/tv_class"
+                android:layout_marginLeft="@dimen/space_15"
                 android:layout_marginTop="@dimen/space_32"
+                android:layout_toRightOf="@+id/tv_subject"
                 android:text="101篇"
                 android:textColor="#888888"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
         </RelativeLayout>
 
@@ -85,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="@dimen/space_34"
-            android:background="@drawable/selector_attention" />
+            android:background="@drawable/selector_attention"/>
 
 
     </LinearLayout>
