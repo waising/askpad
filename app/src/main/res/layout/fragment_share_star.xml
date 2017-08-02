@@ -65,8 +65,8 @@
 
                 <ImageView
                     android:id="@+id/ad_avatar"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="@dimen/space_160"
+                    android:layout_height="@dimen/space_160"
                     android:layout_marginBottom="@dimen/space_20"
                     android:layout_marginTop="@dimen/space_15"
                     android:paddingRight="@dimen/space_10" />

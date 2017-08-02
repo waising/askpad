@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.asking.pad.app.commom.Constants.AVATOR_URL;
-
 /**
  * Created by jswang on 2017/7/18.
  */
@@ -62,12 +60,12 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
             if (e != null && anwserMoreEntity != null && questionEntity != null) {
                 //如果回答者为空则取最上面用户名
                 if (TextUtils.isEmpty(e.getAnswer())) {
-                    BitmapUtil.displayUserImage(mContext, AVATOR_URL + questionEntity.getUserId(), holder.iv_avatar);
+                    BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_50, holder.iv_avatar);
                     holder.tv_name.setText(questionEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAskTime()));
                     holder.content_mathview.setText(e.getAsk());
                 } else {
-                    BitmapUtil.displayUserImage(mContext, AVATOR_URL + anwserMoreEntity.getUserId(), holder.iv_avatar);
+                    BitmapUtil.displayCirImage(anwserMoreEntity.getUserAvatar(),R.dimen.space_50, holder.iv_avatar);
                     holder.tv_name.setText(anwserMoreEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAnswerTime()));
                     holder.content_mathview.setText(e.getAnswer());

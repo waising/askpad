@@ -14,8 +14,6 @@ import com.asking.pad.app.widget.AskMathView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.asking.pad.app.commom.Constants.AVATOR_URL;
-
 /**
  * Created by jswang on 2017/7/17.
  */
@@ -80,10 +78,11 @@ public class QuestionAnwserActivity extends AppCompatActivity {
             questionTitleTv.setText(questionEntity.getTitle());
             mathView.setText(questionEntity.getDescription());
 
-            BitmapUtil.displayUserImage(this,AVATOR_URL + questionEntity.getUserId(), userImgIv);
+            BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_60, userImgIv);
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment, QuestionCommentFragment.newInstance(dataType,id,questionEntity.getUserId())).commit();
+                .replace(R.id.fragment, QuestionCommentFragment.newInstance(dataType,id,questionEntity.getUserId()
+                        ,questionEntity.getUserAvatar())).commit();
     }
 }

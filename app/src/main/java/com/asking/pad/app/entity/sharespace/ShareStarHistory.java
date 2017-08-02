@@ -30,7 +30,15 @@ public class ShareStarHistory {
     private long answerNum;
     private int year;
 
+    private String userAvatar;
 
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
 
 
     public String getId() {

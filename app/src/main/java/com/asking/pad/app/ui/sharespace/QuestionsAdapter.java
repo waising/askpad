@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static com.asking.pad.app.commom.Constants.AVATOR_URL;
 
 /**
  * 题目的adpater
@@ -94,7 +93,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
             holder.questionTitleTv.setText(questionEntity.getTitle());
             holder.mathView.setText(questionEntity.getDescription());
             holder.kmTv.setText(getSubjectName(questionEntity.getKm()) + " - " + getGradleName(questionEntity.getLevelId()));
-            BitmapUtil.displayUserImage(mContext, AVATOR_URL + questionEntity.getUserId(), holder.userImgIv);
+            BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_40, holder.userImgIv);
             int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(), DateUtil.currentDatetime());
             String time = questionEntity.getCreateDate_Fmt();
             if (0 < m && m < 10) {

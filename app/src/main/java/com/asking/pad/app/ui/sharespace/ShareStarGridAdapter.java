@@ -83,7 +83,7 @@ public class ShareStarGridAdapter extends RecyclerView.Adapter<ShareStarGridAdap
                 holder.tvRankNum.setText((position + 1)+"");
             }
             holder.tvAcceptNum.setText(mContext.getString(R.string.accept_num, shareStarRank.getAdoptNum() + ""));
-            BitmapUtil.displayUserImage(mContext,ShareStarFragement.AVATOR_URL + shareStarRank.getUserId(), holder.rankAvator);
+            BitmapUtil.displayCirImage(shareStarRank.getUserAvatar(),R.dimen.space_90, holder.rankAvator);
             if (!TextUtils.isEmpty(shareStarRank.getNickName())) {
                 holder.tvNickName.setText(shareStarRank.getNickName());
             } else {
