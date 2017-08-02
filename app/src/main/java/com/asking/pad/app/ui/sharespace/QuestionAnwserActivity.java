@@ -1,12 +1,13 @@
 package com.asking.pad.app.ui.sharespace;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
+import com.asking.pad.app.base.BaseActivity;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.widget.AskMathView;
@@ -18,7 +19,10 @@ import butterknife.ButterKnife;
  * Created by jswang on 2017/7/17.
  */
 
-public class QuestionAnwserActivity extends AppCompatActivity {
+public class QuestionAnwserActivity extends BaseActivity {
+    @BindView(R.id.toolBar)
+    Toolbar toolBar;
+
     @BindView(R.id.user_name_tv)
     TextView userNameTv;
 
@@ -57,6 +61,8 @@ public class QuestionAnwserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_answer);
         ButterKnife.bind(this);
+
+        setToolbar(toolBar, "");
 
         questionEntity = getIntent().getParcelableExtra("questionEntity");
         id = questionEntity.getId();

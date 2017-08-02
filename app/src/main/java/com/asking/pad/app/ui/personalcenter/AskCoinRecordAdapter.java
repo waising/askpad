@@ -1,6 +1,8 @@
 package com.asking.pad.app.ui.personalcenter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +38,21 @@ public class AskCoinRecordAdapter extends RecyclerView.Adapter<AskCoinRecordAdap
         IntegralLog e = dataList.get(position);
         try{
             holder.tv_date.setText(DateUtil.formatDatetime(new Date(e.getCreateTime())));
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         holder.tv_state.setText("");
-        holder.tv_integral.setText(e.getIntegral());
+
+        String integral = "";
+        if(TextUtils.equals(e.getType(),"1")){
+            integral = "-";
+            holder.tv_integral.setTextColor(Color.parseColor("#fe5e3c"));
+        }else{
+            integral = "+";
+            holder.tv_integral.setTextColor(Color.parseColor("#ffaa2a"));
+        }
+
+        holder.tv_integral.setText(integral+e.getIntegral());
         holder.tv_remark.setText(e.getRemark());
     }
 
