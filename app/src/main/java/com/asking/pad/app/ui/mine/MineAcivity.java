@@ -160,6 +160,9 @@ public class MineAcivity extends BaseEvenActivity<UserPresenter, UserModel> {
             case AppEventType.PAY_SUCCESSS_REQUEST:
                 refreshUser();
                 break;
+            case AppEventType.RE_USER_INFO_REQUEST:
+                initUser();
+                break;
         }
     }
 

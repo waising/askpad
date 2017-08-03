@@ -107,7 +107,7 @@
                 android:id="@+id/mathView"
                 layout="@layout/common_math"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="@dimen/space_10"/>
