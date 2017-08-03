@@ -113,10 +113,6 @@
 
                         <TextView
                             style="@style/tv_askcoin_record_head_style"
-                            android:text=""/>
-
-                        <TextView
-                            style="@style/tv_askcoin_record_head_style"
                             android:text="变化"/>
 
                         <TextView

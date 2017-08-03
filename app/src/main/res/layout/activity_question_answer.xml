@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_10"
                     android:text="5"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/colorText_88"
                     android:textSize="@dimen/textSize_16"/>
 
                 <include
