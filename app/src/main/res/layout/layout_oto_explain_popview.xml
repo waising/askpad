@@ -27,7 +27,7 @@
 
                 <TextView
                     style="@style/tv_explain_styles"
-                    android:text="首单20分钟免费"/>
+                    android:text="1对1定制答疑，师生实时语音互动、同屏板书讲解原视频笔记保存，随时回顾收费标准使用平台虚拟货币阿思币的付费方式，按照提交问题的年级划分，收费标准有所不同，具体如下："/>
 
 
                 <TextView

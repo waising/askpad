@@ -23,8 +23,8 @@ public class QuestionAnwserActivity extends BaseActivity {
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
-    @BindView(R.id.user_name_tv)
-    TextView userNameTv;
+    @BindView(R.id.tv_username)
+    TextView tv_username;
 
     @BindView(R.id.km_tv)
     TextView kmTv;
@@ -71,21 +71,19 @@ public class QuestionAnwserActivity extends BaseActivity {
 
         mathView.showWebImage(this).formatMath();
 
-        if(questionEntity!=null){
-            userNameTv.setText(questionEntity.getUserName());
-            kmTv.setText(km);
-            timeTv.setText(questionEntity.getCreateDate_Fmt());
+        tv_username.setText(questionEntity.getUserName());
+        kmTv.setText(km);
+        timeTv.setText(questionEntity.getCreateDate_Fmt());
 
-            if(questionEntity.getCaifu()>0) {
-                askMoneyTv.setVisibility(View.VISIBLE);
-                askIc.setVisibility(View.VISIBLE);
-                askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
-            }
-            questionTitleTv.setText(questionEntity.getTitle());
-            mathView.setText(questionEntity.getDescription());
-
-            BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_60, userImgIv);
+        if(questionEntity.getCaifu()>0) {
+            askMoneyTv.setVisibility(View.VISIBLE);
+            askIc.setVisibility(View.VISIBLE);
+            askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
         }
+        questionTitleTv.setText(questionEntity.getTitle());
+        mathView.setText(questionEntity.getDescription());
+
+        BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_60, userImgIv);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment, QuestionCommentFragment.newInstance(dataType,id,questionEntity.getUserId()
