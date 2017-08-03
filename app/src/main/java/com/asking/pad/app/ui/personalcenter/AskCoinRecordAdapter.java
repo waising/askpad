@@ -41,7 +41,6 @@ public class AskCoinRecordAdapter extends RecyclerView.Adapter<AskCoinRecordAdap
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        holder.tv_state.setText("");
 
         String integral = "";
         if(TextUtils.equals(e.getType(),"1")){
@@ -64,9 +63,6 @@ public class AskCoinRecordAdapter extends RecyclerView.Adapter<AskCoinRecordAdap
     class CommViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_date)
         TextView tv_date;
-
-        @BindView(R.id.tv_state)
-        TextView tv_state;
 
         @BindView(R.id.tv_integral)
         TextView tv_integral;

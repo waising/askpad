@@ -171,7 +171,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
                     } else {
                         dataList.addAll(qe.getList());
                         load_comment.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                        answerSizeTv.setText(String.format("当前%s人回答", dataList.size()));
+                        answerSizeTv.setText(dataList.size()+"");
                     }
                 }
 

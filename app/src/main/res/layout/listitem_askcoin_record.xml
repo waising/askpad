@@ -16,12 +16,6 @@
             android:textSize="@dimen/textSize_20"/>
 
         <TextView
-            android:id="@+id/tv_state"
-            style="@style/tv_askcoin_record_head_style"
-            android:textColor="@color/colorText_88"
-            android:textSize="@dimen/textSize_20"/>
-
-        <TextView
             android:id="@+id/tv_integral"
             style="@style/tv_askcoin_record_head_style"
             android:textColor="@color/colorText_88"
