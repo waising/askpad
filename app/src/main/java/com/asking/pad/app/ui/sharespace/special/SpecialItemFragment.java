@@ -226,7 +226,11 @@ public class SpecialItemFragment extends BaseEvenFrameFragment<UserPresenter, Us
             holder.tv_likenum.setText(e.followCount);
 
             holder.tv_title.setText(e.name);
-            holder.tv_time.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(e.startTime)
+            if (!TextUtils.isEmpty(e.name) && e.name.length() > 8) {
+                holder.tv_title.setText(e.name.substring(0,8)+"...");
+            }
+
+            holder.tv_time.setText(String.format("%s-%s", DateUtil.getYYMMDDHHMM(e.startTime)
                     , DateUtil.getHHMM(e.endTime)));
 
             holder.tv_state.setText("");

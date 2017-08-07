@@ -30,7 +30,7 @@
         android:paddingLeft="@dimen/space_20"
         android:paddingRight="@dimen/space_20"
         android:paddingTop="@dimen/space_5"
-        android:layout_marginLeft="-60dp"
+        android:layout_marginLeft="-50dp"
         android:paddingBottom="@dimen/space_5"
         android:gravity="center"
         android:background="@drawable/common_btn_rectangle"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="题目文字与参考线平行"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize_16"/>
+            android:textSize="@dimen/textSize_20"/>
     </LinearLayout>
 
     <View
