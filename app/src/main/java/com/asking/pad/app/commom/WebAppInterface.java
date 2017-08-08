@@ -5,7 +5,9 @@ import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 
 import com.asking.pad.app.api.ApiRequestListener;
+import com.asking.pad.app.base.BaseActivity;
 import com.asking.pad.app.ui.commom.PhotoShowActivity;
+import com.asking.pad.app.ui.commom.WebDialog;
 
 
 /**
@@ -34,5 +36,11 @@ public class WebAppInterface {
                 PhotoShowActivity.openActivity(url);
             }
         }
+    }
+
+    @JavascriptInterface
+    public void showTipDataLink(String id) {
+        WebDialog selectDialog = WebDialog.newInstance(id);
+        selectDialog.show(((BaseActivity)context).getSupportFragmentManager(),"WebDialog");
     }
 }

@@ -33,6 +33,8 @@ public class AskMathWebView extends WebView {
         getSettings().setBlockNetworkImage(false);
         setBackgroundColor(Color.TRANSPARENT);
 
+        this.addJavascriptInterface(new WebAppInterface(context), Constants.PLATFORM);
+
         if (Build.VERSION.SDK_INT >= 11) {
             setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         } else {
@@ -60,7 +62,6 @@ public class AskMathWebView extends WebView {
     @SuppressLint("AddJavascriptInterface")
     public AskMathWebView showWebImage(Context context, final MultiStateView multiStateView){
         this.setWebViewClient(new WebAppClient(context, multiStateView, this));
-        this.addJavascriptInterface(new WebAppInterface(context), Constants.PLATFORM);
 
         return this;
     }

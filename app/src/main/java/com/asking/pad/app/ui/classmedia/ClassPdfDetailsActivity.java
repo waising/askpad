@@ -9,8 +9,9 @@ import android.view.View;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseActivity;
-import com.asking.pad.app.commom.DESHelper;
+import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.DESHelper;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
 import com.asking.pad.app.ui.commom.DownloadFile;
 import com.asking.pad.app.widget.MultiStateView;
@@ -39,6 +40,12 @@ public class ClassPdfDetailsActivity extends BaseActivity implements OnPageChang
     PDFView pdfView;
 
     ClassMedia mClassVideo;
+
+    public static void openActivity(ClassMedia e){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("ClassMedia", e);
+        CommonUtil.openActivity(ClassPdfDetailsActivity.class,bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

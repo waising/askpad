@@ -548,6 +548,9 @@ public interface UserApi {
                                                 @Path("subId") String subId
     );
 
+    @GET("coachapi/superlesson/tipdatalink/{gid}")
+    Observable<ResponseBody> tipdatalink(@Path("gid") String gid);
+
 
     /**
      * 获取错题年级

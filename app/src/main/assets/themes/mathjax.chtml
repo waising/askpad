@@ -31,6 +31,9 @@
         </script>
         <script type="text/javascript"
             src="file:///android_asset/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            function zb_showTipDataLink(gid){
+                window.Android.showTipDataLink(gid);
+            }
         </script>
     </head>
     <body>

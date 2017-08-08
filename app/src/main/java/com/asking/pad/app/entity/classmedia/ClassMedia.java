@@ -252,7 +252,7 @@ public class ClassMedia implements Parcelable {
 
     public String getPdfUrl() {
         for (CourseDataArray e : getCourseDataArray()) {
-            if (TextUtils.equals(e.getCourseDataType(), "ZL02")) {
+            if (TextUtils.equals(e.getCourseDataType(), "ZL02") || TextUtils.equals(e.getCourseDataType(), "ZL03")) {
                 return e.getCourseDataUrl();
             }
         }

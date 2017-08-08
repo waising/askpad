@@ -30,6 +30,7 @@ import com.asking.pad.app.entity.mine.MineStudyRecord;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.classmedia.ClassMediaDetailsActivity;
+import com.asking.pad.app.ui.classmedia.ClassPdfDetailsActivity;
 import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
@@ -254,8 +255,12 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
                 JSONObject jsonRes = JSON.parseObject(resStr);
                 ClassMedia mClassVideo = JSON.parseObject(resStr, ClassMedia.class);
                 mClassVideo.setCourseDataId(jsonRes.getString("commodityId"));
-                mClassVideo.setPlayPercentage((int)e.schedulePercent);
-                ClassMediaDetailsActivity.openActivity(mClassVideo);
+                mClassVideo.setPlayPercentage((int) e.schedulePercent);
+                if (mClassVideo.getIsPresent() == 0) {
+                    ClassMediaDetailsActivity.openActivity(mClassVideo);
+                } else {
+                    ClassPdfDetailsActivity.openActivity(mClassVideo);
+                }
                 mDialog.dismiss();
             }
         });
@@ -324,8 +329,15 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (e.childCommodityList.size() == 0 && e.getDataType() == 0) {
-                        ClassifyActivty.openActivity(e.getClassId(), e.getVersionId(), e.geGradeId());
+                    if (e.childCommodityList.size() == 0) {
+                        switch (e.getDataType()) {
+                            case 0:
+                                ClassifyActivty.openActivity(e.getClassId(), e.getVersionId(), e.geGradeId());
+                                break;
+                            case 1:
+                                onClickItem(e);
+                                break;
+                        }
                     }
                 }
             });
