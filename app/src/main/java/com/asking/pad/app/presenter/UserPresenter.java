@@ -211,6 +211,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.zhuikeimage(), "content", mListener);
     }
 
+    public void tipdatalink(String gid,ApiRequestListener mListener) {
+        baseReqStr(mModel.tipdatalink(gid), mListener);
+    }
+
     public void findByCommodityId(String commodityId, ApiRequestListener mListener) {
         baseReq(mModel.findByCommodityId(commodityId), "content", mListener);
     }

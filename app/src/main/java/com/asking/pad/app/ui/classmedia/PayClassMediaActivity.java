@@ -25,6 +25,7 @@ import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.pingplusplus.android.Pingpp;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +66,9 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
     @BindView(R.id.iv_img)
     ImageView iv_img;
 
+    @BindView(R.id.iv_present)
+    ImageView iv_present;
+
     String payType = "alipay";
     /**
      * KC-单个初升高购买  TC-整套初升高购买  TB-同步课堂购买  ASB-阿思币购买
@@ -80,7 +84,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     /**
      * TC01 - 初升高衔接课-数学
-      TC02- 初升高衔接课-物理
+     * TC02- 初升高衔接课-物理
      */
     String packageId;
 
@@ -100,7 +104,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
         mBundle.putString("courseName", mClassVideo.getCourseName());
         mBundle.putString("courseTypeName", mClassVideo.getCourseTypeName());
         mBundle.putString("description", mClassVideo.getDescription());
-        mBundle.putString("coursePrice", mClassVideo.getCoursePrice()+"");
+        mBundle.putString("coursePrice", mClassVideo.getCoursePrice() + "");
         mBundle.putString("courseTypeFullName", mClassVideo.getCourseTypeFullName());
         intent.putExtras(mBundle);
         activity.startActivity(intent);
@@ -123,6 +127,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     /**
      * 阿思币购买
+     *
      * @param activity
      * @param mAskCoinPay
      */
@@ -139,6 +144,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     /**
      * 同步课堂购买
+     *
      * @param activity
      * @param mGradePay
      */
@@ -175,56 +181,58 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
         iv_wechatpay.setSelected(false);
         iv_unionpay.setSelected(false);
 
+        iv_present.setVisibility(View.GONE);
+
         if (TextUtils.equals(orderType, "KC")) {
             commodityId = getIntent().getStringExtra("courseDataId");
-            finalPrice =  getIntent().getStringExtra("coursePrice");
+            finalPrice = getIntent().getStringExtra("coursePrice");
             title = getIntent().getStringExtra("courseName");
             title1 = getIntent().getStringExtra("courseTypeFullName");
             content = getIntent().getStringExtra("description");
 
             setDataView();
         } else if (TextUtils.equals(orderType, "TC")) {
-            packageId =  getIntent().getStringExtra("packageId");
+            packageId = getIntent().getStringExtra("packageId");
             getAllClassVideoOrder();
-        }else if (TextUtils.equals(orderType, "TB")) {
+        } else if (TextUtils.equals(orderType, "TB")) {
             orderType = "TC";
             commodityId = getIntent().getStringExtra("commodityId");
             title = getIntent().getStringExtra("packageName");
-            finalPrice =  getIntent().getStringExtra("packagePrice");
-            imgUrl =  getIntent().getStringExtra("imgUrl");
+            finalPrice = getIntent().getStringExtra("packagePrice");
+            imgUrl = getIntent().getStringExtra("imgUrl");
 
-            content = String.format("学习时限：%s个月（购买之日算起）",getIntent().getStringExtra("timeLimit"));
+            content = String.format("学习时限：%s个月（购买之日算起）", getIntent().getStringExtra("timeLimit"));
 
             setDataView();
-        }else if (TextUtils.equals(orderType, "ASB")) {
+        } else if (TextUtils.equals(orderType, "ASB")) {
             commodityId = getIntent().getStringExtra("commodityId");
-            finalPrice =  getIntent().getStringExtra("price");
-            title =  getIntent().getStringExtra("value")+"个币";
+            finalPrice = getIntent().getStringExtra("price");
+            title = getIntent().getStringExtra("value") + "个币";
             content = "【阿思币】";
 
             setDataView();
         }
     }
 
-    private void setDataView(){
+    private void setDataView() {
         tv_title.setText(title);
         tv_title1.setText(title1);
         tv_content.setText(content);
 
         iv_img.setVisibility(View.GONE);
-        if(!TextUtils.isEmpty(imgUrl)){
+        if (!TextUtils.isEmpty(imgUrl)) {
             iv_img.setVisibility(View.VISIBLE);
-            BitmapUtil.displayImage(imgUrl, iv_img,true);
+            BitmapUtil.displayImage(imgUrl, iv_img, true);
         }
 
         BigDecimal p = new BigDecimal(finalPrice);
         double price = p.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        tv_total_price.setText(String.format("%s元",price));
+        tv_total_price.setText(String.format("%s元", price));
     }
 
     private void getAllClassVideoOrder() {
         mLoading.show();
-        mPresenter.packagefind(packageId,new ApiRequestListener<String>() {
+        mPresenter.packagefind(packageId, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 mLoading.dismiss();
@@ -232,7 +240,19 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
                 commodityId = jsonRes.getString("commodityId");
                 title = jsonRes.getString("packageName");
                 content = jsonRes.getString("description");
-                finalPrice = jsonRes.getDouble("packagePrice")+"";
+                finalPrice = jsonRes.getDouble("packagePrice") + "";
+
+                StringBuilder ss = new StringBuilder();
+                if(!TextUtils.isEmpty(content)){
+                    ss.append(content);
+                }
+                List<String> array = JSON.parseArray(jsonRes.getString("presentName"),String.class);
+                for(String e :array){
+                    ss.append("\n\n").append(e);
+                }
+                content = ss.toString();
+
+                iv_present.setVisibility(View.VISIBLE);
 
                 setDataView();
             }
@@ -246,7 +266,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
 
     private void onPay() {
         mLoading.show();
-        mPresenter.paymentcharge(orderType, payType, commodityId,finalPrice, new ApiRequestListener<String>() {
+        mPresenter.paymentcharge(orderType, payType, commodityId, finalPrice, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 mLoading.dismiss();
@@ -302,7 +322,7 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
             String result = data.getExtras().getString("pay_result");
             if (TextUtils.equals("success", result)) {//支付成功
                 EventBus.getDefault().post(new AppEventType(AppEventType.PAY_SUCCESSS_REQUEST));
-                PaySuccessFragment.newInstance().show(getSupportFragmentManager(),"PaySuccessFragment");
+                PaySuccessFragment.newInstance().show(getSupportFragmentManager(), "PaySuccessFragment");
             }
         }
     }

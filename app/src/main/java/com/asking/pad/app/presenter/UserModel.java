@@ -263,6 +263,12 @@ public class UserModel extends BaseModel {
                 .zhuikeimage().compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+
+    public Observable<ResponseBody> tipdatalink(String gid) {
+        return Networks.getInstance().getUserApi()
+                .tipdatalink(gid).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> findByCommodityId(String commodityId) {
         return Networks.getInstance().getUserApi()
                 .findByCommodityId(commodityId).compose(RxSchedulers.<ResponseBody>io_main());

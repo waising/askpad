@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseEvenFrameFragment;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classmedia.ClassMedia;
 import com.asking.pad.app.entity.classmedia.StudyRecord;
@@ -291,9 +290,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("ClassMedia", e);
-                        CommonUtil.openActivity(ClassPdfDetailsActivity.class, bundle);
+                        ClassPdfDetailsActivity.openActivity(e);
                     }
                 });
             }
