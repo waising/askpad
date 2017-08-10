@@ -16,8 +16,8 @@ android {
         applicationId "com.asking.pad.app"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_URL", "\"${API_URL}\"")
