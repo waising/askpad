@@ -146,7 +146,7 @@ public class QuestionAskActivity extends BaseEvenAppCompatActivity<UserPresenter
     public void onClick(View view){
         switch (view.getId()){
             case R.id.camera_iv:
-                CameraActivity.openActivity(this, AppEventType.NOTE_CAMERA_REQUEST, CameraActivity.FROM_NOTE);
+                CameraActivity.openActivity(this, AppEventType.NOTE_CAMERA_REQUEST, CameraActivity.FROM_OTHER);
                 break;
             case R.id.question_ask_btn:
                 submitQuestion();

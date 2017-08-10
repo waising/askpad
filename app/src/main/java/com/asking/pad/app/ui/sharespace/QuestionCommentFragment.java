@@ -230,7 +230,7 @@ public class QuestionCommentFragment extends BaseEvenFrameFragment<UserPresenter
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_photo_view:
-                CameraActivity.openActivity(getActivity(), AppEventType.NOTE_CAMERA_REQUEST, CameraActivity.FROM_NOTE);
+                CameraActivity.openActivity(getActivity(), AppEventType.NOTE_CAMERA_REQUEST, CameraActivity.FROM_OTHER);
                 break;
             case R.id.btn_submit:
                 String content = edt_note_content.getText().toString();
