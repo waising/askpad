@@ -41,14 +41,14 @@
             android:layout_height="wrap_content"
             android:text="请横屏拍照"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize_16"/>
+            android:textSize="@dimen/textSize_30"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="题目文字与参考线平行"
             android:textColor="@color/white"
-            android:textSize="@dimen/textSize_20"/>
+            android:textSize="@dimen/textSize_30"/>
     </LinearLayout>
 
     <View
