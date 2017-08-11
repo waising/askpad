@@ -229,20 +229,24 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
             return;
         }
 
+        if (isBuy) {
+            openClass(value);
+        } else {
+            if (value.free != 0 || value.purchased != 0) {
+                openClass(value);
+            } else {
+                CommonUtil.openAuthActivity(PayAskActivity.class);
+            }
+        }
+    }
+
+    private void openClass(SuperLessonTree value){
         if (isSelectNode) {
             EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST
                     , isBuy, commodityId, value.id, value.name, value.knowledgeIndex, value.free, treeLessonList));
             getActivity().finish();
         } else {
-            if (isBuy) {
-                openSuperClassActiity(value);
-            } else {
-                if (value.free != 0 || value.purchased != 0) {
-                    openSuperClassActiity(value);
-                } else {
-                    CommonUtil.openAuthActivity(PayAskActivity.class);
-                }
-            }
+            openSuperClassActiity(value);
         }
     }
 

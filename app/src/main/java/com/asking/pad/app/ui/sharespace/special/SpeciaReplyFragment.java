@@ -118,7 +118,7 @@ public class SpeciaReplyFragment extends BaseFrameFragment<UserPresenter, UserMo
                 }
 
                 //倒计时10秒显示等待提示
-                mPresenter.countDownPresenter(10, new OnCountDownListener() {
+                mPresenter.countDownPresenter(30, new OnCountDownListener() {
                     @Override
                     public void onComplete() {
                         initComment();

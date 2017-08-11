@@ -25,7 +25,7 @@ public class SuperClassSpeaker {
     public String getSubjectDescriptionHtml() {
         StringBuffer str = new StringBuffer("");
         try {
-            str = new StringBuffer(subject.subjectDescription);
+            str = new StringBuffer(subject.subject_description_html);
         } catch (Exception e) {
             e.printStackTrace();
         }
