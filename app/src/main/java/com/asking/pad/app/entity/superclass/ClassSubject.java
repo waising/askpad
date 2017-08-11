@@ -9,6 +9,9 @@ import java.util.List;
  */
 
 public class  ClassSubject{
+    @JSONField(name = "subject_description_html")
+    public String subject_description_html;
+
     @JSONField(name = "subject_description")
     public String subjectDescription;
 

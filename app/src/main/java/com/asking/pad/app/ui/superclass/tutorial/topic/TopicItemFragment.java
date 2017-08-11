@@ -105,7 +105,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         String optionDes = "";
         try{
             for (SubjectOption a : mSubjectClass.getOptions()) {
-                optionDes = optionDes + a.getOptionName() + ". " + a.getOptionContent()+ "<br/>";
+                optionDes = optionDes + a.getOptionName() + ". " + a.getOptionContentHtml();
             }
         }catch (Exception e){}
         topic_mathview.setText(mSubjectClass.getSubjectDescriptionHtml() + optionDes);
