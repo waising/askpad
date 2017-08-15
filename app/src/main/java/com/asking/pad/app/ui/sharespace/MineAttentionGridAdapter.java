@@ -110,7 +110,7 @@ public class MineAttentionGridAdapter extends RecyclerView.Adapter<MineAttention
                         bundle.putString("teacherAvatar", askInfoBean.getAvatar());
                         bundle.putInt("fansNum", mySpace.getFavorCount());
                         bundle.putString("teacherId", mySpace.getId());
-                        bundle.putBoolean("isSelected", holder.ivAttention.isSelected());
+                        bundle.putBoolean("isSelected", false);
                         openActivity(TeacherSpaceActivity.class, bundle);
                     }
                 });
@@ -121,7 +121,6 @@ public class MineAttentionGridAdapter extends RecyclerView.Adapter<MineAttention
                     @Override
                     public void onClick(View v) {
                         if (mListener != null) {
-                            v.setSelected(!v.isSelected());
                             mListener.onClick(position, v);
                         }
                     }

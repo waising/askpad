@@ -31,7 +31,6 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 我的关注
- * Created by jswang on 2017/4/20.
  */
 
 public class MineAttentionFragment extends BaseEvenFrameFragment<SharePresenter, ShareModel> implements MineAttentionGridAdapter.OnClickListener {
@@ -175,16 +174,7 @@ public class MineAttentionFragment extends BaseEvenFrameFragment<SharePresenter,
     @Override
     public void onClick(int position, View view) {
         MyAttention mySpace = (MyAttention) mineAttentionGridAdapter.getItem(position);
-        if (mySpace != null) {
-            if (view.isSelected())//取消关注
-            {
-                requestCancelAttention(mySpace.getId());
-            } else {
-                requestAttention(mySpace.getId());
-            }
-
-        }
-
+        requestCancelAttention(mySpace.getId());
     }
 
     /**
@@ -224,6 +214,7 @@ public class MineAttentionFragment extends BaseEvenFrameFragment<SharePresenter,
             public void onResultSuccess(String resStr) {//数据返回成功
                 mDialog.dismiss();
                 ToastUtil.showMessage("取消关注成功");
+                onRefreshData();
             }
 
             @Override
