@@ -10,4 +10,8 @@
     <dimen name="space_10">5dp</dimen>
 
     <dimen name="textSize_12">9sp</dimen>
+
+    <dimen name="item_first_main_size">100dp</dimen>
+    <dimen name="item_first_main_size2">140dp</dimen>
+
 </resources>

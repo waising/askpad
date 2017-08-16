@@ -612,11 +612,27 @@
         <item name="android:textSize">@dimen/textSize_16</item>
     </style>
 
+    <style name="iv_class_main_style">
+        <item name="android:layout_width">@dimen/item_first_main_size</item>
+        <item name="android:layout_height">@dimen/item_first_main_size</item>
+        <item name="android:textSize">@dimen/textSize_18</item>
+        <item name="android:layout_marginTop">@dimen/space_10</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ll_class_main_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <style name="tv_class_main_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSize_18</item>
-        <item name="android:drawablePadding">@dimen/space_10</item>
+        <item name="android:layout_marginTop">@dimen/space_10</item>
         <item name="android:textColor">@color/colorText_88</item>
         <item name="android:gravity">center</item>
     </style>
@@ -750,6 +766,48 @@
         <item name="android:paddingRight">@dimen/space_20</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/textSize_18</item>
+    </style>
+
+    <style name="v_share_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+    <style name="tv_share_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/space_8</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:textSize">@dimen/textSize_16</item>
+    </style>
+
+    <style name="tv_share_styles1">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorText_46c6ff</item>
+        <item name="android:textSize">@dimen/space_30</item>
+    </style>
+
+    <style name="tv_share_styles2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorText_88</item>
+        <item name="android:textSize">@dimen/textSize_16</item>
+    </style>
+
+    <style name="ll_share_styles">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center|bottom</item>
+    </style>
+
+    <style name="iv_share_styles">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,7 +15,6 @@
             android:layout_marginTop="@dimen/space_30"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/space_30">
-
 
             <TextView
                 android:layout_width="0dp"
@@ -39,19 +37,16 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_60"
+            android:layout_marginTop="@dimen/space_10"
             android:orientation="horizontal">
-
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_60"
-                android:layout_marginTop="@dimen/space_10">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -67,7 +62,8 @@
                     android:layout_height="@dimen/space_160"
                     android:layout_marginBottom="@dimen/space_20"
                     android:layout_marginTop="@dimen/space_15"
-                    android:paddingRight="@dimen/space_10"/>
+                    android:paddingRight="@dimen/space_10"
+                    android:src="@mipmap/default_user_img"/>
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -78,199 +74,116 @@
                     android:text="北岸初晴"
                     android:textColor="@color/text_color_4"
                     android:textSize="@dimen/textSize_20"/>
-
-
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_100">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/space_90"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_share_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_20"
-                    android:drawableLeft="@mipmap/ic_share_score"
-                    android:drawablePadding="@dimen/space_8"
-                    android:text="共享成绩"
-                    android:textColor="#888888"
-                    android:textSize="@dimen/textSize_16"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
+                    <LinearLayout
+                        style="@style/ll_share_styles">
 
-                <RelativeLayout
-                    android:id="@+id/rel_answer_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_share_score"
-                    android:layout_marginTop="@dimen/space_34">
+                        <TextView
+                            style="@style/tv_share_styles"
+                            android:drawableLeft="@mipmap/ic_share_score"
+                            android:text="共享成绩"/>
 
-                    <ImageView
-                        android:id="@+id/iv_answer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_answer_num"/>
+                        <View style="@style/v_share_styles"/>
 
-                    <TextView
-                        android:id="@+id/tv_answer_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_answer"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="150"
-                        android:textColor="#46c6ff"
-                        android:textSize="@dimen/space_30"/>
+                        <ImageView
+                            style="@style/iv_share_styles"
+                            android:src="@mipmap/ic_answer_num"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_answer_num"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="回答数"
-                        android:textColor="#888888"
-                        android:textSize="@dimen/textSize_16"/>
+                        <TextView
+                            android:id="@+id/tv_answer_num"
+                            style="@style/tv_share_styles1"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="150"/>
 
-                </RelativeLayout>
+                        <TextView
+                            style="@style/tv_share_styles2"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="回答数"/>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        style="@style/ll_share_styles">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/rel_answer_num"
-                    android:layout_marginLeft="@dimen/space_80"
-                    android:layout_toRightOf="@+id/rel_answer_num">
+                        <ImageView
+                            style="@style/iv_share_styles"
+                            android:src="@mipmap/ic_accept"/>
 
-                    <ImageView
-                        android:id="@+id/iv_accept"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_accept"/>
+                        <TextView
+                            android:id="@+id/tv_accept_num"
+                            style="@style/tv_share_styles1"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="150"/>
 
-                    <TextView
-                        android:id="@+id/tv_accept_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_accept"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="150"
-                        android:textColor="#46c6ff"
-                        android:textSize="@dimen/space_30"/>
+                        <TextView
+                            style="@style/tv_share_styles2"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="被采纳数"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_accept_num"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="被采纳数"
-                        android:textColor="#888888"
-                        android:textSize="@dimen/textSize_16"/>
+                    <LinearLayout
+                        style="@style/ll_share_styles">
 
-                </RelativeLayout>
+                        <TextView
+                            style="@style/tv_share_styles"
+                            android:drawableLeft="@mipmap/ic_pride"
+                            android:text="获得奖品"/>
 
-            </RelativeLayout>
+                        <View style="@style/v_share_styles"/>
 
+                        <ImageView
+                            style="@style/iv_share_styles"
+                            android:src="@mipmap/ic_good_pride"/>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_80">
+                        <TextView
+                            android:id="@+id/tv_good_pride_num"
+                            style="@style/tv_share_styles1"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="150"
+                            android:textColor="@color/colorText_fda995"/>
 
-                <TextView
-                    android:id="@+id/tv_get_pride"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_20"
-                    android:drawableLeft="@mipmap/ic_pride"
-                    android:drawablePadding="@dimen/space_8"
-                    android:text="获得奖品"
-                    android:textColor="#888888"
-                    android:textSize="@dimen/textSize_16"/>
+                        <TextView
+                            style="@style/tv_share_styles2"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="精美礼品"/>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        style="@style/ll_share_styles">
 
-                <RelativeLayout
-                    android:id="@+id/rel_good_pride"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_get_pride"
-                    android:layout_below="@+id/tv_get_pride"
-                    android:layout_marginTop="@dimen/space_34">
+                        <ImageView
+                            style="@style/iv_share_styles"
+                            android:src="@mipmap/ic_coin_ask"/>
 
-                    <ImageView
-                        android:id="@+id/iv_pride"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_good_pride"/>
+                        <TextView
+                            android:id="@+id/tv_ask_coin_num"
+                            style="@style/tv_share_styles1"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="150"
+                            android:textColor="@color/colorText_fda995"/>
 
-                    <TextView
-                        android:id="@+id/tv_good_pride_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_pride"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="1"
-                        android:textColor="#fda995"
-                        android:textSize="@dimen/space_30"/>
+                        <TextView
+                            style="@style/tv_share_styles2"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:text="阿思币"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_good_pride_num"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="精美礼品"
-                        android:textColor="#888888"
-                        android:textSize="@dimen/textSize_16"/>
+                </LinearLayout>
 
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/rel_good_pride"
-                    android:layout_marginLeft="@dimen/space_80"
-                    android:layout_toRightOf="@+id/rel_good_pride">
-
-                    <ImageView
-                        android:id="@+id/iv_ask_coin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_coin_ask"/>
-
-                    <TextView
-                        android:id="@+id/tv_ask_coin_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_ask_coin"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="200"
-                        android:textColor="#fda995"
-                        android:textSize="@dimen/space_30"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_ask_coin_num"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/space_14"
-                        android:text="阿思币"
-                        android:textColor="#888888"
-                        android:textSize="@dimen/textSize_16"/>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
+            </LinearLayout>
 
         </LinearLayout>
-
 
         <View
             style="@style/view_horizontal_line"
@@ -289,20 +202,15 @@
             android:text="共享之星候选人"
             android:textSize="@dimen/textSize_18"/>
 
-        <RelativeLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_34"
-                android:overScrollMode="never"/>
-        </RelativeLayout>
+            android:layout_marginBottom="@dimen/space_30"
+            android:layout_marginLeft="@dimen/space_15"
+            android:layout_marginRight="@dimen/space_15"
+            android:overScrollMode="never"/>
 
     </LinearLayout>
 
-
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
