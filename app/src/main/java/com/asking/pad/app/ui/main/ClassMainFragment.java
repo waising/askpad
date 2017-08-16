@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -137,8 +138,11 @@ public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
     }
 
     class CommViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_item)
-        TextView tv_item;
+        @BindView(R.id.iv_icon)
+        ImageView iv_icon;
+
+        @BindView(R.id.tv_name)
+        TextView tv_name;
 
         public CommViewHolder(View itemView) {
             super(itemView);
@@ -165,8 +169,8 @@ public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
         public void onBindViewHolder(CommViewHolder holder, int position) {
             final LabelEntity labelEntity = mDatas.get(position);
 
-            holder.tv_item.setCompoundDrawablesWithIntrinsicBounds(0,labelEntity.getIcon(),0,0);
-            holder.tv_item.setText(labelEntity.getName());
+            holder.iv_icon.setImageResource(labelEntity.getIcon());
+            holder.tv_name.setText(labelEntity.getName());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/space_45">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/space_45">
 
+    <ImageView
+        android:id="@+id/iv_icon"
+        style="@style/iv_class_main_style"
+        android:layout_width="@dimen/item_first_main_size2"
+        android:layout_height="@dimen/item_first_main_size2"
+        android:src="@mipmap/ic_main_class_video"/>
 
     <TextView
-        android:id="@+id/tv_item"
+        android:id="@+id/tv_name"
         style="@style/tv_class_main_style"
-        android:drawableTop="@mipmap/backpacket_czsx"
-        android:text="错题本"/>
+        android:text="初升高"/>
 
-</RelativeLayout>
+</LinearLayout>

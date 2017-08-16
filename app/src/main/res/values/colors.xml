@@ -28,6 +28,9 @@
     <color name="color_ffBC65">#ffBC65</color>
     <color name="colorText_ff8b8b">#ff8b8b</color>
 
+    <color name="colorText_46c6ff">#46c6ff</color>
+    <color name="colorText_fda995">#fda995</color>
+
     <color name="black_alpha_240">#f0000000</color>
 
     <color name="online_item_line">#dadada</color>

@@ -34,25 +34,47 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/tv_video"
-                style="@style/tv_class_main_style"
-                android:drawableTop="@mipmap/ic_main_class_video"
-                android:text="初升高"/>
+                style="@style/ll_class_main_style">
 
-            <TextView
+                <ImageView
+                    style="@style/iv_class_main_style"
+                    android:src="@mipmap/ic_main_class_video"/>
+
+                <TextView
+                    style="@style/tv_class_main_style"
+                    android:text="初升高"/>
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:id="@+id/tv_mine_study_record"
-                style="@style/tv_class_main_style"
-                android:layout_marginLeft="@dimen/space_30"
-                android:drawableTop="@mipmap/mine_shopping_record"
-                android:text="我的课程"/>
+                style="@style/ll_class_main_style"
+                android:layout_marginLeft="@dimen/space_35">
 
-            <TextView
+                <ImageView
+                    style="@style/iv_class_main_style"
+                    android:src="@mipmap/mine_shopping_record"/>
+
+                <TextView
+                    style="@style/tv_class_main_style"
+                    android:text="我的课程"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/tv_error_note"
-                style="@style/tv_class_main_style"
-                android:layout_marginLeft="@dimen/space_30"
-                android:drawableTop="@mipmap/mine_error_note"
-                android:text="错题本"/>
+                style="@style/ll_class_main_style"
+                android:layout_marginLeft="@dimen/space_35">
+
+                <ImageView
+                    style="@style/iv_class_main_style"
+                    android:src="@mipmap/mine_error_note"/>
+
+                <TextView
+                    style="@style/tv_class_main_style"
+                    android:text="我的课程"/>
+            </LinearLayout>
 
         </LinearLayout>
 

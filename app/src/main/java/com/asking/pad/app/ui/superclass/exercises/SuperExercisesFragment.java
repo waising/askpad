@@ -56,7 +56,8 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
     String knowledgeId;
 
     private String topic_id;
-    private int start = 0;
+    private int pageIndex = 0;
+    private int startIndex = 0;
     private int limit = 5;
     boolean flag;
 
@@ -136,13 +137,14 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
     private void loaMoreData() {
         if (!isRunLoaMoreData) {
             isRunLoaMoreData = true;
-            start = start + 1;
+            pageIndex = pageIndex + 1;
+            startIndex = pageIndex * limit;
             loadSubject();
         }
     }
 
     public void refreshData(String gradeId, String knowledgeId, boolean isBuy) {
-        this.start = 0;
+        this.pageIndex = 0;
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
         this.isBuy = isBuy;
@@ -165,13 +167,12 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
     }
 
     private void loadSubject() {
-        mPresenter.getAllSubjectClassic(isBuy,gradeId, knowledgeId, topic_id, start, limit, new ApiRequestListener<String>() {
+        mPresenter.getAllSubjectClassic(isBuy,gradeId, knowledgeId, topic_id, startIndex, limit, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 JSONObject jsonRes = JSON.parseObject(res);
                 List<SubjectExerEntity> list = JSON.parseArray(jsonRes.getString("subjects"),SubjectExerEntity.class);
                 if(isBuy){
-                    int startIndex = start * limit;
                     int endIndex = startIndex + limit;
                     if(startIndex > list.size()){
                         startIndex = list.size();
@@ -181,14 +182,14 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
                     }
                     list = list.subList(startIndex,endIndex);
                 }
-                if (start == 0) {
+                if (startIndex == 0) {
                     topicList.clear();
                 }
                 topicList.addAll(list);
                 mPagerAdapter.notifyDataSetChanged();
                 indicator.notifyDataSetChanged();
 
-                if (start == 0) {
+                if (startIndex == 0) {
                     mViewpager.post(new Runnable() {
                         @Override
                         public void run() {
@@ -202,7 +203,9 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
 
             @Override
             public void onResultFail() {
-                start = start - 1;
+                if(pageIndex>0){
+                    pageIndex = pageIndex - 1;
+                }
                 isRunLoaMoreData = false;
             }
         });
@@ -247,7 +250,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
                     e.isSelect = true;
                     notifyDataSetChanged();
                     topic_id = e.topicId;
-                    start = 0;
+                    pageIndex = 0;
                     loadSubject();
                 }
             });

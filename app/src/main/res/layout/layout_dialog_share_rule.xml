@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,15 +10,12 @@
         android:background="@drawable/bg_corners_white"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_corners_blue_normal"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/space_34"
-            android:paddingTop="@dimen/space_34">
-
+            android:paddingTop="@dimen/space_25">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -31,19 +26,25 @@
                 android:gravity="center_vertical"
                 android:text="共享之星规则"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_star_titile_foot_triangle"/>
+
         <TextView
-            android:layout_marginTop="@dimen/space_42"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_68"
             android:layout_marginRight="@dimen/space_68"
+            android:layout_marginTop="@dimen/space_42"
             android:text="依据用户在共享空间的活跃度，每周进行一期共享之星的评选。"
             android:textColor="#444444"
-            android:textSize="@dimen/textSize_18" />
+            android:textSize="@dimen/textSize_18"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -58,7 +59,7 @@
             <TextView
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:background="@drawable/black_circle" />
+                android:background="@drawable/black_circle"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
                 android:drawableLeft="@drawable/black_circle"
                 android:text="选取被采纳数最多的用户；"
                 android:textColor="#444444"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
         </LinearLayout>
 
@@ -83,7 +84,7 @@
             <TextView
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:background="@drawable/black_circle" />
+                android:background="@drawable/black_circle"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +92,7 @@
                 android:layout_marginLeft="@dimen/space_8"
                 android:text="每周评选一期，周日24点公布本周的共享之星；"
                 android:textColor="#444444"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
 
         </LinearLayout>
 
@@ -107,7 +108,7 @@
             <TextView
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:background="@drawable/black_circle" />
+                android:background="@drawable/black_circle"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,7 +116,7 @@
                 android:layout_marginLeft="@dimen/space_8"
                 android:text="荣获共享之星的用户，可以获得精美礼品一份，以及 200个阿思币；"
                 android:textColor="#444444"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
         </LinearLayout>
 
         <LinearLayout
@@ -131,7 +132,7 @@
             <TextView
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:background="@drawable/black_circle" />
+                android:background="@drawable/black_circle"/>
 
             <TextView
                 android:id="@+id/textView"
@@ -140,7 +141,7 @@
                 android:layout_marginLeft="@dimen/space_8"
                 android:text="礼品将由阿思可公司客服联系到你并确认收货地址后寄出。"
                 android:textColor="#444444"
-                android:textSize="@dimen/textSize_18" />
+                android:textSize="@dimen/textSize_18"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -1,83 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="38dp"
-    android:layout_marginRight="38dp"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/bg_corners_white_stroke"
-        android:orientation="vertical">
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/space_5">
 
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_4"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:src="@mipmap/ic_share_num_1"/>
+
+                <TextView
+                    android:id="@+id/tv_rank_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="3dp"
+                    android:text="hihh"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/textSize_14"/>
+            </FrameLayout>
 
             <ImageView
-                android:id="@+id/iv_rank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_4"
-                android:layout_marginTop="@dimen/space_4"
-                android:src="@mipmap/ic_share_num_1" />
+                android:id="@+id/rank_avatar"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/space_40"
+                android:layout_marginRight="@dimen/space_40"/>
+
 
             <TextView
-                android:id="@+id/tv_rank_num"
+                android:id="@+id/tv_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="3dp"
-                android:text="hihh"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/textSize_14" />
-        </FrameLayout>
-
-        <ImageView
-            android:id="@+id/rank_avatar"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/space_40"
-            android:layout_marginRight="@dimen/space_40" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_15"
+                android:text="ffdfddf"
+                android:textColor="#444444"
+                android:textSize="@dimen/textSize_16"/>
 
 
-        <TextView
-            android:id="@+id/tv_nick_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/space_10"
-            android:text="ffdfddf"
-            android:textColor="#444444"
-            android:textSize="@dimen/textSize_16" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/space_12"
+                android:background="@color/line_color"/>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/space_10"
-            android:background="@color/line_color" />
+            <TextView
+                android:id="@+id/tv_accept_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/space_12"
+                android:layout_marginTop="@dimen/space_12"
+                android:text="被采纳数"
+                android:textColor="@color/colorText_88"
+                android:textSize="@dimen/textSize_14"/>
 
 
-        <TextView
-            android:id="@+id/tv_accept_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/space_10"
-            android:layout_marginTop="@dimen/space_10"
-            android:text="被采纳数"
-            android:textColor="@color/colorText_88"
-            android:textSize="@dimen/textSize_14" />
+        </LinearLayout>
 
-
-    </LinearLayout>
-
+    </android.support.v7.widget.CardView>
 </LinearLayout>
