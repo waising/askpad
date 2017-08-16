@@ -218,6 +218,20 @@ public class Constants {
         return resId;
     }
 
+    public static String getClassType(String classType) {
+        String actionType = "";
+        if (TextUtils.equals("XK01", classType)) {
+            actionType = "M2";
+        } else if (TextUtils.equals("XK02", classType)) {
+            actionType = "P2";
+        } else if (TextUtils.equals("XK03", classType)) {
+            actionType = "M3";
+        } else if (TextUtils.equals("XK04", classType)) {
+            actionType = "P3";
+        }
+        return actionType;
+    }
+
     //收藏类型
     public interface Collect{
         int knowledge = 1;//知识点

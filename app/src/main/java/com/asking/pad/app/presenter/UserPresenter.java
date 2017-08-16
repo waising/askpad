@@ -302,14 +302,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.replytopicmsginit(createDate,communionTopicId,userId), "content",mListener);
     }
 
-    public void subjectClassic(String answerstr, String code, ApiRequestListener mListener) {
-        try {
-            Map<String, RequestBody> params = new HashMap<>();
-            params.put("answerstr", getRequestBody(answerstr));
-            params.put("code", getRequestBody(code.substring(0, 1)));
-            baseReqStr(mModel.subjectClassic(params), mListener);
-        } catch (Exception e) {
-        }
+    public void errorsubject(String subjectCatalog,String subjectId, String userAnswer, ApiRequestListener mListener) {
+        baseReqStr(mModel.errorsubject(subjectCatalog,subjectId,userAnswer), mListener);
     }
 
     public void firstreviewkaoqfx(String pid, ApiRequestListener mListener) {

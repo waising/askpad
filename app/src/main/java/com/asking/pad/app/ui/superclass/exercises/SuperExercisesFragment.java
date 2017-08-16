@@ -54,7 +54,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
     boolean isBuy;
     String gradeId;
     String knowledgeId;
-
+    private String classType;
     private String topic_id;
     private int pageIndex = 0;
     private int startIndex = 0;
@@ -77,6 +77,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
             gradeId = bundle.getString("gradeId");
             knowledgeId = bundle.getString("knowledgeId");
             isBuy = bundle.getBoolean("isBuy");
+            classType = bundle.getString("classType");
         }
     }
 
@@ -298,7 +299,7 @@ public class SuperExercisesFragment extends BaseFrameFragment<UserPresenter, Use
         @Override
         public Fragment getItem(int position) {
             SubjectExerEntity e = topicList.get(position);
-            return SuperTopicAskFragment.newInstance(e,position);
+            return SuperTopicAskFragment.newInstance(classType,e,position);
         }
 
         @Override

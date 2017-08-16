@@ -13,7 +13,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
+import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.superclass.exer.SubjectExerEntity;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -54,15 +56,16 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
     TextView tv_subject_type;
 
     private int index = 0;
-
+    private String classType;
     private SubjectExerEntity mSubjectClass;
     SuperTopicAskOpAdapter optionsAdapter;
 
-    public static SuperTopicAskFragment newInstance(SubjectExerEntity mSubjectClass, int index) {
+    public static SuperTopicAskFragment newInstance(String classType,SubjectExerEntity mSubjectClass, int index) {
         SuperTopicAskFragment fragment = new SuperTopicAskFragment();
         fragment.mSubjectClass = mSubjectClass;
         Bundle bundle = new Bundle();
         bundle.putInt("index", index);
+        bundle.putString("classType", classType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -72,6 +75,7 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
         Bundle bundle = getArguments();
         if (bundle != null) {
             index = bundle.getInt("index");
+            classType = bundle.getString("classType");
         }
     }
 
@@ -154,14 +158,12 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
                 optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
                 optionsAdapter.notifyDataSetChanged();
 
-//                String answerstr = String.format("{\"subList\":[{\"id\":\"%s\",\"subject_type\":{\"type_id\":\"%s\"},\"user_answer\":\"%s\"}]}",
-//                        mSubjectClass.getSubjectid(), mSubjectClass.getSubjectType().getTypeId(), userAnswer);
-//
-//                mPresenter.subjectClassic(answerstr, classType, new ApiRequestListener<String>() {
-//                    @Override
-//                    public void onResultSuccess(String res) {
-//                    }
-//                });
+                mPresenter.errorsubject(Constants.getClassType(classType), mSubjectClass.getSubjectId()
+                        , userAnswer,new ApiRequestListener<String>() {
+                    @Override
+                    public void onResultSuccess(String res) {
+                    }
+                });
 
                 btn_submit.setVisibility(View.INVISIBLE);
                 cb_detail.setVisibility(View.VISIBLE);
