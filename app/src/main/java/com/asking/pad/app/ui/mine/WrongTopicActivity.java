@@ -162,7 +162,7 @@ public class WrongTopicActivity extends BaseFrameActivity<UserPresenter, UserMod
                     ClassEntity e = list.get(i);
                     if(i == 0){
                         textbookId = String.valueOf(e.getVersionLevelId());
-                        textbookList.add(new LabelEntity(textbookId,e.getLevelName(), true));
+                        textbookList.add(new LabelEntity(textbookId,e.getTextbook(), true));
                     }else{
                         textbookList.add(new LabelEntity(String.valueOf(e.getVersionLevelId()),e.getTextbook()));
                     }

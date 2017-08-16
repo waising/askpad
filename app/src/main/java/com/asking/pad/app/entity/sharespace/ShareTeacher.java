@@ -16,6 +16,7 @@ public class ShareTeacher {
      */
     private boolean favored;
 
+    public long createDate;
 
     private String id;
 
@@ -42,4 +43,6 @@ public class ShareTeacher {
     public void setFavored(boolean favored) {
         this.favored = favored;
     }
+
+
 }

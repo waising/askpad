@@ -73,7 +73,7 @@
 
                 <TextView
                     style="@style/tv_class_main_style"
-                    android:text="我的课程"/>
+                    android:text="错题本"/>
             </LinearLayout>
 
         </LinearLayout>

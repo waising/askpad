@@ -10,6 +10,9 @@ import java.util.List;
  */
 
 public class SubjectExerEntity {
+    @JSONField(name = "_id")
+    private String subjectId;
+
     @JSONField(name = "subject_description")
     private String subjectDescription;
 
@@ -28,6 +31,9 @@ public class SubjectExerEntity {
     @JSONField(name = "difficulty")
     private int difficulty;
 
+    @JSONField(name = "subject_catalog")
+    private SubjectCatalog subjectCatalog;
+
     @JSONField(name = "subject_type")
     private SubjectType subjectType;
 
@@ -36,6 +42,55 @@ public class SubjectExerEntity {
 
     public String userAnswer;
     public boolean isShowDetailsAnswer;
+
+
+    public String getSubjectCatalogCode() {
+        String ss = "";
+        if(getSubjectCatalog()!=null){
+            ss = subjectCatalog.getSubjectCatalogCode()+subjectCatalog.getSubjectCatalogId();
+        }
+        return ss;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public SubjectCatalog getSubjectCatalog() {
+        return subjectCatalog;
+    }
+
+    public void setSubjectCatalog(SubjectCatalog subjectCatalog) {
+        this.subjectCatalog = subjectCatalog;
+    }
+
+    public class SubjectCatalog {
+        @JSONField(name = "subject_catalog_id")
+        private String subjectCatalogId;
+
+        @JSONField(name = "subject_catalog_code")
+        private String subjectCatalogCode;
+
+        public String getSubjectCatalogCode() {
+            return subjectCatalogCode;
+        }
+
+        public void setSubjectCatalogCode(String subjectCatalogCode) {
+            this.subjectCatalogCode = subjectCatalogCode;
+        }
+
+        public String getSubjectCatalogId() {
+            return subjectCatalogId;
+        }
+
+        public void setSubjectCatalogId(String subjectCatalogId) {
+            this.subjectCatalogId = subjectCatalogId;
+        }
+    }
 
     public class SubjectType {
         @JSONField(name = "type_id")

@@ -157,6 +157,10 @@ public interface UserApi {
     @POST("coach/subjectClassic/answer")
     Observable<ResponseBody> subjectClassic(@PartMap Map<String, RequestBody> params);
 
+    @POST("user/errorsubject/{subjectCatalog}/subject")
+    Observable<ResponseBody> errorsubject(@Path("subjectCatalog") String subjectCatalog
+            , @Query("subjectId") String subjectId, @Query("userAnswer") String userAnswer);
+
     /**
      * 阿思可博士考情分析接口
      */

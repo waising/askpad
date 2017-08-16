@@ -91,7 +91,7 @@ public class SpecialDetailActivity extends BaseFrameActivity<UserPresenter, User
         content_mathview.setText(mShareSpecial.contentHtml);
 
         tv_teaname.setText(mShareSpecial.getTeaNickName() + "老师");
-        tv_subtime.setText(DateUtil.getYYMMDDHHMM(mShareSpecial.getCreateDate()));
+        tv_subtime.setText(DateUtil.getYYMMDDHHMM(mShareSpecial.deployDate));
         tv_title.setText(mShareSpecial.name);
         tv_statetime.setText(String.format("%s———%s", DateUtil.getYYMMDDHHMM(mShareSpecial.startTime)
                 , DateUtil.getHHMM(mShareSpecial.endTime)));

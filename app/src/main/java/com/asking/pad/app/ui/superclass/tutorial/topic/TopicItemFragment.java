@@ -62,7 +62,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
     private SubjectClass mSubjectClass;
     TopicItemOpAdapter optionsAdapter;
 
-    public static TopicItemFragment newInstance(int index,SubjectClass mSubjectClass) {
+    public static TopicItemFragment newInstance(int index, SubjectClass mSubjectClass) {
         TopicItemFragment fragment = new TopicItemFragment();
         fragment.mSubjectClass = mSubjectClass;
         Bundle bundle = new Bundle();
@@ -103,16 +103,17 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         tv_index.setText((index + 1) + ".");
 
         String optionDes = "";
-        try{
+        try {
             for (SubjectOption a : mSubjectClass.getOptions()) {
                 optionDes = optionDes + a.getOptionName() + ". " + a.getOptionContentHtml();
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         topic_mathview.setText(mSubjectClass.getSubjectDescriptionHtml() + optionDes);
         answer_mathView.setText(mSubjectClass.getDetailsAnswerHtml());
         start_view.setmStarNum(mSubjectClass.getDifficulty());
 
-        if(!TextUtils.isEmpty(mSubjectClass.userAnswer)){
+        if (!TextUtils.isEmpty(mSubjectClass.userAnswer)) {
             optionsAdapter.userAnswer = mSubjectClass.userAnswer;
             optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
 
@@ -124,7 +125,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         }
 
         tv_subject_type.setVisibility(View.GONE);
-        if(!TextUtils.equals(mSubjectClass.getSubjectType().getTypeId(),"1")){
+        if (!TextUtils.equals(mSubjectClass.getSubjectType().getTypeId(), "1")) {
             tv_subject_type.setVisibility(View.VISIBLE);
             btn_submit.setVisibility(View.INVISIBLE);
             cb_detail.setVisibility(View.VISIBLE);
@@ -138,12 +139,12 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
         switch (v.getId()) {
             case R.id.btn_submit:
                 String userAnswer = null;
-                for(SubjectOption e:mSubjectClass.getOptions()){
-                    if(e.isSelect){
+                for (SubjectOption e : mSubjectClass.getOptions()) {
+                    if (e.isSelect) {
                         userAnswer = e.getOptionName();
                     }
                 }
-                if(TextUtils.isEmpty(userAnswer)){
+                if (TextUtils.isEmpty(userAnswer)) {
                     showShortToast("请先答题");
                     return;
                 }
@@ -153,14 +154,12 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
                 optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
                 optionsAdapter.notifyDataSetChanged();
 
-                String answerstr = String.format("{\"subList\":[{\"id\":\"%s\",\"subject_type\":{\"type_id\":\"%s\"},\"user_answer\":\"%s\"}]}",
-                        mSubjectClass.getSubjectid(), mSubjectClass.getSubjectType().getTypeId(), userAnswer);
-
-                mPresenter.subjectClassic(answerstr, classType, new ApiRequestListener<String>() {
-                    @Override
-                    public void onResultSuccess(String res) {
-                    }
-                });
+                mPresenter.errorsubject(classType, mSubjectClass.getSubjectid()
+                        , userAnswer, new ApiRequestListener<String>() {
+                            @Override
+                            public void onResultSuccess(String res) {
+                            }
+                        });
 
                 btn_submit.setVisibility(View.INVISIBLE);
                 cb_detail.setVisibility(View.VISIBLE);

@@ -97,6 +97,10 @@ public class UserModel extends BaseModel {
         return Networks.getInstance().getUserApi().subjectClassic(params).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> errorsubject(String subjectCatalog,String subjectId, String userAnswer) {
+        return Networks.getInstance().getUserApi().errorsubject(subjectCatalog,subjectId,userAnswer).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> firstreviewkaoqfx(String pid) {
         return Networks.getInstance().getUserApi().firstreviewkaoqfx(pid).compose(RxSchedulers.<ResponseBody>io_main());
     }

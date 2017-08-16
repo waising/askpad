@@ -32,6 +32,8 @@ public class ShareSpecial {
     public String interactionCount;
     public String followCount;
 
+    public long deployDate;
+
     public boolean followed;
 
     public ShareTeacher teacher;
@@ -49,7 +51,7 @@ public class ShareSpecial {
 
     public long getCreateDate() {
         try {
-            return communionPlate.createDate;
+            return teacher.createDate;
         } catch (Exception e) {
             e.printStackTrace();
         }
