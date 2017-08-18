@@ -68,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/mine_askcoin"
-                    android:text="我的阿思可币"/>
+                    android:text="我的阿思币"/>
 
                 <com.asking.pad.app.widget.NumberAnimTextView
                     android:id="@+id/tv_monny"

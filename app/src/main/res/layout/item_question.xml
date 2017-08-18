@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:text="5"
                 android:textColor="@color/colorText_88"
-                android:textSize="@dimen/textSize_16"/>
+                android:textSize="@dimen/textSize_20"/>
 
             <include
                 android:id="@+id/mathView"

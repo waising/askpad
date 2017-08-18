@@ -114,7 +114,7 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
         }
         topic_mathview.setText(optionDes.toString());
 
-        answer_mathView.setText(mSubjectClass.getDetailsAnswerHtml());
+        answer_mathView.setText(mSubjectClass.getDetailsAnswer());
         start_view.setmStarNum(mSubjectClass.getDifficulty());
 
         if(!TextUtils.isEmpty(mSubjectClass.userAnswer)){
@@ -125,7 +125,7 @@ public class SuperTopicAskFragment extends BaseFrameFragment<UserPresenter, User
             cb_detail.setVisibility(View.VISIBLE);
 
             cb_detail.setChecked(mSubjectClass.isShowDetailsAnswer);
-            answer_mathView.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.GONE);
+            //answer_mathView.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.GONE);
         }
 
         tv_subject_type.setVisibility(View.GONE);

@@ -91,7 +91,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
         if (questionEntity != null) {
             holder.userNameTv.setText(questionEntity.getUserName());
             holder.questionTitleTv.setText(questionEntity.getTitle());
-            holder.mathView.setText(questionEntity.getDescription());
+            holder.mathView.setText(16,questionEntity.getDescription());
             holder.kmTv.setText(getSubjectName(questionEntity.getKm()) + " - " + getGradleName(questionEntity.getLevelId()));
             BitmapUtil.displayCirImage(questionEntity.getUserAvatar(), R.dimen.space_40, holder.userImgIv);
             int m = DateUtil.getMinutes(questionEntity.getCreateDate_Fmt(), DateUtil.currentDatetime());

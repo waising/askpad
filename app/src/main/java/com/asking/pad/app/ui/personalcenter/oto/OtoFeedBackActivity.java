@@ -84,5 +84,10 @@ public class OtoFeedBackActivity extends BaseActivity {
                 BitmapUtil.displayUserImage(this, mRecord.teacher.avatar, user_img_iv);
             }
         }
+
+        if (mRecord.complain != null) {
+            tv_cause.setText(mRecord.complain.reason);
+            tv_feedback.setText(mRecord.complain.details);
+        }
     }
 }

@@ -5,11 +5,9 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal"
         android:paddingLeft="@dimen/space_20"
         android:paddingTop="@dimen/space_10">
 
@@ -17,6 +15,7 @@
             android:id="@+id/tv_selectgrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:drawablePadding="@dimen/space_5"
             android:drawableRight="@mipmap/ic_feedback_down_arrow"
             android:padding="@dimen/space_10"
@@ -28,8 +27,8 @@
             android:id="@+id/indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/space_30"/>
-    </LinearLayout>
+            android:layout_gravity="bottom|center"/>
+    </FrameLayout>
 
 
     <include layout="@layout/layout_line"/>

@@ -81,7 +81,7 @@ public class QuestionAnwserActivity extends BaseActivity {
             askMoneyTv.setText(String.valueOf(questionEntity.getCaifu()));
         }
         questionTitleTv.setText(questionEntity.getTitle());
-        mathView.setText(questionEntity.getDescription());
+        mathView.setText(16,questionEntity.getDescription());
 
         BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_60, userImgIv);
 

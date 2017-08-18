@@ -90,6 +90,8 @@ public class Constants {
 
     public static final String SuperTutorialHtmlCss2 = "<html><head><style type=\"text/css\">body{color:%s;vertical-align:middle;}</style></head><body>%s</body></html>";
 
+    public static final String SuperTutorialHtmlCss3 = "<html><head><style type=\"text/css\">body{color:%s;font-size:%spx;vertical-align:middle;}</style></head><body>%s</body></html>";
+
     public static final String MD_HTML_SUFFIX = "</body></html>";
 
     public static final String[] gradeVersionValues = new String[]{"一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级", "高一", "高二", "高三"};

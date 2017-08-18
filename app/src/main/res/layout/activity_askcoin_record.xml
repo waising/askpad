@@ -16,7 +16,7 @@
 
         <TextView
             style="@style/tit_tip_styles"
-            android:text="我的阿思可币"/>
+            android:text="我的阿思币"/>
 
         <LinearLayout
             android:layout_width="match_parent"

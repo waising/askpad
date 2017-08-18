@@ -16,6 +16,7 @@ public class RecordAnswer implements Serializable{
     public String orderId;
 
     public int state;
+    public OtoComplain complain;
     public OtoStudent student;
     public OtoSubject subject;
     public OtoTeacher teacher;
@@ -25,6 +26,10 @@ public class RecordAnswer implements Serializable{
 
     public List<Object> videos = new ArrayList<>();
 
+    public class OtoComplain implements Serializable{
+        public String reason;
+        public String details;
+    }
 
     public class OtoSubject implements Serializable{
         public int grade;
@@ -33,6 +38,7 @@ public class RecordAnswer implements Serializable{
     }
 
     public class OtoTeacher implements Serializable{
+        public String toStudent;
         public String avatar;
         public String name;
         public String account;
