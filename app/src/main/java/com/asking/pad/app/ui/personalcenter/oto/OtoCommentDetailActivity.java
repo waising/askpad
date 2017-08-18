@@ -97,6 +97,7 @@ public class OtoCommentDetailActivity extends BaseActivity {
         }
 
         if(mRecord.teacher != null){
+            tv_tea_evaluate.setText(mRecord.teacher.toStudent);
             tv_tea_name.setText(mRecord.teacher.name);
             tv_tea_code.setText(mRecord.teacher.code);
             if (!TextUtils.isEmpty(mRecord.teacher.avatar)) {

@@ -112,9 +112,32 @@ public class AskMathView extends RelativeLayout {
             if(CommonUtil.isEnglish(text)){
                 web_name.setVisibility(View.VISIBLE);
                 String color = TextUtils.isEmpty(txtColor)?"#333333":txtColor;
-                web_name.setText(String.format(Constants.SuperTutorialHtmlCss2,color,text));
+                String content = String.format(Constants.SuperTutorialHtmlCss2,color,text);
+                web_name.setText(content);
             }else{
                 tv_name.setVisibility(View.VISIBLE);
+                tv_name.setText(text);
+            }
+        }
+    }
+
+    public void setText(int textSize,String text) {
+        setText(textSize,"",text);
+    }
+
+    public void setText(int textSize,String textColor,String text) {
+        web_name.setVisibility(View.GONE);
+        tv_name.setVisibility(View.GONE);
+        web_name.setText("");
+        tv_name.setText("");
+        if(!TextUtils.isEmpty(text)){
+            if(CommonUtil.isEnglish(text)){
+                web_name.setVisibility(View.VISIBLE);
+                String color = TextUtils.isEmpty(textColor)?"#333333":textColor;
+                web_name.setText(String.format(Constants.SuperTutorialHtmlCss3,color,textSize,text));
+            }else{
+                tv_name.setVisibility(View.VISIBLE);
+                tv_name.setTextSize(textSize);
                 tv_name.setText(text);
             }
         }
