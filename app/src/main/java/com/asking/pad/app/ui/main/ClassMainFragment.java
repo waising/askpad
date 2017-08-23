@@ -102,7 +102,7 @@ public class ClassMainFragment extends BaseEvenFrameFragment<UserPresenter,UserM
         rv_main.setAdapter(mineAdapter);
 
         banner.setAdapter(new BannerPagerAdapter(getActivity()));
-        mPresenter.zhuikeimage(new ApiRequestListener<String>() {
+        mPresenter.marketapiad(new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String resStr) {
                 bList.clear();

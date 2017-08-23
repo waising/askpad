@@ -262,9 +262,9 @@ public class UserModel extends BaseModel {
                 .userreact(start, limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> zhuikeimage() {
+    public Observable<ResponseBody> marketapiad() {
         return Networks.getInstance().getUserApi()
-                .zhuikeimage().compose(RxSchedulers.<ResponseBody>io_main());
+                .marketapiad().compose(RxSchedulers.<ResponseBody>io_main());
     }
 
 

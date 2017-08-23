@@ -80,14 +80,14 @@ public class MyWrongTopicEntity implements Parcelable {
     }
 
     public String getSubjectDescriptionHtml() {
+        StringBuffer sb = new StringBuffer(subjectDescriptionHtml);
         try {
-            StringBuffer sb = new StringBuffer(subjectDescriptionHtml);
             for(OptionsBean e :options){
-                sb.append("<p>").append(e.option_name).append(".  ").append(e.option_content).append("</p>");
+                sb.append("<p>").append(e.option_name).append(".  ")
+                        .append(e.option_content_html.replaceAll("<p>","").replaceAll("</p>","")).append("</p>");
             }
-            return sb.toString();
         }catch(Exception e){}
-        return "";
+        return sb.toString();
     }
 
     public void setSubjectDescriptionHtml(String subjectDescriptionHtml) {

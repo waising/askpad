@@ -207,8 +207,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReq(mModel.userreact(start, limit), "content", mListener);
     }
 
-    public void zhuikeimage(ApiRequestListener mListener) {
-        baseReq(mModel.zhuikeimage(), "content", mListener);
+    public void marketapiad(ApiRequestListener mListener) {
+        baseReq(mModel.marketapiad(), "content", mListener);
     }
 
     public void tipdatalink(String gid,ApiRequestListener mListener) {
