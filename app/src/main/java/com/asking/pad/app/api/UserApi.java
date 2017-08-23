@@ -574,11 +574,10 @@ public interface UserApi {
      * @param subjectCatalog
      * @return
      */
-    @Multipart
-    @POST("space/errorCollection/{subjectCatalog}/subject/list")
-    Observable<ResponseBody> errorCollection(@Path("subjectCatalog") String subjectCatalog,
-                                             @PartMap Map<String, RequestBody> params
-    );
+    @GET("user/errorsubject/{subjectCatalog}/subject")
+    Observable<ResponseBody> errorsubject(@Path("subjectCatalog") String subjectCatalog,
+                                             @Query("start") int start,
+                                             @Query("limit") int limit);
 
 
     /* 修改密码请求 */

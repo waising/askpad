@@ -424,19 +424,8 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStr(mModel.nimtoken(accid), mListener);
     }
 
-    public void modelMyWrongVersions(String subjectCatalog, String type, ApiRequestListener mListener) {
-        baseReqStr(mModel.modelMyWrongVersions(subjectCatalog, type), mListener);
-    }
-
-    public void modelMyWrongGrade(String versionId, String type, ApiRequestListener mListener) {
-        baseReqStr(mModel.modelMyWrongGrade(versionId, type), mListener);
-    }
-
-    public void errorCollection(String subjectCatalog, String postStr, ApiRequestListener mListener) {
-        Map<String, RequestBody> params = new HashMap<>();
-        params.put("post_str", getRequestBody(postStr));
-
-        baseReqStr(mModel.errorCollection(subjectCatalog, params), mListener);
+    public void errorsubject(String subjectCatalog, int start,int limit, ApiRequestListener mListener) {
+        baseReq(mModel.errorsubject(subjectCatalog, start,limit),"content", mListener);
     }
 
     public void convertTabLClassic(String subjectCatalog, String subjectId, ApiRequestListener mListener) {

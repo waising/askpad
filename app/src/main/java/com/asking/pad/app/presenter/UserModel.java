@@ -408,19 +408,9 @@ public class UserModel extends BaseModel {
                 .sign().compose(RxSchedulers.<ResponseBody>io_main());
     }
 
-    public Observable<ResponseBody> modelMyWrongVersions(String subjectCatalog, String type) {
-        return Networks.getInstance().getUserApi()
-                .getMyWrongVersions(subjectCatalog, type).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
     public Observable<ResponseBody> convertTabLClassic(String subjectCatalog, String subjectId) {
         return Networks.getInstance().getUserApi()
                 .convertTabLClassic(subjectCatalog, subjectId).compose(RxSchedulers.<ResponseBody>io_main());
-    }
-
-    public Observable<ResponseBody> modelMyWrongGrade(String versionId, String type) {
-        return Networks.getInstance().getUserApi()
-                .getMyWrongGrade(versionId, type).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     /**
@@ -428,9 +418,9 @@ public class UserModel extends BaseModel {
      *
      * @return
      */
-    public Observable<ResponseBody> errorCollection(String subjectCatalog, Map<String, RequestBody> params) {
+    public Observable<ResponseBody> errorsubject(String subjectCatalog, int start,int limit) {
         return Networks.getInstance().getUserApi()
-                .errorCollection(subjectCatalog, params).compose(RxSchedulers.<ResponseBody>io_main());
+                .errorsubject(subjectCatalog,start,limit).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
     // 修改密码
