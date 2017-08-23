@@ -5,16 +5,14 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
-import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.entity.MyWrongTopicEntity;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskMathView;
@@ -113,29 +111,16 @@ public class ErrorCollectionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             mViewHolder.answer_mathView.setText(e.analysisTopic);
             mViewHolder.answer_mathView.setVisibility(e.isSelect?View.VISIBLE:View.GONE);
+            mViewHolder.tv_parsing.setChecked(e.isSelect);
 
-            if(TextUtils.isEmpty(e.analysisTopic)){
-                mViewHolder.tv_parsing.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.convertTabLClassic(subjectCatalogCode, e.getSubjectId(), new ApiRequestListener<String>() {
-                            @Override
-                            public void onResultSuccess(String res) {
-                                if(TextUtils.isEmpty(e.analysisTopic)){
-                                    JSONObject jsonRes = JSONObject.parseObject(res);
-                                    e.analysisTopic = jsonRes.getJSONArray("taps").getJSONObject(0).getString("tab_content_html");
-                                    mViewHolder.answer_mathView.setText(e.analysisTopic);
-                                }
-                                e.isSelect = !e.isSelect;
-                                mViewHolder.answer_mathView.setVisibility(e.isSelect?View.VISIBLE:View.GONE);
-                            }
-                        });
-                    }
-                });
-            }else{
-                e.isSelect = !e.isSelect;
-                mViewHolder.answer_mathView.setVisibility(e.isSelect?View.VISIBLE:View.GONE);
-            }
+            mViewHolder.tv_parsing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    e.isSelect = !e.isSelect;
+                    mViewHolder.answer_mathView.setVisibility(e.isSelect?View.VISIBLE:View.GONE);
+                    mViewHolder.tv_parsing.setChecked(e.isSelect);
+                }
+            });
         }
     }
 
@@ -172,7 +157,7 @@ public class ErrorCollectionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         AskMathView answer_mathView;
 
         @BindView(R.id.tv_parsing)
-        TextView tv_parsing;
+        CheckBox tv_parsing;
 
         public CommViewHolder(View itemView) {
             super(itemView);
