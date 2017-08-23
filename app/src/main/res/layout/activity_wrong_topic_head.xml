@@ -17,31 +17,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/ll_wt_styles">
-
-        <TextView
-            style="@style/tv_wt_styles"
-            android:text="所属版本"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_version"
-            style="@style/rv_wt_styles"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/ll_wt_styles">
-
-        <TextView
-            style="@style/tv_wt_styles"
-            android:text="所属年级"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_textbook"
-            style="@style/rv_wt_styles"/>
-
-    </LinearLayout>
-
 
 </LinearLayout>
