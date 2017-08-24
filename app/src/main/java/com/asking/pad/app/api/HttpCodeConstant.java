@@ -33,11 +33,11 @@ public class HttpCodeConstant {
                 errMsg = "服务接口访问失败";
                 break;
             case APP_ERROR:
-                //errMsg = "未知错误";
+                errMsg = "未知错误";
                 break;
-//            default:
-//                errMsg = "当前网络不可用，请检查网络情况";
-//                break;
+            default:
+                errMsg = "当前网络不可用，请检查网络情况";
+                break;
         }
 
         return errMsg;
