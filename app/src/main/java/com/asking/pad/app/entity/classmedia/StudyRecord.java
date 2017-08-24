@@ -12,16 +12,22 @@ public class StudyRecord {
     @Id
     private String courseDataId;
 
+    private String scheduleId;
+
+    private String scheduleTitle;
+
     private int playProgress;
 
     private int playMax;
 
     private int playPercentage;
 
-    @Generated(hash = 1524881568)
-    public StudyRecord(String courseDataId, int playProgress, int playMax,
-            int playPercentage) {
+    @Generated(hash = 530921794)
+    public StudyRecord(String courseDataId, String scheduleId, String scheduleTitle,
+            int playProgress, int playMax, int playPercentage) {
         this.courseDataId = courseDataId;
+        this.scheduleId = scheduleId;
+        this.scheduleTitle = scheduleTitle;
         this.playProgress = playProgress;
         this.playMax = playMax;
         this.playPercentage = playPercentage;
@@ -63,4 +69,19 @@ public class StudyRecord {
         this.playPercentage = playPercentage;
     }
 
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public String getScheduleTitle() {
+        return scheduleTitle;
+    }
+
+    public void setScheduleTitle(String scheduleTitle) {
+        this.scheduleTitle = scheduleTitle;
+    }
 }

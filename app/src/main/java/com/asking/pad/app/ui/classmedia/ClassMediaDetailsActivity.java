@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.asking.pad.app.AppContext;
@@ -26,6 +25,7 @@ import com.asking.pad.app.ui.camera.utils.BitmapUtil;
 import com.asking.pad.app.ui.classmedia.cache.ClassMediaCacheActivity;
 import com.asking.pad.app.ui.classmedia.download.ClassDownloadManager;
 import com.asking.pad.app.ui.commom.DownloadFile;
+import com.asking.pad.app.widget.AskMathWebView;
 import com.asking.pad.app.widget.AskSimpleDraweeView;
 import com.asking.pad.app.widget.MultiStateView;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -83,7 +83,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
     TextView btn_pay;
 
     @BindView(R.id.tv_class_detail)
-    WebView tv_class_detail;
+    AskMathWebView tv_class_detail;
 
     @BindView(R.id.ll_free)
     View ll_free;
@@ -187,7 +187,7 @@ public class ClassMediaDetailsActivity extends BaseEvenNoPreActivity {
             tea_avatar.setImageUrl(mClassVideo.getTeacherImgUrl());
             tv_price.setText("￥" + mClassVideo.getPrice());
             tv_price_count.setText(String.format("已有%s人购买", mClassVideo.getPurchasedNum()));
-            tv_class_detail.loadDataWithBaseURL(null, mClassVideo.getDetail(), "text/html", "utf-8", "about:blank");
+            tv_class_detail.setText(mClassVideo.getDetail());
             try {
                 BigDecimal freeTime = new BigDecimal(mClassVideo.getFreeTime());
                 int time = freeTime.divide(new BigDecimal(60), 2, BigDecimal.ROUND_HALF_UP).intValue();

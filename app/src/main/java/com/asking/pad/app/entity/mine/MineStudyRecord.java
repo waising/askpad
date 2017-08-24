@@ -26,6 +26,8 @@ public class MineStudyRecord {
 
     public double schedulePercent;
 
+    public String scheduleTitle;
+
     /**
      * 初升高数学测试1
      */

@@ -165,7 +165,7 @@
                         android:text="课程详情"
                         android:textSize="@dimen/textSize_16"/>
 
-                    <WebView
+                    <com.asking.pad.app.widget.AskMathWebView
                         android:id="@+id/tv_class_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

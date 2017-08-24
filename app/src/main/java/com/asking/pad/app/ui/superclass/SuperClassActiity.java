@@ -12,6 +12,7 @@ import com.asking.pad.app.base.BaseEvenAppCompatActivity;
 import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.ParamHelper;
+import com.asking.pad.app.entity.classmedia.StudyRecord;
 import com.asking.pad.app.entity.superclass.SuperLessonTree;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -27,6 +28,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+
 
 /**
  * Created by jswang on 2017/4/10.
@@ -58,6 +61,7 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
 
     boolean isBuy;
     String gradeId;
+    String sectionName;
     String knowledgeName;
     String knowledgeId;
     int free;
@@ -79,6 +83,7 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
 
         isBuy = this.getIntent().getBooleanExtra("isBuy", false);
         gradeId = this.getIntent().getStringExtra("gradeId");
+        sectionName = this.getIntent().getStringExtra("sectionName");
         knowledgeId = this.getIntent().getStringExtra("knowledgeId");
         knowledgeName = this.getIntent().getStringExtra("knowledgeName");
         knowledgeIndex = this.getIntent().getIntExtra("knowledgeIndex", 0);
@@ -87,6 +92,12 @@ public class SuperClassActiity extends BaseEvenAppCompatActivity<UserPresenter, 
         HashMap<String, Object> mParams = ParamHelper.acceptParams(ClassifyActivty.class.getName());
         treeLessonList.clear();
         treeLessonList.addAll((List<SuperLessonTree>) mParams.get("treeLessonList"));
+
+        StudyRecord e = new StudyRecord();
+        e.setCourseDataId(gradeId);
+        e.setScheduleId(knowledgeId);
+        e.setScheduleTitle(String.format("%s\n  %s",sectionName,knowledgeName));
+        EventBus.getDefault().post(e);
     }
 
     @Override

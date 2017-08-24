@@ -76,13 +76,14 @@ public class WrongTopicActivity extends BaseFrameActivity<UserPresenter, UserMod
         classAdapter = new WtCommAdapter(this, classList, new WtCommAdapter.OnCommItemListener() {
             @Override
             public void OnCommItem(LabelEntity e) {
+                start = 0;
                 iniWrongTopic(e.getId());
             }
         });
         rv_class.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rv_class.setAdapter(classAdapter);
 
-        wrongTopicAdapter = new ErrorCollectionAdapter(this,mPresenter, wrongTopicList);
+        wrongTopicAdapter = new ErrorCollectionAdapter(this, wrongTopicList);
         wrongTopicAdapter.addHeaderView(header);
         rv_WrongTopic.setLayoutManager(new LinearLayoutManager(this));
         rv_WrongTopic.setAdapter(wrongTopicAdapter);

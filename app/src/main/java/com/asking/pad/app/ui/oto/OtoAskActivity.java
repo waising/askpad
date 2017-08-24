@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
@@ -139,7 +140,7 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
      * 显示图片
      */
     private void loadCameraPic(String filePath) {
-        mPresenter.loadCameraPic(filePath,new ApiRequestListener<String>() {
+        mPresenter.loadCameraPic(filePath, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 picTakePath = res;
@@ -151,7 +152,7 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
     public void onEventMainThread(AppEventType event) {
         switch (event.type) {
             case AppEventType.OTO_QA_AS_CAMERA_REQUEST:
-                loadCameraPic((String)event.values[0]);
+                loadCameraPic((String) event.values[0]);
                 break;
         }
     }
@@ -160,9 +161,10 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
      *
      */
     String picHwyResult = "";
+
     private void getHwyQuestion() {
         loadDialog.show();
-        mPresenter.getHwyQuestion(picTakePath,hwManager, new ApiRequestListener<String>() {
+        mPresenter.getHwyQuestion(picTakePath, hwManager, new ApiRequestListener<String>() {
             @Override
             public void onResultSuccess(String res) {
                 if (!TextUtils.isEmpty(res)) {
@@ -185,6 +187,7 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
      * 上传七牛云
      */
     String qiNiuImgName;
+
     private void qiNiuUpload() {
         qiNiuImgName = DateUtil.currentDateMilltime().replace(":", "-").replace(" ", "_") + "oto_ask.jpg";
         mPresenter.qiNiuUploadFile(picTakePath, qiNiuImgName, new ApiRequestListener<String>() {
@@ -212,30 +215,35 @@ public class OtoAskActivity extends BaseEvenActivity<UserPresenter, UserModel> {
 
                 JSONObject resObject = JSON.parseObject(resStr);
                 Integer askTimes = resObject.getInteger("askTimes");
-                if(askTimes == null){
+                if (askTimes == null) {
                     askTimes = -1;
                 }
                 String userAvatar = resObject.getString("avatar");
                 double integral = resObject.getDouble("integral");
                 String qiNiuUrl = Constants.QiNiuHead + qiNiuImgName;
 
-                if (integral != AppContext.getInstance().getUserEntity().getIntegral()) {
-                    AppContext.getInstance().getUserEntity().setIntegral(integral);
-                    AppContext.getInstance().saveUserData(AppContext.getInstance().getUserEntity());
+                if (integral >= 0) {
+                    if (integral != AppContext.getInstance().getUserEntity().getIntegral()) {
+                        AppContext.getInstance().getUserEntity().setIntegral(integral);
+                        AppContext.getInstance().saveUserData(AppContext.getInstance().getUserEntity());
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("askTimes", askTimes);
+                    bundle.putInt("askMoney", askMoney);
+                    bundle.putString("userAvatar", userAvatar);
+                    bundle.putString("userName", mUser.getUserName());
+                    bundle.putString("subjectId", subjectId);
+                    bundle.putString("gradeId", gradeId);
+                    bundle.putString("picTakePath", picTakePath);
+                    bundle.putString("picName", qiNiuImgName);
+                    bundle.putString("qiNiuUrl", qiNiuUrl);
+                    bundle.putString("picHwyResult", picHwyResult);
+                    openActivity(TeaWaitingActivity.class, bundle);
+                } else {
+                    Toast.makeText(OtoAskActivity.this, "余额不足，请充值！", Toast.LENGTH_SHORT).show();
                 }
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("askTimes", askTimes);
-                bundle.putInt("askMoney", askMoney);
-                bundle.putString("userAvatar", userAvatar);
-                bundle.putString("userName", mUser.getUserName());
-                bundle.putString("subjectId", subjectId);
-                bundle.putString("gradeId", gradeId);
-                bundle.putString("picTakePath", picTakePath);
-                bundle.putString("picName", qiNiuImgName);
-                bundle.putString("qiNiuUrl", qiNiuUrl);
-                bundle.putString("picHwyResult", picHwyResult);
-                openActivity(TeaWaitingActivity.class, bundle);
             }
 
             @Override
