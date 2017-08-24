@@ -16,8 +16,8 @@ android {
         applicationId "com.asking.pad.app"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.2.1"
+        versionCode 5
+        versionName "1.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_URL", "\"${API_URL}\"")
@@ -170,7 +170,7 @@ bugtags {
 }
 
 greendao {
-    schemaVersion 10
+    schemaVersion 12
     daoPackage 'com.asking.pad.app.greendao'
     targetGenDir 'src/main/java'
 }

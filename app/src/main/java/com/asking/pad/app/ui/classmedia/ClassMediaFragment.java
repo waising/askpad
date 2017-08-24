@@ -49,7 +49,7 @@ public class ClassMediaFragment extends BaseEvenFrameFragment<UserPresenter, Use
     RecyclerView recycler;
 
     int start = 0;
-    int limit = 10;
+    int limit = 8;
     /**
      * KM01 - 数学
      * KM02 - 物理

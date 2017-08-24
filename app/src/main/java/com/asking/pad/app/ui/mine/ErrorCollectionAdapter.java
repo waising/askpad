@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.asking.pad.app.R;
 import com.asking.pad.app.entity.MyWrongTopicEntity;
-import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.StarView;
 
@@ -36,10 +35,6 @@ public class ErrorCollectionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final int TYPE_NORMAL = 1001;
 
     private View mHeaderView;
-
-    private UserPresenter mPresenter;
-
-    private String subjectCatalogCode;
 
     ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.RED);
 
@@ -72,14 +67,9 @@ public class ErrorCollectionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public ErrorCollectionAdapter(Context context, UserPresenter mPresenter,List<MyWrongTopicEntity> datas){
+    public ErrorCollectionAdapter(Context context,List<MyWrongTopicEntity> datas){
         this.mContext = context;
         this.mDatas = datas;
-        this.mPresenter = mPresenter;
-    }
-
-    public void setSubjectCatalogCode(String subjectCatalogCode){
-        this.subjectCatalogCode = subjectCatalogCode;
     }
 
     @Override

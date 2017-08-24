@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -191,8 +192,9 @@ public class MainActivity extends BaseEvenAppCompatActivity<UserPresenter, UserM
 
     public void onEventMainThread(StudyRecord event) {
         DbHelper.getInstance().insertOrReplaceStudyRecord(event);
-        mPresenter.updateWithSchedule(event.getCourseDataId(),event.getPlayPercentage()+"","","",""
-                ,new ApiRequestListener<String>(){
+        mPresenter.updateWithSchedule(event.getCourseDataId(),event.getPlayPercentage()+""
+                ,TextUtils.isEmpty(event.getScheduleTitle())?"":event.getScheduleTitle()
+                , "","",new ApiRequestListener<String>(){
             @Override
             public void onResultSuccess(String res) {}
         });

@@ -25,9 +25,11 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
      */
     public static class Properties {
         public final static Property CourseDataId = new Property(0, String.class, "courseDataId", true, "COURSE_DATA_ID");
-        public final static Property PlayProgress = new Property(1, int.class, "playProgress", false, "PLAY_PROGRESS");
-        public final static Property PlayMax = new Property(2, int.class, "playMax", false, "PLAY_MAX");
-        public final static Property PlayPercentage = new Property(3, int.class, "playPercentage", false, "PLAY_PERCENTAGE");
+        public final static Property ScheduleId = new Property(1, String.class, "scheduleId", false, "SCHEDULE_ID");
+        public final static Property ScheduleTitle = new Property(2, String.class, "scheduleTitle", false, "SCHEDULE_TITLE");
+        public final static Property PlayProgress = new Property(3, int.class, "playProgress", false, "PLAY_PROGRESS");
+        public final static Property PlayMax = new Property(4, int.class, "playMax", false, "PLAY_MAX");
+        public final static Property PlayPercentage = new Property(5, int.class, "playPercentage", false, "PLAY_PERCENTAGE");
     }
 
 
@@ -44,9 +46,11 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"STUDY_RECORD\" (" + //
                 "\"COURSE_DATA_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: courseDataId
-                "\"PLAY_PROGRESS\" INTEGER NOT NULL ," + // 1: playProgress
-                "\"PLAY_MAX\" INTEGER NOT NULL ," + // 2: playMax
-                "\"PLAY_PERCENTAGE\" INTEGER NOT NULL );"); // 3: playPercentage
+                "\"SCHEDULE_ID\" TEXT," + // 1: scheduleId
+                "\"SCHEDULE_TITLE\" TEXT," + // 2: scheduleTitle
+                "\"PLAY_PROGRESS\" INTEGER NOT NULL ," + // 3: playProgress
+                "\"PLAY_MAX\" INTEGER NOT NULL ," + // 4: playMax
+                "\"PLAY_PERCENTAGE\" INTEGER NOT NULL );"); // 5: playPercentage
     }
 
     /** Drops the underlying database table. */
@@ -63,9 +67,19 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
         if (courseDataId != null) {
             stmt.bindString(1, courseDataId);
         }
-        stmt.bindLong(2, entity.getPlayProgress());
-        stmt.bindLong(3, entity.getPlayMax());
-        stmt.bindLong(4, entity.getPlayPercentage());
+ 
+        String scheduleId = entity.getScheduleId();
+        if (scheduleId != null) {
+            stmt.bindString(2, scheduleId);
+        }
+ 
+        String scheduleTitle = entity.getScheduleTitle();
+        if (scheduleTitle != null) {
+            stmt.bindString(3, scheduleTitle);
+        }
+        stmt.bindLong(4, entity.getPlayProgress());
+        stmt.bindLong(5, entity.getPlayMax());
+        stmt.bindLong(6, entity.getPlayPercentage());
     }
 
     @Override
@@ -76,9 +90,19 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
         if (courseDataId != null) {
             stmt.bindString(1, courseDataId);
         }
-        stmt.bindLong(2, entity.getPlayProgress());
-        stmt.bindLong(3, entity.getPlayMax());
-        stmt.bindLong(4, entity.getPlayPercentage());
+ 
+        String scheduleId = entity.getScheduleId();
+        if (scheduleId != null) {
+            stmt.bindString(2, scheduleId);
+        }
+ 
+        String scheduleTitle = entity.getScheduleTitle();
+        if (scheduleTitle != null) {
+            stmt.bindString(3, scheduleTitle);
+        }
+        stmt.bindLong(4, entity.getPlayProgress());
+        stmt.bindLong(5, entity.getPlayMax());
+        stmt.bindLong(6, entity.getPlayPercentage());
     }
 
     @Override
@@ -90,9 +114,11 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
     public StudyRecord readEntity(Cursor cursor, int offset) {
         StudyRecord entity = new StudyRecord( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // courseDataId
-            cursor.getInt(offset + 1), // playProgress
-            cursor.getInt(offset + 2), // playMax
-            cursor.getInt(offset + 3) // playPercentage
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // scheduleId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // scheduleTitle
+            cursor.getInt(offset + 3), // playProgress
+            cursor.getInt(offset + 4), // playMax
+            cursor.getInt(offset + 5) // playPercentage
         );
         return entity;
     }
@@ -100,9 +126,11 @@ public class StudyRecordDao extends AbstractDao<StudyRecord, String> {
     @Override
     public void readEntity(Cursor cursor, StudyRecord entity, int offset) {
         entity.setCourseDataId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setPlayProgress(cursor.getInt(offset + 1));
-        entity.setPlayMax(cursor.getInt(offset + 2));
-        entity.setPlayPercentage(cursor.getInt(offset + 3));
+        entity.setScheduleId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setScheduleTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setPlayProgress(cursor.getInt(offset + 3));
+        entity.setPlayMax(cursor.getInt(offset + 4));
+        entity.setPlayPercentage(cursor.getInt(offset + 5));
      }
     
     @Override

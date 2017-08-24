@@ -201,10 +201,21 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
             if (e.childCommodityList.size() > 0) {
                 holder.ll_expand.setVisibility(View.VISIBLE);
             } else {
-                if (e.schedulePercent == 0) {
-                    holder.tv_study.setText("马上去学习");
-                } else {
-                    holder.tv_study.setText("上次学到了：" + e.schedulePercent + "%");
+                switch (e.getDataType()) {
+                    case 0:
+                        if (TextUtils.isEmpty(e.scheduleTitle)) {
+                            holder.tv_study.setText("马上去学习");
+                        } else {
+                            holder.tv_study.setText("上次学到了：" + e.scheduleTitle);
+                        }
+                        break;
+                    case 1:
+                        if (e.schedulePercent == 0) {
+                            holder.tv_study.setText("马上去学习");
+                        } else {
+                            holder.tv_study.setText("上次学到了：" + e.schedulePercent + "%");
+                        }
+                        break;
                 }
             }
             holder.child_recycler.setAdapter(new ChildAdapter(e.childCommodityList));
@@ -318,13 +329,24 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
             holder.tv_title1.setText(e.commodityTypeName);
             holder.tv_time.setText(e.createTime);
 
-            if (e.schedulePercent == 0) {
-                holder.tv_study.setText("马上去学习");
-            } else {
-                String ss = "上次学到：";
-                SpannableStringBuilder builder = new SpannableStringBuilder(ss + e.schedulePercent + "%");
-                builder.setSpan(greySpan, 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                holder.tv_study.setText(builder.toString());
+            switch (e.getDataType()) {
+                case 0:
+                    if (TextUtils.isEmpty(e.scheduleTitle)) {
+                        holder.tv_study.setText("马上去学习");
+                    } else {
+                        holder.tv_study.setText("上次学到了：" + e.scheduleTitle);
+                    }
+                    break;
+                case 1:
+                    if (e.schedulePercent == 0) {
+                        holder.tv_study.setText("马上去学习");
+                    } else {
+                        String ss = "上次学到：";
+                        SpannableStringBuilder builder = new SpannableStringBuilder(ss + e.schedulePercent + "%");
+                        builder.setSpan(greySpan, 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        holder.tv_study.setText(builder.toString());
+                    }
+                    break;
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -228,34 +228,40 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         if (!node.isLeaf()) {
             return;
         }
-
+        String sectionName = "";
+        try{
+            sectionName = ((SuperLessonTree)node.getParent().getValue()).name;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         if (isBuy) {
-            openClass(value);
+            openClass( sectionName,value);
         } else {
             if (value.free != 0 || value.purchased != 0) {
-                openClass(value);
+                openClass(sectionName,value);
             } else {
                 CommonUtil.openAuthActivity(PayAskActivity.class);
             }
         }
     }
 
-    private void openClass(SuperLessonTree value){
+    private void openClass(String sectionName, SuperLessonTree value){
         if (isSelectNode) {
             EventBus.getDefault().post(new AppEventType(AppEventType.CLASSIFY_REQUEST
                     , isBuy, commodityId, value.id, value.name, value.knowledgeIndex, value.free, treeLessonList));
             getActivity().finish();
         } else {
-            openSuperClassActiity(value);
+            openSuperClassActiity(sectionName,value);
         }
     }
 
-    private void openSuperClassActiity(SuperLessonTree value) {
+    private void openSuperClassActiity(String sectionName, SuperLessonTree value) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isBuy", isBuy);
         bundle.putString("gradeId", commodityId);
         bundle.putString("knowledgeId", value.id);
         bundle.putString("knowledgeName", value.name);
+        bundle.putString("sectionName", sectionName);
         bundle.putInt("knowledgeIndex", value.knowledgeIndex);
         bundle.putInt("free", value.free);
 
