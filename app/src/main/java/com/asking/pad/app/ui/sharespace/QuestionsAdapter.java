@@ -89,7 +89,11 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, final int position) {
         QuestionEntity questionEntity = questionEntities.get(position);
         if (questionEntity != null) {
-            holder.userNameTv.setText(questionEntity.getUserName());
+            if(TextUtils.isEmpty(questionEntity.getUserName())){
+                holder.userNameTv.setText(AppContext.getInstance().getUserName());
+            }else{
+                holder.userNameTv.setText(questionEntity.getUserName());
+            }
             holder.questionTitleTv.setText(questionEntity.getTitle());
             holder.mathView.setText(16,questionEntity.getDescription());
             holder.kmTv.setText(getSubjectName(questionEntity.getKm()) + " - " + getGradleName(questionEntity.getLevelId()));
