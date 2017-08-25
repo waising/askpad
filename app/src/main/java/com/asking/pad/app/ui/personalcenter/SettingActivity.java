@@ -1,5 +1,7 @@
 package com.asking.pad.app.ui.personalcenter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -14,7 +16,6 @@ import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameActivity;
 import com.asking.pad.app.commom.AppLoginEvent;
-import com.asking.pad.app.commom.CommonUtil;
 import com.asking.pad.app.commom.SystemUtil;
 import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
@@ -34,17 +35,17 @@ import de.greenrobot.event.EventBus;
  */
 public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel> implements ModifyPasswordDialog.ChangePassWordListner {
 
-
     @BindView(R.id.toolBar)
     Toolbar toolBar;
+
     @BindView(R.id.tv_log_out)
     TextView tvLogOut;
+
     @BindView(R.id.tv_log_in)
     TextView tvLogIn;
+
     @BindView(R.id.tv_edit_password)
     TextView tvEditPassword;
-    @BindView(R.id.tv_about_us)
-    TextView tvAboutUs;
 
     @BindView(R.id.ll_check_update)
     LinearLayout llCheckUpdate;
@@ -52,6 +53,8 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
     @BindView(R.id.tv_version_update)
     TextView tvVersionUpdate;
 
+    @BindView(R.id.tv_phone)
+    TextView tv_phone;
 
     MaterialDialog loadDialog;
     private ModifyPasswordDialog resetPwdSuccessFrag;//修改密码弹窗
@@ -75,7 +78,7 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
         tvVersionUpdate.setText("当前版本：v" + SystemUtil.getVersionName(this));
     }
 
-    @OnClick({R.id.tv_edit_password, R.id.tv_about_us, R.id.tv_log_out, R.id.tv_log_in, R.id.ll_check_update})
+    @OnClick({R.id.tv_edit_password, R.id.ll_phone, R.id.tv_log_out, R.id.tv_log_in, R.id.ll_check_update})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_edit_password://修改密码弹窗
@@ -101,8 +104,10 @@ public class SettingActivity extends BaseFrameActivity<UserPresenter, UserModel>
             case R.id.tv_log_in:
                 openActivity(LoginActivity.class);
                 break;
-            case R.id.tv_about_us://关于我们
-                CommonUtil.openActivity(AboutUsActivity.class);
+            case R.id.ll_phone://联系客服
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tv_phone.getText().toString()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             case R.id.ll_check_update://系统更新
                 requestAlertWindow();

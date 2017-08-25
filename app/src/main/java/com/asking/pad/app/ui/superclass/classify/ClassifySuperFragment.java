@@ -237,7 +237,7 @@ public class ClassifySuperFragment extends BaseEvenFrameFragment<UserPresenter, 
         if (isBuy) {
             openClass( sectionName,value);
         } else {
-            if (value.free != 0 || value.purchased != 0) {
+            if (value.free != 0) {
                 openClass(sectionName,value);
             } else {
                 CommonUtil.openAuthActivity(PayAskActivity.class);

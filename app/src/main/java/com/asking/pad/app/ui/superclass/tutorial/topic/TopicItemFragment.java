@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFrameFragment;
+import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.entity.classex.SubjectClass;
 import com.asking.pad.app.entity.classex.SubjectOption;
 import com.asking.pad.app.presenter.UserModel;
@@ -62,10 +63,11 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
     private SubjectClass mSubjectClass;
     TopicItemOpAdapter optionsAdapter;
 
-    public static TopicItemFragment newInstance(int index, SubjectClass mSubjectClass) {
+    public static TopicItemFragment newInstance(int index, String classType, SubjectClass mSubjectClass) {
         TopicItemFragment fragment = new TopicItemFragment();
         fragment.mSubjectClass = mSubjectClass;
         Bundle bundle = new Bundle();
+        bundle.putString("classType", classType);
         bundle.putInt("index", index);
         fragment.setArguments(bundle);
         return fragment;
@@ -154,7 +156,7 @@ public class TopicItemFragment extends BaseFrameFragment<UserPresenter, UserMode
                 optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
                 optionsAdapter.notifyDataSetChanged();
 
-                mPresenter.errorsubject(classType, mSubjectClass.getSubjectid()
+                mPresenter.errorsubject(Constants.getClassType(classType), mSubjectClass.getSubjectid()
                         , userAnswer, new ApiRequestListener<String>() {
                             @Override
                             public void onResultSuccess(String res) {

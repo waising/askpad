@@ -49,6 +49,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
     boolean isBuy;
     String gradeId;
     String knowledgeId;
+    String classType;
 
     private MusicPlayer musicPlayer;
     private String musicUrl;
@@ -77,6 +78,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
             gradeId = bundle.getString("gradeId");
             knowledgeId = bundle.getString("knowledgeId");
             isBuy = bundle.getBoolean("isBuy");
+            classType =  bundle.getString("classType");
         }
     }
 
@@ -118,17 +120,17 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
                 playVoice(2, position);
             }
         }));
-        fragments.add(SuperSpeakerFragment.newInstance(gradeId, knowledgeId, isBuy));
-        fragments.add(SuperSumaryFragment.newInstance(gradeId, knowledgeId, isBuy));
+        fragments.add(SuperSpeakerFragment.newInstance(classType,gradeId, knowledgeId, isBuy));
+        //fragments.add(SuperSumaryFragment.newInstance(gradeId, knowledgeId, isBuy));
 
         getChildFragmentManager().beginTransaction()
                 .add(R.id.fragment, fragments.get(0))
                 .add(R.id.fragment, fragments.get(1))
                 .add(R.id.fragment, fragments.get(2))
-                .add(R.id.fragment, fragments.get(3))
+                //.add(R.id.fragment, fragments.get(3))
                 .hide(fragments.get(1))
                 .hide(fragments.get(2))
-                .hide(fragments.get(3))
+                //.hide(fragments.get(3))
                 .show(fragments.get(0)).commit();
 
         setTabView(mCurTabIndex);
@@ -173,7 +175,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         setTabView(index);
     }
 
-    public void refreshData(String gradeId, String knowledgeId,boolean isBuy) {
+    public void refreshData(String gradeId, String knowledgeId, boolean isBuy) {
         this.gradeId = gradeId;
         this.knowledgeId = knowledgeId;
         this.isBuy = isBuy;
@@ -183,7 +185,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         ((SuperSayFragment) fragments.get(0)).refreshData(gradeId, knowledgeId, isBuy);
         ((SuperQueTimeFragment) fragments.get(1)).refreshData(gradeId, knowledgeId, isBuy);
         ((SuperSpeakerFragment) fragments.get(2)).refreshData(gradeId, knowledgeId, isBuy);
-        ((SuperSumaryFragment) fragments.get(3)).refreshData(gradeId, knowledgeId, isBuy);
+        //((SuperSumaryFragment) fragments.get(3)).refreshData(gradeId, knowledgeId, isBuy);
     }
 
     int voiceType;
@@ -193,7 +195,7 @@ public class SuperTutorialFragment extends BaseFrameFragment<UserPresenter, User
         if (!TextUtils.isEmpty(musicUrl) && type == voiceType && position == voicePosition) {
             if (musicPlayer.isPlaying()) {
                 pauseMusicPlayer();
-            }else {
+            } else {
                 musicPlayer.play(musicUrl);
             }
         } else {

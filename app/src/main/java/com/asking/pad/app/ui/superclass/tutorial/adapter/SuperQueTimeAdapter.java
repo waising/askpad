@@ -57,7 +57,7 @@ public class SuperQueTimeAdapter extends RecyclerView.Adapter<SuperQueTimeAdapte
     public void onBindViewHolder(final CommViewHolder holder, final int position) {
         final SuperQueTime item = mDatas.get(position);
 
-        holder.titleMathView.setText("问题"+(position+1)+"："+item.tipQuestionDataName);
+        holder.titleMathView.setText(16,"问题"+(position+1)+"："+item.tipQuestionDataName);
         holder.mathView.setText(item.tipQuestionDataContentHtml);
 
         holder.ad_voice.setOnClickListener(new View.OnClickListener() {

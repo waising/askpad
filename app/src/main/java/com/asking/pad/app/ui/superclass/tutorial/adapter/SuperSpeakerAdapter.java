@@ -33,11 +33,15 @@ public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapte
     private RecyclerView recyclerView;
     int curExpandIndex = -1;
 
-    public SuperSpeakerAdapter(Context context,boolean isBuy,RecyclerView recyclerView,List<SuperClassSpeaker> datas){
+    String classType;
+
+    public SuperSpeakerAdapter(Context context,String classType,boolean isBuy,RecyclerView recyclerView,List<SuperClassSpeaker> datas){
         this.mContext = context;
         this.mDatas = datas;
         this.isBuy = isBuy;
         this.recyclerView = recyclerView;
+
+        this.classType = classType;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapte
         final SuperClassSpeaker item = mDatas.get(position);
 
         holder.titleMathView.setTextColor("#ffaa2a");
-        holder.titleMathView.setText("题型"+(position+1)+"："+item.subjectKindName);
+        holder.titleMathView.setText(16,"题型"+(position+1)+"："+item.subjectKindName);
 
         holder.mathView.setText(item.getSubjectDescriptionHtml());
 
@@ -95,6 +99,7 @@ public class SuperSpeakerAdapter extends RecyclerView.Adapter<SuperSpeakerAdapte
             public void OnClick() {
                 Intent intent = new Intent(mContext, TopicItemActivity.class);
                 intent.putExtra("isBuy", isBuy);
+                intent.putExtra("classType", classType);
                 HashMap<String, Object> mParams = ParamHelper.acquireParamsReceiver(TopicItemActivity.class.getName());
                 mParams.put("SuperClassSpeaker", listBean);
                 mContext.startActivity(intent);
