@@ -38,10 +38,12 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
     boolean isBuy;
     String gradeId;
     String knowledgeId;
+    String classType;
 
-    public static SuperSpeakerFragment newInstance(String gradeId, String knowledgeId, boolean isBuy) {
+    public static SuperSpeakerFragment newInstance(String classType,String gradeId, String knowledgeId, boolean isBuy) {
         SuperSpeakerFragment fragment = new SuperSpeakerFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("classType", classType);
         bundle.putString("gradeId", gradeId);
         bundle.putString("knowledgeId", knowledgeId);
         bundle.putBoolean("isBuy", isBuy);
@@ -55,6 +57,7 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
         ButterKnife.bind(this, getContentView());
         Bundle bundle = getArguments();
         if (bundle != null) {
+            classType = bundle.getString("classType");
             gradeId = bundle.getString("gradeId");
             knowledgeId = bundle.getString("knowledgeId");
             isBuy = bundle.getBoolean("isBuy");
@@ -66,7 +69,7 @@ public class SuperSpeakerFragment extends BaseFrameFragment<UserPresenter, UserM
         super.initView();
 
         rv_speaker.setLayoutManager(new LinearLayoutManager(getContext()));
-        mSeakerAdapter = new SuperSpeakerAdapter(getActivity(),isBuy, rv_speaker,mSpeakerTimes);
+        mSeakerAdapter = new SuperSpeakerAdapter(getActivity(),classType,isBuy, rv_speaker,mSpeakerTimes);
         rv_speaker.setAdapter(mSeakerAdapter);
 
         refreshData(gradeId, knowledgeId, isBuy);

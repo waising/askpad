@@ -41,6 +41,6 @@ public class WebAppInterface {
     @JavascriptInterface
     public void showTipDataLink(String id) {
         WebDialog selectDialog = WebDialog.newInstance(id);
-        selectDialog.show(((BaseActivity)context).getSupportFragmentManager(),"WebDialog");
+        selectDialog.show(((BaseActivity)context).getSupportFragmentManager(),"MineStudyRecordDialog");
     }
 }

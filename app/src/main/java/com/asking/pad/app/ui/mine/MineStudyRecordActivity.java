@@ -1,21 +1,16 @@
 package com.asking.pad.app.ui.mine;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,8 +29,6 @@ import com.asking.pad.app.ui.classmedia.ClassPdfDetailsActivity;
 import com.asking.pad.app.ui.superclass.classify.ClassifyActivty;
 import com.asking.pad.app.widget.AskSwipeRefreshLayout;
 import com.asking.pad.app.widget.MultiStateView;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +81,7 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
         setToolbar(toolBar, getString(R.string.shopping_record));
         mDialog = getLoadingDialog().build();
 
-        recycler.setLayoutManager(new LinearLayoutManager(this));
+        recycler.setLayoutManager(new GridLayoutManager(this,2));
         mAdapter = new CommAdapter(this);
         recycler.setAdapter(mAdapter);
 
@@ -159,23 +152,11 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
         @BindView(R.id.iv_expand)
         ImageView iv_expand;
 
-        @BindView(R.id.el_layout)
-        ExpandableLayout el_layout;
-
-        @BindView(R.id.ll_expand)
-        LinearLayout ll_expand;
-
-        @BindView(R.id.child_recycler)
-        RecyclerView child_recycler;
-
         public CommViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            child_recycler.setLayoutManager(new LinearLayoutManager(MineStudyRecordActivity.this));
         }
     }
-
-    int curExpandIndex = -1;
 
     class CommAdapter extends RecyclerView.Adapter<CommViewHolder> {
         private Context mContext;
@@ -196,10 +177,10 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
             holder.tv_title1.setText(e.commodityTypeName);
             holder.tv_time.setText(e.createTime);
 
-            holder.ll_expand.setVisibility(View.GONE);
             holder.tv_study.setText("");
+            holder.iv_expand.setVisibility(View.GONE);
             if (e.childCommodityList.size() > 0) {
-                holder.ll_expand.setVisibility(View.VISIBLE);
+                holder.iv_expand.setVisibility(View.VISIBLE);
             } else {
                 switch (e.getDataType()) {
                     case 0:
@@ -218,29 +199,6 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
                         break;
                 }
             }
-            holder.child_recycler.setAdapter(new ChildAdapter(e.childCommodityList));
-
-            holder.ll_expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (curExpandIndex != position) {
-                        holder.el_layout.expand();
-                        holder.iv_expand.setSelected(true);
-                        if (curExpandIndex != -1) {
-                            CommViewHolder h = (CommViewHolder) recycler.findViewHolderForAdapterPosition(curExpandIndex);
-                            if (h != null) {
-                                h.iv_expand.setSelected(false);
-                                h.el_layout.collapse();
-                            }
-                        }
-                        curExpandIndex = position;
-                    } else {
-                        holder.el_layout.collapse();
-                        holder.iv_expand.setSelected(false);
-                        curExpandIndex = -1;
-                    }
-                }
-            });
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -248,6 +206,29 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
                     if (e.childCommodityList.size() == 0 && e.getDataType() == 1) {
                         onClickItem(e);
                     }
+                }
+            });
+
+            holder.iv_expand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MineStudyRecordDialog mDialog = MineStudyRecordDialog.newInstance(e,new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MineStudyRecord mRecord = (MineStudyRecord)v.getTag();
+                            if (mRecord.childCommodityList.size() == 0) {
+                                switch (mRecord.getDataType()) {
+                                    case 0:
+                                        ClassifyActivty.openActivity(mRecord.getClassId(), mRecord.getVersionId(), mRecord.geGradeId());
+                                        break;
+                                    case 1:
+                                        onClickItem(mRecord);
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                    mDialog.show(getSupportFragmentManager(),"MineStudyRecordDialog");
                 }
             });
         }
@@ -287,87 +268,6 @@ public class MineStudyRecordActivity extends BaseEvenAppCompatActivity<UserPrese
         mAdapter.notifyDataSetChanged();
     }
 
-    class ChildHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_title)
-        TextView tv_title;
 
-        @BindView(R.id.tv_title1)
-        TextView tv_title1;
 
-        @BindView(R.id.tv_time)
-        TextView tv_time;
-
-        @BindView(R.id.tv_study)
-        TextView tv_study;
-
-        public ChildHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
-    ForegroundColorSpan greySpan = new ForegroundColorSpan(Color.parseColor("#333333"));
-
-    class ChildAdapter extends RecyclerView.Adapter<ChildHolder> {
-
-        private List<MineStudyRecord> list = new ArrayList<>();
-
-        public ChildAdapter(List<MineStudyRecord> list) {
-            this.list = list;
-        }
-
-        @Override
-        public ChildHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ChildHolder(LayoutInflater.from(MineStudyRecordActivity.this)
-                    .inflate(R.layout.item_mine_record_c_layout, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(final ChildHolder holder, final int position) {
-            final MineStudyRecord e = list.get(position);
-            holder.tv_title.setText(e.commodityName);
-            holder.tv_title1.setText(e.commodityTypeName);
-            holder.tv_time.setText(e.createTime);
-
-            switch (e.getDataType()) {
-                case 0:
-                    if (TextUtils.isEmpty(e.scheduleTitle)) {
-                        holder.tv_study.setText("马上去学习");
-                    } else {
-                        holder.tv_study.setText("上次学到了：" + e.scheduleTitle);
-                    }
-                    break;
-                case 1:
-                    if (e.schedulePercent == 0) {
-                        holder.tv_study.setText("马上去学习");
-                    } else {
-                        String ss = "上次学到：";
-                        SpannableStringBuilder builder = new SpannableStringBuilder(ss + e.schedulePercent + "%");
-                        builder.setSpan(greySpan, 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        holder.tv_study.setText(builder.toString());
-                    }
-                    break;
-            }
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (e.childCommodityList.size() == 0) {
-                        switch (e.getDataType()) {
-                            case 0:
-                                ClassifyActivty.openActivity(e.getClassId(), e.getVersionId(), e.geGradeId());
-                                break;
-                            case 1:
-                                onClickItem(e);
-                                break;
-                        }
-                    }
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
-    }
 }

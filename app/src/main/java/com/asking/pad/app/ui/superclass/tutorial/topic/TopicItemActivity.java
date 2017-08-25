@@ -44,6 +44,7 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
     CommPagerAdapter mPagerAdapter;
 
     boolean isBuy;
+    String classType;
 
     private SuperClassSpeaker mClassSpeaker;
 
@@ -56,6 +57,7 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
         HashMap<String, Object> mParams = ParamHelper.acceptParams(TopicItemActivity.class.getName());
         mClassSpeaker = (SuperClassSpeaker) mParams.get("SuperClassSpeaker");
         isBuy = this.getIntent().getBooleanExtra("isBuy", false);
+        classType = this.getIntent().getStringExtra("classType");
     }
 
     @Override
@@ -100,7 +102,7 @@ public class TopicItemActivity extends BaseFrameActivity<UserPresenter, UserMode
             }
             position = position - (index + 1);
             SubjectClass e = mClassSpeaker.subjectmuls.get(position);
-            return TopicItemFragment.newInstance(position, e);
+            return TopicItemFragment.newInstance(position,classType, e);
         }
 
         @Override

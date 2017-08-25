@@ -2,6 +2,7 @@ package com.asking.pad.app.entity.mine;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by jswang on 2017/6/29.
  */
 
-public class MineStudyRecord {
+public class MineStudyRecord implements Serializable{
 
     public String commodityId;
 
