@@ -366,10 +366,6 @@ public abstract class BasePresenter<M> {
                     @Override
                     public void call(Throwable throwable) {
                         mListener.onResultFail();
-                        String msg = HttpCodeConstant.getErrorMsg(CommonUtil.getRequestEntity(throwable));
-                        if (!TextUtils.isEmpty(msg)) {
-                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
-                        }
                     }
                 })
 
