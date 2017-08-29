@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="数学-七年级"
                 android:textColor="@color/colorText_33"
-                android:textSize="@dimen/textSize_20"/>
+                android:textSize="20sp"/>
 
 
             <TextView
