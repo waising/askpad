@@ -19,6 +19,7 @@ import com.asking.pad.app.presenter.UserModel;
 import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.main.ShareMainFragment;
 import com.asking.pad.app.ui.sharespace.pop.GradePopupWindow;
+import com.asking.pad.app.ui.sharespace.question.QuestionWebFragment;
 import com.asking.pad.app.widget.indicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -89,9 +90,13 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
 
         @Override
         public Fragment getItem(int position) {
-            QuestionsDetailFragment qd = QuestionsDetailFragment.newInstance(position);
-            qd.position = position;
-            return qd;
+            Fragment f;
+            if(position == 0){
+                f = QuestionWebFragment.newInstance("");
+            }else{
+                f = QuestionsDetailFragment.newInstance(position);
+            }
+            return f;
         }
 
         @Override

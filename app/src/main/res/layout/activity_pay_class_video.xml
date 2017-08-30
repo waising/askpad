@@ -67,7 +67,7 @@
                     <TextView
                         android:id="@+id/tv_content"
                         style="@style/tv_content_pay_class_video_style"
-                        android:layout_marginTop="@dimen/space_10"
+                        android:text="dddddddd"
                         android:textColor="@color/colorText_88"/>
                 </LinearLayout>
             </LinearLayout>

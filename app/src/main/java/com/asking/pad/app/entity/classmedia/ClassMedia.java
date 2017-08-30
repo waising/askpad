@@ -269,7 +269,7 @@ public class ClassMedia implements Parcelable {
     }
 
     public String getVideoImgUrl() {
-        return String.format("%s?vframe/jpg/offset/10/", getVideoUrl());
+        return String.format("%s?vframe/jpg/offset/3/", getVideoUrl());
     }
 
     public ClassMedia() {
