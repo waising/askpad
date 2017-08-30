@@ -45,26 +45,37 @@ public class QuestionsDetailFragment extends BaseEvenFrameFragment<UserPresenter
 
     private int start = 0, limit = 6;
     String type = "9";
-    int position = 0;
+
+    /**
+     * 0-待答问题，1-悬赏问题，2-已采纳问题
+     */
+    private int position = 0;
+
     private String query="";
     private String km="";
     String levelId="";
     String state="";
 
-    /**
-     * 0-待答问题，1-悬赏问题，2-已采纳问题
-     */
-    int dataType;
-
     private QuestionsAdapter mQustionsAdapter;
     private List<QuestionEntity> questionList = new ArrayList<>();
 
-    public static QuestionsDetailFragment newInstance(int dataType) {
+    public static QuestionsDetailFragment newInstance(int position) {
         QuestionsDetailFragment fragment = new QuestionsDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("dataType", dataType);
+        bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_questions_detail);
+        ButterKnife.bind(this, getContentView());
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            position = bundle.getInt("position");
+        }
     }
 
     public void onEventMainThread(AppEventType event) {
@@ -106,17 +117,6 @@ public class QuestionsDetailFragment extends BaseEvenFrameFragment<UserPresenter
                     swipeLayout.autoRefresh();
                 }
             });
-        }
-    }
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_questions_detail);
-        ButterKnife.bind(this, getContentView());
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            dataType = bundle.getInt("dataType");
         }
     }
 
@@ -175,7 +175,7 @@ public class QuestionsDetailFragment extends BaseEvenFrameFragment<UserPresenter
 
     public void refshAdapt(List<QuestionEntity> entityComment) {
         if (mQustionsAdapter == null) {
-            mQustionsAdapter = new QuestionsAdapter(getContext(), dataType,entityComment);
+            mQustionsAdapter = new QuestionsAdapter(getContext(), position,entityComment);
             recyclerView.setAdapter(mQustionsAdapter);
         } else {
             if (start > 0) {

@@ -107,7 +107,7 @@ public class NoteAddEditDialog extends DialogFragment {
     private void initData(View view) {
         if (mFromWhere == ADD_NEW_NOTE) {
             tvNoteName.setText("新增笔记");
-            vSave.setText("保存笔记");
+            vSave.setText("保存");
             ivPhotoView.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.VISIBLE);
             viewEditLine.setVisibility(View.GONE);
@@ -115,7 +115,7 @@ public class NoteAddEditDialog extends DialogFragment {
         } else {//编辑笔记
 
             tvNoteName.setText("笔记");
-            vSave.setText("编辑笔记");
+            vSave.setText("保存");
             ivPhotoView.setVisibility(View.GONE);
             ivTakePhoto.setVisibility(View.GONE);
             viewEditLine.setVisibility(View.VISIBLE);

@@ -252,7 +252,9 @@ public class PayClassMediaActivity extends BaseFrameActivity<UserPresenter, User
                 }
                 content = ss.toString();
 
-                iv_present.setVisibility(View.VISIBLE);
+                if(!TextUtils.isEmpty(content)){
+                    iv_present.setVisibility(View.VISIBLE);
+                }
 
                 setDataView();
             }
