@@ -16,8 +16,8 @@ android {
         applicationId "com.asking.pad.app"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 9
-        versionName "1.4.2"
+        versionCode 10
+        versionName "1.4.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_URL", "\"${API_URL}\"")
@@ -198,23 +198,29 @@ dependencies {
         transitive = true
     }
     /*七牛云存储*/
+
     /*权限*/
+
     /*富文本编辑器*/
+
     /*RecyclerView侧滑菜单，长按拖拽，滑动删除*/
+
     /*网易白板---------------------*/
 
     // 添加依赖。注意，版本号必须一致。
 
     // 基础功能 (必需)
+
     // 音视频需要
+
     //    // 聊天室需要
 
     //    compile 'com.netease.nimlib:chatroom:3.4.0'
 
     // 实时会话服务需要
+
     /*网易白板-------------------End------*/
     compile files('libs/sun.misc.BASE64Decoder.jar')
-
     //极光推送
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
