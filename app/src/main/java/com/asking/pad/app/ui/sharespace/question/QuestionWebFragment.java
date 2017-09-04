@@ -1,13 +1,18 @@
 package com.asking.pad.app.ui.sharespace.question;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.text.TextUtils;
+import android.webkit.JavascriptInterface;
 
+import com.alibaba.fastjson.JSON;
 import com.asking.pad.app.R;
+import com.asking.pad.app.api.ApiRequestListener;
 import com.asking.pad.app.base.BaseFragment;
-import com.asking.pad.app.commom.WebAppInterface;
+import com.asking.pad.app.commom.FileUtils;
+import com.asking.pad.app.entity.QuestionEntity;
+import com.asking.pad.app.ui.commom.PhotoShowActivity;
+import com.asking.pad.app.ui.sharespace.QuestionAnwserActivity;
+import com.asking.pad.app.widget.WebViewScroll;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,12 +22,9 @@ import butterknife.ButterKnife;
  */
 
 public class QuestionWebFragment extends BaseFragment {
-//
-//    @BindView(R.id.load_view)
-//    MultiStateView load_view;
 
     @BindView(R.id.webview)
-    WebView webview;
+    WebViewScroll webview;
 
     String dataType = "9";
 
@@ -49,37 +51,34 @@ public class QuestionWebFragment extends BaseFragment {
     public void initView() {
         super.initView();
 
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setDomStorageEnabled(true);
-        webview.getSettings().setLoadWithOverviewMode(true);
-        webview.getSettings().setUseWideViewPort(true);
-        webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview.getSettings().setAllowFileAccess(true);
-        webview.getSettings().setAppCacheEnabled(true);
+        webview.addJavascriptInterface(new WebAppInterface(), "WebAppInterface");
+        webview.loadUrl("http://192.168.9.57:8020/test/test1.html?__hbt=1504251548950");
+    }
 
-        webview.setHorizontalScrollBarEnabled(false);
-        webview.setHorizontalScrollbarOverlay(false);
+    public class WebAppInterface {
 
-        webview.getSettings().setSupportZoom(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            webview.getSettings().setDisplayZoomControls(false);
-        } else {
-            webview.getSettings().setBuiltInZoomControls(true);
+        @JavascriptInterface
+        public void openImage(String url) {
+            if (!TextUtils.isEmpty(url)) {
+                if (url.startsWith("data:image/png;base64,")) {
+                    String data = url.replace("data:image/png;base64,","");
+                    FileUtils.writeBookImg(data,data.hashCode()+"",new ApiRequestListener<String>(){
+                        @Override
+                        public void onResultSuccess(String res) {
+                            PhotoShowActivity.openActivity(res);
+                        }
+                    });
+                } else {
+                    PhotoShowActivity.openActivity(url);
+                }
+            }
         }
-        webview.getSettings().setGeolocationEnabled(true);
-        webview.getSettings().setDatabaseEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+        @JavascriptInterface
+        public void openActivity(String str) {
+            QuestionEntity e = JSON.parseObject(str,QuestionEntity.class);
+            QuestionAnwserActivity.openActivity(0,e);
         }
-
-        // webview.setWebViewClient(new WebAppClient(getActivity(), load_view, webview));
-
-        webview.addJavascriptInterface(new WebAppInterface(getActivity()), "WebAppInterface");
-
-        //webview.getLayoutParams().width = 1500;
-
-        webview.loadUrl("https://apis.91asking.com/communionapi/");
-
     }
 }
 
