@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.asking.pad.app.AppContext;
 import com.asking.pad.app.R;
-import com.asking.pad.app.commom.Constants;
 import com.asking.pad.app.commom.DateUtil;
 import com.asking.pad.app.entity.QuestionEntity;
 import com.asking.pad.app.ui.camera.utils.BitmapUtil;
@@ -28,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.asking.pad.app.commom.Constants.getGradleName;
+import static com.asking.pad.app.commom.Constants.getSubjectName;
 
 /**
  * 题目的adpater
@@ -148,31 +149,12 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
 
     }
 
-    String getGradleName(String levelId) {
-        try {
-            if (!TextUtils.isEmpty(levelId)) {
-                int integerId = Integer.valueOf(levelId); // 包装类 Integer 不能直接运算(下面的减1)，会报错，得转成基本数据类型 int
-                if (integerId > 0) { //要再判断下
-                    String gradeVersionValue = Constants.gradeVersionValues[integerId - 1];
-                    if (!TextUtils.isEmpty(gradeVersionValue)) {
-                        return gradeVersionValue;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+
 
     @Override
     public int getItemCount() {
         return questionEntities.size();
 
-    }
-
-    public String getSubjectName(String subject) {
-        return TextUtils.equals(subject, "M") ? "数学" : "物理";
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -222,14 +204,7 @@ public class QuestionsAdapter extends SwipeMenuAdapter<QuestionsAdapter.ViewHold
                 case R.id.question_title_tv:
                 case R.id.question_ll:
                     QuestionEntity q = questionEntities.get(getAdapterPosition());
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("questionEntity", q);
-                    bundle.putInt("dataType", dataType);
-                    bundle.putString("km", getSubjectName(q.getKm()) + " - " + getGradleName(q.getLevelId()));
-                    Intent intent = new Intent(AppContext.getInstance().getApplicationContext(), QuestionAnwserActivity.class);
-                    intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtras(bundle);
-                    AppContext.getInstance().startActivity(intent);
+                    QuestionAnwserActivity.openActivity(dataType,q);
                     break;
 
             }

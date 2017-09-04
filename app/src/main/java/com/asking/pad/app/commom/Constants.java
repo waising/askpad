@@ -243,6 +243,27 @@ public class Constants {
         int other= 5;//其他
     }
 
+    public static String getSubjectName(String subject) {
+        return TextUtils.equals(subject, "M") ? "数学" : "物理";
+    }
+
+    public  static String getGradleName(String levelId) {
+        try {
+            if (!TextUtils.isEmpty(levelId)) {
+                int integerId = Integer.valueOf(levelId); // 包装类 Integer 不能直接运算(下面的减1)，会报错，得转成基本数据类型 int
+                if (integerId > 0) { //要再判断下
+                    String gradeVersionValue = Constants.gradeVersionValues[integerId - 1];
+                    if (!TextUtils.isEmpty(gradeVersionValue)) {
+                        return gradeVersionValue;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
     /**更新包位置*/
     public final static String APP_CACHE_APK_PATH = APP_CACHE_PATH+"update/";
