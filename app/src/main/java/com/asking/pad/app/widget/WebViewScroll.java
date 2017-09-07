@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.asking.pad.app.R;
+import com.asking.pad.app.commom.FileUtils;
+
 /**
  * Created by jswang on 2017/8/31.
  */
@@ -36,7 +39,15 @@ public class WebViewScroll extends WebView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
+    }
 
 
+    public void setMathText(String text) {
+        StringBuilder sb = new StringBuilder();
+        String headhtml = FileUtils.readRawText(R.raw.header);
+        String footerhtml = FileUtils.readRawText(R.raw.footer);
+        sb.append(headhtml).append(text).append(footerhtml);
+        String htmlStr = sb.toString();
+        loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
     }
 }

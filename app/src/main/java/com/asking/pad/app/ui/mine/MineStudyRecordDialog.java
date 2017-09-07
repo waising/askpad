@@ -1,7 +1,6 @@
 package com.asking.pad.app.ui.mine;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -14,7 +13,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.asking.pad.app.R;
@@ -47,6 +45,7 @@ public class MineStudyRecordDialog extends DialogFragment {
 
     public static MineStudyRecordDialog newInstance(MineStudyRecord mRecord,View.OnClickListener mListener) {
         MineStudyRecordDialog fragment = new MineStudyRecordDialog();
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
         Bundle bunle = new Bundle();
         bunle.putSerializable("MineStudyRecord", mRecord);
         fragment.setArguments(bunle);
@@ -63,8 +62,6 @@ public class MineStudyRecordDialog extends DialogFragment {
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = inflater.inflate(R.layout.dialog_minestudy_view, null);
         ButterKnife.bind(this, view);
         initView();

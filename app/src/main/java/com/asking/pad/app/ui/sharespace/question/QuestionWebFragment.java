@@ -52,7 +52,7 @@ public class QuestionWebFragment extends BaseFragment {
         super.initView();
 
         webview.addJavascriptInterface(new WebAppInterface(), "WebAppInterface");
-        webview.loadUrl("http://192.168.9.57:8020/test/test1.html?__hbt=1504251548950");
+        webview.loadUrl("https://apis.91asking.com/communionapi/test1.html");
     }
 
     public class WebAppInterface {
