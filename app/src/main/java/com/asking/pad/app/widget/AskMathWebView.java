@@ -11,7 +11,9 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.asking.pad.app.R;
 import com.asking.pad.app.commom.Constants;
+import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.commom.WebAppClient;
 import com.asking.pad.app.commom.WebAppInterface;
 import com.x5.template.Chunk;
@@ -89,10 +91,18 @@ public class AskMathWebView extends WebView {
     public void setText(String text) {
         if(!TextUtils.isEmpty(text)){
             mText = text;
-            Chunk chunk = getChunk();
-            String TAG_FORMULA = "formula";
-            chunk.set(TAG_FORMULA, mText);
-            this.loadDataWithBaseURL(null, chunk.toString(), "text/html", "utf-8", "about:blank");
+//            Chunk chunk = getChunk();
+//            String TAG_FORMULA = "formula";
+//            chunk.set(TAG_FORMULA, mText);
+//            this.loadDataWithBaseURL(null, chunk.toString(), "text/html", "utf-8", "about:blank");
+
+
+            StringBuilder sb = new StringBuilder();
+            String headhtml = FileUtils.readRawText(R.raw.header);
+            String footerhtml = FileUtils.readRawText(R.raw.footer);
+            sb.append(headhtml).append(text).append(footerhtml);
+            String htmlStr = sb.toString();
+            loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
         }
     }
 

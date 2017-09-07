@@ -19,6 +19,7 @@ import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.superclass.examreview.classex.adapter.ClassExamItemOpAdapter;
 import com.asking.pad.app.widget.AskMathView;
 import com.asking.pad.app.widget.StarView;
+import com.asking.pad.app.widget.WebViewScroll;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +40,7 @@ public class ClassExamItemFragment extends BaseFrameFragment<UserPresenter, User
     StarView start_view;
 
     @BindView(R.id.answer_mathView)
-    AskMathView answer_mathView;
+    WebViewScroll answer_mathView;
 
     @BindView(R.id.tv_subject_type)
     TextView tv_subject_type;
@@ -85,7 +86,7 @@ public class ClassExamItemFragment extends BaseFrameFragment<UserPresenter, User
         super.initView();
 
         topic_mathview.formatMath();
-        answer_mathView.formatMath();
+        //answer_mathView.formatMath();
 
         optionsAdapter = new ClassExamItemOpAdapter(getActivity(), mSubjectClass);
         optionsAdapter.rightAnswer = mSubjectClass.getRightAnswer();
@@ -103,8 +104,7 @@ public class ClassExamItemFragment extends BaseFrameFragment<UserPresenter, User
 
         ll_answer.setVisibility(mSubjectClass.isShowDetailsAnswer ? View.VISIBLE : View.INVISIBLE);
         if (mSubjectClass.isShowDetailsAnswer) {
-            String answer = mSubjectClass.getDetailsAnswerHtml();
-            answer_mathView.setText(answer);
+            answer_mathView.setMathText(mSubjectClass.getDetailsAnswerHtml());
         }
 
         tv_subject_type.setVisibility(View.GONE);
