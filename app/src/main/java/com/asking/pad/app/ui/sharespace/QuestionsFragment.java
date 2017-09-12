@@ -73,7 +73,7 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
         mAdapter.notifyDataSetChanged();
         indicator.notifyDataSetChanged();
 
-        ((ShareMainFragment)(getParentFragment())).setToolbarRight(R.menu.menu_question_ask, new Toolbar.OnMenuItemClickListener() {
+        ((ShareMainFragment) (getParentFragment())).setToolbarRight(R.menu.menu_question_ask, new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 openActivity(QuestionAskActivity.class);
@@ -90,12 +90,12 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
 
         @Override
         public Fragment getItem(int position) {
-            Fragment f;
-            if(position == 0){
-                f = QuestionWebFragment.newInstance("");
-            }else{
-                f = QuestionsDetailFragment.newInstance(position);
-            }
+            Fragment f = QuestionWebFragment.newInstance(position);
+//            if(position == 0){
+//
+//            }else{
+//                f = QuestionsDetailFragment.newInstance(position);
+//            }
             return f;
         }
 
@@ -114,7 +114,7 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_selectgrade:
-                new GradePopupWindow().showPopupWindowView(getActivity(),view,new GradePopupWindow.OnGradePopupListener(){
+                new GradePopupWindow().showPopupWindowView(getActivity(), view, new GradePopupWindow.OnGradePopupListener() {
                     @Override
                     public void OnGradePopup(LabelEntity gradeEntity, LabelEntity subjectEntity) {
                         gradeId = gradeEntity.getId();
@@ -124,9 +124,9 @@ public class QuestionsFragment extends BaseFrameFragment<UserPresenter, UserMode
                         qs.setKm(subjectId);
                         qs.setLevelId(gradeId);
 
-                        ((TextView)view).setText(gradeEntity.getName()+"-"+subjectEntity.getName());
+                        ((TextView) view).setText(gradeEntity.getName() + "-" + subjectEntity.getName());
 
-                        EventBus.getDefault().post(new AppEventType(AppEventType.QUESTION_REF,qs));
+                        EventBus.getDefault().post(new AppEventType(AppEventType.QUESTION_REF, qs));
 
                     }
                 });

@@ -77,6 +77,8 @@ public class Networks {
         return retrofit;
     }
 
+    public static List<Cookie> cookies;
+
     private final ArrayMap<String, List<Cookie>> cookieStore = new ArrayMap<>();
 
     private OkHttpClient configClient() {
@@ -140,7 +142,7 @@ public class Networks {
 
             @Override
             public List<Cookie> loadForRequest(HttpUrl httpUrl) {
-                List<Cookie> cookies = cookieStore.get(httpUrl.host());
+                cookies = cookieStore.get(httpUrl.host());
                 return cookies != null ? cookies : new ArrayList<Cookie>();
             }
         });

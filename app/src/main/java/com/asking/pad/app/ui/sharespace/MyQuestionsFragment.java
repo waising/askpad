@@ -126,7 +126,7 @@ public class MyQuestionsFragment extends BaseEvenFrameFragment<UserPresenter, Us
         if(TextUtils.isEmpty(type)){
             mPresenter.getMyQuestionAskList(start, limit, apiRequestListener);
         }else if(type == "13"){//我的回答
-            mPresenter.getMyQuestionAnswerList(start, limit,type,apiRequestListener);
+            mPresenter.getMyQuestionAnswerList(start, limit,apiRequestListener);
         }
 
     }
