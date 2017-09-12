@@ -136,12 +136,17 @@ public class QuestionWebFragment extends BaseFragment {
         }
 
         @JavascriptInterface
-        public void onReceivedError(int type) {
-            if (type == -1) {
-                load_View.setViewState(MultiStateView.VIEW_STATE_ERROR);
-            } else {
-                load_View.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-            }
+        public void onReceivedError(final int type) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (type == -1) {
+                        load_View.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                    } else {
+                        load_View.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                    }
+                }
+            });
         }
 
         @JavascriptInterface
