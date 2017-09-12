@@ -1,4 +1,4 @@
-package com.asking.pad.app.ui.sharespace.question;
+package com.asking.pad.app.ui.sharespace;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,26 +10,29 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.asking.pad.app.R;
 import com.asking.pad.app.api.ApiRequestListener;
-import com.asking.pad.app.api.Networks;
-import com.asking.pad.app.base.BaseFragment;
+import com.asking.pad.app.base.BaseEvenFrameFragment;
+import com.asking.pad.app.commom.AppEventType;
 import com.asking.pad.app.commom.FileUtils;
 import com.asking.pad.app.entity.QuestionEntity;
+import com.asking.pad.app.presenter.UserModel;
+import com.asking.pad.app.presenter.UserPresenter;
 import com.asking.pad.app.ui.commom.PhotoShowActivity;
-import com.asking.pad.app.ui.sharespace.QuestionAnwserActivity;
 import com.asking.pad.app.widget.MultiStateView;
 import com.asking.pad.app.widget.WebViewScroll;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Cookie;
 
 /**
- * Created by jswang on 2017/8/29.
+ * 问答广场
  */
 
-public class QuestionWebFragment extends BaseFragment {
+public class MyQuestionsFragment2 extends BaseEvenFrameFragment<UserPresenter, UserModel> {
 
     @BindView(R.id.webview)
     WebViewScroll webview;
@@ -37,12 +40,14 @@ public class QuestionWebFragment extends BaseFragment {
     @BindView(R.id.load_View)
     MultiStateView load_View;
 
-    int dataType;
+    private int start = 0;
+    private int limit = 6;
+    int position;
 
-    public static QuestionWebFragment newInstance(int dataType) {
-        QuestionWebFragment fragment = new QuestionWebFragment();
+    public static MyQuestionsFragment2 newInstance(int position) {
+        MyQuestionsFragment2 fragment = new MyQuestionsFragment2();
         Bundle bundle = new Bundle();
-        bundle.putInt("dataType", dataType);
+        bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -52,10 +57,7 @@ public class QuestionWebFragment extends BaseFragment {
         setContentView(R.layout.fragment_questions_web);
         ButterKnife.bind(this, getContentView());
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            dataType = bundle.getInt("dataType");
-        }
+        position = getArguments().getInt("position");
     }
 
     @Override
@@ -94,23 +96,31 @@ public class QuestionWebFragment extends BaseFragment {
 
     private void refreshPage() {
         load_View.setViewState(MultiStateView.VIEW_STATE_LOADING);
-        switch (dataType) {
-            case 0:
-                webview.loadUrl("https://apis.91asking.com/communionapi/test1.html");
-                break;
-            case 1:
-                webview.loadUrl("https://apis.91asking.com/communionapi/reward.html");
-                break;
-            case 2:
-                webview.loadUrl("https://apis.91asking.com/communionapi/accept.html");
-                break;
-            case 3:
-                webview.loadUrl("https://apis.91asking.com/communionapi/myask.html");
+        webview.loadUrl("https://apis.91asking.com/communionapi/myask.html");
+    }
+
+    public void onEventMainThread(AppEventType event) {
+        switch (event.type) {
+            case AppEventType.QUESTION_ASK:
+                getDataNow();
                 break;
         }
     }
 
     public class WebAppInterface {
+
+        @JavascriptInterface
+        public void refshAdapt(int sta, int lim) {
+            start = sta;
+            limit = lim;
+            getDataNow();
+        }
+
+        @JavascriptInterface
+        public void openActivity(String str) {
+            QuestionEntity e = JSON.parseObject(str, QuestionEntity.class);
+            QuestionAnwserActivity.openActivity(0, e);
+        }
 
         @JavascriptInterface
         public void openImage(String url) {
@@ -128,62 +138,41 @@ public class QuestionWebFragment extends BaseFragment {
                 }
             }
         }
+    }
 
-        @JavascriptInterface
-        public void openActivity(String str) {
-            QuestionEntity e = JSON.parseObject(str, QuestionEntity.class);
-            QuestionAnwserActivity.openActivity(0, e);
-        }
-
-        @JavascriptInterface
-        public void onReceivedError(int type) {
-            if (type == -1) {
-                load_View.setViewState(MultiStateView.VIEW_STATE_ERROR);
-            } else {
-                load_View.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-            }
-        }
-
-        @JavascriptInterface
-        public String getCookies() {
-            String cookies = "";
-            try {
-                Cookie e = Networks.cookies.get(0);
-                cookies = e.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return cookies;
+    private void getDataNow() {
+        load_View.setViewState(MultiStateView.VIEW_STATE_LOADING);
+        switch (position) {
+            case 0://我的提问
+                mPresenter.getMyQuestionAskList(start, limit, apiRequestListener);
+                break;
+            case 1://我的回答
+                mPresenter.getMyQuestionAnswerList(start, limit, apiRequestListener);
+                break;
         }
     }
+
+    ApiRequestListener<String> apiRequestListener = new ApiRequestListener<String>() {
+        @Override
+        public void onResultSuccess(String resStr) {//数据返回成功
+            load_View.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+            if (start > 0) {
+                webview.loadUrl(String.format("javascript:addItems(%s)", resStr));
+            } else {
+                JSONObject jsonObj = JSON.parseObject(resStr);
+                List<QuestionEntity> list = JSON.parseArray(jsonObj.getString("list"), QuestionEntity.class);
+                if (list != null && list.size() > 0) {
+                    webview.loadUrl(String.format("javascript:refreshItems(%s)", resStr));
+                } else {
+                    load_View.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                }
+            }
+        }
+
+        @Override
+        public void onResultFail() {
+            super.onResultFail();
+            load_View.setViewState(MultiStateView.VIEW_STATE_ERROR);
+        }
+    };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
