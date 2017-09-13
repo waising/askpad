@@ -100,7 +100,7 @@ public class QuestionCommentAdapter extends RecyclerView.Adapter<QuestionComment
                     holder.adoptBtn.setVisibility(View.GONE);
                 }
 
-                holder.content_mathview.setText(e.getContent());
+                holder.content_mathview.setText(16,e.getContent());
                 if (e.isAdopt()) {
                     holder.sureIv.setVisibility(View.VISIBLE);
                 } else {

@@ -63,12 +63,12 @@ public class QuestionReplyCommentAdapter extends RecyclerView.Adapter<QuestionRe
                     BitmapUtil.displayCirImage(questionEntity.getUserAvatar(),R.dimen.space_50, holder.iv_avatar);
                     holder.tv_name.setText(questionEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAskTime()));
-                    holder.content_mathview.setText(e.getAsk());
+                    holder.content_mathview.setText(16,e.getAsk());
                 } else {
                     BitmapUtil.displayCirImage(anwserMoreEntity.getUserAvatar(),R.dimen.space_50, holder.iv_avatar);
                     holder.tv_name.setText(anwserMoreEntity.getUserName());
                     holder.tv_time.setText(DateUtil.getDateToString(e.getAnswerTime()));
-                    holder.content_mathview.setText(e.getAnswer());
+                    holder.content_mathview.setText(16,e.getAnswer());
 
                     if (anwserMoreEntity.isAdopt()) {
                         holder.sureIv.setVisibility(View.VISIBLE);
