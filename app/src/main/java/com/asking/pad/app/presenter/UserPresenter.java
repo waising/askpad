@@ -215,6 +215,10 @@ public class UserPresenter extends BasePresenter<UserModel> {
         baseReqStr(mModel.tipdatalink(gid), mListener);
     }
 
+    public void getQuestionSubjectContent(String gid,ApiRequestListener mListener) {
+        baseReqStr(mModel.getQuestionSubjectContent(gid), mListener);
+    }
+
     public void findByCommodityId(String commodityId, ApiRequestListener mListener) {
         baseReq(mModel.findByCommodityId(commodityId), "content", mListener);
     }

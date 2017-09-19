@@ -556,6 +556,10 @@ public interface UserApi {
     Observable<ResponseBody> tipdatalink(@Path("gid") String gid);
 
 
+    @GET("search/getQuestionSubjectContent")
+    Observable<ResponseBody> getQuestionSubjectContent(@Query("tip_question_subject_lk_id") String gid);
+
+
     /**
      * 获取错题年级
      *

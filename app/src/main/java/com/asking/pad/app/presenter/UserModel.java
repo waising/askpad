@@ -273,6 +273,11 @@ public class UserModel extends BaseModel {
                 .tipdatalink(gid).compose(RxSchedulers.<ResponseBody>io_main());
     }
 
+    public Observable<ResponseBody> getQuestionSubjectContent(String gid) {
+        return Networks.getInstance().getUserApi()
+                .getQuestionSubjectContent(gid).compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
     public Observable<ResponseBody> findByCommodityId(String commodityId) {
         return Networks.getInstance().getUserApi()
                 .findByCommodityId(commodityId).compose(RxSchedulers.<ResponseBody>io_main());

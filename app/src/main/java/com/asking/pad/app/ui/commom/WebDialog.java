@@ -30,14 +30,16 @@ public class WebDialog extends DialogFragment {
     @BindView(R.id.math_web)
     AskMathWebView math_web;
 
+    int type;
     String gid;
 
     public UserPresenter mPresenter;
     public UserModel mModel;
 
-    public static WebDialog newInstance(String gid) {
+    public static WebDialog newInstance(int type, String gid) {
         WebDialog fragment = new WebDialog();
         Bundle bunle = new Bundle();
+        bunle.putInt("type", type);
         bunle.putString("gid", gid);
         fragment.setArguments(bunle);
         return fragment;
@@ -48,6 +50,7 @@ public class WebDialog extends DialogFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             gid = bundle.getString("gid");
+            type = bundle.getInt("type");
         }
 
         mPresenter = new UserPresenter();
@@ -61,21 +64,29 @@ public class WebDialog extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = inflater.inflate(R.layout.dialog_web_view, null);
         ButterKnife.bind(this, view);
-
-        mPresenter.tipdatalink(gid,new ApiRequestListener<String>() {
-            @Override
-            public void onResultSuccess(String resStr) {
-                JSONObject jsonRes = JSON.parseObject(resStr);
-                math_web.setText(jsonRes.getString("tip_link_content_html"));
-            }
-        });
-
+        if (type == 0) {
+            mPresenter.tipdatalink(gid, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String resStr) {
+                    JSONObject jsonRes = JSON.parseObject(resStr);
+                    math_web.setText(jsonRes.getString("tip_link_content_html"));
+                }
+            });
+        } else {
+            mPresenter.getQuestionSubjectContent(gid, new ApiRequestListener<String>() {
+                @Override
+                public void onResultSuccess(String resStr) {
+                    JSONObject jsonRes = JSON.parseObject(resStr);
+                    math_web.setText(jsonRes.getString("tip_link_content_html"));
+                }
+            });
+        }
         return view;
     }
 
     @OnClick({R.id.iv_close})
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.iv_close:
                 dismiss();
                 break;
