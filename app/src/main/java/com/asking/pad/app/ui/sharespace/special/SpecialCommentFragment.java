@@ -135,8 +135,8 @@ public class SpecialCommentFragment extends BaseEvenFrameFragment<UserPresenter,
         }
 
         @JavascriptInterface
-        public void OnItemClickListener(int position) {
-            SpecialComment e = commentList.get(position);
+        public void OnItemClickListener(String position) {
+            SpecialComment e = commentList.get(Integer.valueOf(position));
             getActivity().getSupportFragmentManager().beginTransaction()
                     .addToBackStack(null)
                     .replace(R.id.fragment, SpeciaReplyFragment.newInstance(state,communionTopicId,e.getUserId()))
