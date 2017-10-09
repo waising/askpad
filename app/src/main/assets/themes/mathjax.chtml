@@ -34,6 +34,9 @@
             function zb_showTipDataLink(gid){
                 window.Android.showTipDataLink(gid);
             }
+            function zb_showTipQuestionSubjectLk(gid){
+                            window.Android.zb_showTipQuestionSubjectLk(gid);
+                        }
         </script>
     </head>
     <body>
